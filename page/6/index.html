@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Wii</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Wii">
+<meta property="og:url" content="http://wii.pub/page/6/index.html">
+<meta property="og:site_name" content="Wii">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Wii" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Wii</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://wii.pub"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-architecture/storage/sql" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/12/architecture/storage/sql/" class="article-date">
+  <time datetime="2021-01-11T16:00:00.000Z" itemprop="datePublished">2021-01-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/">存储</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/12/architecture/storage/sql/">SQL</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h1><p><strong>语法</strong></p>
+<pre><code class="SQL">CREATE TABLE 表名称 (
+    列名称1 数据类型,
+    列名称2 数据类型,
+    列名称3 数据类型,
+    ....
+)
+</code></pre>
+<p><strong>示例</strong></p>
+<pre><code class="sql">CREATE TABLE `syscontroldb`.`sys_user` (
+  `id` INT(11) NOT NULL COMMENT &#39;用户DI，系统唯一标识&#39;,
+  `userName` VARCHAR(45) NOT NULL COMMENT &#39;用户名，系统唯一&#39;,
+  `password` VARCHAR(45) NOT NULL COMMENT &#39;用户密码，加密&#39;,
+  `customerID` INT(11) NOT NULL COMMENT &#39;所属用户代码&#39;,
+  `tel` VARCHAR(20) NULL COMMENT &#39;电话号码&#39;,
+  `status` INT(3) NOT NULL COMMENT &#39;用户状态，0正常，1注销，2暂停&#39; DEFAULT 1,
+  PRIMARY KEY (`id`))
+COMMENT = &#39;系统用户表&#39;;
+</code></pre>
+<h1 id="Select"><a href="#Select" class="headerlink" title="Select"></a>Select</h1><pre><code class="sql">SELECT * from &lt;table&gt; WHERE &lt;field&gt;=&lt;value&gt;
+</code></pre>
+<h1 id="Add"><a href="#Add" class="headerlink" title="Add"></a>Add</h1><pre><code class="sql">INSERT INTO &lt;table&gt; (&lt;field&gt;, &lt;field&gt;, ...) VALUES (&lt;value&gt;, &lt;value&gt;, ...)
+</code></pre>
+<h1 id="Updata"><a href="#Updata" class="headerlink" title="Updata"></a>Updata</h1><pre><code class="sql">UPDATE &lt;table&gt; SET &lt;field&gt;=&lt;value&gt;,&lt;field&gt;=&lt;value&gt; WHERE &lt;field&gt;=&lt;value&gt;
+</code></pre>
+<h1 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h1><h2 id="left"><a href="#left" class="headerlink" title="left"></a>left</h2><pre><code class="sql"># 别名
+SELECT a.id, b.id FROM zj_classify a left join zj_classify b on b.parent = a.id ;
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/01/12/architecture/storage/sql/" data-id="ckomwlrsp000zrhn94ovl95i4" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-linux/program/build-in/sed" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/11/linux/program/build-in/sed/" class="article-date">
+  <time datetime="2021-01-10T16:00:00.000Z" itemprop="datePublished">2021-01-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/linux/">linux</a>►<a class="article-category-link" href="/categories/linux/%E7%A8%8B%E5%BA%8F/">程序</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/11/linux/program/build-in/sed/">sed</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h1><p><code>-E</code></p>
+<ul>
+<li>使用扩展语法</li>
+<li>扩展语法和基础语法区别主要在于少量字符的差异，<code>?</code>、<code>+</code>、<code>()</code>、<code>&#123;&#125;</code>，在基础语法中需要转义来作为特殊字符；相反，在扩展语法中，需要转义以匹配无特殊含义的文本字符</li>
+</ul>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h2><pre><code class="shell">$ cat msg
+&#123;
+&#39;localhost&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
+&#125;
+
+# 替换文件内容并打印
+$ sed &#39;/localhost/p; s/localhost/dev.ops/&#39; msg
+&#123;
+&#39;localhost&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
+&#39;dev.ops&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
+&#125;
+
+# 替换文件内容并将输出重定向到新文件
+$ sed &#39;/localhost/p; s/localhost/dev.ops/&#39; msg &gt; new_msg
+$ cat new_msg
+&#123;
+&#39;localhost&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
+&#39;dev.ops&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
+&#125;
+# 源文件并未更改
+$ cat msg
+&#123;
+&#39;localhost&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
+&#125;
+
+# 在源文件修改并保存源文件至备份文件
+$ sed -i &#39;msg_backup&#39; &#39;/localhost/p; s/localhost/dev.ops/&#39; msg
+$ ls
+msg        msgmsg_backup    new_msg
+# 打印源文件备份
+$ cat msgmsg_backup
+&#123;
+&#39;localhost&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
+&#125;
+# 打印源文件
+$ cat msg
+&#123;
+&#39;localhost&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
+&#39;dev.ops&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
+&#125;
+
+# 直接修改源文件并且不保存备份
+$ sed -i &#39;/localhost/p; s/localhost/dev.worker/&#39; msgmsg_backup
+# $ sed -i &#39;&#39; &#39;/localhost/p; s/localhost/dev.worker/&#39; msgmsg_backup    # os x
+$ cat msgmsg_backup
+&#123;
+&#39;localhost&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
+&#39;dev.worker&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
+&#125;
+
+$ ls
+msg        msgmsg_backup    new_msg
+
+#### Other Examples
+## 正则替换
+$ cat script/config.sh
+workers=6666
+threads_compute=10
+threads=101
+$ sed -i &quot;s/workers=[0-9]*/workers=9/&quot; ./script/config.sh
+$ cat script/config.sh
+workers=9
+threads_compute=10
+threads=101
+</code></pre>
+<h1 id="替换子串"><a href="#替换子串" class="headerlink" title="替换子串"></a>替换子串</h1><pre><code class="shell">sed -i &#39;s/head/heap/g&#39; Heap.cpp
+# sed -i &#39;&#39; &#39;s/head/heap/g&#39; Heap.cpp    # 不保留文件备份
+</code></pre>
+<h1 id="替换前复制行"><a href="#替换前复制行" class="headerlink" title="替换前复制行"></a>替换前复制行</h1><pre><code class="shell">sed &#39;/localhost/p; s/localhost/dev.ops/&#39; FILENAME
+</code></pre>
+<h1 id="group-替换"><a href="#group-替换" class="headerlink" title="group 替换"></a>group 替换</h1><pre><code class="shell">$ echo &quot;hello wii.&quot; | sed -E &#39;s/hello ([a-z]+).*/\1/&#39;
+wii
+# OR
+$ echo &quot;hello wii.&quot; | sed &#39;s/hello \([a-z]\+\).*/\1/&#39;   # 注: 不同系统，+ 号的行为可能不一致，这条命令在 big sur (mac os) 中无法输出预想结果
+wii
+</code></pre>
+<p>以上有个问题，如果为匹配到数据，最终打印原始数据，比如。</p>
+<pre><code class="shell">$ echo &quot;hello wii.&quot; | sed -E &#39;s/hi ([a-z]+).*/\1/&#39;
+hello wii.
+</code></pre>
+<p><code>/patt/!d;s//repl/</code>可实现匹配不到打印空，如下。</p>
+<pre><code class="shell">$ echo &quot;hello wii.&quot; | sed -E &#39;/hi ([a-z]+).*/!d;s//\1/&#39; 
+# empty
+</code></pre>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p><code>sed: 1:  ... : extra characters at the end of H command</code></p>
+<ul>
+<li><p>edit in place on OSX without keeping a backup, use <code>-i &#39;&#39;</code>:</p>
+<pre><code class="shell">sed -i &#39;&#39; -e &#39;/localhost/p; s/localhost/dev.ops/&#39; FILENAME
+</code></pre>
+</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a><strong>参考</strong></h1><ul>
+<li><a target="_blank" rel="noopener" href="https://unix.stackexchange.com/questions/112023/how-can-i-replace-a-string-in-a-files">Ref 1</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/01/11/linux/program/build-in/sed/" data-id="ckomwlrvb009brhn9h65z2p6v" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sed/" rel="tag">sed</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/kotlin/notes/basic" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/09/coding/kotlin/notes/basic/" class="article-date">
+  <time datetime="2021-01-09T11:00:00.000Z" itemprop="datePublished">2021-01-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/kotlin/">kotlin</a>►<a class="article-category-link" href="/categories/coding/kotlin/notes/">notes</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/09/coding/kotlin/notes/basic/">kotlin 基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><strong>homebrew</strong></p>
+<pre><code class="shell">$ brew install kotlin
+</code></pre>
+<p><strong>下载</strong></p>
+<p>在<a target="_blank" rel="noopener" href="https://github.com/JetBrains/kotlin">这里</a>找最新的Release，贴一个<a target="_blank" rel="noopener" href="https://github.com/JetBrains/kotlin/releases/tag/v1.4.21">v1.4.21链接</a>。</p>
+<p><strong>交互式终端</strong></p>
+<pre><code class="shell">$ kotlinc-jvm
+</code></pre>
+<h1 id="HELLO-WORLD"><a href="#HELLO-WORLD" class="headerlink" title="HELLO WORLD"></a>HELLO WORLD</h1><p><strong>code</strong></p>
+<pre><code class="kotlin">// file: hello.kt
+fun main() &#123;
+    println(&quot;Hello Wrold!&quot;)
+&#125;
+</code></pre>
+<p><strong>compile</strong></p>
+<pre><code class="shell">$ kotlinc hello.kt -include-runtime -d hello.jar
+</code></pre>
+<p><strong>run</strong></p>
+<pre><code class="shell">$ java -jar hello.jar
+</code></pre>
+<h1 id="组织"><a href="#组织" class="headerlink" title="组织"></a>组织</h1><h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><p>kotlin 源文件通常以<code>.kt</code> 作为扩展名。</p>
+<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><pre><code class="kotlin">package base
+
+import kotlin.text.*
+</code></pre>
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><h3 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>长度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Double</td>
+<td>64</td>
+</tr>
+<tr>
+<td>Float</td>
+<td>32</td>
+</tr>
+<tr>
+<td>Long</td>
+<td>64</td>
+</tr>
+<tr>
+<td>Int</td>
+<td>32</td>
+</tr>
+<tr>
+<td>Short</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Byte</td>
+<td>8</td>
+</tr>
+</tbody></table>
+<h3 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>长度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Char</td>
+<td>字符</td>
+</tr>
+<tr>
+<td>String</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<h3 id="布尔"><a href="#布尔" class="headerlink" title="布尔"></a>布尔</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>长度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Boolean</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<h2 id="限定"><a href="#限定" class="headerlink" title="限定"></a>限定</h2><table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>意图</th>
+<th>目标</th>
+<th>注意</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>var</td>
+<td>变量</td>
+<td>属性</td>
+<td></td>
+</tr>
+<tr>
+<td>val</td>
+<td>不可变量</td>
+<td>属性</td>
+<td></td>
+</tr>
+<tr>
+<td>companion object</td>
+<td>静态</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>final</td>
+<td>不可继承，默认值</td>
+<td>类、属性、方法</td>
+<td>不可修饰局部变量</td>
+</tr>
+<tr>
+<td>open</td>
+<td>开放继承权限</td>
+<td>类、属性、方法</td>
+<td>不可修饰局部变量</td>
+</tr>
+<tr>
+<td>const</td>
+<td>修饰可执行 <strong>宏替换</strong> 的常量</td>
+<td>属性</td>
+<td>只能修饰不可变量（val定义）</td>
+</tr>
+</tbody></table>
+<p><strong>注：</strong></p>
+<ul>
+<li>宏替换<ul>
+<li><strong>宏变量</strong> 指编译时常量，<strong>宏替换</strong>指在编译阶段就会被<strong>替换掉</strong></li>
+<li>宏替换条件<ul>
+<li>使用 const 和 val 修饰的属性，如果进行拼接或者运算，被拼接的其他变量也要是宏变量</li>
+<li>位于顶层或者是对象表达式的成员</li>
+<li>初始值是基本数据类型</li>
+<li>没有自定义的getter方法</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><pre><code class="kotlin">// 10 进制 
+1234567890
+1234567890L
+1_234_567_890
+
+// 16 进制
+0x0f
+0xFF_EC_DE_5E
+
+// 2 进制
+0b00001011
+</code></pre>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><pre><code class="kotlin">[final/open] [var/val] name : [Type] = ...
+[final/open] [var/val] name : [Type]? = null
+const val name : [Type][?] = ...
+
+// example
+var it : Int = 100
+var ns : String? = null
+
+object TestVars &#123;
+    const val name : String = &quot;&quot;
+&#125;
+</code></pre>
+<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="程序结构"><a href="#程序结构" class="headerlink" title="程序结构"></a>程序结构</h2><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><pre><code class="kotlin">// 这是单行注释
+
+/*
+这是
+多行注释
+*/
+</code></pre>
+<h2 id="条件控制"><a href="#条件控制" class="headerlink" title="条件控制"></a>条件控制</h2><h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><h2 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h2><h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><pre><code class="kotlin">fun [funName](arga: [Type], argb: [Type], ...) : [Type] &#123;
+  return ...
+&#125;
+
+// example
+fun sum(a: Int, b: Int): Int &#123;
+    return a + b
+&#125;
+
+// no body
+fun sum(a: Int, b: Int) = a + b
+
+// return no meaning value
+fun printSum(a: Int, b: Int): Unit &#123;       // Unit 可省略
+    println(&quot;sum of $a and $b is $&#123;a + b&#125;&quot;)
+&#125;
+</code></pre>
+<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><h2 id="语法糖"><a href="#语法糖" class="headerlink" title="语法糖"></a>语法糖</h2><h2 id="空指针处理"><a href="#空指针处理" class="headerlink" title="空指针处理"></a>空指针处理</h2><h2 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h2><h2 id="泛型编程"><a href="#泛型编程" class="headerlink" title="泛型编程"></a>泛型编程</h2><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://kotlinlang.org/docs/reference/basic-syntax.html">https://kotlinlang.org/docs/reference/basic-syntax.html</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/01/09/coding/kotlin/notes/basic/" data-id="ckomwlruz008erhn9b10s20wh" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kotlin/" rel="tag">kotlin</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-frontend/android/basic" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/09/frontend/android/basic/" class="article-date">
+  <time datetime="2021-01-09T11:00:00.000Z" itemprop="datePublished">2021-01-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>►<a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/%E5%AE%89%E5%8D%93/">安卓</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/09/frontend/android/basic/">安卓基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><p><img src="/2021/01/09/frontend/android/basic/002.png"></p>
+<p><img src="/2021/01/09/frontend/android/basic/001.png"></p>
+<p><strong>状态</strong></p>
+<ul>
+<li>INITIALIZED</li>
+<li>CREATED</li>
+<li>STARTED</li>
+<li>RESUMED</li>
+<li>DESTROYED</li>
+</ul>
+<p><strong>HOOK</strong></p>
+<ul>
+<li>onCreate()</li>
+<li>onStart()</li>
+<li>onResume()</li>
+<li>onPause()</li>
+<li>onStop()</li>
+<li>onDestroy()</li>
+<li>onRestart()</li>
+</ul>
+<h1 id="启动模式"><a href="#启动模式" class="headerlink" title="启动模式"></a>启动模式</h1><ul>
+<li>standard</li>
+<li>singleTop<ul>
+<li>阻止创建栈顶Activity</li>
+</ul>
+</li>
+<li>singleTask<ul>
+<li>阻止常见重复Activity</li>
+</ul>
+</li>
+<li>singleInstance<ul>
+<li>使用独立栈</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/01/09/frontend/android/basic/" data-id="ckomwlrta002erhn90k012an6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E5%8D%93/" rel="tag">安卓</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/learn-lang" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/09/coding/learn-lang/" class="article-date">
+  <time datetime="2021-01-09T11:00:00.000Z" itemprop="datePublished">2021-01-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/09/coding/learn-lang/">学习编程语言指南</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h1 id="组织"><a href="#组织" class="headerlink" title="组织"></a>组织</h1><h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><h3 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h3><h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><h3 id="布尔"><a href="#布尔" class="headerlink" title="布尔"></a>布尔</h3><h2 id="限定"><a href="#限定" class="headerlink" title="限定"></a>限定</h2><h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="程序结构"><a href="#程序结构" class="headerlink" title="程序结构"></a>程序结构</h2><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><h2 id="条件控制"><a href="#条件控制" class="headerlink" title="条件控制"></a>条件控制</h2><h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><h2 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h2><h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><h2 id="语法糖"><a href="#语法糖" class="headerlink" title="语法糖"></a>语法糖</h2><h2 id="空指针处理"><a href="#空指针处理" class="headerlink" title="空指针处理"></a>空指针处理</h2><h2 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h2><h2 id="泛型编程"><a href="#泛型编程" class="headerlink" title="泛型编程"></a>泛型编程</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/01/09/coding/learn-lang/" data-id="ckomwlrsg0005rhn9acqgbbee" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/coding/" rel="tag">coding</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-architecture/recommend/recall/recall" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/07/architecture/recommend/recall/recall/" class="article-date">
+  <time datetime="2021-01-06T16:00:00.000Z" itemprop="datePublished">2021-01-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">推荐系统</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/07/architecture/recommend/recall/recall/">召回服务</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>简单来讲，召回服务负责从内容池中， 拿取部分内容并返回，常用于搜索推荐系统。召回内容，对搜索推荐效果有着至关重要的影响。</p>
+<h1 id="召回算法"><a href="#召回算法" class="headerlink" title="召回算法"></a>召回算法</h1><h2 id="通用召回"><a href="#通用召回" class="headerlink" title="通用召回"></a>通用召回</h2><ul>
+<li>关键词</li>
+<li>新热</li>
+<li>分类</li>
+<li>地域</li>
+<li>多主题</li>
+</ul>
+<h2 id="协同过滤"><a href="#协同过滤" class="headerlink" title="协同过滤"></a>协同过滤</h2><ul>
+<li>UserCF</li>
+<li>ItemCF</li>
+</ul>
+<h2 id="向量召回"><a href="#向量召回" class="headerlink" title="向量召回"></a>向量召回</h2><ul>
+<li>FM/FFM</li>
+</ul>
+<h2 id="模型召回"><a href="#模型召回" class="headerlink" title="模型召回"></a>模型召回</h2><ul>
+<li>TDM</li>
+</ul>
+<h1 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/139256086">https://zhuanlan.zhihu.com/p/139256086</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/260212015">https://zhuanlan.zhihu.com/p/260212015</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/E5a4TF9P2aMrF6gVatAF8A">https://mp.weixin.qq.com/s/E5a4TF9P2aMrF6gVatAF8A</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/01/07/architecture/recommend/recall/recall/" data-id="ckomwlrul0070rhn91vdk9b4m" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" rel="tag">召回服务</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="tag">推荐系统</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/c++/library/brpc/brpc" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/06/coding/c++/library/brpc/brpc/" class="article-date">
+  <time datetime="2021-01-06T13:00:00.000Z" itemprop="datePublished">2021-01-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/c/">c++</a>►<a class="article-category-link" href="/categories/coding/c/library/">library</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/06/coding/c++/library/brpc/brpc/">brpc</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><pre><code class="shell">$ bash config_brpc.sh --headers=&quot;/path/to/deps/include/&quot; --libs=&quot;/path/to/deps/lib/&quot; --with-glog --with-thrift
+$ make -j $&#123;make_thread_num&#125;
+$ cp -a output/include/* &quot;/path/to/install/include/&quot;
+$ cp -a output/lib/* &quot;/path/to/install/lib/&quot;
+$ cp -a output/bin/* &quot;/path/to/install/lib/&quot;
+</code></pre>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="NO-1"><a href="#NO-1" class="headerlink" title="NO 1"></a>NO 1</h2><p><strong>描述</strong></p>
+<pre><code>ERROR: something wrong with flag &#39;flagfile&#39; in file &#39;/home/wii/Git/cooking/c++/universal/third/build/gflags-2.2.2/src/gflags.cc&#39;.  One possibility: file &#39;/home/wii/Git/cooking/c++/universal/third/build/gflags-2.2.2/src/gflags.cc&#39; is being linked both statically and dynamically into this executable.
+
+或者
+
+Ignoring RegisterValidateFunction() for flag pointer 0x7f3d0b54893c: no flag found at that address
+...
+</code></pre>
+<p><strong>解决</strong></p>
+<p>gflags静态库和共享库同时存在导致。gflags 是选择手动编译，在编译时为cmake指定<code>-DBUILD_SHARED_LIBS=1</code>只编译共享库，如果是使用命令安装，可以尝试先移除<code>/usr/local/lib/libgflag.a</code> 和 <code>/usr/local/lib/libgflag_nothread.a</code>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/01/06/coding/c++/library/brpc/brpc/" data-id="ckomwlrvf009qrhn9dwkjdtdp" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/brpc/" rel="tag">brpc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/c++/library/gflags/gflags" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/06/coding/c++/library/gflags/gflags/" class="article-date">
+  <time datetime="2021-01-06T13:00:00.000Z" itemprop="datePublished">2021-01-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/c/">c++</a>►<a class="article-category-link" href="/categories/coding/c/library/">library</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/06/coding/c++/library/gflags/gflags/">gflags</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><pre><code class="shell">$ mkdir build &amp;&amp; cd build
+$ cmake -DCMAKE_INSTALL_PREFIX:PATH=&quot;/path/to/install&quot; -DBUILD_SHARED_LIBS=1 .. # 编译共享库，如需打包静态库 添加 -DBUILD_STATIC_LIBS=1；默认打包静态库，指定打包共享库不打包静态库，可同时指定
+# -DGFLAGS_NAMESPACE=google  指定 namespace 名称，默认gflags
+$ make -j4 &amp;&amp; make install
+</code></pre>
+<p>更多参考<a target="_blank" rel="noopener" href="https://github.com/gflags/gflags/blob/master/INSTALL.md">这里</a>。</p>
+<h1 id="CMake"><a href="#CMake" class="headerlink" title="CMake"></a>CMake</h1><p><strong>提取Namespace</strong></p>
+<pre><code class="cmake">execute_process(
+        COMMAND bash -c &quot;grep \&quot;namespace [_A-Za-z0-9]\\+ &#123;\&quot; $&#123;DEPS_INCLUDE_DIR&#125;/gflags/gflags_declare.h | head -1 | awk &#39;&#123;print $2&#125;&#39; | tr -d &#39;\n&#39;&quot;
+        OUTPUT_VARIABLE GFLAGS_NS
+)
+
+if ($&#123;GFLAGS_NS&#125; STREQUAL &quot;GFLAGS_NAMESPACE&quot;)
+    execute_process(
+            COMMAND bash -c &quot;grep \&quot;#define GFLAGS_NAMESPACE [_A-Za-z0-9]\\+\&quot; $&#123;DEPS_INCLUDE_DIR&#125;/gflags/gflags_declare.h | head -1 | awk &#39;&#123;print $3&#125;&#39; | tr -d &#39;\n&#39;&quot;
+            OUTPUT_VARIABLE GFLAGS_NS
+    )
+endif ()
+message(&quot;gflags namespace: &quot; $&#123;GFLAGS_NS&#125;)
+</code></pre>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><p>基于gflags的设计哲学，不提供复杂的数据类型，可自行解析。</p>
+<ul>
+<li>DEFINE_bool</li>
+<li>DEFINE_int32</li>
+<li>DEFINE_int64</li>
+<li>DEFINE_uint64</li>
+<li>DEFINE_double</li>
+<li>DEFINE_string</li>
+</ul>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>示例</strong></p>
+<pre><code class="c++">#include &lt;/2021/01/06/coding/c++/library/gflags/gflags/gflags.h&gt;
+
+   DEFINE_bool(big_menu, true, &quot;Include &#39;advanced&#39; options in the menu listing&quot;);
+   DEFINE_string(languages, &quot;english,french,german&quot;,
+                 &quot;comma-separated list of languages to offer in the &#39;lang&#39; menu&quot;);
+</code></pre>
+<p><strong>说明</strong></p>
+<p>可在任意文件中定义flag，但只能定义一次（只能 DEFINE 一次，但是可 DECLARE 多次）。如果需要访问位于多个源文件中的glfag，那么在其他文件中使用 DECLARE。最好，在<code>foo.cc</code> 中使用 DEFINE 定义，在<code>foo.h</code> 中使用 DECLARE 声明，那么只要在代码中添加 <code>#include &lt;foo.h&gt;</code> 就可以使用该flag。</p>
+<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><pre><code class="c++">// 修改
+FLAGS_languages += &quot;,klingon&quot;;
+
+// 方法调用
+if (FLAGS_languages.find(&quot;finnish&quot;) != string::npos) &#123;
+  // do something
+&#125;
+</code></pre>
+<h2 id="声明检查"><a href="#声明检查" class="headerlink" title="声明检查"></a>声明检查</h2><pre><code class="c++">static bool ValidatePort(const char* flagname, int32 value) &#123;
+   if (value &gt; 0 &amp;&amp; value &lt; 32768)   // value is ok
+     return true;
+   printf(&quot;Invalid value for --%s: %d\n&quot;, flagname, (int)value);
+   return false;
+&#125;
+DEFINE_int32(port, 0, &quot;What port to listen on&quot;);
+DEFINE_validator(port, &amp;ValidatePort);
+</code></pre>
+<p>在全局初始化时（紧接着DEFINE_int32定义flag）注册检查方法，可以保证在运行<code>main()</code>函数解析命令号之前执行校验。上面的代码，使用<code>DEFINE_validator</code> 宏指令调用 <code>RegisterFlagValidator</code> 方法，如果注册成功，返回true；如果第一个参数不是命令行标记或者该标记注册了其他校验，则返回false；返回值以<code>&lt;flag&gt;_validator_registered</code> 命名作为全局变量供访问。</p>
+<h2 id="解析标记"><a href="#解析标记" class="headerlink" title="解析标记"></a>解析标记</h2><pre><code class="c++">gflags::ParseCommandLineFlags(&amp;argc, &amp;argv, true);
+</code></pre>
+<p>通常，改代码唯有<code>main()</code>的开始。<code>argc</code> 和 <code>argv</code> 是传入<code>main()</code> 方法的准确参数，该例程可能会修改他们。最后的布尔参数用于指示是否从<code>argc</code>中删除标记（flags）以及其参数（arguments），并同步修改<code>argv</code>。如果为true，在该方法调用之后，argv只会保存命令行参数（commandline arguments），而不是命令行标记（glags）。如果为false，那么 ParseCommandLineFlags 不会修改 argc，但是会对argv中的参数重排序，使得所有的标记在最开始。比如，<code>&quot;/bin/foo&quot; &quot;arg1&quot; &quot;-q&quot; &quot;arg2&quot;</code>，方法会重排序 argv 为 <code>&quot;/bin/foo&quot; &quot;-q&quot; &quot;arg1&quot; &quot;arg2&quot;</code>，ParseCommandLineFlags 返回 argv 中第一个参数的索引，也即标记（flag）的后面的索引（在刚才的例子中，返回2，因为 argv[2] 指向第一个参数 arg1）。</p>
+<p><strong>注</strong>，命令行标记（commandline glags）形如 <code>-e -q</code>，命令行参数（commandline arguments）形如 <code>arg1 arg2</code> 。</p>
+<h2 id="在命令行设置标记"><a href="#在命令行设置标记" class="headerlink" title="在命令行设置标记"></a>在命令行设置标记</h2><pre><code class="shell">$ foo --nobig_menu -languages=&quot;chinese,japanese,korean&quot; ...
+</code></pre>
+<p>当运行 ParseCommandLineFlags 时，会设置 <code>FLAGS_big_menu = false; FLAGS_languages = &quot;chinese,japanese,korean&quot;</code>。通过在标记前面添加<code>no</code>，为标记设置为 false 值。以下方式均可设置 languages 值。</p>
+<pre><code class="c++">app_containing_foo --languages=&quot;chinese,japanese,korean&quot;
+app_containing_foo -languages=&quot;chinese,japanese,korean&quot;
+app_containing_foo --languages &quot;chinese,japanese,korean&quot;
+app_containing_foo -languages &quot;chinese,japanese,korean&quot;
+</code></pre>
+<p>布尔型值稍有不同。</p>
+<pre><code class="c++">app_containing_foo --big_menu
+app_containing_foo --nobig_menu
+app_containing_foo --big_menu=true
+app_containing_foo --big_menu=false
+</code></pre>
+<p>尽管有很多方式灵活设置标记值，但是推荐使用统一的格式 <code>--variable=value</code>，对于布尔值使用 <code>--variable/--novariable</code>。</p>
+<p><strong>注意</strong></p>
+<ul>
+<li>如果在命令行中指定了标记，但是没有在程序中定义（使用DEFINE），将会导致致命错误。可以通过添加 <code>--undefok</code> 来屏蔽该异常</li>
+<li>在 getopt 中，<code>--</code> 标记会终止标记解析，所以 <code>foo -f1 1 -- -f2 2</code>，中，<code>f1</code> 是标记，<code>f2</code> 不是</li>
+<li>如果标记被指定多次，后面的值覆盖前面的，即最后一次定义有效</li>
+<li>不像 getopt 库那样支持 单字母同义词，比如 <code>-h</code> （和 <code>--help</code> 同义），同样的也不支持组合标记，如 <code>ls -la </code></li>
+</ul>
+<h2 id="修改默认值"><a href="#修改默认值" class="headerlink" title="修改默认值"></a>修改默认值</h2><p>有时候标记位于依赖库中，如果只想在一个程序中修改默认值，其他应用不变。可在 <code>main()</code> 方法中赋值新值，在调用 <code>ParseCommandLineFlags</code> 之前。</p>
+<pre><code class="c++">   DECLARE_bool(lib_verbose);   // mylib has a lib_verbose flag, default is false
+   int main(int argc, char** argv) &#123;
+     FLAGS_lib_verbose = true;  // in my app, I want a verbose lib by default
+     ParseCommandLineFlags(...);
+   &#125;
+</code></pre>
+<p>这种情况下，用户依然可以在命令行中指定标记值，但是如果不指定，则使用新的默认值。</p>
+<h2 id="特殊标记"><a href="#特殊标记" class="headerlink" title="特殊标记"></a>特殊标记</h2><ul>
+<li><p><code>--undefok=flagname,flagname,...</code> </p>
+<ul>
+<li>对于指定的这些标记名称，用于阻止当命令行指定标记但在程序中未定义导致的异常退出</li>
+</ul>
+</li>
+<li><p><code>--fromenv</code></p>
+<ul>
+<li><p><code>--fromenv=foo,bar</code></p>
+</li>
+<li><p>从环境变量中读取值，如果环境变量中未定义，则会导致致命异常</p>
+</li>
+</ul>
+<pre><code class="shell">  export FLAGS_foo=xxx; export FLAGS_bar=yyy   # sh
+  setenv FLAGS_foo xxx; setenv FLAGS_bar yyy   # tcsh
+  
+  # 等同于
+  
+  --foo=xxx, --bar=yyy
+</code></pre>
+</li>
+<li><p><code>--tryfromenv</code></p>
+<ul>
+<li>类似于 <code>--fromenv</code> ，区别是如果环境变量中未定义标记，不会导致异常</li>
+</ul>
+</li>
+<li><p><code>--flagfile</code></p>
+<ul>
+<li><p><code>--flagfile=f</code></p>
+</li>
+<li><p>从文件读取参数定义，文件内容为标记定义列表，每行一个</p>
+</li>
+<li><p>与命令行不同的是，需要等号将标记和参数值分开（命令行参数有多种设置方式，可不加等号）</p>
+</li>
+</ul>
+<pre><code class="shell">  # 示例文件 /tmp/myflags:
+  --nobig_menus
+  --languages=english,french
+  
+  # 两种等价方式
+  ./myapp --foo --nobig_menus --languages=english,french --bar   # --foo 和 --bar 泛指其他参数
+./myapp --foo --flagfile=/tmp/myflags --bar
+</code></pre>
+<ul>
+<li><p>注意：flagfiles方式，一些错误会默认禁止。特别的，未识别的标记名异常默认忽略（这在命令行设置方式下，需要显式使用<code>--undefok</code> 指定），以及未指定值的异常（比如在flagfile中只定义 <code>--languages</code> ，而不指定参数）</p>
+</li>
+<li><p>通常的 flagfile 比示例要复杂：一系列文件名，每行一个，每个后面紧接着一系列标记，每行一个，根据需要重复多次。flagfile中的文件名可用通配符，比如 <code>*</code> 和 <code>?</code>，仅当当前程序的名称和flagfile文件中filenames中的一个匹配时，才会处理其挨着的标记</p>
+</li>
+<li><p>以 <code>#</code> 开头的行会被忽略</p>
+</li>
+<li><p>空白行及前置空白符会被忽略</p>
+</li>
+<li><p>可在 flagfile 中使用 <code>--flagfile </code> 指定其他 flagfile</p>
+</li>
+<li><p>标记总是以期望的方式处理，首先从检查命令行参数开始，如果遇到 flagfile ，则处理其内容，然后继续处理后续标记</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code class="shell">    # 示例文件 gflags_test.cmd
+    gflags-test-foo
+    --port=10000
+    --service_name=gflags_test_foo
+    gflags-test-bar
+    --port=20000
+    --service_name=gflags_test_bar
+    
+    # 如果程序名称是 gflags-test-foo，则 --port=10000 --service_name=gflags_test_foo
+    # 如果程序名称是 gflags-test-bar，则 --port=20000 --service_name=gflags_test_bar
+    # 实例程序参考这里 https://github.com/sunzhenkai/cooking/blob/master/c%2B%2B/universal/scripts/gflags_test.sh
+</code></pre>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p><strong>移除帮助信息</strong></p>
+<p>可减少编译源文件时的帮助信息，及二进制文件大小，或一些安全相关的隐患。</p>
+<pre><code class="c++">#define STRIP_FLAG_HELP 1    // this must go before the #include!
+#include &lt;/2021/01/06/coding/c++/library/gflags/gflags/gflags.h&gt;
+</code></pre>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="NO-1"><a href="#NO-1" class="headerlink" title="NO 1"></a>NO 1</h2><p><strong>描述</strong></p>
+<pre><code>ERROR: something wrong with flag &#39;flagfile&#39; in file &#39;/home/wii/Git/cooking/c++/universal/third/build/gflags-2.2.2/src/gflags.cc&#39;.  One possibility: file &#39;/home/wii/Git/cooking/c++/universal/third/build/gflags-2.2.2/src/gflags.cc&#39; is being linked both statically and dynamically into this executable.
+</code></pre>
+<p><strong>解决</strong></p>
+<p>在编译gflags时，使用 cmake 参数 <code>-DBUILD_SHARED_LIBS=1</code> 指定只编译共享库。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://gflags.github.io/gflags/">https://gflags.github.io/gflags/</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/01/06/coding/c++/library/gflags/gflags/" data-id="ckomwlrvg009srhn98mcm6k0a" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gflags/" rel="tag">gflags</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-todo/2021" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/06/todo/2021/" class="article-date">
+  <time datetime="2021-01-05T16:00:00.000Z" itemprop="datePublished">2021-01-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/todo/">todo</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/06/todo/2021/">2021 todo list</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="事项"><a href="#事项" class="headerlink" title="事项"></a>事项</h1><ul>
+<li>早睡早起，每天12点前睡觉，保持七个半睡眠</li>
+<li>每天2L水</li>
+<li>徒步（10公里+） / 骑行（20公里+）8次</li>
+<li>健身房100次+</li>
+<li><input disabled="" type="checkbox"> <strong>体重控制在140以下</strong></li>
+<li>读25本书，8本技术书，一书一季剧</li>
+<li>刷300道题</li>
+<li>上线博客站点，文章 50+</li>
+<li>掌握特征工程及模型训练</li>
+<li>精读一种训练框架源码（tensorflow、xdl、paddlepaddle）</li>
+<li>熟读SpringMVC源码</li>
+<li>熟读一种微服务框架（dubbo、Spring Cloud）</li>
+<li>熟读一种DB源码（RocksDB、Redis、HBase）</li>
+</ul>
+<h1 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h1><p><strong>文学</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 百年孤独</li>
+<li><input checked="" disabled="" type="checkbox"> 人生海海</li>
+</ul>
+<p><strong>经济学</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 贫穷的本质</li>
+<li><input disabled="" type="checkbox"> 经济学原理</li>
+<li><input disabled="" type="checkbox"> 结构性改革</li>
+</ul>
+<p><strong>心理学</strong></p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> <strong>被讨厌的勇气</strong></li>
+<li><input disabled="" type="checkbox"> 反脆弱</li>
+</ul>
+<p><strong>传记</strong></p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> <strong>只有偏执狂才能生存</strong></li>
+<li><input disabled="" type="checkbox"> 忏悔录</li>
+</ul>
+<p><strong>互联网</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 浪潮之巅</li>
+</ul>
+<p><strong>技术</strong></p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 设计模式（Head First）</li>
+<li><input disabled="" type="checkbox"> <strong>分布式服务架构原理、设计与实战</strong></li>
+</ul>
+<p><strong>效率</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> <strong>高效能人士的7个习惯</strong></li>
+</ul>
+<p><strong>成长</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 想哲学家一样生活</li>
+<li><input disabled="" type="checkbox"> 沉思录</li>
+</ul>
+<h1 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h1><p><strong>算法</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/8S7OVFlae08700YBGK_xlg">https://mp.weixin.qq.com/s/8S7OVFlae08700YBGK_xlg</a></li>
+</ul>
+<p><strong>效率</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/58023076">https://zhuanlan.zhihu.com/p/58023076</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/01/06/todo/2021/" data-id="ckomwlrsi000brhn9c4pe05dr" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/todo/" rel="tag">todo</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-tools/cmake/flags" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/04/tools/cmake/flags/" class="article-date">
+  <time datetime="2021-01-03T16:00:00.000Z" itemprop="datePublished">2021-01-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>►<a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/cmake/">cmake</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/04/tools/cmake/flags/">cmake/makefile flags</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="规约"><a href="#规约" class="headerlink" title="规约"></a>规约</h1><p><strong>编译源文件</strong></p>
+<pre><code class="shell">$(CC) $(CPPFLAGS) $(CFLAGS) example.c -c -o example.o # -c: 编译，不执行链接操作
+</code></pre>
+<p><strong>链接</strong></p>
+<pre><code class="shell">$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) example.c -o example # -o: 指定输出文件名字
+</code></pre>
+<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CC</td>
+<td>C 编译器</td>
+</tr>
+<tr>
+<td>CXX</td>
+<td>C++ 编译器</td>
+</tr>
+<tr>
+<td>CPP</td>
+<td>C / C++ 预编译器，通常是 “$(CC) -E”</td>
+</tr>
+</tbody></table>
+<p><strong>示例</strong></p>
+<pre><code class="shell">export CC=/usr/local/bin/gcc-7
+export CXX=/usr/local/bin/g++-7
+</code></pre>
+<h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><table>
+<thead>
+<tr>
+<th>变量</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CFLAGS</td>
+<td>C 编译器选项</td>
+</tr>
+<tr>
+<td>CXXFLAGS</td>
+<td>C++ 编译器选项</td>
+</tr>
+<tr>
+<td>CPPFLAGS</td>
+<td>C/C++ 预处理器的命令行参数</td>
+</tr>
+<tr>
+<td>LDFLAGS</td>
+<td>链接参数</td>
+</tr>
+<tr>
+<td>LD_LIBRARY_PATH</td>
+<td>动态链接库查找路径</td>
+</tr>
+<tr>
+<td>LIBRARY_PATH</td>
+<td>静态链接库查找路径</td>
+</tr>
+<tr>
+<td>C_INCLUDE_PATH</td>
+<td>头文件查找路径</td>
+</tr>
+<tr>
+<td>DYLD_LIBRARY_PATH</td>
+<td>Mac OS 动态链接库查找路径</td>
+</tr>
+</tbody></table>
+<h1 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h1><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>c</td>
+<td>编译</td>
+<td>-c</td>
+</tr>
+<tr>
+<td>o</td>
+<td>输出文件名称</td>
+<td>-o</td>
+</tr>
+<tr>
+<td>g</td>
+<td>添加调试信息</td>
+<td>-g</td>
+</tr>
+<tr>
+<td>l（小写L）</td>
+<td>链接标准库</td>
+<td>-lz</td>
+</tr>
+<tr>
+<td>L</td>
+<td>指定库搜索路径</td>
+<td>-L/user/local/lib</td>
+</tr>
+<tr>
+<td>I（大写i）</td>
+<td>指定头文件搜索路径</td>
+<td>-I/user/local/include</td>
+</tr>
+<tr>
+<td>static</td>
+<td>在支持动态链接的系统中，该参数覆盖-pie，并阻止链接共享库</td>
+<td>-static</td>
+</tr>
+<tr>
+<td>shared</td>
+<td>生成可被链接的共享对象</td>
+<td>-shared</td>
+</tr>
+<tr>
+<td>PIC / pic</td>
+<td>使用位置无关代码创建对象文件，创建共享库时需指定</td>
+<td>-fpic / -fPIC</td>
+</tr>
+</tbody></table>
+<h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><ul>
+<li><code> -llibrary</code> / <code>-l library</code> 链接时，搜索指定库，优先使用共享库，除非指定 <code>-static</code> 参数</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/01/04/tools/cmake/flags/" data-id="ckomwlrtw004grhn93cnzbv1j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cmake/" rel="tag">cmake</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/5/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/7/">Next &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/c/">c++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/c/library/">library</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/java/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/kotlin/">kotlin</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/kotlin/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/life/learn/">learn</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/travel/">travel</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/notes/">notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/software/">software</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/%E7%A8%8B%E5%BA%8F/">程序</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/">play</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/play/os-x/">os x</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/unraid/">unraid</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/">library</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/django/">django</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/django/django-rest-framework/">django rest framework</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/todo/">todo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tools/jetbrains/">jetbrains</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/plantuml/">plantuml</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/publish/">publish</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/element-ui/">element ui</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/vue/">vue</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E5%AE%89%E5%8D%93/">安卓</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E6%A6%82%E5%BF%B5/">概念</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/cmake/">cmake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/git/">git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/mac/">mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/makefile/">makefile</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/markdown/">markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/tmux/">tmux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/zsh/">zsh</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/">树</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%AF%E8%AF%AD/">术语</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/kaggle/">kaggle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/Jupyter/">Jupyter</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E7%AC%94%E8%AE%B0/">笔记</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/spring/">spring</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/netty/">netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/notes/">notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/">存储</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/hdfs/">hdfs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/redis/">redis</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">推荐系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/brpc/">brpc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A6%82%E5%BF%B5/">概念</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/">注册发现</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/consul/">consul</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/">监控</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/prometheus/">prometheus</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E9%80%9A%E8%AE%AF%E5%8D%8F%E8%AE%AE/">通讯协议</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/">计算机科学</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%99%9A%E6%8B%9F%E5%8C%96/">虚拟化</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%99%9A%E6%8B%9F%E5%8C%96/docker/">docker</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker%E5%BA%94%E7%94%A8/" rel="tag">Docker应用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jupyter/" rel="tag">Jupyter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thrift/" rel="tag">Thrift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/brpc/" rel="tag">brpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmake/" rel="tag">cmake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/" rel="tag">coding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/consul/" rel="tag">consul</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django-rest-framework/" rel="tag">django rest framework</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/element-ui/" rel="tag">element ui</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gc/" rel="tag">gc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gflags/" rel="tag">gflags</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grep/" rel="tag">grep</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdfs/" rel="tag">hdfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kaggle/" rel="tag">kaggle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin/" rel="tag">kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log4j-spring-boot/" rel="tag">log4j - spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/makefile/" rel="tag">makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netty/" rel="tag">netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/os-x/" rel="tag">os x</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/panda/" rel="tag">panda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plantuml/" rel="tag">plantuml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prometheus/" rel="tag">prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sed/" rel="tag">sed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/" rel="tag">spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/" rel="tag">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/" rel="tag">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/todo/" rel="tag">todo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unriad/" rel="tag">unriad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/usage/" rel="tag">usage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualenv/" rel="tag">virtualenv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vsftpd/" rel="tag">vsftpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xargs/" rel="tag">xargs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/" rel="tag">云原生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" rel="tag">传输文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E/" rel="tag">关于</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" rel="tag">分布式锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" rel="tag">召回服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8/" rel="tag">存储</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%8D%93/" rel="tag">安卓</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="tag">推荐系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" rel="tag">数据平台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%AF%E8%AF%AD/" rel="tag">术语</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" rel="tag">机器学习平台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E9%A1%B9/" rel="tag">杂项</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E5%9B%BE/" rel="tag">类图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" rel="tag">自驾游</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">观察者模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" rel="tag">语法解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker%E5%BA%94%E7%94%A8/" style="font-size: 10px;">Docker应用</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Jupyter/" style="font-size: 10px;">Jupyter</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Thrift/" style="font-size: 10px;">Thrift</a> <a href="/tags/brpc/" style="font-size: 11.67px;">brpc</a> <a href="/tags/c/" style="font-size: 18.33px;">c++</a> <a href="/tags/cmake/" style="font-size: 15px;">cmake</a> <a href="/tags/coding/" style="font-size: 10px;">coding</a> <a href="/tags/consul/" style="font-size: 11.67px;">consul</a> <a href="/tags/django/" style="font-size: 11.67px;">django</a> <a href="/tags/django-rest-framework/" style="font-size: 10px;">django rest framework</a> <a href="/tags/docker/" style="font-size: 13.33px;">docker</a> <a href="/tags/element-ui/" style="font-size: 10px;">element ui</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/gc/" style="font-size: 10px;">gc</a> <a href="/tags/gflags/" style="font-size: 10px;">gflags</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/hdfs/" style="font-size: 10px;">hdfs</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 18.33px;">java</a> <a href="/tags/jetbrains/" style="font-size: 10px;">jetbrains</a> <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/kaggle/" style="font-size: 10px;">kaggle</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/log4j-spring-boot/" style="font-size: 10px;">log4j - spring boot</a> <a href="/tags/mac/" style="font-size: 10px;">mac</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/netty/" style="font-size: 10px;">netty</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/os-x/" style="font-size: 11.67px;">os x</a> <a href="/tags/panda/" style="font-size: 10px;">panda</a> <a href="/tags/plantuml/" style="font-size: 11.67px;">plantuml</a> <a href="/tags/prometheus/" style="font-size: 10px;">prometheus</a> <a href="/tags/python/" style="font-size: 11.67px;">python</a> <a href="/tags/sed/" style="font-size: 10px;">sed</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/spring-boot/" style="font-size: 13.33px;">spring boot</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/todo/" style="font-size: 11.67px;">todo</a> <a href="/tags/unriad/" style="font-size: 11.67px;">unriad</a> <a href="/tags/usage/" style="font-size: 11.67px;">usage</a> <a href="/tags/vim/" style="font-size: 13.33px;">vim</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftpd/" style="font-size: 10px;">vsftpd</a> <a href="/tags/vue/" style="font-size: 11.67px;">vue</a> <a href="/tags/xargs/" style="font-size: 10px;">xargs</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/" style="font-size: 10px;">云原生</a> <a href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" style="font-size: 10px;">传输文件</a> <a href="/tags/%E5%85%B3%E4%BA%8E/" style="font-size: 10px;">关于</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" style="font-size: 10px;">分布式锁</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 11.67px;">前端</a> <a href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">召回服务</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%AD%98%E5%82%A8/" style="font-size: 15px;">存储</a> <a href="/tags/%E5%AE%89%E5%8D%93/" style="font-size: 10px;">安卓</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 11.67px;">工具</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">推荐系统</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" style="font-size: 10px;">数据平台</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%AF%E8%AF%AD/" style="font-size: 10px;">术语</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">机器学习</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" style="font-size: 10px;">机器学习平台</a> <a href="/tags/%E6%9D%82%E9%A1%B9/" style="font-size: 10px;">杂项</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 15px;">架构</a> <a href="/tags/%E6%A0%91/" style="font-size: 10px;">树</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 16.67px;">树莓派</a> <a href="/tags/%E6%B3%A8%E8%A7%A3/" style="font-size: 10px;">注解</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">深度学习</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">算法</a> <a href="/tags/%E7%B1%BB%E5%9B%BE/" style="font-size: 10px;">类图</a> <a href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" style="font-size: 10px;">自驾游</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13.33px;">设计模式</a> <a href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" style="font-size: 10px;">语法解析</a> <a href="/tags/%E9%94%81/" style="font-size: 10px;">锁</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/1993/01/">January 1993</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/13/coding/go/strange/">go - strange</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/12/architecture/framework/spring%20boot/log4j/">spring boot - log4j</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/11/coding/java/notes/regex/">java - 正则</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Wii@Beijing
+      | Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      <br/>知足而上进 独立且坚定
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
