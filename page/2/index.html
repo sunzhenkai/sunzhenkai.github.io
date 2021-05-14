@@ -20,6 +20,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -94,9 +96,8 @@
 <li>命令行添加参数 <code>-javaagent:/path/to/aspectjweaver-&#123;version&#125;.jar</code></li>
 </ul>
 <p>对于 spring boot，启用 <code>context:spring-configed</code> 可以在 Application 类上使用注解 <code>@EnableSpringConfigured</code> 来实现，可能还需要 <code>@EnableAspectJAutoProxy</code> 注解。对于xml配置，可以添加如下代码。</p>
-<pre><code class="xml">&lt;aop:aspectj-autoproxy/&gt;
-&lt;context:spring-configured/
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">aop:aspectj-autoproxy</span>/&gt;</span></span><br><span class="line">&lt;context:spring-configured/</span><br></pre></td></tr></table></figure>
+
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://david-kerwick.github.io/2012-08-09-spring-autowired-and-new-operator/">https://david-kerwick.github.io/2012-08-09-spring-autowired-and-new-operator/</a></li>
 </ul>
@@ -104,7 +105,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/04/12/architecture/framework/spring/spring-aspect/" data-id="ckomwlruc0068rhn93dmxd7ps" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/04/12/architecture/framework/spring/spring-aspect/" data-id="ckonrt7wv006fc8n952uwfrho" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
@@ -170,7 +171,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/29/architecture/conceptions/data-model/" data-id="ckomwlrsk000hrhn9hsobckjd" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/29/architecture/conceptions/data-model/" data-id="ckonrt7u0000hc8n90s0me4dz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" rel="tag">数据平台</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" rel="tag">机器学习平台</a></li></ul>
@@ -208,31 +209,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="time-Duration"><a href="#time-Duration" class="headerlink" title="time.Duration"></a>time.Duration</h1><pre><code class="go">d := time.Duration(10)
-d := 10 * time.Nanosecond
-// d := rand.Intn(100) * time.Nanosecond ERROR
-d := time.Duration(rand.Intn(100)) * time.Nanosecond
-</code></pre>
-<h1 id="打印"><a href="#打印" class="headerlink" title="打印"></a>打印</h1><h2 id="打印数组"><a href="#打印数组" class="headerlink" title="打印数组"></a>打印数组</h2><pre><code class="go">fmt.Printf(&quot;%v&quot;, []float64&#123;0.1, 0.5, 0.99, 0.999&#125;)
-</code></pre>
-<h1 id="network"><a href="#network" class="headerlink" title="network"></a>network</h1><h2 id="发送请求"><a href="#发送请求" class="headerlink" title="发送请求"></a>发送请求</h2><pre><code class="go">urlBaiduFanyiSug := &quot;https://fanyi.baidu.com/sug&quot;
-data := map[string]string&#123;&quot;kw&quot;: &quot;hi&quot;&#125;
-js, _ := json.Marshal(data)
-res, err := http.Post(urlBaiduFanyiSug, &quot;application/json&quot;, bytes.NewBuffer(js))
-</code></pre>
-<h2 id="解析请求"><a href="#解析请求" class="headerlink" title="解析请求"></a>解析请求</h2><pre><code class="go">
-</code></pre>
-<h1 id="byte-和-string"><a href="#byte-和-string" class="headerlink" title="[]byte 和 string"></a>[]byte 和 string</h1><pre><code class="go">// []byte -&gt; string; bys: []byte
-s := string(bys)
+        <h1 id="time-Duration"><a href="#time-Duration" class="headerlink" title="time.Duration"></a>time.Duration</h1><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">d := time.Duration(<span class="number">10</span>)</span><br><span class="line">d := <span class="number">10</span> * time.Nanosecond</span><br><span class="line"><span class="comment">// d := rand.Intn(100) * time.Nanosecond ERROR</span></span><br><span class="line">d := time.Duration(rand.Intn(<span class="number">100</span>)) * time.Nanosecond</span><br></pre></td></tr></table></figure>
 
-// string -&gt; []byte
-bys := []byte(s)
-</code></pre>
+<h1 id="打印"><a href="#打印" class="headerlink" title="打印"></a>打印</h1><h2 id="打印数组"><a href="#打印数组" class="headerlink" title="打印数组"></a>打印数组</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Printf(<span class="string">&quot;%v&quot;</span>, []<span class="keyword">float64</span>&#123;<span class="number">0.1</span>, <span class="number">0.5</span>, <span class="number">0.99</span>, <span class="number">0.999</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="network"><a href="#network" class="headerlink" title="network"></a>network</h1><h2 id="发送请求"><a href="#发送请求" class="headerlink" title="发送请求"></a>发送请求</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">urlBaiduFanyiSug := <span class="string">&quot;https://fanyi.baidu.com/sug&quot;</span></span><br><span class="line">data := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;<span class="string">&quot;kw&quot;</span>: <span class="string">&quot;hi&quot;</span>&#125;</span><br><span class="line">js, _ := json.Marshal(data)</span><br><span class="line">res, err := http.Post(urlBaiduFanyiSug, <span class="string">&quot;application/json&quot;</span>, bytes.NewBuffer(js))</span><br></pre></td></tr></table></figure>
+
+<h2 id="解析请求"><a href="#解析请求" class="headerlink" title="解析请求"></a>解析请求</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="byte-和-string"><a href="#byte-和-string" class="headerlink" title="[]byte 和 string"></a>[]byte 和 string</h1><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// []byte -&gt; string; bys: []byte</span></span><br><span class="line">s := <span class="keyword">string</span>(bys)</span><br><span class="line"></span><br><span class="line"><span class="comment">// string -&gt; []byte</span></span><br><span class="line">bys := []<span class="keyword">byte</span>(s)</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/24/coding/go/common/" data-id="ckomwlrss0016rhn952w6fxx1" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/24/coding/go/common/" data-id="ckonrt7uc0016c8n90vpo7wq6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
@@ -271,9 +262,8 @@ bys := []byte(s)
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><p>针对 redis 的 benchmark，可使用 redis 自带的  <code>redis-benchmark</code> 工具。</p>
-<h1 id="redis-benchmark"><a href="#redis-benchmark" class="headerlink" title="redis-benchmark"></a>redis-benchmark</h1><h2 id="命令及参数"><a href="#命令及参数" class="headerlink" title="命令及参数"></a>命令及参数</h2><pre><code class="shell"># 命令
-$ redis-benchmark [option] [option value]
-</code></pre>
+<h1 id="redis-benchmark"><a href="#redis-benchmark" class="headerlink" title="redis-benchmark"></a>redis-benchmark</h1><h2 id="命令及参数"><a href="#命令及参数" class="headerlink" title="命令及参数"></a>命令及参数</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 命令</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> redis-benchmark [option] [option value]</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><table>
 <thead>
 <tr>
@@ -374,13 +364,13 @@ $ redis-benchmark [option] [option value]
 <td></td>
 </tr>
 </tbody></table>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><pre><code class="shell">$ redis-benchmark -h &lt;host&gt; -p &lt;port&gt; -t set -n 100000 -d 1024 -a &lt;password&gt;
-</code></pre>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> redis-benchmark -h &lt;host&gt; -p &lt;port&gt; -t <span class="built_in">set</span> -n 100000 -d 1024 -a &lt;password&gt;</span></span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/23/architecture/storage/redis/benchmark/" data-id="ckomwlrun0077rhn9bv83bzs1" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/23/architecture/storage/redis/benchmark/" data-id="ckonrt7x60077c8n96tpsdoam" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%98%E5%82%A8/" rel="tag">存储</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li></ul>
@@ -430,7 +420,7 @@ $ redis-benchmark [option] [option value]
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/19/computer%20science/deep%20learning/notes/startup/" data-id="ckomwlrv2008nrhn9290b34uh" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/19/computer%20science/deep%20learning/notes/startup/" data-id="ckonrt7xp008nc8n9cs22cwm2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
@@ -475,29 +465,12 @@ $ redis-benchmark [option] [option value]
 <p><code>/v1/*</code> 接口，向部署的node应用发送请求，node 应用再将请求通过插件（ <code>express-http-proxy</code> ）代理转发至 consul server。</p>
 <p>很奇怪，其他所有机房都没有问题。而且，多刷几次，偶尔可以正常响应。</p>
 <h3 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h3><p>这一台机器的 Java 服务报了奇怪的 <code>\n not found: limit=0 content=�~@�</code> 异常。</p>
-<pre><code>[ERROR 2021-03-15 20:21:39.114] com...init(ConsulBase.java:58) [[consul] init consul base failed, e=[com.orbitz.consul.ConsulException: Error connecting to Consul
-        at com.orbitz.consul.AgentClient.ping(AgentClient.java:69)
-        at com.orbitz.consul.Consul$Builder.build(Consul.java:708)
-        ...
-Caused by: java.io.IOException: unexpected end of stream on http://127.0.0.1:8500/...
-        at okhttp3.internal.http1.Http1ExchangeCodec.readResponseHeaders(Http1ExchangeCodec.kt:205)
-        at okhttp3.internal.connection.Exchange.readResponseHeaders(Exchange.kt:105)
-        ...
-        at okhttp3.RealCall.getResponseWithInterceptorChain(RealCall.kt:184)
-        at okhttp3.RealCall.execute(RealCall.kt:66)
-        at retrofit2.OkHttpCall.execute(OkHttpCall.java:186)
-        at com.orbitz.consul.AgentClient.ping(AgentClient.java:62)
-        ... 14 more
-Caused by: java.io.EOFException: \n not found: limit=0 content=�~@�
-        at okio.RealBufferedSource.readUtf8LineStrict(RealBufferedSource.kt:231)
-        at okhttp3.internal.http1.Http1ExchangeCodec.readHeaderLine(Http1ExchangeCodec.kt:210)
-        at okhttp3.internal.http1.Http1ExchangeCodec.readResponseHeaders(Http1ExchangeCodec.kt:181)
-        ... 35 more
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[ERROR 2021-03-15 20:21:39.114] com...init(ConsulBase.java:58) [[consul] init consul base failed, e=[com.orbitz.consul.ConsulException: Error connecting to Consul</span><br><span class="line">        at com.orbitz.consul.AgentClient.ping(AgentClient.java:69)</span><br><span class="line">        at com.orbitz.consul.Consul$Builder.build(Consul.java:708)</span><br><span class="line">        ...</span><br><span class="line">Caused by: java.io.IOException: unexpected end of stream on http://127.0.0.1:8500/...</span><br><span class="line">        at okhttp3.internal.http1.Http1ExchangeCodec.readResponseHeaders(Http1ExchangeCodec.kt:205)</span><br><span class="line">        at okhttp3.internal.connection.Exchange.readResponseHeaders(Exchange.kt:105)</span><br><span class="line">        ...</span><br><span class="line">        at okhttp3.RealCall.getResponseWithInterceptorChain(RealCall.kt:184)</span><br><span class="line">        at okhttp3.RealCall.execute(RealCall.kt:66)</span><br><span class="line">        at retrofit2.OkHttpCall.execute(OkHttpCall.java:186)</span><br><span class="line">        at com.orbitz.consul.AgentClient.ping(AgentClient.java:62)</span><br><span class="line">        ... 14 more</span><br><span class="line">Caused by: java.io.EOFException: \n not found: limit=0 content=�~@�</span><br><span class="line">        at okio.RealBufferedSource.readUtf8LineStrict(RealBufferedSource.kt:231)</span><br><span class="line">        at okhttp3.internal.http1.Http1ExchangeCodec.readHeaderLine(Http1ExchangeCodec.kt:210)</span><br><span class="line">        at okhttp3.internal.http1.Http1ExchangeCodec.readResponseHeaders(Http1ExchangeCodec.kt:181)</span><br><span class="line">        ... 35 more</span><br></pre></td></tr></table></figure>
+
 <p>看样子，是无法连接consul，接口异常？此外，由于无法连接consol，报了一堆无法找到服务端的RPC异常，这也正常，注册中心连不上，肯定也就拿不到服务列表。</p>
 <p>我们的 C++ 服务（ 使用库<code>ppconsul</code> ），直接报了无法注册的异常。</p>
-<pre><code class="shell">E0315 19:28:54.129444 11661 ...cpp:456] [consul] register local consul agent failed!
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E0315 19:28:54.129444 11661 ...cpp:456] [consul] register local consul agent failed!</span><br></pre></td></tr></table></figure>
+
 <h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>首先，尝试重启 consul server。不重启还好，一重启，这台机器之前注册的服务全没了，怎么重启服务都注册不上。</p>
 <p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315224053342.png" alt="image-20210315224053342"></p>
 <p>随后，查看consul日志，伴随着不太明了的异常。</p>
@@ -505,8 +478,8 @@ Caused by: java.io.EOFException: \n not found: limit=0 content=�~@�
 <p>于是，想通过consul程序，看下members，确认加入了集群，但是…. </p>
 <p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315224420906.png" alt="image-20210315224420906"></p>
 <p>他，出错了，很奇怪的错。</p>
-<pre><code class="shell">Error retrieving members: Get &quot;http://127.0.0.1:8500/v1/agent/members?segment=_all&quot;: EOF
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error retrieving members: Get &quot;http://127.0.0.1:8500/v1/agent/members?segment=_all&quot;: EOF</span><br></pre></td></tr></table></figure>
+
 <p>到这里，可以想到的是，是consul接口出问题。开始的时候前端请求异常，应该也是因为代理请求consul接口，出错导致的。凡事都有个但是，排查端口发现，有正常的连接建立啊。</p>
 <p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315225135881.png" alt="image-20210315225135881"></p>
 <p>而且呢，还很多。</p>
@@ -516,45 +489,131 @@ Caused by: java.io.EOFException: \n not found: limit=0 content=�~@�
 <p>好吧，找到了这里。</p>
 <p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315225530866.png" alt="image-20210315225530866"></p>
 <p>单个 IP 限制的最大连接数，是 200。行吧。改大试试吧。</p>
-<pre><code class="json">&#123;
-    &quot;client_addr&quot;: &quot;0.0.0.0&quot;,
-    &quot;datacenter&quot;: &quot;...&quot;,
-    &quot;data_dir&quot;: &quot;...&quot;,
-    &quot;domain&quot;: &quot;...&quot;,
-    &quot;dns_config&quot;: &#123;
-        &quot;enable_truncate&quot;: true,
-        &quot;only_passing&quot;: true
-    &#125;,
-    &quot;limits&quot;: &#123;
-        &quot;http_max_conns_per_client&quot;: 500
-    &#125;,
-    &quot;enable_syslog&quot;: true,
-    &quot;encrypt&quot;: &quot;...&quot;,
-    &quot;leave_on_terminate&quot;: true,
-    &quot;log_level&quot;: &quot;INFO&quot;,
-    &quot;rejoin_after_leave&quot;: true,
-    &quot;server&quot;: true,
-    &quot;bootstrap&quot;: false,
-    &quot;bootstrap_expect&quot;: 3,
-    &quot;retry_join&quot;: [
-        &quot;...&quot;,
-        &quot;...&quot;,
-        &quot;...&quot;,
-        &quot;...&quot;,
-        &quot;...&quot;,
-    ],
-    &quot;ui&quot;: false
-&#125;
-</code></pre>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;client_addr&quot;</span>: <span class="string">&quot;0.0.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;datacenter&quot;</span>: <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;data_dir&quot;</span>: <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;domain&quot;</span>: <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;dns_config&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;enable_truncate&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">&quot;only_passing&quot;</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;limits&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;http_max_conns_per_client&quot;</span>: <span class="number">500</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;enable_syslog&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;encrypt&quot;</span>: <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;leave_on_terminate&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;log_level&quot;</span>: <span class="string">&quot;INFO&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;rejoin_after_leave&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;server&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;bootstrap&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;bootstrap_expect&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;retry_join&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;ui&quot;</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>至此，好了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/15/architecture/discovery/consul/trouble-shooting/" data-id="ckomwlrub0061rhn9gag33k28" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/15/architecture/discovery/consul/trouble-shooting/" data-id="ckonrt7wo0061c8n96h4g9ij6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/consul/" rel="tag">consul</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-architecture/framework/netty/netty" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/13/architecture/framework/netty/netty/" class="article-date">
+  <time datetime="2021-03-12T16:00:00.000Z" itemprop="datePublished">2021-03-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/java/">java</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/">框架</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/netty/">netty</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/13/architecture/framework/netty/netty/">netty</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>简单的说，netty 提供了一个NIO（异步非阻塞IO）网络框架，基于此可以轻松地开发高性能的网络应用。</p>
+<h1 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h1><ul>
+<li>支持多种协议，且有统一的API</li>
+<li>强大的线程模型</li>
+<li>高性能</li>
+</ul>
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="reactor"><a href="#reactor" class="headerlink" title="reactor"></a>reactor</h2><p>reactor 模式是事件驱动的一种实现，将服务端接受请求和事件处理分离，从而提升系统处理并发的能力，java的NIO的reactor模式是基于系统内核的多路复用技术实现的。</p>
+<p>reactor模式有三个组件，Handler、Demultiplexer、Reactor，核心是 IO复用 + 非阻塞编程 + bind/function。</p>
+<p><img src="/2021/03/13/architecture/framework/netty/netty/002.png"></p>
+<h2 id="reactor-和-I-O多路复用"><a href="#reactor-和-I-O多路复用" class="headerlink" title="reactor 和 I/O多路复用"></a>reactor 和 I/O多路复用</h2><p>reactor 是一种网络编程模式，其底层多使用系统实现的I/O多路复用能力。</p>
+<h2 id="高性能原因"><a href="#高性能原因" class="headerlink" title="高性能原因"></a>高性能原因</h2><ul>
+<li>基于Reactor模式实现的 <strong>NIO</strong>（异步阻塞IO），IO多路复用</li>
+<li>TCP接受和发送缓冲区使用<strong>直接内存</strong>代替堆内存，避免了内存复制</li>
+<li>使用内存池的方式，<strong>循环利用 ByteBuf</strong></li>
+<li><strong>环形数组缓冲区</strong>实现无锁化并发编程</li>
+<li>关键资源的处理使用单线程串行化，避免使用锁</li>
+</ul>
+<h2 id="线程模型"><a href="#线程模型" class="headerlink" title="线程模型"></a>线程模型</h2><p>在 Netty 主要靠 NioEventLoopGroup 线程池来实现具体的线程模型的 。我们实现服务端的时候，一般会初始化两个线程组，Boss Group 和 Worker Group，前者用于接收连接，后者负责具体的处理，交由对应的 Handler 处理。</p>
+<p>Netty 可以实现多种线程模型，单线程、多线程、主从多线程模型。</p>
+<h2 id="启动流程"><a href="#启动流程" class="headerlink" title="启动流程"></a>启动流程</h2><ul>
+<li>创建两组线程组，Boss 和 Worker</li>
+<li>创建服务端启动引导/辅助类 ServerBootstrap</li>
+<li>为引导类设置线程组</li>
+<li>绑定端口，得到 ChannelFuture 对象</li>
+<li>阻塞等待 Future 对象，知道服务器 Channel 关闭</li>
+<li>关闭线程组</li>
+</ul>
+<h2 id="默认线程数量"><a href="#默认线程数量" class="headerlink" title="默认线程数量"></a>默认线程数量</h2><p>CPU核心数 * 2。</p>
+<h2 id="处理流程"><a href="#处理流程" class="headerlink" title="处理流程"></a>处理流程</h2><p><img src="/2021/03/13/architecture/framework/netty/netty/000.png"></p>
+<p><img src="/2021/03/13/architecture/framework/netty/netty/001.png"></p>
+<h2 id="BIO-NIO-AIO"><a href="#BIO-NIO-AIO" class="headerlink" title="BIO / NIO / AIO"></a>BIO / NIO / AIO</h2><ul>
+<li>BIO：阻塞IO</li>
+<li>NIO：非阻塞IO</li>
+<li>AIO：异步非阻塞IO</li>
+</ul>
+<h2 id="netty-中的-selector"><a href="#netty-中的-selector" class="headerlink" title="netty 中的 selector"></a>netty 中的 selector</h2><p>Selector 能够检测多个注册的通道上是否有事件发生（多个Channel以事件的方式可以注册到同一个Selector），如果有事件发生，便获取事件然后针对每个事件进行相应的处理。这样就可以只用一个单线程去管理多个通道，也就是管理多个连接和请求。</p>
+<h2 id="netty-的核心组件"><a href="#netty-的核心组件" class="headerlink" title="netty 的核心组件"></a>netty 的核心组件</h2><ul>
+<li>Channel<ul>
+<li>Netty 的网络操作抽象类，包含了基本的I/O操作，bind、connect、read、write 等，降低了直接使用 Socket 的复杂度</li>
+<li>与 EventLoop 一起处理I / O</li>
+</ul>
+</li>
+<li>ChannelHandler<ul>
+<li>用于处理各种事件，以支持各种协议和处理数据的方式</li>
+<li>比如，连接、数据接收、异常、数据转换等</li>
+</ul>
+</li>
+<li>ChannelPipeline<ul>
+<li>提供了 ChannelHandler 链的容器</li>
+</ul>
+</li>
+<li>EventLoop<ul>
+<li>EventLoop 定义了Netty的核心抽象，用于处理连接的生命周期中所发生的事件</li>
+<li>负责监听网络事件，并调用事件处理器进行相关的 I/O 操作的处理</li>
+</ul>
+</li>
+</ul>
+<h2 id="Channel-和-EventLoop-联系"><a href="#Channel-和-EventLoop-联系" class="headerlink" title="Channel 和 EventLoop 联系"></a>Channel 和 EventLoop 联系</h2><p>Channel 是为 Netty 网络操作的抽象类，EventLoop 负责处理注册到其上的Channel，处理I/O操作，两者配合完成I/O操作</p>
+<h2 id="EventloopGroup-和-EventLoop-关系"><a href="#EventloopGroup-和-EventLoop-关系" class="headerlink" title="EventloopGroup 和 EventLoop 关系"></a>EventloopGroup 和 EventLoop 关系</h2><p>EventLoopGroup 是一组 EventLoop 的抽象，提供了 next 接口，从一组 EventLoop 中按规则选择一个 EventLoop 来处理任务。</p>
+<h2 id="BootStrap-和-ServerBootStrap"><a href="#BootStrap-和-ServerBootStrap" class="headerlink" title="BootStrap 和 ServerBootStrap"></a>BootStrap 和 ServerBootStrap</h2><p>BootStrap 通过 connect 方法连接远程主机，作为TCP协议的客户端，或通过bind方法绑定本地端口，作为UDP协议的一端。只需配置一组 EventLoopGroup。</p>
+<p>ServerBootStrap 通过 bind 方法绑定本地端口，等待客户端连接。需配置两组 EventLoopGroup ，一个用于接收，一个用于处理，即 Boss EventLoopGroup 和 Worker EventLoopGroup。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<li>RPC框架的网络通讯工具</li>
+<li>搭建网络应用，http 或其他</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lihonglin2016/p/9774957.html">https://www.cnblogs.com/lihonglin2016/p/9774957.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148726453">https://zhuanlan.zhihu.com/p/148726453</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/eef7ebe28673">https://www.jianshu.com/p/eef7ebe28673</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/320829696">https://www.zhihu.com/question/320829696</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.blogjava.net/DLevin/archive/2015/09/02/427045.html">http://www.blogjava.net/DLevin/archive/2015/09/02/427045.html</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/13/architecture/framework/netty/netty/" data-id="ckonrt7wq0068c8n96yduapxx" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/netty/" rel="tag">netty</a></li></ul>
 
     </footer>
   </div>
@@ -858,124 +917,10 @@ Caused by: java.io.EOFException: \n not found: limit=0 content=�~@�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/13/computer%20science/networking/networking/" data-id="ckomwlry900prrhn9cals36s0" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/13/computer%20science/networking/networking/" data-id="ckonrt82f00prc8n98bmvc1xf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-architecture/framework/netty/netty" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/03/13/architecture/framework/netty/netty/" class="article-date">
-  <time datetime="2021-03-12T16:00:00.000Z" itemprop="datePublished">2021-03-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/java/">java</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/">框架</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/netty/">netty</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/13/architecture/framework/netty/netty/">netty</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>简单的说，netty 提供了一个NIO（异步非阻塞IO）网络框架，基于此可以轻松地开发高性能的网络应用。</p>
-<h1 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h1><ul>
-<li>支持多种协议，且有统一的API</li>
-<li>强大的线程模型</li>
-<li>高性能</li>
-</ul>
-<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="reactor"><a href="#reactor" class="headerlink" title="reactor"></a>reactor</h2><p>reactor 模式是事件驱动的一种实现，将服务端接受请求和事件处理分离，从而提升系统处理并发的能力，java的NIO的reactor模式是基于系统内核的多路复用技术实现的。</p>
-<p>reactor模式有三个组件，Handler、Demultiplexer、Reactor，核心是 IO复用 + 非阻塞编程 + bind/function。</p>
-<p><img src="/2021/03/13/architecture/framework/netty/netty/002.png"></p>
-<h2 id="reactor-和-I-O多路复用"><a href="#reactor-和-I-O多路复用" class="headerlink" title="reactor 和 I/O多路复用"></a>reactor 和 I/O多路复用</h2><p>reactor 是一种网络编程模式，其底层多使用系统实现的I/O多路复用能力。</p>
-<h2 id="高性能原因"><a href="#高性能原因" class="headerlink" title="高性能原因"></a>高性能原因</h2><ul>
-<li>基于Reactor模式实现的 <strong>NIO</strong>（异步阻塞IO），IO多路复用</li>
-<li>TCP接受和发送缓冲区使用<strong>直接内存</strong>代替堆内存，避免了内存复制</li>
-<li>使用内存池的方式，<strong>循环利用 ByteBuf</strong></li>
-<li><strong>环形数组缓冲区</strong>实现无锁化并发编程</li>
-<li>关键资源的处理使用单线程串行化，避免使用锁</li>
-</ul>
-<h2 id="线程模型"><a href="#线程模型" class="headerlink" title="线程模型"></a>线程模型</h2><p>在 Netty 主要靠 NioEventLoopGroup 线程池来实现具体的线程模型的 。我们实现服务端的时候，一般会初始化两个线程组，Boss Group 和 Worker Group，前者用于接收连接，后者负责具体的处理，交由对应的 Handler 处理。</p>
-<p>Netty 可以实现多种线程模型，单线程、多线程、主从多线程模型。</p>
-<h2 id="启动流程"><a href="#启动流程" class="headerlink" title="启动流程"></a>启动流程</h2><ul>
-<li>创建两组线程组，Boss 和 Worker</li>
-<li>创建服务端启动引导/辅助类 ServerBootstrap</li>
-<li>为引导类设置线程组</li>
-<li>绑定端口，得到 ChannelFuture 对象</li>
-<li>阻塞等待 Future 对象，知道服务器 Channel 关闭</li>
-<li>关闭线程组</li>
-</ul>
-<h2 id="默认线程数量"><a href="#默认线程数量" class="headerlink" title="默认线程数量"></a>默认线程数量</h2><p>CPU核心数 * 2。</p>
-<h2 id="处理流程"><a href="#处理流程" class="headerlink" title="处理流程"></a>处理流程</h2><p><img src="/2021/03/13/architecture/framework/netty/netty/000.png"></p>
-<p><img src="/2021/03/13/architecture/framework/netty/netty/001.png"></p>
-<h2 id="BIO-NIO-AIO"><a href="#BIO-NIO-AIO" class="headerlink" title="BIO / NIO / AIO"></a>BIO / NIO / AIO</h2><ul>
-<li>BIO：阻塞IO</li>
-<li>NIO：非阻塞IO</li>
-<li>AIO：异步非阻塞IO</li>
-</ul>
-<h2 id="netty-中的-selector"><a href="#netty-中的-selector" class="headerlink" title="netty 中的 selector"></a>netty 中的 selector</h2><p>Selector 能够检测多个注册的通道上是否有事件发生（多个Channel以事件的方式可以注册到同一个Selector），如果有事件发生，便获取事件然后针对每个事件进行相应的处理。这样就可以只用一个单线程去管理多个通道，也就是管理多个连接和请求。</p>
-<h2 id="netty-的核心组件"><a href="#netty-的核心组件" class="headerlink" title="netty 的核心组件"></a>netty 的核心组件</h2><ul>
-<li>Channel<ul>
-<li>Netty 的网络操作抽象类，包含了基本的I/O操作，bind、connect、read、write 等，降低了直接使用 Socket 的复杂度</li>
-<li>与 EventLoop 一起处理I / O</li>
-</ul>
-</li>
-<li>ChannelHandler<ul>
-<li>用于处理各种事件，以支持各种协议和处理数据的方式</li>
-<li>比如，连接、数据接收、异常、数据转换等</li>
-</ul>
-</li>
-<li>ChannelPipeline<ul>
-<li>提供了 ChannelHandler 链的容器</li>
-</ul>
-</li>
-<li>EventLoop<ul>
-<li>EventLoop 定义了Netty的核心抽象，用于处理连接的生命周期中所发生的事件</li>
-<li>负责监听网络事件，并调用事件处理器进行相关的 I/O 操作的处理</li>
-</ul>
-</li>
-</ul>
-<h2 id="Channel-和-EventLoop-联系"><a href="#Channel-和-EventLoop-联系" class="headerlink" title="Channel 和 EventLoop 联系"></a>Channel 和 EventLoop 联系</h2><p>Channel 是为 Netty 网络操作的抽象类，EventLoop 负责处理注册到其上的Channel，处理I/O操作，两者配合完成I/O操作</p>
-<h2 id="EventloopGroup-和-EventLoop-关系"><a href="#EventloopGroup-和-EventLoop-关系" class="headerlink" title="EventloopGroup 和 EventLoop 关系"></a>EventloopGroup 和 EventLoop 关系</h2><p>EventLoopGroup 是一组 EventLoop 的抽象，提供了 next 接口，从一组 EventLoop 中按规则选择一个 EventLoop 来处理任务。</p>
-<h2 id="BootStrap-和-ServerBootStrap"><a href="#BootStrap-和-ServerBootStrap" class="headerlink" title="BootStrap 和 ServerBootStrap"></a>BootStrap 和 ServerBootStrap</h2><p>BootStrap 通过 connect 方法连接远程主机，作为TCP协议的客户端，或通过bind方法绑定本地端口，作为UDP协议的一端。只需配置一组 EventLoopGroup。</p>
-<p>ServerBootStrap 通过 bind 方法绑定本地端口，等待客户端连接。需配置两组 EventLoopGroup ，一个用于接收，一个用于处理，即 Boss EventLoopGroup 和 Worker EventLoopGroup。</p>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
-<li>RPC框架的网络通讯工具</li>
-<li>搭建网络应用，http 或其他</li>
-</ul>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lihonglin2016/p/9774957.html">https://www.cnblogs.com/lihonglin2016/p/9774957.html</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148726453">https://zhuanlan.zhihu.com/p/148726453</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/eef7ebe28673">https://www.jianshu.com/p/eef7ebe28673</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/320829696">https://www.zhihu.com/question/320829696</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.blogjava.net/DLevin/archive/2015/09/02/427045.html">http://www.blogjava.net/DLevin/archive/2015/09/02/427045.html</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/13/architecture/framework/netty/netty/" data-id="ckomwlruf006frhn9b987gor2" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/netty/" rel="tag">netty</a></li></ul>
 
     </footer>
   </div>
@@ -1039,41 +984,8 @@ Caused by: java.io.EOFException: \n not found: limit=0 content=�~@�
 </li>
 </ul>
 <p><strong>SDS</strong></p>
-<pre><code class="c++">/*
- * 保存字符串对象的结构
- */
-struct sdshdr &#123;
-    
-    // buf 中已占用空间的长度
-    int len;
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 保存字符串对象的结构</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// buf 中已占用空间的长度</span></span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// buf 中剩余可用空间的长度</span></span><br><span class="line">    <span class="keyword">int</span> free;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 数据空间</span></span><br><span class="line">    <span class="keyword">char</span> buf[];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 返回 sds 实际保存的字符串的长度</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * T = O(1)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">size_t</span> <span class="title">sdslen</span><span class="params">(<span class="keyword">const</span> sds s)</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> *<span class="title">sh</span> =</span> (<span class="keyword">void</span>*)(s-(<span class="built_in"><span class="keyword">sizeof</span></span>(struct sdshdr)));</span><br><span class="line">    <span class="keyword">return</span> sh-&gt;len;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 返回 sds 可用空间的长度</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * T = O(1)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">size_t</span> <span class="title">sdsavail</span><span class="params">(<span class="keyword">const</span> sds s)</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> *<span class="title">sh</span> =</span> (<span class="keyword">void</span>*)(s-(<span class="built_in"><span class="keyword">sizeof</span></span>(struct sdshdr)));</span><br><span class="line">    <span class="keyword">return</span> sh-&gt;free;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // buf 中剩余可用空间的长度
-    int free;
-
-    // 数据空间
-    char buf[];
-&#125;;
-
-/*
- * 返回 sds 实际保存的字符串的长度
- *
- * T = O(1)
- */
-static inline size_t sdslen(const sds s) &#123;
-    struct sdshdr *sh = (void*)(s-(sizeof(struct sdshdr)));
-    return sh-&gt;len;
-&#125;
-
-/*
- * 返回 sds 可用空间的长度
- *
- * T = O(1)
- */
-static inline size_t sdsavail(const sds s) &#123;
-    struct sdshdr *sh = (void*)(s-(sizeof(struct sdshdr)));
-    return sh-&gt;free;
-&#125;
-</code></pre>
 <p><strong>SDS扩容</strong></p>
 <p>当字符串长度小于SDS_MAX_PREALLOC (1024*1024)，那么就以2倍的速度扩容，当字符串长度大于SDS_MAX_PREALLOC，那么就以+SDS_MAX_PREALLOC的速度扩容。</p>
 <p><strong>SDS缩容</strong></p>
@@ -1150,7 +1062,7 @@ static inline size_t sdsavail(const sds s) &#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/12/architecture/storage/redis/redis/" data-id="ckomwlruo007crhn99us2dx7o" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/12/architecture/storage/redis/redis/" data-id="ckonrt7x8007cc8n9bqw83c0m" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%98%E5%82%A8/" rel="tag">存储</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li></ul>
@@ -1162,14 +1074,14 @@ static inline size_t sdsavail(const sds s) &#123;
 
 
   
-    <article id="post-coding/c++/notes/datastruct" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-computer science/operation system/lock" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/03/11/coding/c++/notes/datastruct/" class="article-date">
+    <a href="/2021/03/11/computer%20science/operation%20system/lock/" class="article-date">
   <time datetime="2021-03-10T16:00:00.000Z" itemprop="datePublished">2021-03-11</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/c/">c++</a>
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/">计算机科学</a>►<a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
   </div>
 
   </div>
@@ -1180,7 +1092,7 @@ static inline size_t sdsavail(const sds s) &#123;
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/11/coding/c++/notes/datastruct/">c++ 数据结构</a>
+      <a class="article-title" href="/2021/03/11/computer%20science/operation%20system/lock/">操作系统 - 锁</a>
     </h1>
   
 
@@ -1188,29 +1100,28 @@ static inline size_t sdsavail(const sds s) &#123;
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1><h2 id="map-VS-unordered-map"><a href="#map-VS-unordered-map" class="headerlink" title="map VS unordered_map"></a>map VS unordered_map</h2><ul>
-<li>map<ul>
-<li>底层为红黑树</li>
-</ul>
-</li>
-<li>unordered_map<ul>
-<li>底层为哈希表</li>
-</ul>
-</li>
-</ul>
-<p><strong>对比</strong></p>
+        <h2 id="mutex-lock"><a href="#mutex-lock" class="headerlink" title="mutex lock"></a>mutex lock</h2><p>所谓锁，在计算机中，本质是内存中的一块空间，其值被赋予了加锁/未加锁的含义，其底层实现，是基于计算机系统中的原子操作。</p>
+<p>mutex lock 核心包含两点。</p>
 <ul>
-<li>map 有序，unordered_map 无序</li>
-<li>unordered_map 查找效率更高</li>
+<li>Compare And Set（CAS）<ul>
+<li>互斥锁是对临界区的保护，能否进入临界区即能否获取到锁，思路都是判断并置位一个标志位，这个标志位本身可以是一个普通的内存变量，关键在于，对于这个变量的”判断并置位”操作需要是原子的。</li>
+<li>计算机实现原子操作，对于单核机器，关中断防止调度即可；多核理论上可使用 spinlock 保护，实际一般通过原子汇编语言实现，比如x86的tsl指令（test and set），可以用一条“无法继续分割的”汇编指令实现判断变量值并根据是否为0进行置位，具体这个指令实现原子性一般通过锁总线实现，也就是我执行这条指令时，其它核都不能访问这个地址了。</li>
+</ul>
+</li>
+<li>根据所是否获得，决定执行策略<ul>
+<li>如果锁持有，则继续运行</li>
+<li>如果所没有获取到，常规做法是将当前任务挂起，并附在 mutex 变量对应的链表上，一旦锁被释放，查找锁上挂起的任务并唤醒</li>
+</ul>
+</li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/11/coding/c++/notes/datastruct/" data-id="ckomwlruq007krhn99hvnfay8" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/11/computer%20science/operation%20system/lock/" data-id="ckonrt7ux0025c8n90had732j" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
 
     </footer>
   </div>
@@ -1276,7 +1187,7 @@ static inline size_t sdsavail(const sds s) &#123;
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -1284,7 +1195,7 @@ static inline size_t sdsavail(const sds s) &#123;
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

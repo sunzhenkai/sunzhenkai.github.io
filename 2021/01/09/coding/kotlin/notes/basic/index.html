@@ -7,12 +7,12 @@
   
   <title>kotlin 基础 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="安装homebrew $ brew install kotlin  下载 在这里找最新的Release，贴一个v1.4.21链接。 交互式终端 $ kotlinc-jvm  HELLO WORLDcode &#x2F;&#x2F; file: hello.kt fun main() &amp;#123;     println(&quot;Hello Wrold!&quot;) &amp;#125;  compile $ kotli">
+  <meta name="description" content="安装homebrew 1$ brew install kotlin  下载 在这里找最新的Release，贴一个v1.4.21链接。 交互式终端 1$ kotlinc-jvm  HELLO WORLDcode 1234&#x2F;&#x2F; file: hello.ktfun main() &amp;#123;    println(&quot;Hello Wrold!&quot;)&amp;#125;  compile 1$ k">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kotlin 基础">
 <meta property="og:url" content="http://wii.pub/2021/01/09/coding/kotlin/notes/basic/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="安装homebrew $ brew install kotlin  下载 在这里找最新的Release，贴一个v1.4.21链接。 交互式终端 $ kotlinc-jvm  HELLO WORLDcode &#x2F;&#x2F; file: hello.kt fun main() &amp;#123;     println(&quot;Hello Wrold!&quot;) &amp;#125;  compile $ kotli">
+<meta property="og:description" content="安装homebrew 1$ brew install kotlin  下载 在这里找最新的Release，贴一个v1.4.21链接。 交互式终端 1$ kotlinc-jvm  HELLO WORLDcode 1234&#x2F;&#x2F; file: hello.ktfun main() &amp;#123;    println(&quot;Hello Wrold!&quot;)&amp;#125;  compile 1$ k">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-01-09T11:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.580Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -91,30 +93,25 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><strong>homebrew</strong></p>
-<pre><code class="shell">$ brew install kotlin
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install kotlin</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>下载</strong></p>
 <p>在<a target="_blank" rel="noopener" href="https://github.com/JetBrains/kotlin">这里</a>找最新的Release，贴一个<a target="_blank" rel="noopener" href="https://github.com/JetBrains/kotlin/releases/tag/v1.4.21">v1.4.21链接</a>。</p>
 <p><strong>交互式终端</strong></p>
-<pre><code class="shell">$ kotlinc-jvm
-</code></pre>
-<h1 id="HELLO-WORLD"><a href="#HELLO-WORLD" class="headerlink" title="HELLO WORLD"></a>HELLO WORLD</h1><p><strong>code</strong></p>
-<pre><code class="kotlin">// file: hello.kt
-fun main() &#123;
-    println(&quot;Hello Wrold!&quot;)
-&#125;
-</code></pre>
-<p><strong>compile</strong></p>
-<pre><code class="shell">$ kotlinc hello.kt -include-runtime -d hello.jar
-</code></pre>
-<p><strong>run</strong></p>
-<pre><code class="shell">$ java -jar hello.jar
-</code></pre>
-<h1 id="组织"><a href="#组织" class="headerlink" title="组织"></a>组织</h1><h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><p>kotlin 源文件通常以<code>.kt</code> 作为扩展名。</p>
-<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><pre><code class="kotlin">package base
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kotlinc-jvm</span></span><br></pre></td></tr></table></figure>
 
-import kotlin.text.*
-</code></pre>
+<h1 id="HELLO-WORLD"><a href="#HELLO-WORLD" class="headerlink" title="HELLO WORLD"></a>HELLO WORLD</h1><p><strong>code</strong></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// file: hello.kt</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    println(<span class="string">&quot;Hello Wrold!&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>compile</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kotlinc hello.kt -include-runtime -d hello.jar</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>run</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> java -jar hello.jar</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="组织"><a href="#组织" class="headerlink" title="组织"></a>组织</h1><h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><p>kotlin 源文件通常以<code>.kt</code> 作为扩展名。</p>
+<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> base</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> kotlin.text.*</span><br></pre></td></tr></table></figure>
+
 <h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><h3 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h3><table>
 <thead>
 <tr>
@@ -235,54 +232,14 @@ import kotlin.text.*
 </ul>
 </li>
 </ul>
-<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><pre><code class="kotlin">// 10 进制 
-1234567890
-1234567890L
-1_234_567_890
+<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 10 进制 </span></span><br><span class="line"><span class="number">1234567890</span></span><br><span class="line"><span class="number">1234567890L</span></span><br><span class="line"><span class="number">1_234_567_890</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 16 进制</span></span><br><span class="line"><span class="number">0x0f</span></span><br><span class="line"><span class="number">0xFF_EC_DE_5E</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2 进制</span></span><br><span class="line"><span class="number">0b00001011</span></span><br></pre></td></tr></table></figure>
 
-// 16 进制
-0x0f
-0xFF_EC_DE_5E
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">final</span>/<span class="keyword">open</span>] [<span class="keyword">var</span>/<span class="keyword">val</span>] name : [Type] = ...</span><br><span class="line">[<span class="keyword">final</span>/<span class="keyword">open</span>] [<span class="keyword">var</span>/<span class="keyword">val</span>] name : [Type]? = <span class="literal">null</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> name : [Type][?] = ...</span><br><span class="line"></span><br><span class="line"><span class="comment">// example</span></span><br><span class="line"><span class="keyword">var</span> it : <span class="built_in">Int</span> = <span class="number">100</span></span><br><span class="line"><span class="keyword">var</span> ns : String? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">object</span> TestVars &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">val</span> name : String = <span class="string">&quot;&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// 2 进制
-0b00001011
-</code></pre>
-<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><pre><code class="kotlin">[final/open] [var/val] name : [Type] = ...
-[final/open] [var/val] name : [Type]? = null
-const val name : [Type][?] = ...
+<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="程序结构"><a href="#程序结构" class="headerlink" title="程序结构"></a>程序结构</h2><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是单行注释</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">这是</span></span><br><span class="line"><span class="comment">多行注释</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
 
-// example
-var it : Int = 100
-var ns : String? = null
+<h2 id="条件控制"><a href="#条件控制" class="headerlink" title="条件控制"></a>条件控制</h2><h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><h2 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h2><h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> [funName]<span class="params">(arga: [<span class="type">Type</span>], argb: [<span class="type">Type</span>], ...)</span></span> : [Type] &#123;</span><br><span class="line">  <span class="keyword">return</span> ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// example</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">sum</span><span class="params">(a: <span class="type">Int</span>, b: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// no body</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">sum</span><span class="params">(a: <span class="type">Int</span>, b: <span class="type">Int</span>)</span></span> = a + b</span><br><span class="line"></span><br><span class="line"><span class="comment">// return no meaning value</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">printSum</span><span class="params">(a: <span class="type">Int</span>, b: <span class="type">Int</span>)</span></span>: <span class="built_in">Unit</span> &#123;   	<span class="comment">// Unit 可省略</span></span><br><span class="line">    println(<span class="string">&quot;sum of <span class="variable">$a</span> and <span class="variable">$b</span> is <span class="subst">$&#123;a + b&#125;</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-object TestVars &#123;
-    const val name : String = &quot;&quot;
-&#125;
-</code></pre>
-<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="程序结构"><a href="#程序结构" class="headerlink" title="程序结构"></a>程序结构</h2><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><pre><code class="kotlin">// 这是单行注释
-
-/*
-这是
-多行注释
-*/
-</code></pre>
-<h2 id="条件控制"><a href="#条件控制" class="headerlink" title="条件控制"></a>条件控制</h2><h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><h2 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h2><h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><pre><code class="kotlin">fun [funName](arga: [Type], argb: [Type], ...) : [Type] &#123;
-  return ...
-&#125;
-
-// example
-fun sum(a: Int, b: Int): Int &#123;
-    return a + b
-&#125;
-
-// no body
-fun sum(a: Int, b: Int) = a + b
-
-// return no meaning value
-fun printSum(a: Int, b: Int): Unit &#123;       // Unit 可省略
-    println(&quot;sum of $a and $b is $&#123;a + b&#125;&quot;)
-&#125;
-</code></pre>
 <h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><h2 id="语法糖"><a href="#语法糖" class="headerlink" title="语法糖"></a>语法糖</h2><h2 id="空指针处理"><a href="#空指针处理" class="headerlink" title="空指针处理"></a>空指针处理</h2><h2 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h2><h2 id="泛型编程"><a href="#泛型编程" class="headerlink" title="泛型编程"></a>泛型编程</h2><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://kotlinlang.org/docs/reference/basic-syntax.html">https://kotlinlang.org/docs/reference/basic-syntax.html</a></li>
 </ul>
@@ -290,7 +247,7 @@ fun printSum(a: Int, b: Int): Unit &#123;       // Unit 可省略
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/09/coding/kotlin/notes/basic/" data-id="ckomwlruz008erhn9b10s20wh" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/01/09/coding/kotlin/notes/basic/" data-id="ckonrt7xm008ec8n9hmh84en0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kotlin/" rel="tag">kotlin</a></li></ul>
@@ -301,19 +258,19 @@ fun printSum(a: Int, b: Int): Unit &#123;       // Unit 可省略
     
 <nav id="article-nav">
   
-    <a href="/2021/01/11/linux/program/build-in/sed/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/01/09/frontend/android/basic/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          sed
+          安卓基础
         
       </div>
     </a>
   
   
-    <a href="/2021/01/09/frontend/android/basic/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/01/07/architecture/recommend/recall/recall/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">安卓基础</div>
+      <div class="article-nav-title">召回服务</div>
     </a>
   
 </nav>
@@ -371,7 +328,7 @@ fun printSum(a: Int, b: Int): Unit &#123;       // Unit 可省略
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -379,7 +336,7 @@ fun printSum(a: Int, b: Int): Unit &#123;       // Unit 可省略
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

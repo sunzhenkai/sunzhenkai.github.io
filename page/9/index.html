@@ -20,6 +20,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -61,47 +63,44 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-frontend/vue/problems" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-coding/python/library/django/problems" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/12/24/frontend/vue/problems/" class="article-date">
+    <a href="/2020/12/24/coding/python/library/django/problems/" class="article-date">
   <time datetime="2020-12-24T11:00:00.000Z" itemprop="datePublished">2020-12-24</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>►<a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/vue/">vue</a>
+    <a class="article-category-link" href="/categories/python/">python</a>►<a class="article-category-link" href="/categories/python/library/">library</a>►<a class="article-category-link" href="/categories/python/library/django/">django</a>
   </div>
 
   </div>
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/24/coding/python/library/django/problems/">django 常见问题</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h1><h2 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h2><pre><code class="js">// config/index.js
-module.exports = &#123;
-  dev: &#123;
-    ...
-    proxyTable: &#123;
-      &#39;/api&#39;: &#123;
-        target: &quot;http://localhost:8000&quot;, 
-        changeOrigin: true,
-        pathRewrite: &#123;
-          &#39;^/api&#39;: &#39;api&#39;
-        &#125;
-      &#125;,
-    &#125;,
-    ...
-  &#125;
-&#125;
-</code></pre>
+        <h1 id="启动时执行一次"><a href="#启动时执行一次" class="headerlink" title="启动时执行一次"></a>启动时执行一次</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 app 目录下的 apps.py 中定义 Config</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.apps <span class="keyword">import</span> AppConfig</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JobConfig</span>(<span class="params">AppConfig</span>):</span></span><br><span class="line">    name = <span class="string">&#x27;job&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">ready</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">from</span> jobs <span class="keyword">import</span> scheduler  <span class="comment"># jobs 为 app 名称</span></span><br><span class="line">        scheduler.start()           <span class="comment"># scheduler.start() 是要做的事情; 这里是启动一个定时器</span></span><br><span class="line">        </span><br><span class="line"><span class="comment"># 在 app 目录下的 __init__.py 中添加</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> os.environ.get(<span class="string">&#x27;RUN_MAIN&#x27;</span>, <span class="literal">None</span>) != <span class="string">&#x27;true&#x27;</span>:    <span class="comment"># 加这个判断，可以防止执行多次</span></span><br><span class="line">    default_app_config = <span class="string">&#x27;jobs.apps.JobConfig&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 注: 使用manage.py时，也有可能会运行</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> install django-cors-headers</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip install django-cors-headers</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> add apps <span class="keyword">in</span> settings.py</span></span><br><span class="line">INSTALLED_APPS = [</span><br><span class="line">    ...</span><br><span class="line">    &#x27;corsheaders&#x27;,</span><br><span class="line">    ...</span><br><span class="line">]</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> add middleware <span class="keyword">in</span> settings.py</span></span><br><span class="line">MIDDLEWARE = [</span><br><span class="line">    ...</span><br><span class="line">    &#x27;corsheaders.middleware.CorsMiddleware&#x27;,</span><br><span class="line">    &#x27;django.middleware.common.CommonMiddleware&#x27;,</span><br><span class="line">    ...</span><br><span class="line">]</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> add config <span class="keyword">in</span> settings.py</span></span><br><span class="line">CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect</span><br><span class="line">CORS_ALLOW_CREDENTIALS = True</span><br><span class="line">CORS_ORIGIN_WHITELIST = [</span><br><span class="line">    &#x27;http://localhost:3030&#x27;,</span><br><span class="line">] # If this is used, then not need to use `CORS_ORIGIN_ALLOW_ALL = True`</span><br><span class="line">CORS_ORIGIN_REGEX_WHITELIST = [</span><br><span class="line">    &#x27;http://*.example.com:3030&#x27;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/24/frontend/vue/problems/" data-id="ckomwlrte002orhn98xb1gc51" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/24/coding/python/library/django/problems/" data-id="ckonrt7y7009vc8n9digcfjbf" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/django/" rel="tag">django</a></li></ul>
 
     </footer>
   </div>
@@ -136,15 +135,13 @@ module.exports = &#123;
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><pre><code class="shell">$ npm install -g vue-cli
-$ vue init webpack &lt;project-name&gt;
-$ npm install
-</code></pre>
+        <h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm install -g vue-cli</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vue init webpack &lt;project-name&gt;</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm install</span></span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/24/frontend/vue/startup/" data-id="ckomwlrte002qrhn9br3wdffe" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/24/frontend/vue/startup/" data-id="ckonrt7v8002qc8n926ygewt9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
@@ -182,13 +179,13 @@ $ npm install
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="查看大小"><a href="#查看大小" class="headerlink" title="查看大小"></a>查看大小</h1><pre><code class="shell">
-</code></pre>
+        <h1 id="查看大小"><a href="#查看大小" class="headerlink" title="查看大小"></a>查看大小</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/22/architecture/storage/hdfs/usage/" data-id="ckomwlrum0071rhn9f9fnbkx5" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/22/architecture/storage/hdfs/usage/" data-id="ckonrt7x40071c8n91dfkansa" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hdfs/" rel="tag">hdfs</a></li></ul>
@@ -226,30 +223,29 @@ $ npm install
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="MySQL-amp-mariadb"><a href="#MySQL-amp-mariadb" class="headerlink" title="MySQL &amp; mariadb"></a>MySQL &amp; mariadb</h1><h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><pre><code class="shell">$ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:latest --default-authentication-plugin=mysql_native_password
-# 认证插件 mysql_native_password, passwd, sha256_password; 如果工具连接出错，可尝试添加
-</code></pre>
+        <h1 id="MySQL-amp-mariadb"><a href="#MySQL-amp-mariadb" class="headerlink" title="MySQL &amp; mariadb"></a>MySQL &amp; mariadb</h1><h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:latest --default-authentication-plugin=mysql_native_password</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 认证插件 mysql_native_password, passwd, sha256_password; 如果工具连接出错，可尝试添加</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="mariadb"><a href="#mariadb" class="headerlink" title="mariadb"></a>mariadb</h2><p><strong>下载镜像</strong></p>
-<pre><code class="shell">$ docker pull mariadb:latest
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker pull mariadb:latest</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>运行镜像</strong></p>
-<pre><code class="shell">$ docker run -p 3306:3306 --name mariadb -e MYSQL_ROOT_PASSWORD=ipwd -d mariadb:latest
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run -p 3306:3306 --name mariadb -e MYSQL_ROOT_PASSWORD=ipwd -d mariadb:latest</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li><a target="_blank" rel="noopener" href="https://hub.docker.com/_/mysql/">https://hub.docker.com/_/mysql/</a></li>
 <li><a target="_blank" rel="noopener" href="https://hub.docker.com/_/mariadb">https://hub.docker.com/_/mariadb</a></li>
 </ul>
 <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p><strong>下载镜像</strong></p>
-<pre><code class="shell">$ docker pull redis:latest
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker pull redis:latest</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>运行容器</strong></p>
-<pre><code class="shell">$ docker run -itd --name redis -p 6379:6379 redis:latest
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run -itd --name redis -p 6379:6379 redis:latest</span></span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/21/computer%20science/virtualization/docker/containers/" data-id="ckomwlrv7008zrhn9fy4cdo4l" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/21/computer%20science/virtualization/docker/containers/" data-id="ckonrt7xu008zc8n9afld6wr3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
@@ -288,72 +284,41 @@ $ npm install
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 <a target="_blank" rel="noopener" href="http://baike.baidu.com/item/Linux">Linux</a> 机器上，也可以实现<a target="_blank" rel="noopener" href="http://baike.baidu.com/item/%E8%99%9A%E6%8B%9F%E5%8C%96">虚拟化</a>。容器是完全使用<a target="_blank" rel="noopener" href="http://baike.baidu.com/item/%E6%B2%99%E7%AE%B1/393318">沙箱</a>机制，相互之间不会有任何接口。</p>
-<h1 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h1><h2 id="从镜像创建新容器"><a href="#从镜像创建新容器" class="headerlink" title="从镜像创建新容器"></a>从镜像创建新容器</h2><pre><code class="shell">$ docker run -it -d --restart=always --name=ubuntu-18.04 ubuntu:18.04 
-</code></pre>
-<h2 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h2><pre><code class="shell">$ docker start container_id/container_name
-</code></pre>
+<h1 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h1><h2 id="从镜像创建新容器"><a href="#从镜像创建新容器" class="headerlink" title="从镜像创建新容器"></a>从镜像创建新容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run -it -d --restart=always --name=ubuntu-18.04 ubuntu:18.04</span> </span><br></pre></td></tr></table></figure>
+
+<h2 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker start container_id/container_name</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="查看运行的容器"><a href="#查看运行的容器" class="headerlink" title="查看运行的容器"></a>查看运行的容器</h2><p>使用<code>docker ps</code>命令可以查看所有正在运行中的容器列表，使用<code>docker inspect</code>命令我们可以查看更详细的关于某一个容器的信息。</p>
-<pre><code class="shell">docker ps
-</code></pre>
-<h2 id="停止运行容器"><a href="#停止运行容器" class="headerlink" title="停止运行容器"></a>停止运行容器</h2><pre><code class="shell">docker stop container-name
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+
+<h2 id="停止运行容器"><a href="#停止运行容器" class="headerlink" title="停止运行容器"></a>停止运行容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop container-name</span><br></pre></td></tr></table></figure>
+
 <p><strong>示例</strong></p>
 <p>为了显示更直观, 删除部分内容并使用省略号代替.</p>
-<pre><code class="shell">root@VirtualBox:/home/conpot# docker ps
-CONTAINER ID        IMAGE        ...
-5a794455532d        nginx:alpine    ...  
-8518250908b5        voxxit/rsyslog  ...
-77613e26eb6f        elk_logstash    ...
-7effd23c7005        elk_kibana      ...
-root@VirtualBox:/home/conpot# docker stop 5a794455532d
-5a794455532d
-root@VirtualBox:/home/conpot# docker ps
-CONTAINER ID        IMAGE      ...
-8518250908b5        voxxit/rsyslog   ...
-77613e26eb6f        elk_logstash     ...
-7effd23c7005        elk_kibana       ...
-root@VirtualBox:/home/conpot# docker stop 8518
-8518
-root@VirtualBox:/home/conpot# docker ps
-CONTAINER ID        IMAGE             ...
-77613e26eb6f        elk_logstash      ...
-7effd23c7005        elk_kibana        ...
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">root@VirtualBox:/home/conpot# docker ps</span><br><span class="line">CONTAINER ID        IMAGE        ...</span><br><span class="line">5a794455532d        nginx:alpine    ...  </span><br><span class="line">8518250908b5        voxxit/rsyslog  ...</span><br><span class="line">77613e26eb6f        elk_logstash    ...</span><br><span class="line">7effd23c7005        elk_kibana      ...</span><br><span class="line">root@VirtualBox:/home/conpot# docker stop 5a794455532d</span><br><span class="line">5a794455532d</span><br><span class="line">root@VirtualBox:/home/conpot# docker ps</span><br><span class="line">CONTAINER ID        IMAGE      ...</span><br><span class="line">8518250908b5        voxxit/rsyslog   ...</span><br><span class="line">77613e26eb6f        elk_logstash     ...</span><br><span class="line">7effd23c7005        elk_kibana       ...</span><br><span class="line">root@VirtualBox:/home/conpot# docker stop 8518</span><br><span class="line">8518</span><br><span class="line">root@VirtualBox:/home/conpot# docker ps</span><br><span class="line">CONTAINER ID        IMAGE             ...</span><br><span class="line">77613e26eb6f        elk_logstash      ...</span><br><span class="line">7effd23c7005        elk_kibana        ...</span><br></pre></td></tr></table></figure>
+
 <p><strong>停止所有运行的容器</strong></p>
-<pre><code class="shell">root@VirtualBox:/home/conpot# docker ps -q
-77613e26eb6f
-7effd23c7005
-root@VirtualBox:/home/conpot# docker stop $(docker ps -q)
-77613e26eb6f
-7effd23c7005
-root@VirtualBox:/home/conpot# docker ps -q
-</code></pre>
-<h2 id="重命名容器"><a href="#重命名容器" class="headerlink" title="重命名容器"></a>重命名容器</h2><pre><code class="shell">$ docker rename CONTAINER NEW_NAME
-</code></pre>
-<h2 id="更新容器设置"><a href="#更新容器设置" class="headerlink" title="更新容器设置"></a>更新容器设置</h2><pre><code class="shell">$ docker update --restart=always container_name/container_id    # --restart=no
-</code></pre>
-<h2 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h2><pre><code class="shell">$ docker exec -it [container] /bin/bash
-</code></pre>
-<h2 id="列出所有容器"><a href="#列出所有容器" class="headerlink" title="列出所有容器"></a>列出所有容器</h2><pre><code class="shell">$ docker ps -a
-</code></pre>
-<h2 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h2><pre><code class="shell">$ docker docker rm container-name
-</code></pre>
-<h1 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h1><h2 id="导出镜像"><a href="#导出镜像" class="headerlink" title="导出镜像"></a>导出镜像</h2><pre><code class="shell">$ docker save busybox &gt; busybox.tar
-$ docker save -o fedora-all.tar fedora
-$ docker save -o fedora-latest.tar fedora:latest
-# 压缩
-$ docker save myimage:latest | gzip &gt; myimage_latest.tar.gz
-</code></pre>
-<h2 id="加载镜像"><a href="#加载镜像" class="headerlink" title="加载镜像"></a>加载镜像</h2><pre><code class="shell">$ docker load -i docker-output.tar
-$ docker load &lt; docker-output.tar
-</code></pre>
-<h2 id="Search"><a href="#Search" class="headerlink" title="Search"></a>Search</h2><pre><code class="shell">$ docker search ubuntu
-</code></pre>
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><pre><code class="shell">$ docker pull
-</code></pre>
-<h2 id="查看下载的容器"><a href="#查看下载的容器" class="headerlink" title="查看下载的容器"></a>查看下载的容器</h2><pre><code class="shell">$ docker images
-$ docker images ubuntu    # 查看单个镜像
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@VirtualBox:/home/conpot# docker ps -q</span><br><span class="line">77613e26eb6f</span><br><span class="line">7effd23c7005</span><br><span class="line">root@VirtualBox:/home/conpot# docker stop $(docker ps -q)</span><br><span class="line">77613e26eb6f</span><br><span class="line">7effd23c7005</span><br><span class="line">root@VirtualBox:/home/conpot# docker ps -q</span><br></pre></td></tr></table></figure>
+
+<h2 id="重命名容器"><a href="#重命名容器" class="headerlink" title="重命名容器"></a>重命名容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker rename CONTAINER NEW_NAME</span></span><br></pre></td></tr></table></figure>
+<h2 id="更新容器设置"><a href="#更新容器设置" class="headerlink" title="更新容器设置"></a>更新容器设置</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker update --restart=always container_name/container_id	<span class="comment"># --restart=no</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker <span class="built_in">exec</span> -it [container] /bin/bash</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="列出所有容器"><a href="#列出所有容器" class="headerlink" title="列出所有容器"></a>列出所有容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker ps -a</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker docker rm container-name</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h1><h2 id="导出镜像"><a href="#导出镜像" class="headerlink" title="导出镜像"></a>导出镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker save busybox &gt; busybox.tar</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker save -o fedora-all.tar fedora</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker save -o fedora-latest.tar fedora:latest</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 压缩</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker save myimage:latest | gzip &gt; myimage_latest.tar.gz</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="加载镜像"><a href="#加载镜像" class="headerlink" title="加载镜像"></a>加载镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker load -i docker-output.tar</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker load &lt; docker-output.tar</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Search"><a href="#Search" class="headerlink" title="Search"></a>Search</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker search ubuntu</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker pull</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="查看下载的容器"><a href="#查看下载的容器" class="headerlink" title="查看下载的容器"></a>查看下载的容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker images</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker images ubuntu	<span class="comment"># 查看单个镜像</span></span></span><br></pre></td></tr></table></figure>
+
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/linjiqin/p/8608975.html">[1] Docker容器的创建、启动、和停止</a></li>
 </ul>
@@ -361,7 +326,7 @@ $ docker images ubuntu    # 查看单个镜像
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/21/computer%20science/virtualization/docker/usage/" data-id="ckomwlrv90094rhn96m178lu8" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/21/computer%20science/virtualization/docker/usage/" data-id="ckonrt7xw0094c8n94i6p55p0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
@@ -422,7 +387,7 @@ $ docker images ubuntu    # 查看单个镜像
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/21/github/projects/" data-id="ckomwlrsg0006rhn96zu36wp2" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/21/github/projects/" data-id="ckonrt7tv0006c8n9e638cvpj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/" rel="tag">github</a></li></ul>
@@ -460,21 +425,19 @@ $ docker images ubuntu    # 查看单个镜像
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="按大小排序打印文件"><a href="#按大小排序打印文件" class="headerlink" title="按大小排序打印文件"></a>按大小排序打印文件</h1><pre><code class="shell">$ ls -lSh   # -S: 按大小排序; -h: human readable
-$ ls -lShr  # -r: 倒序
-$ ls -lShrR # -R: 递归列出子文件夹
-</code></pre>
+        <h1 id="按大小排序打印文件"><a href="#按大小排序打印文件" class="headerlink" title="按大小排序打印文件"></a>按大小排序打印文件</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ls -lSh   <span class="comment"># -S: 按大小排序; -h: human readable</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ls -lShr  <span class="comment"># -r: 倒序</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ls -lShrR <span class="comment"># -R: 递归列出子文件夹</span></span></span><br></pre></td></tr></table></figure>
+
 <h1 id="在特定文件内查找内容"><a href="#在特定文件内查找内容" class="headerlink" title="在特定文件内查找内容"></a>在特定文件内查找内容</h1><p><strong>grep</strong></p>
-<pre><code class="shell">$ grep -inr --include pom.xml apollo . # i: 忽略大小写; r: 递归; n: 行号
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> grep -inr --include pom.xml apollo . <span class="comment"># i: 忽略大小写; r: 递归; n: 行号</span></span></span><br></pre></td></tr></table></figure>
+
 <p><strong>vim</strong></p>
-<pre><code class="shell">:vimgrep /apollo/g **/pom.xml 
-</code></pre>
-<h1 id="递归查找特定文件-夹"><a href="#递归查找特定文件-夹" class="headerlink" title="递归查找特定文件[夹]"></a>递归查找特定文件[夹]</h1><pre><code class="shell">$ find . -name &#39;\.idea&#39;
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:vimgrep /apollo/g **/pom.xml </span><br></pre></td></tr></table></figure>
+
+<h1 id="递归查找特定文件-夹"><a href="#递归查找特定文件-夹" class="headerlink" title="递归查找特定文件[夹]"></a>递归查找特定文件[夹]</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> find . -name <span class="string">&#x27;\.idea&#x27;</span></span></span><br></pre></td></tr></table></figure>
+
 <p><strong>删除</strong></p>
-<pre><code class="shell">$ find . -name &#39;\.idea&#39; | xargs rm  -r
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> find . -name <span class="string">&#x27;\.idea&#x27;</span> | xargs rm  -r</span></span><br></pre></td></tr></table></figure>
+
 <h1 id="目录栈"><a href="#目录栈" class="headerlink" title="目录栈"></a>目录栈</h1><p><code>dirs</code> : 查看当前目录栈</p>
 <ul>
 <li><code>-v</code> : 列出目录及其序号</li>
@@ -483,22 +446,13 @@ $ ls -lShrR # -R: 递归列出子文件夹
 </ul>
 <p><code>pushd</code> ：改变目录并将原目录压入栈</p>
 <p><code>popd</code> : 修改当前目录为栈顶目录并将栈顶目录出栈</p>
-<pre><code class="shell">$  ~ dirs
-~
-$  ~ pushd Downloads 
-~/Downloads ~
-$  Downloads dirs
-~/Downloads ~
-$  Downloads popd           
-~
-$  ~ dirs
-~
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">  ~ <span class="built_in">dirs</span></span></span><br><span class="line">~</span><br><span class="line"><span class="meta">$</span><span class="bash">  ~ <span class="built_in">pushd</span> Downloads</span> </span><br><span class="line">~/Downloads ~</span><br><span class="line"><span class="meta">$</span><span class="bash">  Downloads <span class="built_in">dirs</span></span></span><br><span class="line">~/Downloads ~</span><br><span class="line"><span class="meta">$</span><span class="bash">  Downloads <span class="built_in">popd</span></span>           </span><br><span class="line">~</span><br><span class="line"><span class="meta">$</span><span class="bash">  ~ <span class="built_in">dirs</span></span></span><br><span class="line">~</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/21/linux/notes/usage/" data-id="ckomwlrtk003brhn91y2y0y7p" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/21/linux/notes/usage/" data-id="ckonrt7vh003bc8n9gqc48xxe" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
@@ -536,54 +490,26 @@ $  ~ dirs
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h1><pre><code class="shell">$ diskutil partitionDisk disk4 GPT fat32 Linux 10% ExFat d2 10% ExFat d3 80%
-# 对 disk4 进行分区，GPT格式
-# 三个分区：
-#     Linux (fat32格式，10%空间)
-#     d2 (ExFat格式，10%空间)
-#   d3 (ExFat格式，80%空间)
-</code></pre>
+        <h1 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> diskutil partitionDisk disk4 GPT fat32 Linux 10% ExFat d2 10% ExFat d3 80%</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 对 disk4 进行分区，GPT格式</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 三个分区：</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 	Linux (fat32格式，10%空间)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 	d2 (ExFat格式，10%空间)</span></span><br><span class="line"><span class="meta">#</span><span class="bash">   d3 (ExFat格式，80%空间)</span></span><br></pre></td></tr></table></figure>
+
 <h1 id="Write-Bootable-ISO"><a href="#Write-Bootable-ISO" class="headerlink" title="Write Bootable ISO"></a>Write Bootable ISO</h1><p>目标磁盘尽量格式化为 <code>Mac OS Extended (Journaled)</code>，通过 <code>ls /Volumns</code> 查看目标磁盘。</p>
 <h2 id="Mac-OS"><a href="#Mac-OS" class="headerlink" title="Mac OS"></a>Mac OS</h2><p><strong>Big Sur</strong></p>
-<pre><code class="shell">$ sudo /Applications/Install\ macOS\ Big\ Sur.app/Contents/Resources/createinstallmedia --volume /Volumes/Big\ Sur --nointeraction # &quot;/Volumes/Big\ Sur&quot; 需要定制
-# output
-Erasing disk: 0%... 10%... 20%... 30%... 100%
-Copying to disk: 0%... 10%... 20%... 30%... 100%
-Making disk bootable...
-Install media now available at &quot;/Volumes/Install macOS Big Sur&quot;
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo /Applications/Install\ macOS\ Big\ Sur.app/Contents/Resources/createinstallmedia --volume /Volumes/Big\ Sur --nointeraction <span class="comment"># &quot;/Volumes/Big\ Sur&quot; 需要定制</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> output</span></span><br><span class="line">Erasing disk: 0%... 10%... 20%... 30%... 100%</span><br><span class="line">Copying to disk: 0%... 10%... 20%... 30%... 100%</span><br><span class="line">Making disk bootable...</span><br><span class="line">Install media now available at &quot;/Volumes/Install macOS Big Sur&quot;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果不显示进度，尝试重启终端 / 在 Disk Utility 中重新挂在卷</span></span><br></pre></td></tr></table></figure>
 
-# 如果不显示进度，尝试重启终端 / 在 Disk Utility 中重新挂在卷
-</code></pre>
 <p><strong>Catalina</strong></p>
-<pre><code class="shell">$ sudo /Applications/Install\ macOS\ Catalina.app/Contents/Resources/createinstallmedia --volume /Volumes/Catalina --nointeraction
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo /Applications/Install\ macOS\ Catalina.app/Contents/Resources/createinstallmedia --volume /Volumes/Catalina --nointeraction</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>参考</strong></p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://support.apple.com/en-us/HT201372">Apple</a></li>
 </ul>
-<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><pre><code class="shell"># 注: 暂时废弃
+<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 注: 暂时废弃</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 1. Convert ISO to DMG</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> hdiutil convert -format UDRW -o cn_windows_10_business_editions_version_2004_updated_sep_2020_x64_dvd_7134ba4b.img cn_windows_10_business_editions_version_2004_updated_sep_2020_x64_dvd_7134ba4b.iso</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> output 64_dvd_7134ba4b.iso</span></span><br><span class="line">Reading CPBA_X64FRE_ZH-CN_DV9            (Apple_UDF : 0)…</span><br><span class="line">..............................................................................................................................................................................................</span><br><span class="line">Elapsed Time: 12.059s</span><br><span class="line">Speed: 420.2Mbytes/sec</span><br><span class="line">Savings: 0.0%</span><br><span class="line">created: /Users/wii/Downloads/cn_windows_10_business_editions_version_2004_updated_sep_2020_x64_dvd_7134ba4b.img.dmg</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 2. Rename</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mv cn_windows_10_business_editions_version_2004_updated_sep_2020_x64_dvd_7134ba4b.img.dmg cn_windows_10_business_editions_version_2004_updated_sep_2020_x64_dvd_7134ba4b.img</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 3. 写入</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo dd <span class="keyword">if</span>=cn_windows_10_business_editions_version_2004_updated_sep_2020_x64_dvd_7134ba4b.img of=/dev/rdisk2s5 bs=1m</span></span><br></pre></td></tr></table></figure>
 
-#### 1. Convert ISO to DMG
-$ hdiutil convert -format UDRW -o cn_windows_10_business_editions_version_2004_updated_sep_2020_x64_dvd_7134ba4b.img cn_windows_10_business_editions_version_2004_updated_sep_2020_x64_dvd_7134ba4b.iso
-# output 64_dvd_7134ba4b.iso
-Reading CPBA_X64FRE_ZH-CN_DV9            (Apple_UDF : 0)…
-..............................................................................................................................................................................................
-Elapsed Time: 12.059s
-Speed: 420.2Mbytes/sec
-Savings: 0.0%
-created: /Users/wii/Downloads/cn_windows_10_business_editions_version_2004_updated_sep_2020_x64_dvd_7134ba4b.img.dmg
-
-#### 2. Rename
-$ mv cn_windows_10_business_editions_version_2004_updated_sep_2020_x64_dvd_7134ba4b.img.dmg cn_windows_10_business_editions_version_2004_updated_sep_2020_x64_dvd_7134ba4b.img
-
-#### 3. 写入
-$ sudo dd if=cn_windows_10_business_editions_version_2004_updated_sep_2020_x64_dvd_7134ba4b.img of=/dev/rdisk2s5 bs=1m
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/17/play/os%20x/install/" data-id="ckomwlrto003lrhn92a5y9oxn" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/17/play/os%20x/install/" data-id="ckonrt7vm003ic8n9c98lb498" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/os-x/" rel="tag">os x</a></li></ul>
@@ -628,7 +554,7 @@ $ sudo dd if=cn_windows_10_business_editions_version_2004_updated_sep_2020_x64_d
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/16/coding/java/notes/keywords/" data-id="ckomwlruw0080rhn9hl9lbcbs" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/16/coding/java/notes/keywords/" data-id="ckonrt7xh0084c8n91uvj250u" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/todo/" rel="tag">todo</a></li></ul>
@@ -666,22 +592,17 @@ $ sudo dd if=cn_windows_10_business_editions_version_2004_updated_sep_2020_x64_d
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h1><pre><code class="shell">$ vi /etc/hosts
-199.232.68.133 raw.githubusercontent.com
+        <h1 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> vi /etc/hosts</span></span><br><span class="line">199.232.68.133 raw.githubusercontent.com</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Plugin</span></span><br><span class="line">https://github.com/dlandon/unassigned.devices/raw/master/unassigned.devices.plg</span><br><span class="line">https://raw.githubusercontent.com/Squidly271/community.applications/master/plugins/community.applications.plg</span><br></pre></td></tr></table></figure>
 
-# Plugin
-https://github.com/dlandon/unassigned.devices/raw/master/unassigned.devices.plg
-https://raw.githubusercontent.com/Squidly271/community.applications/master/plugins/community.applications.plg
-</code></pre>
-<h1 id="VFIO"><a href="#VFIO" class="headerlink" title="VFIO"></a>VFIO</h1><pre><code class="shell">vfio-pci.ids=054c:0899
-</code></pre>
-<h1 id="Problems"><a href="#Problems" class="headerlink" title="Problems"></a>Problems</h1><h2 id="Requested-operation-is-not-valid-cannot-undefine-domain-with-nvram"><a href="#Requested-operation-is-not-valid-cannot-undefine-domain-with-nvram" class="headerlink" title="Requested operation is not valid: cannot undefine domain with nvram"></a>Requested operation is not valid: cannot undefine domain with nvram</h2><pre><code class="shell">$ virsh undefine --nvram &quot;Macinabox BigSur&quot;
-</code></pre>
+<h1 id="VFIO"><a href="#VFIO" class="headerlink" title="VFIO"></a>VFIO</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vfio-pci.ids=054c:0899</span><br></pre></td></tr></table></figure>
+
+<h1 id="Problems"><a href="#Problems" class="headerlink" title="Problems"></a>Problems</h1><h2 id="Requested-operation-is-not-valid-cannot-undefine-domain-with-nvram"><a href="#Requested-operation-is-not-valid-cannot-undefine-domain-with-nvram" class="headerlink" title="Requested operation is not valid: cannot undefine domain with nvram"></a>Requested operation is not valid: cannot undefine domain with nvram</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> virsh undefine --nvram <span class="string">&quot;Macinabox BigSur&quot;</span></span></span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/11/play/unraid/usage/" data-id="ckomwlrtu004arhn9gpce2yh7" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/11/play/unraid/usage/" data-id="ckonrt7vx004ac8n94u7a8f96" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/unriad/" rel="tag">unriad</a></li></ul>
@@ -750,7 +671,7 @@ https://raw.githubusercontent.com/Squidly271/community.applications/master/plugi
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -758,7 +679,7 @@ https://raw.githubusercontent.com/Squidly271/community.applications/master/plugi
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

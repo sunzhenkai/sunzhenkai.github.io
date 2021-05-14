@@ -29,6 +29,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -97,89 +99,21 @@
         <p>部署Consul可能会有一些坑，每个坑都可能导致非常严重的事故。</p>
 <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>配置详情参考<a target="_blank" rel="noopener" href="https://www.consul.io/docs/agent/options">官方文档</a>。在配置Consul集群时，重点在初始化集群。初始化一个Consul集群，首先需要部署<strong>主节点</strong>，并选举出<strong>Leader</strong>，然后部署<strong>代理节点</strong>，加入集群。</p>
 <p>部署主节点初始化集群，有两种方式。一种是指定Leader，并首先部署（bootstrap设置为true），其他主节点配置加入指定的Leader；另一种是不指定Leader（bootstrap设置为false），在主节点达到期望的数量时（bootstrap_expect），自动选举。第二种相对一第一种，更简单，且不容易出错。</p>
-<h2 id="master"><a href="#master" class="headerlink" title="master"></a>master</h2><pre><code class="json">&#123;
-    &quot;client_addr&quot;: &quot;0.0.0.0&quot;,
-    &quot;datacenter&quot;: &quot;consul-example&quot;,
-    &quot;data_dir&quot;: &quot;/srv/consul/consul.d&quot;,
-    &quot;domain&quot;: &quot;dev&quot;,
-    &quot;dns_config&quot;: &#123;
-        &quot;enable_truncate&quot;: true,
-        &quot;only_passing&quot;: true
-    &#125;,
-    &quot;enable_syslog&quot;: true,
-    &quot;encrypt&quot;: &quot;MUEfHaiegJAg9oKogQYG9G5xDg3Bp1eBe/wd4OpoWwE=&quot;,
-    &quot;leave_on_terminate&quot;: true,
-    &quot;log_level&quot;: &quot;INFO&quot;,
-    &quot;rejoin_after_leave&quot;: true,
-    &quot;server&quot;: true,
-    &quot;bootstrap&quot;: false,
-    &quot;bootstrap_expect&quot;: 3,
-    &quot;retry_join&quot;: [
-        &quot;172.17.0.2&quot;,
-        &quot;172.17.0.3&quot;,
-        &quot;172.17.0.4&quot;
-    ],
-    &quot;ui&quot;: true
-&#125;
-</code></pre>
+<h2 id="master"><a href="#master" class="headerlink" title="master"></a>master</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;client_addr&quot;</span>: <span class="string">&quot;0.0.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;datacenter&quot;</span>: <span class="string">&quot;consul-example&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;data_dir&quot;</span>: <span class="string">&quot;/srv/consul/consul.d&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;domain&quot;</span>: <span class="string">&quot;dev&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;dns_config&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;enable_truncate&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">&quot;only_passing&quot;</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;enable_syslog&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;encrypt&quot;</span>: <span class="string">&quot;MUEfHaiegJAg9oKogQYG9G5xDg3Bp1eBe/wd4OpoWwE=&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;leave_on_terminate&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;log_level&quot;</span>: <span class="string">&quot;INFO&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;rejoin_after_leave&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;server&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;bootstrap&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;bootstrap_expect&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;retry_join&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;172.17.0.2&quot;</span>,</span><br><span class="line">        <span class="string">&quot;172.17.0.3&quot;</span>,</span><br><span class="line">        <span class="string">&quot;172.17.0.4&quot;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;ui&quot;</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><strong>注意事项</strong></p>
 <ul>
 <li><strong>在docker中，enable_syslog 需要设置为false，否则可能会启动失败</strong></li>
 <li><strong>encrypt 需要使用命令 <code>consul keygen</code> 重新生成并更新</strong></li>
 </ul>
-<h2 id="agent"><a href="#agent" class="headerlink" title="agent"></a>agent</h2><pre><code class="json">&#123;
-    &quot;client_addr&quot;: &quot;0.0.0.0&quot;,
-    &quot;datacenter&quot;: &quot;consul-example&quot;,
-    &quot;data_dir&quot;: &quot;/srv/consul/consul.d&quot;,
-    &quot;domain&quot;: &quot;dev&quot;,
-    &quot;dns_config&quot;: &#123;
-        &quot;enable_truncate&quot;: true,
-        &quot;only_passing&quot;: true
-    &#125;,
-    &quot;enable_syslog&quot;: true,
-    &quot;encrypt&quot;: &quot;MUEfHaiegJAg9oKogQYG9G5xDg3Bp1eBe/wd4OpoWwE=&quot;,
-    &quot;leave_on_terminate&quot;: true,
-    &quot;log_level&quot;: &quot;INFO&quot;,
-    &quot;rejoin_after_leave&quot;: true,
-    &quot;server&quot;: false,
-    &quot;bootstrap&quot;: false,
-    &quot;retry_join&quot;: [
-        &quot;172.17.0.2&quot;,
-        &quot;172.17.0.3&quot;,
-        &quot;172.17.0.4&quot;
-    ],
-    &quot;ui&quot;: false
-&#125;
-</code></pre>
-<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="下载容器"><a href="#下载容器" class="headerlink" title="下载容器"></a>下载容器</h2><pre><code class="shell">$ docker pull ubuntu:18.04
-</code></pre>
-<h1 id="主节点"><a href="#主节点" class="headerlink" title="主节点"></a>主节点</h1><h2 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h2><pre><code class="shell">$ docker run -it -d --restart=always -p 8500:8500 --name=consul-srv1 ubuntu:18.04 # 绑定端口，用于访问界面
-$ docker run -it -d --restart=always -p 8501:8501 --name=consul-srv2 ubuntu:18.04 # 可以不绑定端口
-$ docker run -it -d --restart=always -p 8502:8502 --name=consul-srv3 ubuntu:18.04 # 可以不绑定端口
-</code></pre>
-<h2 id="获取IP"><a href="#获取IP" class="headerlink" title="获取IP"></a>获取IP</h2><pre><code class="shell"># 登录容器
-$ docker exec -it consul-srv1 /bin/bash
+<h2 id="agent"><a href="#agent" class="headerlink" title="agent"></a>agent</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;client_addr&quot;</span>: <span class="string">&quot;0.0.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;datacenter&quot;</span>: <span class="string">&quot;consul-example&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;data_dir&quot;</span>: <span class="string">&quot;/srv/consul/consul.d&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;domain&quot;</span>: <span class="string">&quot;dev&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;dns_config&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;enable_truncate&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">&quot;only_passing&quot;</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;enable_syslog&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;encrypt&quot;</span>: <span class="string">&quot;MUEfHaiegJAg9oKogQYG9G5xDg3Bp1eBe/wd4OpoWwE=&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;leave_on_terminate&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;log_level&quot;</span>: <span class="string">&quot;INFO&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;rejoin_after_leave&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;server&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;bootstrap&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;retry_join&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;172.17.0.2&quot;</span>,</span><br><span class="line">        <span class="string">&quot;172.17.0.3&quot;</span>,</span><br><span class="line">        <span class="string">&quot;172.17.0.4&quot;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;ui&quot;</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-# 初始化容器
-$ apt update &amp;&amp; apt install -y iproute2 wget unzip vim
+<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="下载容器"><a href="#下载容器" class="headerlink" title="下载容器"></a>下载容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker pull ubuntu:18.04</span></span><br></pre></td></tr></table></figure>
 
-# 获取IP
-## 1. 通过 hosts 文件获取
-$ cat /etc/hosts
-127.0.0.1    localhost
-::1    localhost ip6-localhost ip6-loopback
-fe00::0    ip6-localnet
-ff00::0    ip6-mcastprefix
-ff02::1    ip6-allnodes
-ff02::2    ip6-allrouters
-172.17.0.2    e7cdefc0954c
-## 2. 通过 ip 命令获取
-$ apt update &amp;&amp; apt install iproute2
-$ ip address
-...
-inet 172.17.0.2/16
-...
-</code></pre>
+<h1 id="主节点"><a href="#主节点" class="headerlink" title="主节点"></a>主节点</h1><h2 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run -it -d --restart=always -p 8500:8500 --name=consul-srv1 ubuntu:18.04 <span class="comment"># 绑定端口，用于访问界面</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker run -it -d --restart=always -p 8501:8501 --name=consul-srv2 ubuntu:18.04 <span class="comment"># 可以不绑定端口</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker run -it -d --restart=always -p 8502:8502 --name=consul-srv3 ubuntu:18.04 <span class="comment"># 可以不绑定端口</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="获取IP"><a href="#获取IP" class="headerlink" title="获取IP"></a>获取IP</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 登录容器</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker <span class="built_in">exec</span> -it consul-srv1 /bin/bash</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 初始化容器</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> apt update &amp;&amp; apt install -y iproute2 wget unzip vim</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 获取IP</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 1. 通过 hosts 文件获取</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat /etc/hosts</span></span><br><span class="line">127.0.0.1	localhost</span><br><span class="line">::1	localhost ip6-localhost ip6-loopback</span><br><span class="line">fe00::0	ip6-localnet</span><br><span class="line">ff00::0	ip6-mcastprefix</span><br><span class="line">ff02::1	ip6-allnodes</span><br><span class="line">ff02::2	ip6-allrouters</span><br><span class="line">172.17.0.2	e7cdefc0954c</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 2. 通过 ip 命令获取</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> apt update &amp;&amp; apt install iproute2</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ip address</span></span><br><span class="line">...</span><br><span class="line">inet 172.17.0.2/16</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
 <table>
 <thead>
 <tr>
@@ -200,41 +134,21 @@ inet 172.17.0.2/16
 <td>172.17.0.4</td>
 </tr>
 </tbody></table>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><pre><code class="shell"># 创建服务目录
-$ mkdir /srv/consul &amp;&amp; cd /srv/consul
-# 下载 consul
-$ wget https://releases.hashicorp.com/consul/1.9.0/consul_1.9.0_linux_amd64.zip
-# 解压
-$ unzip consul_1.9.0_linux_amd64.zip
-# 添加配置文件
-$ vim config.json
-# 写入配置文件，把 enable_syslog 设为 false
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建服务目录</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mkdir /srv/consul &amp;&amp; <span class="built_in">cd</span> /srv/consul</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 下载 consul</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> wget https://releases.hashicorp.com/consul/1.9.0/consul_1.9.0_linux_amd64.zip</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 解压</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> unzip consul_1.9.0_linux_amd64.zip</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加配置文件</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim config.json</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 写入配置文件，把 enable_syslog 设为 <span class="literal">false</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加启动脚本</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim run-consul.sh <span class="comment"># 输入如下内容</span></span></span><br><span class="line">[ ! -d /srv/consul/consul.d ] &amp;&amp; mkdir /srv/consul/consul.d</span><br><span class="line">config_dir=&quot;/srv/consul/config.json&quot;</span><br><span class="line">host_name=&quot;`hostname --fqdn`&quot;</span><br><span class="line">host_ip=`hostname -I | awk &#x27;&#123;print $1&#125;&#x27;`</span><br><span class="line">consul agent -config-dir=&quot;$config_dir&quot; -bind=$host_ip</span><br></pre></td></tr></table></figure>
 
-# 添加启动脚本
-$ vim run-consul.sh # 输入如下内容
-[ ! -d /srv/consul/consul.d ] &amp;&amp; mkdir /srv/consul/consul.d
-config_dir=&quot;/srv/consul/config.json&quot;
-host_name=&quot;`hostname --fqdn`&quot;
-host_ip=`hostname -I | awk &#39;&#123;print $1&#125;&#39;`
-consul agent -config-dir=&quot;$config_dir&quot; -bind=$host_ip
-</code></pre>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code class="shell">$ export PATH=.:$PATH &amp;&amp; bash run-consul.sh
-</code></pre>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> PATH=.:<span class="variable">$PATH</span> &amp;&amp; bash run-consul.sh</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>访问UI界面</strong></p>
 <p>浏览器打开地址 <a target="_blank" rel="noopener" href="http://localhost:8500/%E3%80%82">http://localhost:8500/。</a></p>
 <p><img src="/2020/12/28/architecture/discovery/consul/install/001.jpg"></p>
-<h1 id="代理节点"><a href="#代理节点" class="headerlink" title="代理节点"></a>代理节点</h1><h2 id="创建容器-1"><a href="#创建容器-1" class="headerlink" title="创建容器"></a>创建容器</h2><pre><code class="shell">$ docker run -it -d --restart=always --name=consul-agt1 ubuntu:18.04
-</code></pre>
-<h2 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h2><p>首先登陆容器。</p>
-<pre><code class="shell"># 登录容器
-$ docker exec -it consul-agt1 /bin/bash
+<h1 id="代理节点"><a href="#代理节点" class="headerlink" title="代理节点"></a>代理节点</h1><h2 id="创建容器-1"><a href="#创建容器-1" class="headerlink" title="创建容器"></a>创建容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run -it -d --restart=always --name=consul-agt1 ubuntu:18.04</span></span><br></pre></td></tr></table></figure>
 
-# 初始化容器
-$ apt update &amp;&amp; apt install -y iproute2 wget unzip vim
-</code></pre>
+<h2 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h2><p>首先登陆容器。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 登录容器</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker <span class="built_in">exec</span> -it consul-agt1 /bin/bash</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 初始化容器</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> apt update &amp;&amp; apt install -y iproute2 wget unzip vim</span></span><br></pre></td></tr></table></figure>
+
 <p>初始化和主节点一致。</p>
-<h2 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h2><pre><code class="shell">$ export PATH=.:$PATH &amp;&amp; bash run-consul.sh
-</code></pre>
+<h2 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> PATH=.:<span class="variable">$PATH</span> &amp;&amp; bash run-consul.sh</span></span><br></pre></td></tr></table></figure>
+
 <p>访问界面，可以看到Agent信息。</p>
 <p><img src="/2020/12/28/architecture/discovery/consul/install/003.jpg"></p>
 <p><img src="/2020/12/28/architecture/discovery/consul/install/002.jpg"></p>
@@ -255,7 +169,7 @@ $ apt update &amp;&amp; apt install -y iproute2 wget unzip vim
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/28/architecture/discovery/consul/install/" data-id="ckomwlrua005xrhn9c5r814ul" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/28/architecture/discovery/consul/install/" data-id="ckonrt7wn005xc8n98a8c8iiz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/consul/" rel="tag">consul</a></li></ul>
@@ -266,11 +180,11 @@ $ apt update &amp;&amp; apt install -y iproute2 wget unzip vim
     
 <nav id="article-nav">
   
-    <a href="/2020/12/29/tools/mac/software/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/12/29/architecture/framework/spring%20boot/problems/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          mac 软件
+          spring boot 常见问题
         
       </div>
     </a>
@@ -336,7 +250,7 @@ $ apt update &amp;&amp; apt install -y iproute2 wget unzip vim
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -344,7 +258,7 @@ $ apt update &amp;&amp; apt install -y iproute2 wget unzip vim
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

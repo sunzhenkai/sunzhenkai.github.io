@@ -7,12 +7,12 @@
   
   <title>vim 插件 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Command-T安装安装Ruby  源码安装 $ .&#x2F;configure --prefix&#x3D;&#x2F;home&#x2F;work&#x2F;sunzhenkai&#x2F;bin&#x2F;ruby --enable-shared $ make -j24 $ make install   使用ruby-install安装  Github  https:&#x2F;&#x2F;github.com&#x2F;postmodern&#x2F;ruby-install.git   安装">
+  <meta name="description" content="Command-T安装安装Ruby  源码安装 123$ .&#x2F;configure --prefix&#x3D;&#x2F;home&#x2F;work&#x2F;sunzhenkai&#x2F;bin&#x2F;ruby --enable-shared$ make -j24$ make install 使用ruby-install安装  Github  https:&#x2F;&#x2F;github.com&#x2F;postmodern&#x2F;ruby-install.git   安装">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vim 插件">
 <meta property="og:url" content="http://wii.pub/2020/12/30/tools/vim/plugin/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="Command-T安装安装Ruby  源码安装 $ .&#x2F;configure --prefix&#x3D;&#x2F;home&#x2F;work&#x2F;sunzhenkai&#x2F;bin&#x2F;ruby --enable-shared $ make -j24 $ make install   使用ruby-install安装  Github  https:&#x2F;&#x2F;github.com&#x2F;postmodern&#x2F;ruby-install.git   安装">
+<meta property="og:description" content="Command-T安装安装Ruby  源码安装 123$ .&#x2F;configure --prefix&#x3D;&#x2F;home&#x2F;work&#x2F;sunzhenkai&#x2F;bin&#x2F;ruby --enable-shared$ make -j24$ make install 使用ruby-install安装  Github  https:&#x2F;&#x2F;github.com&#x2F;postmodern&#x2F;ruby-install.git   安装">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-12-30T11:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.653Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -93,11 +95,7 @@
         <h1 id="Command-T"><a href="#Command-T" class="headerlink" title="Command-T"></a>Command-T</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><strong>安装Ruby</strong></p>
 <ul>
 <li><p>源码安装</p>
-<pre><code class="shell">$ ./configure --prefix=/home/work/sunzhenkai/bin/ruby --enable-shared
-$ make -j24
-$ make install
-</code></pre>
-</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./configure --prefix=/home/work/sunzhenkai/bin/ruby --enable-shared</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make -j24</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make install</span></span><br></pre></td></tr></table></figure></li>
 <li><p>使用ruby-install安装</p>
 <ul>
 <li><p>Github</p>
@@ -106,95 +104,32 @@ $ make install
 </ul>
 </li>
 <li><p>安装</p>
-<pre><code class="shell">$ cd ruby-install
-$ ./bin/ruby-install --install-dir /home/work/sunzhenkai/bin/ruby ruby
-</code></pre>
-</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ruby-install</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./bin/ruby-install --install-dir /home/work/sunzhenkai/bin/ruby ruby</span></span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 </ul>
 <p><strong>异常</strong></p>
 <ul>
 <li><p>找不到 libruby.so.***</p>
-<pre><code class="shell">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/work/sunzhenkai/bin/ruby/lib
-</code></pre>
-</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/work/sunzhenkai/bin/ruby/lib</span><br></pre></td></tr></table></figure></li>
 <li><p>Command-T plugin error: could not load the C extension</p>
-<pre><code class="shell">$ cd /path/to/command-t
-$ rake make
-</code></pre>
-</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> /path/to/command-t</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> rake make</span></span><br></pre></td></tr></table></figure></li>
 </ul>
 <p><strong>Github</strong></p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/wincent/command-t">https://github.com/wincent/command-t</a></li>
 </ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h1 id="NERDTree"><a href="#NERDTree" class="headerlink" title="NERDTree"></a>NERDTree</h1><h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><pre><code class="shell">Plugin &#39;scrooloose/nerdtree&#39;
-</code></pre>
-<h2 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h2><pre><code class="shell">#### 注册热键
-map &lt;C-n&gt; :NERDTreeToggle&lt;CR&gt;  # ctrl+n 唤起 NERDTree
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h1 id="NERDTree"><a href="#NERDTree" class="headerlink" title="NERDTree"></a>NERDTree</h1><h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plugin &#x27;scrooloose/nerdtree&#x27;</span><br></pre></td></tr></table></figure>
 
-#### 切换工作台和目录
-ctrl + w + h    光标 focus 左侧树形目录
-ctrl + w + l    光标 focus 右侧文件显示窗口
-ctrl + w + w    光标自动在左右侧窗口切换
-ctrl + w + r    移动当前窗口的布局位置
+<h2 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 注册热键</span></span></span><br><span class="line">map &lt;C-n&gt; :NERDTreeToggle&lt;CR&gt;  # ctrl+n 唤起 NERDTree</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 切换工作台和目录</span></span></span><br><span class="line">ctrl + w + h    光标 focus 左侧树形目录</span><br><span class="line">ctrl + w + l    光标 focus 右侧文件显示窗口</span><br><span class="line">ctrl + w + w    光标自动在左右侧窗口切换</span><br><span class="line">ctrl + w + r    移动当前窗口的布局位置</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> * 为常用</span></span><br><span class="line">o       在已有窗口中打开文件、目录或书签，并跳到该窗口</span><br><span class="line">go      在已有窗口 中打开文件、目录或书签，但不跳到该窗口</span><br><span class="line">t       在新 Tab 中打开选中文件/书签，并跳到新 Tab</span><br><span class="line">T       在新 Tab 中打开选中文件/书签，但不跳到新 Tab</span><br><span class="line">i       split 一个新窗口打开选中文件，并跳到该窗口</span><br><span class="line">gi      split 一个新窗口打开选中文件，但不跳到该窗口</span><br><span class="line">s       vsplit 一个新窗口打开选中文件，并跳到该窗口</span><br><span class="line">gs      vsplit 一个新 窗口打开选中文件，但不跳到该窗口</span><br><span class="line">!       执行当前文件</span><br><span class="line">O       递归打开选中 结点下的所有目录</span><br><span class="line">m       * 文件操作：复制、删除、移动等</span><br><span class="line">x       收起当前打开的目录</span><br><span class="line">X       收起所有打开的目录</span><br><span class="line">e       以文件管理的方式打开选中的目录</span><br><span class="line">D       删除书签</span><br><span class="line">P       大写，跳转到当前根路径</span><br><span class="line">p       小写，跳转到光标所在的上一级路径</span><br><span class="line">K       跳转到第一个子路径</span><br><span class="line">J       跳转到最后一个子路径</span><br><span class="line">&lt;C-j&gt; 和 &lt;C-k&gt;       在同级目录和文件间移动，忽略子目录和子文件</span><br><span class="line">U       设置上级目录为跟路径，但是维持原来目录打开的状态</span><br><span class="line">R       刷新当前根路径</span><br><span class="line">I       * 显示或者不显示隐藏文件</span><br><span class="line">f       打开和关闭文件过滤器</span><br><span class="line">q       关闭 NERDTree</span><br><span class="line">A       全屏显示 NERDTree，或者关闭全屏</span><br><span class="line"></span><br><span class="line">r       * 刷新光标所在的目录</span><br><span class="line">C       * 将根路径设置为光标所在的目录</span><br><span class="line">u       * 设置上级目录为根路径</span><br><span class="line">cd		  * 设置当前工作路径</span><br></pre></td></tr></table></figure>
 
-# * 为常用
-o       在已有窗口中打开文件、目录或书签，并跳到该窗口
-go      在已有窗口 中打开文件、目录或书签，但不跳到该窗口
-t       在新 Tab 中打开选中文件/书签，并跳到新 Tab
-T       在新 Tab 中打开选中文件/书签，但不跳到新 Tab
-i       split 一个新窗口打开选中文件，并跳到该窗口
-gi      split 一个新窗口打开选中文件，但不跳到该窗口
-s       vsplit 一个新窗口打开选中文件，并跳到该窗口
-gs      vsplit 一个新 窗口打开选中文件，但不跳到该窗口
-!       执行当前文件
-O       递归打开选中 结点下的所有目录
-m       * 文件操作：复制、删除、移动等
-x       收起当前打开的目录
-X       收起所有打开的目录
-e       以文件管理的方式打开选中的目录
-D       删除书签
-P       大写，跳转到当前根路径
-p       小写，跳转到光标所在的上一级路径
-K       跳转到第一个子路径
-J       跳转到最后一个子路径
-&lt;C-j&gt; 和 &lt;C-k&gt;       在同级目录和文件间移动，忽略子目录和子文件
-U       设置上级目录为跟路径，但是维持原来目录打开的状态
-R       刷新当前根路径
-I       * 显示或者不显示隐藏文件
-f       打开和关闭文件过滤器
-q       关闭 NERDTree
-A       全屏显示 NERDTree，或者关闭全屏
+<h1 id="vim-javacomplete2"><a href="#vim-javacomplete2" class="headerlink" title="vim-javacomplete2"></a>vim-javacomplete2</h1><h2 id="安装-2"><a href="#安装-2" class="headerlink" title="安装"></a>安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plugin &#x27;artur-shaik/vim-javacomplete2&#x27;</span><br></pre></td></tr></table></figure>
 
-r       * 刷新光标所在的目录
-C       * 将根路径设置为光标所在的目录
-u       * 设置上级目录为根路径
-cd          * 设置当前工作路径
-</code></pre>
-<h1 id="vim-javacomplete2"><a href="#vim-javacomplete2" class="headerlink" title="vim-javacomplete2"></a>vim-javacomplete2</h1><h2 id="安装-2"><a href="#安装-2" class="headerlink" title="安装"></a>安装</h2><pre><code class="shell">Plugin &#39;artur-shaik/vim-javacomplete2&#39;
-</code></pre>
-<h1 id="YouCompleteMe"><a href="#YouCompleteMe" class="headerlink" title="YouCompleteMe"></a>YouCompleteMe</h1><pre><code class="shell"># 1 下载
-## .vimrc
-Plugin &#39;Valloric/YouCompleteMe&#39;
-## vim
-:PluginInstall
-
-# 2 Mac OS
-## 2.1 依赖
-$ brew install mono
-$ brew install go
-## 2.2 编译
-$ cd ~/.vim/bundle/YouCompleteMe
-$ git submodule update --init --recursive
-$ ./install.py --all --clangd-completer
-</code></pre>
-
+<h1 id="YouCompleteMe"><a href="#YouCompleteMe" class="headerlink" title="YouCompleteMe"></a>YouCompleteMe</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1 下载</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># .vimrc</span></span></span><br><span class="line">Plugin &#x27;Valloric/YouCompleteMe&#x27;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># vim</span></span></span><br><span class="line">:PluginInstall</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2 Mac OS</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 2.1 依赖</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew install mono</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew install go</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 2.2 编译</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/.vim/bundle/YouCompleteMe</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git submodule update --init --recursive</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./install.py --all --clangd-completer</span></span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/30/tools/vim/plugin/" data-id="ckomwlru7005orhn9273t5nrr" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/30/tools/vim/plugin/" data-id="ckonrt7wi005oc8n99ero0o4h" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/" rel="tag">vim</a></li></ul>
@@ -275,7 +210,7 @@ $ ./install.py --all --clangd-completer
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -283,7 +218,7 @@ $ ./install.py --all --clangd-completer
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

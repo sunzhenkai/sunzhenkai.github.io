@@ -15,7 +15,7 @@
 <meta property="og:description" content="说明不定期更新装黑苹果的流程和问题处理，提供两个具体的基于 OpenCore 的 config.plist。 流程该流程基于 OpenCore，使用 Mac OS，config.plist 主要参考 这里，具体流程如下。 下载镜像  百度搜索 黑果小兵，找下最新的系统镜像  制作启动盘  如果无需制作多启动优盘，使用 etcher 写入即可 如果需要制作多启动优盘，需要使用命令，参考 这里 制作">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-01-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-05-13T13:04:12.648Z">
+<meta property="article:modified_time" content="2021-05-13T13:19:53.265Z">
 <meta property="article:tag" content="os x">
 <meta name="twitter:card" content="summary">
   
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -110,27 +112,19 @@
 <h1 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h1><h2 id="whatevergreen-failed-to-route-IsTypeCOnlySystem"><a href="#whatevergreen-failed-to-route-IsTypeCOnlySystem" class="headerlink" title="whatevergreen: failed to route IsTypeCOnlySystem"></a><code>whatevergreen: failed to route IsTypeCOnlySystem</code></h2><p><code>whatevergreen</code> 报 <code>failed to route IsTypeCOnlySystem</code> 异常，如果是使用集显，需要调整 device-properties。</p>
 <h2 id="DSDT-HPET-aml"><a href="#DSDT-HPET-aml" class="headerlink" title="DSDT_HPET.aml"></a>DSDT_HPET.aml</h2><p>Dell Optiplex 7050 使用 OpenCore 0.6.5 安装 Big Sur (11.1) 后，板载声卡无法识别，Lilu.kext + AppleALC.kext 换各种 layout-id 无解。后参考这篇<a target="_blank" rel="noopener" href="https://www.tonymacx86.com/threads/help-mojave-alc-255-dell.274856/">帖子</a>，需要 fix Comment-IRQ，如果使用 Clover 的话，在 ACPI 勾选 <code>FixHPET</code>、<code>FixIPIC</code> 、 <code>FixRTC</code> 、<code>FixTMR</code> 即可，使用 OpenCore 的话，略微麻烦。</p>
 <p><strong>首先，获取机器的 DSDT.aml</strong> ，参考<a target="_blank" rel="noopener" href="https://dortania.github.io/Getting-Started-With-ACPI/Manual/dump.html#from-opencore">这篇文章</a> ，我使用 UEFI Shell 方式，需要下载 <a target="_blank" rel="noopener" href="https://github.com/dortania/OpenCore-Install-Guide/tree/master/extra-files/acpidump.efi.zip">acpidump.efi</a> ，和 OpenShell.efi（在下载的 OpenCore 中） 一并放入 <code>/EFI/OC/Tools</code> 下面，并在 config.plist 的 <code>Misc -&gt; Tools</code> 下面启用，具体参考文章。重启，在引导界面进入 Open Shell，输入如下命令。</p>
-<pre><code class="shell">shell&gt; fs0: // 替换为实际分区，进入OpenShell后会有分区提示
-fs0:\&gt; dir  // 查看分区文件，确认选的分区是否正确
-   Directory of fs0:\
-   01/01/01 3:30p EFI
-fs0:\&gt; cd EFI\OC\Tools   
-fs0:\EFI\OC\Tools&gt; acpidump.efi -b -n DSDT -z  
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">shell&gt;</span><span class="bash"> fs0: // 替换为实际分区，进入OpenShell后会有分区提示</span></span><br><span class="line">fs0:\&gt; dir  // 查看分区文件，确认选的分区是否正确</span><br><span class="line">   Directory of fs0:\</span><br><span class="line">   01/01/01 3:30p EFI</span><br><span class="line">fs0:\&gt; cd EFI\OC\Tools   </span><br><span class="line">fs0:\EFI\OC\Tools&gt; acpidump.efi -b -n DSDT -z  </span><br></pre></td></tr></table></figure>
+
 <p>运行完上面命令后，会在EFI分区生成多个 <code>*.dat</code> 文件，我们把 <code>dsdt.dat</code> 拿出来，重命名为 <code>DSDT.aml</code>。</p>
 <p><strong>然后，使用工具生成 <code>SSDT-HPET.aml</code> 文件</strong>。下载工具 <a target="_blank" rel="noopener" href="https://github.com/corpnewt/SSDTTime">SSDTTime</a>，双击 <a target="_blank" rel="noopener" href="https://github.com/corpnewt/SSDTTime/blob/master/SSDTTime.command">SSDTTime.command</a> 运行，选择 <code>FixHPET    - Patch Out IRQ Conflicts</code> ，把生成好的 <code>DSDT.aml</code> 拖入终端，按照提示操作，最后会生成四个文件。</p>
-<pre><code>patches_Clover.plist
-patches_OC.plist
-SSDT-HPET.aml
-SSDT-HPET.dsl
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">patches_Clover.plist</span><br><span class="line">patches_OC.plist</span><br><span class="line">SSDT-HPET.aml</span><br><span class="line">SSDT-HPET.dsl</span><br></pre></td></tr></table></figure>
+
 <p><strong>接下来，需要做的是拷贝文件和Patch</strong>，把 SSDT-HPET.aml 拷贝至 <code>EFI/OC/ACPI</code> 文件夹下，并用 OpenCore Configurator 打开 <code>patches_OC.plist</code>，把 ACPI 项内的数据复制至我们自己的 config.plist 中。</p>
 <p>至此，打工搞成。可解决 ALC255/ALC3243 声卡无法识别问题。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/25/play/os%20x/black%20apple/" data-id="ckomwlrtn003irhn98pnyek14" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/01/25/play/os%20x/black%20apple/" data-id="ckonrt7vj003ec8n93ase6oye" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/os-x/" rel="tag">os x</a></li></ul>
@@ -211,7 +205,7 @@ SSDT-HPET.dsl
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -219,7 +213,7 @@ SSDT-HPET.dsl
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

@@ -7,12 +7,12 @@
   
   <title>python virtualenv | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="安装# ubuntu $ sudo apt install python3-pip # 安装pip3 ## OR $ sudo apt-get install python-pip python-dev python-virtualenv # for Python 2.7 $ sudo apt-get install python3-pip python3-dev python-virtualen">
+  <meta name="description" content="安装12345678# ubuntu$ sudo apt install python3-pip # 安装pip3## OR$ sudo apt-get install python-pip python-dev python-virtualenv # for Python 2.7$ sudo apt-get install python3-pip python3-dev python-virtu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python virtualenv">
 <meta property="og:url" content="http://wii.pub/2020/12/10/coding/python/library/virtualenv/usage/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="安装# ubuntu $ sudo apt install python3-pip # 安装pip3 ## OR $ sudo apt-get install python-pip python-dev python-virtualenv # for Python 2.7 $ sudo apt-get install python3-pip python3-dev python-virtualen">
+<meta property="og:description" content="安装12345678# ubuntu$ sudo apt install python3-pip # 安装pip3## OR$ sudo apt-get install python-pip python-dev python-virtualenv # for Python 2.7$ sudo apt-get install python3-pip python3-dev python-virtu">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-12-10T11:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.581Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,54 +92,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code class="shell"># ubuntu
-$ sudo apt install python3-pip # 安装pip3
-## OR
-$ sudo apt-get install python-pip python-dev python-virtualenv # for Python 2.7
-$ sudo apt-get install python3-pip python3-dev python-virtualenv # for Python 3.n
+        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ubuntu</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt install python3-pip <span class="comment"># 安装pip3</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># OR</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install python-pip python-dev python-virtualenv <span class="comment"># for Python 2.7</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install python3-pip python3-dev python-virtualenv <span class="comment"># for Python 3.n</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> pip</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip3 install virtualenv</span></span><br></pre></td></tr></table></figure>
 
-# pip
-$ pip3 install virtualenv
-</code></pre>
-<h2 id="新建虚拟环境"><a href="#新建虚拟环境" class="headerlink" title="新建虚拟环境"></a>新建虚拟环境</h2><pre><code class="shell">$ virtualenv venv    # sample
+<h2 id="新建虚拟环境"><a href="#新建虚拟环境" class="headerlink" title="新建虚拟环境"></a>新建虚拟环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> virtualenv venv	<span class="comment"># sample</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> virtualenv --no-site-packages venv     <span class="comment"># 不使用外部库; 默认不使用，在virtualenv&gt;=20版本中移除，添加上可能会报错</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> virtualenv --system-site-packages venv <span class="comment"># 使用系统库</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> virtualenv -p python3 venv             <span class="comment"># 指定Python版本</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> virtualenv --copies venv 							 <span class="comment"># 复制Python程序等，而不是链接</span></span></span><br></pre></td></tr></table></figure>
 
-$ virtualenv --no-site-packages venv     # 不使用外部库; 默认不使用，在virtualenv&gt;=20版本中移除，添加上可能会报错
-$ virtualenv --system-site-packages venv # 使用系统库
-$ virtualenv -p python3 venv             # 指定Python版本
-$ virtualenv --copies venv                              # 复制Python程序等，而不是链接
-</code></pre>
-<h2 id="激活新环境"><a href="#激活新环境" class="headerlink" title="激活新环境"></a>激活新环境</h2><pre><code class="shell"># 进入环境
-$ cd venv 
-# 激活
-$ source bin/activate
+<h2 id="激活新环境"><a href="#激活新环境" class="headerlink" title="激活新环境"></a>激活新环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入环境</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> venv</span> </span><br><span class="line"><span class="meta">#</span><span class="bash"> 激活</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">source</span> bin/activate</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">source</span> bin/activate <span class="comment"># bash, sh, ksh, or zsh</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">source</span> bin/activate.csh  <span class="comment"># csh or tcsh</span></span></span><br></pre></td></tr></table></figure>
 
-$ source bin/activate # bash, sh, ksh, or zsh
-$ source bin/activate.csh  # csh or tcsh
-</code></pre>
-<h2 id="退出环境"><a href="#退出环境" class="headerlink" title="退出环境"></a>退出环境</h2><pre><code class="shell">deactivate
-</code></pre>
-<h2 id="配合supervisor"><a href="#配合supervisor" class="headerlink" title="配合supervisor"></a>配合supervisor</h2><h3 id="supervisor配置文件"><a href="#supervisor配置文件" class="headerlink" title="supervisor配置文件"></a>supervisor配置文件</h3><pre><code class="ini">[program:myproj-uwsgi]
-process_name=myproj-uwsgi
-command=/home/myuser/.virtualenvs/myproj/bin/uwsgi
-    --chdir /home/myuser/projects/myproj
-    -w myproj:app
-environment=PATH=&quot;/home/myuser/.virtualenvs/myproj/bin:%(ENV_PATH)s&quot;
-user=myuser
-group=myuser
-killasgroup=true
-startsecs=5
-stopwaitsecs=10
-</code></pre>
-<h2 id="导出环境"><a href="#导出环境" class="headerlink" title="导出环境"></a>导出环境</h2><pre><code class="shell"># 导出
-$ pip freeze &gt; requirements
-# 安装
-$ pip install -r requirements
-</code></pre>
+<h2 id="退出环境"><a href="#退出环境" class="headerlink" title="退出环境"></a>退出环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
 
+<h2 id="配合supervisor"><a href="#配合supervisor" class="headerlink" title="配合supervisor"></a>配合supervisor</h2><h3 id="supervisor配置文件"><a href="#supervisor配置文件" class="headerlink" title="supervisor配置文件"></a>supervisor配置文件</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[program:myproj-uwsgi]</span></span><br><span class="line"><span class="attr">process_name</span>=myproj-uwsgi</span><br><span class="line"><span class="attr">command</span>=/home/myuser/.virtualenvs/myproj/bin/uwsgi</span><br><span class="line">    --chdir /home/myuser/projects/myproj</span><br><span class="line">    -w myproj:app</span><br><span class="line"><span class="attr">environment</span>=PATH=<span class="string">&quot;/home/myuser/.virtualenvs/myproj/bin:%(ENV_PATH)s&quot;</span></span><br><span class="line"><span class="attr">user</span>=myuser</span><br><span class="line"><span class="attr">group</span>=myuser</span><br><span class="line"><span class="attr">killasgroup</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">startsecs</span>=<span class="number">5</span></span><br><span class="line"><span class="attr">stopwaitsecs</span>=<span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="导出环境"><a href="#导出环境" class="headerlink" title="导出环境"></a>导出环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 导出</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip freeze &gt; requirements</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip install -r requirements</span></span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/10/coding/python/library/virtualenv/usage/" data-id="ckomwlrvj00a2rhn9ec710lnd" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/10/coding/python/library/virtualenv/usage/" data-id="ckonrt7ya00a2c8n9ak294nr4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/virtualenv/" rel="tag">virtualenv</a></li></ul>
@@ -148,19 +117,19 @@ $ pip install -r requirements
     
 <nav id="article-nav">
   
-    <a href="/2020/12/11/play/unraid/usage/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/12/10/coding/python/library/django/startup/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          unraid 插件
+          django startup
         
       </div>
     </a>
   
   
-    <a href="/2020/12/10/coding/python/library/django/startup/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/12/08/coding/python/library/requests/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">django startup</div>
+      <div class="article-nav-title">python requests</div>
     </a>
   
 </nav>
@@ -218,7 +187,7 @@ $ pip install -r requirements
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -226,7 +195,7 @@ $ pip install -r requirements
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

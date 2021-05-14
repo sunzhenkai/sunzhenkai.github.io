@@ -7,12 +7,12 @@
   
   <title>Linux之网络配置 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="DNSDebian+# interfaces; configured by dns-nameserver $ cat &#x2F;etc&#x2F;network&#x2F;interfaces ... auto wlan0 allow-hotplug wlan0 iface wlan0 inet static     address 192.168.8.160     netmask 255.255.255.0     ne">
+  <meta name="description" content="DNSDebian+12345678910111213141516# interfaces; configured by dns-nameserver$ cat &#x2F;etc&#x2F;network&#x2F;interfaces...auto wlan0allow-hotplug wlan0iface wlan0 inet static	address 192.168.8.160	netmask 255.255.25">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux之网络配置">
 <meta property="og:url" content="http://wii.pub/2020/12/05/linux/notes/network/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="DNSDebian+# interfaces; configured by dns-nameserver $ cat &#x2F;etc&#x2F;network&#x2F;interfaces ... auto wlan0 allow-hotplug wlan0 iface wlan0 inet static     address 192.168.8.160     netmask 255.255.255.0     ne">
+<meta property="og:description" content="DNSDebian+12345678910111213141516# interfaces; configured by dns-nameserver$ cat &#x2F;etc&#x2F;network&#x2F;interfaces...auto wlan0allow-hotplug wlan0iface wlan0 inet static	address 192.168.8.160	netmask 255.255.25">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-12-05T10:40:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T12:54:33.173Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,28 +92,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h1><h2 id="Debian"><a href="#Debian" class="headerlink" title="Debian+"></a>Debian+</h2><pre><code class="shell"># interfaces; configured by dns-nameserver
-$ cat /etc/network/interfaces
-...
-auto wlan0
-allow-hotplug wlan0
-iface wlan0 inet static
-    address 192.168.8.160
-    netmask 255.255.255.0
-    network 192.168.8.1
-    gateway 192.168.8.1
-    broadcast 192.168.8.255
-    wpa-essid &quot;&lt;wifi-id&gt;&quot;
-    wpa-psk &quot;&lt;wifi-password&gt;&quot;
-    dns-nameserver 8.8.8.8
-    dns-nameserver 8.8.4.4
-    dns-nameserver 192.168.8.1
-</code></pre>
+        <h1 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h1><h2 id="Debian"><a href="#Debian" class="headerlink" title="Debian+"></a>Debian+</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> interfaces; configured by dns-nameserver</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat /etc/network/interfaces</span></span><br><span class="line">...</span><br><span class="line">auto wlan0</span><br><span class="line">allow-hotplug wlan0</span><br><span class="line">iface wlan0 inet static</span><br><span class="line">	address 192.168.8.160</span><br><span class="line">	netmask 255.255.255.0</span><br><span class="line">	network 192.168.8.1</span><br><span class="line">	gateway 192.168.8.1</span><br><span class="line">	broadcast 192.168.8.255</span><br><span class="line">	wpa-essid &quot;&lt;wifi-id&gt;&quot;</span><br><span class="line">	wpa-psk &quot;&lt;wifi-password&gt;&quot;</span><br><span class="line">	dns-nameserver 8.8.8.8</span><br><span class="line">	dns-nameserver 8.8.4.4</span><br><span class="line">	dns-nameserver 192.168.8.1</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/05/linux/notes/network/" data-id="ckomwlrtj0037rhn94mx0g5dv" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/05/linux/notes/network/" data-id="ckonrt7vf0037c8n95f6b53ve" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
@@ -122,19 +109,19 @@ iface wlan0 inet static
     
 <nav id="article-nav">
   
-    <a href="/2020/12/05/linux/notes/devices/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/12/05/linux/notes/infos/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Linux之查看设备
+          Linux之查看系统信息
         
       </div>
     </a>
   
   
-    <a href="/2020/12/05/play/rpi/hardware/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/12/05/play/rpi/config/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">树莓派连接硬件</div>
+      <div class="article-nav-title">树莓派配置</div>
     </a>
   
 </nav>
@@ -192,7 +179,7 @@ iface wlan0 inet static
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -200,7 +187,7 @@ iface wlan0 inet static
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

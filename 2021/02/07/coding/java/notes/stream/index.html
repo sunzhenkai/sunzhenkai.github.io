@@ -7,12 +7,12 @@
   
   <title>java stream | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="collectgroup + toMap class Info &amp;#123;     final String key;     final String value;      Info(String key, String value) &amp;#123;         this.key &#x3D; key;         this.value &#x3D; value;     &amp;#125;      publ">
+  <meta name="description" content="collectgroup + toMap 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849class Info &amp;#123;    final String key;    final String value;    Info(String key, String v">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java stream">
 <meta property="og:url" content="http://wii.pub/2021/02/07/coding/java/notes/stream/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="collectgroup + toMap class Info &amp;#123;     final String key;     final String value;      Info(String key, String value) &amp;#123;         this.key &#x3D; key;         this.value &#x3D; value;     &amp;#125;      publ">
+<meta property="og:description" content="collectgroup + toMap 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849class Info &amp;#123;    final String key;    final String value;    Info(String key, String v">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-06T16:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.579Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -91,76 +93,18 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="collect"><a href="#collect" class="headerlink" title="collect"></a>collect</h1><p><strong>group + toMap</strong></p>
-<pre><code class="java">class Info &#123;
-    final String key;
-    final String value;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Info</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> String key;</span><br><span class="line">    <span class="keyword">final</span> String value;</span><br><span class="line"></span><br><span class="line">    Info(String key, String value) &#123;</span><br><span class="line">        <span class="keyword">this</span>.key = key;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getKey</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> key;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Info&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;key=&#x27;&quot;</span> + key + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, value=&#x27;&quot;</span> + value + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">List&lt;Info&gt; infos = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">infos.add(<span class="keyword">new</span> Info(<span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>));</span><br><span class="line">infos.add(<span class="keyword">new</span> Info(<span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>));</span><br><span class="line">Map&lt;String, String&gt; mp = infos.stream().collect(Collectors.toMap(Info::getKey, Info::getValue));</span><br><span class="line">System.out.println(mp);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以 Info 的 key 值进行分组</span></span><br><span class="line">Map&lt;Info, Map&lt;String, String&gt;&gt; data = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">data.put(<span class="keyword">new</span> Info(<span class="string">&quot;A&quot;</span>, <span class="string">&quot;A&quot;</span>), <span class="keyword">new</span> HashMap&lt;&gt;());</span><br><span class="line">data.put(<span class="keyword">new</span> Info(<span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>), <span class="keyword">new</span> HashMap&lt;&gt;());</span><br><span class="line">data.put(<span class="keyword">new</span> Info(<span class="string">&quot;A&quot;</span>, <span class="string">&quot;C&quot;</span>), <span class="keyword">new</span> HashMap&lt;&gt;());</span><br><span class="line">data.put(<span class="keyword">new</span> Info(<span class="string">&quot;B&quot;</span>, <span class="string">&quot;A&quot;</span>), <span class="keyword">new</span> HashMap&lt;&gt;());</span><br><span class="line">data.put(<span class="keyword">new</span> Info(<span class="string">&quot;B&quot;</span>, <span class="string">&quot;B&quot;</span>), <span class="keyword">new</span> HashMap&lt;&gt;());</span><br><span class="line">data.put(<span class="keyword">new</span> Info(<span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>), <span class="keyword">new</span> HashMap&lt;&gt;());</span><br><span class="line">Map&lt;String, Map&lt;Info, Map&lt;String, String&gt;&gt;&gt; rd = data.entrySet()</span><br><span class="line">        .stream()</span><br><span class="line">        .collect(Collectors.groupingBy(kv -&gt; kv.getKey().getKey(),</span><br><span class="line">                Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));</span><br><span class="line">System.out.println(rd);</span><br><span class="line"></span><br><span class="line"><span class="comment">// output</span></span><br><span class="line">&#123;A=B, C=D&#125;</span><br><span class="line">&#123;A=&#123;Info&#123;key=<span class="string">&#x27;A&#x27;</span>, value=<span class="string">&#x27;B&#x27;</span>&#125;=&#123;&#125;, Info&#123;key=<span class="string">&#x27;A&#x27;</span>, value=<span class="string">&#x27;A&#x27;</span>&#125;=&#123;&#125;, Info&#123;key=<span class="string">&#x27;A&#x27;</span>, value=<span class="string">&#x27;C&#x27;</span>&#125;=&#123;&#125;&#125;, B=&#123;Info&#123;key=<span class="string">&#x27;B&#x27;</span>, value=<span class="string">&#x27;A&#x27;</span>&#125;=&#123;&#125;, Info&#123;key=<span class="string">&#x27;B&#x27;</span>, value=<span class="string">&#x27;B&#x27;</span>&#125;=&#123;&#125;, Info&#123;key=<span class="string">&#x27;B&#x27;</span>, value=<span class="string">&#x27;C&#x27;</span>&#125;=&#123;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
 
-    Info(String key, String value) &#123;
-        this.key = key;
-        this.value = value;
-    &#125;
-
-    public String getKey() &#123;
-        return key;
-    &#125;
-
-    public String getValue() &#123;
-        return value;
-    &#125;
-
-    @Override
-    public String toString() &#123;
-        return &quot;Info&#123;&quot; +
-                &quot;key=&#39;&quot; + key + &#39;\&#39;&#39; +
-                &quot;, value=&#39;&quot; + value + &#39;\&#39;&#39; +
-                &#39;&#125;&#39;;
-    &#125;
-&#125;
-
-List&lt;Info&gt; infos = new ArrayList&lt;&gt;();
-infos.add(new Info(&quot;A&quot;, &quot;B&quot;));
-infos.add(new Info(&quot;C&quot;, &quot;D&quot;));
-Map&lt;String, String&gt; mp = infos.stream().collect(Collectors.toMap(Info::getKey, Info::getValue));
-System.out.println(mp);
-
-// 以 Info 的 key 值进行分组
-Map&lt;Info, Map&lt;String, String&gt;&gt; data = new HashMap&lt;&gt;();
-data.put(new Info(&quot;A&quot;, &quot;A&quot;), new HashMap&lt;&gt;());
-data.put(new Info(&quot;A&quot;, &quot;B&quot;), new HashMap&lt;&gt;());
-data.put(new Info(&quot;A&quot;, &quot;C&quot;), new HashMap&lt;&gt;());
-data.put(new Info(&quot;B&quot;, &quot;A&quot;), new HashMap&lt;&gt;());
-data.put(new Info(&quot;B&quot;, &quot;B&quot;), new HashMap&lt;&gt;());
-data.put(new Info(&quot;B&quot;, &quot;C&quot;), new HashMap&lt;&gt;());
-Map&lt;String, Map&lt;Info, Map&lt;String, String&gt;&gt;&gt; rd = data.entrySet()
-        .stream()
-        .collect(Collectors.groupingBy(kv -&gt; kv.getKey().getKey(),
-                Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
-System.out.println(rd);
-
-// output
-&#123;A=B, C=D&#125;
-&#123;A=&#123;Info&#123;key=&#39;A&#39;, value=&#39;B&#39;&#125;=&#123;&#125;, Info&#123;key=&#39;A&#39;, value=&#39;A&#39;&#125;=&#123;&#125;, Info&#123;key=&#39;A&#39;, value=&#39;C&#39;&#125;=&#123;&#125;&#125;, B=&#123;Info&#123;key=&#39;B&#39;, value=&#39;A&#39;&#125;=&#123;&#125;, Info&#123;key=&#39;B&#39;, value=&#39;B&#39;&#125;=&#123;&#125;, Info&#123;key=&#39;B&#39;, value=&#39;C&#39;&#125;=&#123;&#125;&#125;&#125;
-</code></pre>
 <p><strong>group + mapping</strong></p>
-<pre><code class="java">// 以 Pair.left group，并合并 Pair.right
-List&lt;Pair&lt;String, Map&lt;String, String&gt;&gt;&gt; data = new ArrayList&lt;&gt;();
-data.add(Pair.of(&quot;A&quot;, new HashMap&lt;String, String&gt;()&#123;&#123;put("B", "C");&#125;&#125;));
-data.add(Pair.of(&quot;D&quot;, new HashMap&lt;String, String&gt;()&#123;&#123;put("E", "F");&#125;&#125;));
-Map&lt;String, Map&lt;String, String&gt;&gt; r = data.stream().collect(Collectors.groupingBy(Pair::getLeft, Collectors.mapping(Pair::getRight,
-        Collector.of(HashMap::new, Map::putAll, (x, y) -&gt; &#123;
-            x.putAll(y);
-            return x;
-        &#125;))));
-System.out.println(r);
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以 Pair.left group，并合并 Pair.right</span></span><br><span class="line">List&lt;Pair&lt;String, Map&lt;String, String&gt;&gt;&gt; data = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">data.add(Pair.of(<span class="string">&quot;A&quot;</span>, <span class="keyword">new</span> HashMap&lt;String, String&gt;()&#123;&#123;put(<span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>);&#125;&#125;));</span><br><span class="line">data.add(Pair.of(<span class="string">&quot;D&quot;</span>, <span class="keyword">new</span> HashMap&lt;String, String&gt;()&#123;&#123;put(<span class="string">&quot;E&quot;</span>, <span class="string">&quot;F&quot;</span>);&#125;&#125;));</span><br><span class="line">Map&lt;String, Map&lt;String, String&gt;&gt; r = data.stream().collect(Collectors.groupingBy(Pair::getLeft, Collectors.mapping(Pair::getRight,</span><br><span class="line">        Collector.of(HashMap::<span class="keyword">new</span>, Map::putAll, (x, y) -&gt; &#123;</span><br><span class="line">            x.putAll(y);</span><br><span class="line">            <span class="keyword">return</span> x;</span><br><span class="line">        &#125;))));</span><br><span class="line">System.out.println(r);</span><br><span class="line"></span><br><span class="line"><span class="comment">// output</span></span><br><span class="line">&#123;A=&#123;B=C&#125;, D=&#123;E=F&#125;&#125;</span><br></pre></td></tr></table></figure>
 
-// output
-&#123;A=&#123;B=C&#125;, D=&#123;E=F&#125;&#125;
-</code></pre>
+
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/02/07/coding/java/notes/stream/" data-id="ckomwlrux0086rhn9bngm00v7" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/02/07/coding/java/notes/stream/" data-id="ckonrt7xi0086c8n95iwjguer" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -241,7 +185,7 @@ System.out.println(r);
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -249,7 +193,7 @@ System.out.println(r);
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

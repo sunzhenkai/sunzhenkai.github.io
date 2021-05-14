@@ -7,12 +7,12 @@
   
   <title>java 线程 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Executor&#x2F;&#x2F; 创建 executor private static final ExecutorService executor &#x3D; Executors.newFixedThreadPool(8);  &#x2F;&#x2F; 异步提交  executor.submit(Callable&lt;V&gt; &#x2F; Runnable); executor.execute(Runnable);  &#x2F;&#x2F; 同步等待 ex">
+  <meta name="description" content="Executor123456789101112&#x2F;&#x2F; 创建 executorprivate static final ExecutorService executor &#x3D; Executors.newFixedThreadPool(8);&#x2F;&#x2F; 异步提交 executor.submit(Callable&lt;V&gt; &#x2F; Runnable);executor.execute(Runnable);&#x2F;&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java 线程">
 <meta property="og:url" content="http://wii.pub/2021/03/10/coding/java/notes/thread/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="Executor&#x2F;&#x2F; 创建 executor private static final ExecutorService executor &#x3D; Executors.newFixedThreadPool(8);  &#x2F;&#x2F; 异步提交  executor.submit(Callable&lt;V&gt; &#x2F; Runnable); executor.execute(Runnable);  &#x2F;&#x2F; 同步等待 ex">
+<meta property="og:description" content="Executor123456789101112&#x2F;&#x2F; 创建 executorprivate static final ExecutorService executor &#x3D; Executors.newFixedThreadPool(8);&#x2F;&#x2F; 异步提交 executor.submit(Callable&lt;V&gt; &#x2F; Runnable);executor.execute(Runnable);&#x2F;&#x2F;">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-03-09T16:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.580Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,19 +92,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h1><pre><code class="java">// 创建 executor
-private static final ExecutorService executor = Executors.newFixedThreadPool(8);
+        <h1 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建 executor</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ExecutorService executor = Executors.newFixedThreadPool(<span class="number">8</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 异步提交 </span></span><br><span class="line">executor.submit(Callable&lt;V&gt; / Runnable);</span><br><span class="line">executor.execute(Runnable);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同步等待</span></span><br><span class="line">executor.invokeAll(Collection&lt;Callable&lt;V&gt;&gt;);</span><br><span class="line">  </span><br><span class="line"><span class="comment">// shutdown </span></span><br><span class="line">executor.shutdown();</span><br></pre></td></tr></table></figure>
 
-// 异步提交 
-executor.submit(Callable&lt;V&gt; / Runnable);
-executor.execute(Runnable);
-
-// 同步等待
-executor.invokeAll(Collection&lt;Callable&lt;V&gt;&gt;);
-  
-// shutdown 
-executor.shutdown();
-</code></pre>
 <p><strong>Tips</strong></p>
 <ul>
 <li><strong>submit</strong> VS <strong>execute</strong> <ul>
@@ -116,7 +107,7 @@ executor.shutdown();
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/thread/" data-id="ckomwlruy008arhn92vqf2bc8" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/thread/" data-id="ckonrt7xk008ac8n9f07zhf07" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -197,7 +188,7 @@ executor.shutdown();
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -205,7 +196,7 @@ executor.shutdown();
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

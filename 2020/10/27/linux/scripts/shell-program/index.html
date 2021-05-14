@@ -7,12 +7,12 @@
   
   <title>shell 编程 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="函数echo() &amp;#123;     echo &quot;$1&quot; &amp;#125;  echo Hello  条件判断[ ... ] :   路径及文件# 提取文件名 $(basename &quot;&#x2F;path&#x2F;to&#x2F;file&quot;)  # file  # 提取文件路径（非绝对路径） $(dirname &quot;&#x2F;path&#x2F;to&#x2F;file&quot;)   # &#x2F;path&#x2F;t">
+  <meta name="description" content="函数12345echo() &amp;#123;	echo &quot;$1&quot;&amp;#125;echo Hello  条件判断1[ ... ] :   路径及文件12345678# 提取文件名$(basename &quot;&#x2F;path&#x2F;to&#x2F;file&quot;)  # file# 提取文件路径（非绝对路径）$(dirname &quot;&#x2F;path&#x2F;to&#x2F;file&quot;)   # &#x2F;pat">
 <meta property="og:type" content="article">
 <meta property="og:title" content="shell 编程">
 <meta property="og:url" content="http://wii.pub/2020/10/27/linux/scripts/shell-program/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="函数echo() &amp;#123;     echo &quot;$1&quot; &amp;#125;  echo Hello  条件判断[ ... ] :   路径及文件# 提取文件名 $(basename &quot;&#x2F;path&#x2F;to&#x2F;file&quot;)  # file  # 提取文件路径（非绝对路径） $(dirname &quot;&#x2F;path&#x2F;to&#x2F;file&quot;)   # &#x2F;path&#x2F;t">
+<meta property="og:description" content="函数12345echo() &amp;#123;	echo &quot;$1&quot;&amp;#125;echo Hello  条件判断1[ ... ] :   路径及文件12345678# 提取文件名$(basename &quot;&#x2F;path&#x2F;to&#x2F;file&quot;)  # file# 提取文件路径（非绝对路径）$(dirname &quot;&#x2F;path&#x2F;to&#x2F;file&quot;)   # &#x2F;pat">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-10-27T11:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.648Z">
@@ -25,6 +25,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -91,28 +93,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><pre><code class="shell">echo() &#123;
-    echo &quot;$1&quot;
-&#125;
+        <h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">echo() &#123;</span><br><span class="line">	echo &quot;$1&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo Hello</span><br></pre></td></tr></table></figure>
 
-echo Hello
-</code></pre>
-<h1 id="条件判断"><a href="#条件判断" class="headerlink" title="条件判断"></a>条件判断</h1><pre><code class="shell">[ ... ] : 
-</code></pre>
-<h1 id="路径及文件"><a href="#路径及文件" class="headerlink" title="路径及文件"></a>路径及文件</h1><pre><code class="shell"># 提取文件名
-$(basename &quot;/path/to/file&quot;)  # file
+<h1 id="条件判断"><a href="#条件判断" class="headerlink" title="条件判断"></a>条件判断</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ ... ] : </span><br></pre></td></tr></table></figure>
 
-# 提取文件路径（非绝对路径）
-$(dirname &quot;/path/to/file&quot;)   # /path/to
+<h1 id="路径及文件"><a href="#路径及文件" class="headerlink" title="路径及文件"></a>路径及文件</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 提取文件名</span></span><br><span class="line"><span class="meta">$</span><span class="bash">(basename <span class="string">&quot;/path/to/file&quot;</span>)  <span class="comment"># file</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 提取文件路径（非绝对路径）</span></span><br><span class="line"><span class="meta">$</span><span class="bash">(dirname <span class="string">&quot;/path/to/file&quot;</span>)   <span class="comment"># /path/to</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 获取绝对路径</span></span><br><span class="line"><span class="meta">$</span><span class="bash">(<span class="built_in">pwd</span>)/$(dirname <span class="string">&quot;./path/to/file&quot;</span>)</span></span><br></pre></td></tr></table></figure>
 
-# 获取绝对路径
-$(pwd)/$(dirname &quot;./path/to/file&quot;)
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/10/27/linux/scripts/shell-program/" data-id="ckomwlrtm003erhn9akx79obo" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/10/27/linux/scripts/shell-program/" data-id="ckonrt7vn003lc8n90zbe4r4n" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/" rel="tag">shell</a></li></ul>
@@ -133,9 +124,9 @@ $(pwd)/$(dirname &quot;./path/to/file&quot;)
     </a>
   
   
-    <a href="/2020/10/27/architecture/storage/compare/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/10/27/architecture/storage/mysql/usage/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">数据存储对比</div>
+      <div class="article-nav-title">mysql usage</div>
     </a>
   
 </nav>
@@ -193,7 +184,7 @@ $(pwd)/$(dirname &quot;./path/to/file&quot;)
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -201,7 +192,7 @@ $(pwd)/$(dirname &quot;./path/to/file&quot;)
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

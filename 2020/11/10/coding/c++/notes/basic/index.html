@@ -7,12 +7,12 @@
   
   <title>c++基础 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="[toc] 组织文件包输入输出标准输入输出包含：  cin cout cerr clog 带缓冲区，常用于写日志数据    &#x2F;&#x2F; 持续输入 while (cin &gt;&gt; num)   sum +&#x3D; num;  &#x2F;&#x2F; 读取到类对象 cin &gt;&gt; Item;  数据类型   类型 含义 最小存储空间    bool 布尔型 —   char 字符 8位   wchar_t 宽字符">
+  <meta name="description" content="[toc] 组织文件包输入输出标准输入输出包含：  cin cout cerr clog 带缓冲区，常用于写日志数据    123456&#x2F;&#x2F; 持续输入while (cin &gt;&gt; num)  sum +&#x3D; num;&#x2F;&#x2F; 读取到类对象cin &gt;&gt; Item;  数据类型   类型 含义 最小存储空间    bool 布尔型 —   char 字符 8位   wchar_t 宽字">
 <meta property="og:type" content="article">
 <meta property="og:title" content="c++基础">
 <meta property="og:url" content="http://wii.pub/2020/11/10/coding/c++/notes/basic/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="[toc] 组织文件包输入输出标准输入输出包含：  cin cout cerr clog 带缓冲区，常用于写日志数据    &#x2F;&#x2F; 持续输入 while (cin &gt;&gt; num)   sum +&#x3D; num;  &#x2F;&#x2F; 读取到类对象 cin &gt;&gt; Item;  数据类型   类型 含义 最小存储空间    bool 布尔型 —   char 字符 8位   wchar_t 宽字符">
+<meta property="og:description" content="[toc] 组织文件包输入输出标准输入输出包含：  cin cout cerr clog 带缓冲区，常用于写日志数据    123456&#x2F;&#x2F; 持续输入while (cin &gt;&gt; num)  sum +&#x3D; num;&#x2F;&#x2F; 读取到类对象cin &gt;&gt; Item;  数据类型   类型 含义 最小存储空间    bool 布尔型 —   char 字符 8位   wchar_t 宽字">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-11-10T13:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.574Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -101,13 +103,8 @@
 </ul>
 </li>
 </ul>
-<pre><code class="c++">// 持续输入
-while (cin &gt;&gt; num)
-  sum += num;
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 持续输入</span></span><br><span class="line"><span class="keyword">while</span> (cin &gt;&gt; num)</span><br><span class="line">  sum += num;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 读取到类对象</span></span><br><span class="line">cin &gt;&gt; Item;</span><br></pre></td></tr></table></figure>
 
-// 读取到类对象
-cin &gt;&gt; Item;
-</code></pre>
 <h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><table>
 <thead>
 <tr>
@@ -162,79 +159,22 @@ cin &gt;&gt; Item;
 <td>10位有效数字</td>
 </tr>
 </tbody></table>
-<pre><code class="c++">wchar_t wc = L&#39;a&#39;; // 字符前面加 L 表示宽字符 
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">wchar_t</span> wc = <span class="string">L&#x27;a&#x27;</span>; <span class="comment">// 字符前面加 L 表示宽字符 </span></span><br></pre></td></tr></table></figure>
+
 <h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><h3 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h3><h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p><strong>初始化</strong></p>
-<pre><code class="c++">string s(10, &#39;0&#39;);
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">string <span class="title">s</span><span class="params">(<span class="number">10</span>, <span class="string">&#x27;0&#x27;</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <p><strong>子串</strong></p>
-<pre><code class="c++">str.substr(3, 5);    // [3, 8)
-str.substr(5);       // [5, ~)
-</code></pre>
-<h3 id="布尔"><a href="#布尔" class="headerlink" title="布尔"></a>布尔</h3><h2 id="限定"><a href="#限定" class="headerlink" title="限定"></a>限定</h2><h3 id="static"><a href="#static" class="headerlink" title="static"></a>static</h3><pre><code class="c++">class A &#123;
-public:
-    static A Instance() &#123;  // 实现单例
-        static A _a;       // static 修饰，只会创建一次 A 对象
-        return _a;
-    &#125;
-&#125;;
-</code></pre>
-<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><pre><code class="c++">// 创建
-int i[5];
-int j[2][2];
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str.<span class="built_in">substr</span>(<span class="number">3</span>, <span class="number">5</span>);    <span class="comment">// [3, 8)</span></span><br><span class="line">str.<span class="built_in">substr</span>(<span class="number">5</span>);       <span class="comment">// [5, ~)</span></span><br></pre></td></tr></table></figure>
 
-// 初始化
-int i[] = &#123;1, 2, 3&#125;;
-int j[][1] = &#123;&#123;1&#125;, &#123;2&#125;, &#123;3&#125;&#125;;
+<h3 id="布尔"><a href="#布尔" class="headerlink" title="布尔"></a>布尔</h3><h2 id="限定"><a href="#限定" class="headerlink" title="限定"></a>限定</h2><h3 id="static"><a href="#static" class="headerlink" title="static"></a>static</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> A <span class="title">Instance</span><span class="params">()</span> </span>&#123;  <span class="comment">// 实现单例</span></span><br><span class="line">        <span class="keyword">static</span> A _a;       <span class="comment">// static 修饰，只会创建一次 A 对象</span></span><br><span class="line">        <span class="keyword">return</span> _a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-// 二维数组初始化
-int k[2][2] = &#123;&#123;1, 2&#125;, &#123;3&#125;&#125;;
-1 2
-3 0
-</code></pre>
-<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><pre><code class="c++">// 初始化
-vector&lt;int&gt; iv&#123;1, 2, 3&#125;        // [1, 2, 3]
-vector&lt;int&gt; iv(3, 1);     // [1, 1, 1]
-</code></pre>
-<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><pre><code class="c++">// 初始化
-std::map&lt;int, int&gt; m = &#123;
-        &#123;1, 2&#125;,
-        &#123;2, 3&#125;
-    &#125;;
+<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建</span></span><br><span class="line"><span class="keyword">int</span> i[<span class="number">5</span>];</span><br><span class="line"><span class="keyword">int</span> j[<span class="number">2</span>][<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化</span></span><br><span class="line"><span class="keyword">int</span> i[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> j[][<span class="number">1</span>] = &#123;&#123;<span class="number">1</span>&#125;, &#123;<span class="number">2</span>&#125;, &#123;<span class="number">3</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 二维数组初始化</span></span><br><span class="line"><span class="keyword">int</span> k[<span class="number">2</span>][<span class="number">2</span>] = &#123;&#123;<span class="number">1</span>, <span class="number">2</span>&#125;, &#123;<span class="number">3</span>&#125;&#125;;</span><br><span class="line"><span class="number">1</span> <span class="number">2</span></span><br><span class="line"><span class="number">3</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
 
-std::map&lt;std::string, std::vector&lt;int&gt; &gt; mapOfOccur = &#123;
-        &#123; &quot;Riti&quot;, &#123; 3, 4, 5, 6 &#125; &#125;,
-        &#123; &quot;Jack&quot;, &#123; 1, 2, 3, 5 &#125; &#125;
-    &#125;;
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化</span></span><br><span class="line">vector&lt;<span class="keyword">int</span>&gt; iv&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;		<span class="comment">// [1, 2, 3]</span></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">iv</span><span class="params">(<span class="number">3</span>, <span class="number">1</span>)</span></span>;     <span class="comment">// [1, 1, 1]</span></span><br></pre></td></tr></table></figure>
 
-// 遍历
-std::map&lt;int, int&gt; m = ...;
-for (auto &amp;entry : m) &#123;
-  std::cout &lt;&lt; entry.first &lt;&lt; &quot; -&gt; &quot; &lt;&lt; entry.second &lt;&lt; std::endl;
-&#125;
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化</span></span><br><span class="line">std::map&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; m = &#123;</span><br><span class="line">        &#123;<span class="number">1</span>, <span class="number">2</span>&#125;,</span><br><span class="line">        &#123;<span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">std::map&lt;std::string, std::vector&lt;<span class="keyword">int</span>&gt; &gt; mapOfOccur = &#123;</span><br><span class="line">        &#123; <span class="string">&quot;Riti&quot;</span>, &#123; <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span> &#125; &#125;,</span><br><span class="line">        &#123; <span class="string">&quot;Jack&quot;</span>, &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span> &#125; &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遍历</span></span><br><span class="line">std::map&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; m = ...;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> &amp;entry : m) &#123;</span><br><span class="line">  std::cout &lt;&lt; entry.first &lt;&lt; <span class="string">&quot; -&gt; &quot;</span> &lt;&lt; entry.second &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 插入</span></span><br><span class="line">map&lt;<span class="keyword">int</span>, string&gt; mp;</span><br><span class="line">mp.<span class="built_in">insert</span>(pair&lt;<span class="keyword">int</span>,string&gt;(<span class="number">1</span>,<span class="string">&quot;aaaaa&quot;</span>));</span><br><span class="line">mp.<span class="built_in">insert</span>(make_pair&lt;<span class="keyword">int</span>,string&gt;(<span class="number">2</span>,<span class="string">&quot;bbbbb&quot;</span>));</span><br><span class="line">mp.<span class="built_in">insert</span>(map&lt;<span class="keyword">int</span>, string&gt;::<span class="built_in">value_type</span>(<span class="number">3</span>,<span class="string">&quot;ccccc&quot;</span>));</span><br><span class="line">mp[<span class="number">4</span>] = <span class="string">&quot;ddddd&quot;</span>;</span><br><span class="line"></span><br><span class="line">std::map&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt; mp;</span><br><span class="line">mp.<span class="built_in">emplace</span>(<span class="string">&#x27;x&#x27;</span>,<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查找</span></span><br><span class="line">std::map&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt;::iterator it = mp.<span class="built_in">find</span>(<span class="string">&#x27;x&#x27;</span>);</span><br><span class="line"><span class="keyword">if</span> (it != mp.<span class="built_in">end</span>())</span><br><span class="line">  <span class="comment">// exists</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="comment">// not exists</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除</span></span><br><span class="line">std::map&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt;::iterator it = mp.<span class="built_in">find</span>(<span class="string">&#x27;x&#x27;</span>);</span><br><span class="line"><span class="keyword">if</span> (it != mp.<span class="built_in">end</span>())</span><br><span class="line">    mp.<span class="built_in">erase</span>(it);</span><br></pre></td></tr></table></figure>
 
-// 插入
-map&lt;int, string&gt; mp;
-mp.insert(pair&lt;int,string&gt;(1,&quot;aaaaa&quot;));
-mp.insert(make_pair&lt;int,string&gt;(2,&quot;bbbbb&quot;));
-mp.insert(map&lt;int, string&gt;::value_type(3,&quot;ccccc&quot;));
-mp[4] = &quot;ddddd&quot;;
-
-std::map&lt;char,int&gt; mp;
-mp.emplace(&#39;x&#39;,100);
-
-// 查找
-std::map&lt;char,int&gt;::iterator it = mp.find(&#39;x&#39;);
-if (it != mp.end())
-  // exists
-else
-  // not exists
-
-// 删除
-std::map&lt;char,int&gt;::iterator it = mp.find(&#39;x&#39;);
-if (it != mp.end())
-    mp.erase(it);
-</code></pre>
 <h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="程序结构"><a href="#程序结构" class="headerlink" title="程序结构"></a>程序结构</h2><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><h2 id="条件控制"><a href="#条件控制" class="headerlink" title="条件控制"></a>条件控制</h2><h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><h2 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h2><h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><h3 id="特殊成员函数"><a href="#特殊成员函数" class="headerlink" title="特殊成员函数"></a>特殊成员函数</h3><ul>
 <li>构造函数</li>
 <li>析构函数</li>
@@ -242,60 +182,24 @@ if (it != mp.end())
 <li>拷贝赋值运算符</li>
 </ul>
 <h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><h2 id="语法糖"><a href="#语法糖" class="headerlink" title="语法糖"></a>语法糖</h2><h3 id="default"><a href="#default" class="headerlink" title="default"></a>default</h3><p><code>default</code> 关键词为类的<strong>特殊默认无参</strong>函数（构造、析构、拷贝构造、拷贝赋值）提供默认行为。</p>
-<pre><code class="c++">class A
-&#123;
-public:
-    A() = default;
-    A(const A&amp;);
-    A&amp; operator = (const A&amp;);
-    ~A() = default;
-&#125;;
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">A</span>() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="built_in">A</span>(<span class="keyword">const</span> A&amp;);</span><br><span class="line">    A&amp; <span class="keyword">operator</span> = (<span class="keyword">const</span> A&amp;);</span><br><span class="line">    ~<span class="built_in">A</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">A::<span class="built_in">A</span>(<span class="keyword">const</span> X&amp;) = <span class="keyword">default</span>;  							<span class="comment">// 拷贝构造函数</span></span><br><span class="line">A&amp; A::<span class="keyword">operator</span>= (<span class="keyword">const</span> A&amp;) = <span class="keyword">default</span>;   <span class="comment">// 拷贝赋值操作符</span></span><br></pre></td></tr></table></figure>
 
-A::A(const X&amp;) = default;                              // 拷贝构造函数
-A&amp; A::operator= (const A&amp;) = default;   // 拷贝赋值操作符
-</code></pre>
 <h3 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h3><p>和 <code>default</code> ，屏蔽默认行为。</p>
-<pre><code class="c++">class A
-&#123;
-    A&amp; operator=(const A&amp;) = delete;    // assignment operator disabled
-&#125;;
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    A&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> A&amp;) = <span class="keyword">delete</span>;    <span class="comment">// assignment operator disabled</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">A a, b;</span><br><span class="line">a = b;   <span class="comment">// ERROR: 拷贝赋值操作被禁用</span></span><br></pre></td></tr></table></figure>
 
-A a, b;
-a = b;   // ERROR: 拷贝赋值操作被禁用
-</code></pre>
-<h3 id="thread-local"><a href="#thread-local" class="headerlink" title="thread_local"></a>thread_local</h3><h2 id="空指针处理"><a href="#空指针处理" class="headerlink" title="空指针处理"></a>空指针处理</h2><h2 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h2><h2 id="泛型编程"><a href="#泛型编程" class="headerlink" title="泛型编程"></a>泛型编程</h2><pre><code class="c++">// 从标准输入读取T类型数据
-template &lt;typename T&gt;
-T r() &#123;
-    T t;
-    cin &gt;&gt; t;
-    return t;
-&#125;
+<h3 id="thread-local"><a href="#thread-local" class="headerlink" title="thread_local"></a>thread_local</h3><h2 id="空指针处理"><a href="#空指针处理" class="headerlink" title="空指针处理"></a>空指针处理</h2><h2 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h2><h2 id="泛型编程"><a href="#泛型编程" class="headerlink" title="泛型编程"></a>泛型编程</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从标准输入读取T类型数据</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function">T <span class="title">r</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    T t;</span><br><span class="line">    cin &gt;&gt; t;</span><br><span class="line">    <span class="keyword">return</span> t;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用</span></span><br><span class="line"><span class="keyword">int</span> x = r&lt;<span class="keyword">int</span>&gt;();</span><br></pre></td></tr></table></figure>
 
-// 使用
-int x = r&lt;int&gt;();
-</code></pre>
-<pre><code class="c++">// 值交换
-template &lt;typename T&gt;
-void swapT(T&amp; a, T&amp; b) &#123;
-    a ^= b;
-    b ^= a;
-    a ^= b;
-&#125;
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 值交换</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swapT</span><span class="params">(T&amp; a, T&amp; b)</span> </span>&#123;</span><br><span class="line">    a ^= b;</span><br><span class="line">    b ^= a;</span><br><span class="line">    a ^= b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用</span></span><br><span class="line">vector&lt;<span class="keyword">int</span>&gt; iv&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line"><span class="built_in">swapT</span>(iv[<span class="number">0</span>], iv[<span class="number">2</span>]);</span><br><span class="line"><span class="comment">// 1 2 3 -&gt; 3 2 1</span></span><br></pre></td></tr></table></figure>
 
-// 使用
-vector&lt;int&gt; iv&#123;1, 2, 3&#125;;
-swapT(iv[0], iv[2]);
-// 1 2 3 -&gt; 3 2 1
-</code></pre>
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="常量-1"><a href="#常量-1" class="headerlink" title="常量"></a>常量</h2><pre><code class="c++">// MAX / MIN
-INT_MAX
-INT_MIN
-</code></pre>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="常量-1"><a href="#常量-1" class="headerlink" title="常量"></a>常量</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MAX / MIN</span></span><br><span class="line">INT_MAX</span><br><span class="line">INT_MIN</span><br></pre></td></tr></table></figure>
+
+
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/10/coding/c++/notes/basic/" data-id="ckomwlrup007hrhn9hxet1bjz" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/11/10/coding/c++/notes/basic/" data-id="ckonrt7xa007hc8n92p6i30ur" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
@@ -376,7 +280,7 @@ INT_MIN
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -384,7 +288,7 @@ INT_MIN
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

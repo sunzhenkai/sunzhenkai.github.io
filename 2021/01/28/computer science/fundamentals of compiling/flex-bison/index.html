@@ -25,6 +25,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -111,225 +113,62 @@
 <h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="lex-词法分析器"><a href="#lex-词法分析器" class="headerlink" title="lex 词法分析器"></a>lex 词法分析器</h2><p>lex通过扫描词法源文件，从中提取token，可看做关键词。lex工具会生成一个 <code>yylex</code> 函数，语法解析器通过调用这个函数获取信息。lex的输入文件一般会被命名为 <code>*.l</code> 文件，通过 <code>[f]lex XX.l</code> 得到文件 <code>lex.yy.c</code>。</p>
 <h3 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h3><p>Lex程序主要由一系列带有指令的正则表达式组成，这些指令确定了正则表达式匹配后相应的动作（action）。由flex生成的词法分析器可以读取输入，匹配输入与所有的正则表达式，并执行每次匹配后适当的关联动作。</p>
 <p>Flex程序包含是哪个部分，通过 <code>%%</code> 分隔。第一部分包含声明和选项设置，第二部分是一系列的模式和动作，第三部分是会被拷贝到生成的词法分析器里面的C代码，通常是与动作代码相关的程序。</p>
-<pre><code>Definition section
-%%
-Rules section
-%%
-C code section
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Definition section</span><br><span class="line">%%</span><br><span class="line">Rules section</span><br><span class="line">%%</span><br><span class="line">C code section</span><br></pre></td></tr></table></figure>
+
 <p><strong>第一部分</strong></p>
 <p>在声明部分，<code>%&#123;</code> 和 <code>%&#125;</code> 之间的代码会被原样照抄到生成的 C 文件的开头部分。</p>
 <p><strong>第二部分</strong></p>
 <p>每个模式处在一行的开头处，接着是模式匹配时所需要执行的 C 代码，这里的 C 代码是使用 <code>&#123;&#125;</code> 括住的一行或者多行语句。模式必须在行首出现，flex会把空白开始的行当做代码复制到生成C程序中。</p>
 <h3 id="文本统计示例"><a href="#文本统计示例" class="headerlink" title="文本统计示例"></a>文本统计示例</h3><p><strong>程序</strong></p>
-<pre><code class="c">%&#123;
-int chars = 0;
-int words = 0;
-int lines = 0;
-%&#125;
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">%&#123;</span><br><span class="line"><span class="keyword">int</span> chars = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> words = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> lines = <span class="number">0</span>;</span><br><span class="line">%&#125;</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line">[a-zA-Z]+   &#123; words++; chars += <span class="built_in">strlen</span>(yytext) &#125;</span><br><span class="line">\n          &#123; chars++; lines++; &#125;</span><br><span class="line">.           &#123; chars++; &#125;</span><br><span class="line">%%</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span> </span>&#123;</span><br><span class="line">  yylex();</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%8d%8d%8d\n&quot;</span>, lines, words, chars);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-%%
-[a-zA-Z]+   &#123; words++; chars += strlen(yytext) &#125;
-\n          &#123; chars++; lines++; &#125;
-.           &#123; chars++; &#125;
-%%
-
-int main(int argc, char **argv) &#123;
-  yylex();
-  printf(&quot;%8d%8d%8d\n&quot;, lines, words, chars);
-  return 0;
-&#125;
-</code></pre>
 <p>在这个示例中，末尾的C代码为主程序，负责调用flex提供的词法分析程序yylex()，并输出结果。</p>
 <p><strong>编译</strong></p>
-<pre><code class="shell">$ flex flex-wc.l                    # 运行命令后会生成文件 lex.yy.c
-$ cc -lfl -o wc lex.yy.c     # 编译词法解析
-$ ./wc
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> flex flex-wc.l					<span class="comment"># 运行命令后会生成文件 lex.yy.c</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cc -lfl -o wc lex.yy.c 	<span class="comment"># 编译词法解析</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./wc</span></span><br></pre></td></tr></table></figure>
+
 <p>注：对于使用命令将 flex 安装到系统，可以直接执行上述命令。如若将 flex 编译至特定目录，并使用的话，需要制定库环境变量，以使程序可正确运行。</p>
-<pre><code class="shell">$ export FLEX_BIN_PATH=&quot;/.../bin&quot;    # flex 程序路径
-$ export FLEX_LIB_PATH=&quot;/.../lib&quot;    # flex 库文件路径
-$ export LD_LIBRARY_PATH=$&#123;FLEX_LIB_PATH&#125;    # 用于 linux 系统
-$ export DYLD_LIBRARY_PATH=$&#123;FLEX_LIB_PATH&#125;     # 用于 mac os 系统
-$ export PATH=&quot;$FLEX_BIN_PATH:$PATH&quot;
-# 编译执行
-$ flex flex-wc.l
-$ cc -L&quot;$&#123;LIB_PATH&#125;&quot; -lfl -o wc lex.yy.c        
-$ ./wc
-hello world
-^D
-       1       2      12
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> FLEX_BIN_PATH=<span class="string">&quot;/.../bin&quot;</span>    <span class="comment"># flex 程序路径</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> FLEX_LIB_PATH=<span class="string">&quot;/.../lib&quot;</span>    <span class="comment"># flex 库文件路径</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> LD_LIBRARY_PATH=<span class="variable">$&#123;FLEX_LIB_PATH&#125;</span>    <span class="comment"># 用于 linux 系统</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> DYLD_LIBRARY_PATH=<span class="variable">$&#123;FLEX_LIB_PATH&#125;</span>	 <span class="comment"># 用于 mac os 系统</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> PATH=<span class="string">&quot;<span class="variable">$FLEX_BIN_PATH</span>:<span class="variable">$PATH</span>&quot;</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 编译执行</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> flex flex-wc.l</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cc -L<span class="string">&quot;<span class="variable">$&#123;LIB_PATH&#125;</span>&quot;</span> -lfl -o wc lex.yy.c</span>		</span><br><span class="line"><span class="meta">$</span><span class="bash"> ./wc</span></span><br><span class="line">hello world</span><br><span class="line">^D</span><br><span class="line">       1       2      12</span><br></pre></td></tr></table></figure>
+
 <p><strong>示例说明</strong></p>
 <p>该实例程序，仅使用 flex 实现。首先，按照 flex 的语法，定义了词法文件 <code>wc.l</code>，其中包含 3 个模式 <code>[a-zA-Z]+</code>、<code>\n</code> 、<code>.</code> ，分别用于匹配单词、换行、任意字符。这里需要注意，模式匹配具有排他性，输入被一个模式匹配，则不会重复被其他模式匹配，因此在匹配到单词后，需要使用 <code>chars += strlen(yytext)</code> 来修正字符统计值。然后，使用 flex 程序解析 <code>wc.l</code> ，生成 <code>lex.yy.c</code> 文件。最后，编译生成的文件，并执行。</p>
 <h2 id="yacc-bison-语法分析器"><a href="#yacc-bison-语法分析器" class="headerlink" title="yacc / bison 语法分析器"></a>yacc / bison 语法分析器</h2><p>语法分析器，借助 lex 生成的 token，将关键字组合成语法。语法分析器会生成一个 yyparse 函数，这个函数会不断调用词法分析器生成的 <code>yylex</code> 函数来得到 token 信息。词法分析器输入的源文件一般命名为 <code>*.y</code> ，通过命令 <code>yacc -d XX.y</code> 得到文件 <code>y.tab.h</code> 和 <code>y.tab.c</code> ，前者包含了 lex 需要的 token 类型定义，需要被 include 进 <code>*.l</code> 文件中。</p>
 <h2 id="flex-amp-bison"><a href="#flex-amp-bison" class="headerlink" title="flex &amp; bison"></a>flex &amp; bison</h2><p>单纯的 flex 程序，可以解决简单的解析问题，但对于复杂的场景，需要语法分析器的支持。flex 仅解析输入中的模式，并执行相应的动作，对于复杂的语法需要语法分析器的支持。</p>
 <p><strong>计算器示例</strong></p>
 <p>接下来，用一个计算器程序示例，展示 flex 和 bison 是如何一起工作。简单些，我们首先实现一个 flex 程序，可以复述（无需解析运算符优先级及计算）简单的表达式。</p>
-<pre><code class="c++">%%
-&quot;+&quot; &#123; printf(&quot;PLUS\n&quot;); &#125;
-&quot;-&quot; &#123; printf(&quot;MINUS\n&quot;); &#125;
-&quot;*&quot; &#123; printf(&quot;TIMES\n&quot;); &#125;
-&quot;/&quot; &#123; printf(&quot;DIVIDE\n&quot;); &#125;
-&quot;|&quot; &#123; printf(&quot;ABS\n&quot;); &#125;
-[0-9]+ &#123; printf(&quot;NUMBER %s\n&quot;, yytext); &#125;
-\n  &#123; printf(&quot;NEW LINE\n&quot;); &#125;
-[ \t] &#123; &#125;
-.   &#123; printf(&quot;Mystery character %s\n&quot;, yytext); &#125;
-%%
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">%%</span><br><span class="line"><span class="string">&quot;+&quot;</span> &#123; <span class="built_in">printf</span>(<span class="string">&quot;PLUS\n&quot;</span>); &#125;</span><br><span class="line"><span class="string">&quot;-&quot;</span> &#123; <span class="built_in">printf</span>(<span class="string">&quot;MINUS\n&quot;</span>); &#125;</span><br><span class="line"><span class="string">&quot;*&quot;</span> &#123; <span class="built_in">printf</span>(<span class="string">&quot;TIMES\n&quot;</span>); &#125;</span><br><span class="line"><span class="string">&quot;/&quot;</span> &#123; <span class="built_in">printf</span>(<span class="string">&quot;DIVIDE\n&quot;</span>); &#125;</span><br><span class="line"><span class="string">&quot;|&quot;</span> &#123; <span class="built_in">printf</span>(<span class="string">&quot;ABS\n&quot;</span>); &#125;</span><br><span class="line">[<span class="number">0</span><span class="number">-9</span>]+ &#123; <span class="built_in">printf</span>(<span class="string">&quot;NUMBER %s\n&quot;</span>, yytext); &#125;</span><br><span class="line">\n  &#123; <span class="built_in">printf</span>(<span class="string">&quot;NEW LINE\n&quot;</span>); &#125;</span><br><span class="line">[ \t] &#123; &#125;</span><br><span class="line">.   &#123; <span class="built_in">printf</span>(<span class="string">&quot;Mystery character %s\n&quot;</span>, yytext); &#125;</span><br><span class="line">%%</span><br></pre></td></tr></table></figure>
+
 <p><strong>编译运行</strong></p>
-<pre><code class="shell">$ flex cal.l
-$ cc -o cal lex.yy.c
-$ ./cal
-12+34
-NUMBER 12
-PLUS
-NUMBER 34
-NEW LINE
-5 6 / 7q
-NUMBER 5
-NUMBER 6
-DIVIDE
-NUMBER 7
-Mystery character q
-NEW LINE
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> flex cal.l</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cc -o cal lex.yy.c</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./cal</span></span><br><span class="line">12+34</span><br><span class="line">NUMBER 12</span><br><span class="line">PLUS</span><br><span class="line">NUMBER 34</span><br><span class="line">NEW LINE</span><br><span class="line">5 6 / 7q</span><br><span class="line">NUMBER 5</span><br><span class="line">NUMBER 6</span><br><span class="line">DIVIDE</span><br><span class="line">NUMBER 7</span><br><span class="line">Mystery character q</span><br><span class="line">NEW LINE</span><br></pre></td></tr></table></figure>
+
 <p>上述程序，只是简单识别了我们的意图，并执行了打印操作。为了让我们的示例更像一个计算器，我们需要支持类似于真正的计算，并支持运算符的优先级等特性。对于这种高阶解析，需要借助 bison 来完成。</p>
 <p>flex 作为词法分析器，可以生成一个 token 流，方便语法分析器处理。当程序需要一个 token 时，通过调用 <code>yylex()</code> 来读取一小部分输入，然后返回相应的记号，通过再次调用 <code>yylex()</code> 获取更多 token。</p>
 <p><strong>token 编号和 token 值</strong></p>
 <p>flex 返回 token 时，实际包含两部分，token 编号和 token 值。这里的编号是一个较小的随意整数，如果返回 0 则意味着文件的结束。当 bison 创建一个语法分析器时， bison 自动地从 258 起指派每个记号编号，并且创建一个包含这些编号定义的 .h 文件。在这里，我们在 flex 程序中，为每个 token 分配一个固定的编号。重写上面计算器的 flex 源文件。</p>
-<pre><code class="c++">%&#123;
-enum yytokentype &#123;
-    NUMBER = 258,
-    ADD = 259,
-    SUB = 260,
-    MUL = 261,
-    DIV = 262,
-    ABS = 263,
-    EOL = 264,
-    POW = 265
-&#125;;
-int yylval;
-%&#125;
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">%&#123;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">yytokentype</span> &#123;</span></span><br><span class="line">    NUMBER = <span class="number">258</span>,</span><br><span class="line">    ADD = <span class="number">259</span>,</span><br><span class="line">    SUB = <span class="number">260</span>,</span><br><span class="line">    MUL = <span class="number">261</span>,</span><br><span class="line">    DIV = <span class="number">262</span>,</span><br><span class="line">    ABS = <span class="number">263</span>,</span><br><span class="line">    EOL = <span class="number">264</span>,</span><br><span class="line">    POW = <span class="number">265</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">int</span> yylval;</span><br><span class="line">%&#125;</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;+&quot;</span> &#123; <span class="keyword">return</span> ADD; &#125;</span><br><span class="line"><span class="string">&quot;-&quot;</span> &#123; <span class="keyword">return</span> SUB; &#125;</span><br><span class="line"><span class="string">&quot;*&quot;</span> &#123; <span class="keyword">return</span> MUL; &#125;</span><br><span class="line"><span class="string">&quot;/&quot;</span> &#123; <span class="keyword">return</span> DIV; &#125;</span><br><span class="line"><span class="string">&quot;|&quot;</span> &#123; <span class="keyword">return</span> ABS; &#125;</span><br><span class="line"><span class="string">&quot;^&quot;</span> &#123; <span class="keyword">return</span> POW; &#125;</span><br><span class="line">[<span class="number">0</span><span class="number">-9</span>]+ &#123; yylval = <span class="built_in">atoi</span>(yytext); <span class="keyword">return</span> NUMBER; &#125;</span><br><span class="line">\n  &#123; <span class="keyword">return</span> EOL; &#125;</span><br><span class="line">[ \t] &#123; &#125;</span><br><span class="line">.   &#123; <span class="built_in">printf</span>(<span class="string">&quot;Mystery character %c\n&quot;</span>, *yytext); &#125;</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line"></span><br><span class="line"><span class="comment">/*int main(int argc, char **argv)</span></span><br><span class="line"><span class="comment">&#123;</span></span><br><span class="line"><span class="comment">    int tok;</span></span><br><span class="line"><span class="comment">    while (tok = yylex()) &#123;</span></span><br><span class="line"><span class="comment">        printf(&quot;%d&quot;, tok);</span></span><br><span class="line"><span class="comment">        if (tok == NUMBER) printf(&quot; = %d\n&quot;, yylval);</span></span><br><span class="line"><span class="comment">        else printf(&quot;\n&quot;);</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">&#125;*/</span></span><br></pre></td></tr></table></figure>
 
-%%
-
-&quot;+&quot; &#123; return ADD; &#125;
-&quot;-&quot; &#123; return SUB; &#125;
-&quot;*&quot; &#123; return MUL; &#125;
-&quot;/&quot; &#123; return DIV; &#125;
-&quot;|&quot; &#123; return ABS; &#125;
-&quot;^&quot; &#123; return POW; &#125;
-[0-9]+ &#123; yylval = atoi(yytext); return NUMBER; &#125;
-\n  &#123; return EOL; &#125;
-[ \t] &#123; &#125;
-.   &#123; printf(&quot;Mystery character %c\n&quot;, *yytext); &#125;
-
-%%
-
-/*int main(int argc, char **argv)
-&#123;
-    int tok;
-    while (tok = yylex()) &#123;
-        printf(&quot;%d&quot;, tok);
-        if (tok == NUMBER) printf(&quot; = %d\n&quot;, yylval);
-        else printf(&quot;\n&quot;);
-    &#125;
-&#125;*/
-</code></pre>
 <p>继续编译运行。</p>
-<pre><code class="shell">$ $ flex cal.l
-$ cc -o cal lex.yy.c
-$ ./cal
-a / 34 + |45
-Mystery character a
-262
-258 = 34
-259
-263
-258 = 45
-264
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> $ flex cal.l</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cc -o cal lex.yy.c</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./cal</span></span><br><span class="line">a / 34 + |45</span><br><span class="line">Mystery character a</span><br><span class="line">262</span><br><span class="line">258 = 34</span><br><span class="line">259</span><br><span class="line">263</span><br><span class="line">258 = 45</span><br><span class="line">264</span><br></pre></td></tr></table></figure>
+
 <p>至此，我们有了一个可以返回特定 token 编号及 token 值的词法解析器，接下来关注其如何与语法分析器一起工作。</p>
 <p><strong>语法分析器</strong></p>
 <p>语法分析器的作用是，找出输入记号之间的关系，一种常见的关系表达式就是语法分析树。</p>
 <p><strong>BNF文法</strong></p>
 <p>为了编写一个语法分析器，需要一定的方法描述语法分析器所使用的把一系列记号转化为语法分析书的规则。在计算机最常用的语言就是上下文无关文法（Content-Free Grammar，CFG），书写上下文无关文法的标准格式就是 BackusNaur范式（BackusNaur Form，BNF）。</p>
 <p>幸运的是，BNF相当简单。对于表达式 1 * 2 + 3 * 4 + 5 ，下面的 BNF 语法足以处理。</p>
-<pre><code>&lt;exp&gt; ::= &lt;factor&gt;
-    | &lt;exp&gt; + &lt;factor&gt;
-&lt;factor&gt; ::= NUMBER
-    | &lt;factor&gt; * NUMBER
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;exp&gt; ::= &lt;factor&gt;</span><br><span class="line">	| &lt;exp&gt; + &lt;factor&gt;</span><br><span class="line">&lt;factor&gt; ::= NUMBER</span><br><span class="line">	| &lt;factor&gt; * NUMBER</span><br></pre></td></tr></table></figure>
+
 <p>每一行就是一条规则，用来说明如何创建语法分析树的分支。<code>::=</code> 被解读为 <em>是</em> 或 _变成_；<code>|</code> 为 _或者_，创建同类分支的另一种方式。规则左边的名称是语法符号。大致来说，所有的记号都被认为是语法符号，但是有一些语法符号并不是记号。</p>
 <p>有效的BNF总是带有递归性的，规则会直接或者间接地指向自身。这些简单的规则被递归地使用以匹配任何极端复杂的加法和乘法序列。</p>
 <p><strong>bison 规则描述语言</strong></p>
 <p>bison 规则基本符合 BNF 文法，下面是计算器程序的 bison 代码。</p>
-<pre><code class="c">%&#123;
-#include &lt;stdio.h&gt;
-#include &lt;math.h&gt;
-int yylex();
-void yyerror(char *s);
-%&#125;
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">%&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">yylex</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">yyerror</span><span class="params">(<span class="keyword">char</span> *s)</span></span>;</span><br><span class="line">%&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 声明 Tokens; 在这里的声明要和 cal.l 声明的 yytokentype 顺序一致 */</span></span><br><span class="line">%token NUMBER</span><br><span class="line">%token ADD SUB MUL DIV ABS EOL</span><br><span class="line">%token POW</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line"></span><br><span class="line">calclist: <span class="comment">/* 空规则 */</span></span><br><span class="line">	| calclist <span class="built_in">exp</span> EOL &#123; <span class="built_in">printf</span>(<span class="string">&quot;= %d\n&quot;</span>, $<span class="number">2</span>); &#125;</span><br><span class="line">	;</span><br><span class="line"></span><br><span class="line"><span class="built_in">exp</span>: factor</span><br><span class="line">	| <span class="built_in">exp</span> ADD factor &#123; $$ = $<span class="number">1</span> + $<span class="number">3</span>; &#125;</span><br><span class="line">	| <span class="built_in">exp</span> SUB factor &#123; $$ = $<span class="number">1</span> - $<span class="number">3</span>; &#125;</span><br><span class="line">	;</span><br><span class="line"></span><br><span class="line">factor: term</span><br><span class="line">    | factor MUL term &#123; $$ = $<span class="number">1</span> * $<span class="number">3</span>; &#125;</span><br><span class="line">    | factor DIV term &#123; $$ = $<span class="number">1</span> / $<span class="number">3</span>; &#125;</span><br><span class="line">    | term POW term   &#123; $$ = <span class="built_in">pow</span>($<span class="number">1</span>, $<span class="number">3</span>); &#125;</span><br><span class="line">    ;</span><br><span class="line"></span><br><span class="line">term: NUMBER</span><br><span class="line">    | SUB NUMBER   &#123; $$ = -$<span class="number">2</span> &#125;</span><br><span class="line">    | ABS term ABS &#123; $$ = $<span class="number">2</span> &gt;= <span class="number">0</span> ? $<span class="number">2</span> : -$<span class="number">2</span>; &#125;</span><br><span class="line">    ;</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    yyparse();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">yyerror</span><span class="params">(<span class="keyword">char</span> *s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;error: %s\n&quot;</span>, s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-/* 声明 Tokens; 在这里的声明要和 cal.l 声明的 yytokentype 顺序一致 */
-%token NUMBER
-%token ADD SUB MUL DIV ABS EOL
-%token POW
-
-%%
-
-calclist: /* 空规则 */
-    | calclist exp EOL &#123; printf(&quot;= %d\n&quot;, $2); &#125;
-    ;
-
-exp: factor
-    | exp ADD factor &#123; $$ = $1 + $3; &#125;
-    | exp SUB factor &#123; $$ = $1 - $3; &#125;
-    ;
-
-factor: term
-    | factor MUL term &#123; $$ = $1 * $3; &#125;
-    | factor DIV term &#123; $$ = $1 / $3; &#125;
-    | term POW term   &#123; $$ = pow($1, $3); &#125;
-    ;
-
-term: NUMBER
-    | SUB NUMBER   &#123; $$ = -$2 &#125;
-    | ABS term ABS &#123; $$ = $2 &gt;= 0 ? $2 : -$2; &#125;
-    ;
-
-%%
-
-int main(int argc, char **argv)
-&#123;
-    yyparse();
-    return 0;
-&#125;
-
-void yyerror(char *s)
-&#123;
-    fprintf(stderr, &quot;error: %s\n&quot;, s);
-&#125;
-</code></pre>
 <p>bison 程序包含了与flex程序相同的三部分结构：声明部分、规则部分和C代码部分。</p>
 <p>声明部分， <code>%&#123;</code> 和 <code>%&#125;</code> 之间内容同样会被拷贝进代码，<code>%token</code> 用于声明标记，以便让 bison 语法分析程序知晓符号。没有声明为记号的语法符号，应该出现在至少一条规则的左边。</p>
 <p>规则部分，包含了BNF定义的规则，使用分号分隔不同规则。每条规则中的每个语法符号都有一个语义值，目标符号（冒号左边符号）的值使用 <code>$$</code> 代替，右边语法符号的语义值分别用 <code>$1、$2 ... </code> 代替。</p>
 <p><strong>联合 bison &amp; flex 编译</strong></p>
-<pre><code class="shell">$ bison -d cal.y
-$ flex cal.l
-$ gcc -Wno-parentheses -o calc cal.tab.c lex.yy.c -lfl
-$ ./calc   # 执行
-1 + 2
-= 3
-3 - -2
-= 5
-1 + -2
-= -1
-1 + |-1|
-= 2
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> bison -d cal.y</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> flex cal.l</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gcc -Wno-parentheses -o calc cal.tab.c lex.yy.c -lfl</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./calc   <span class="comment"># 执行</span></span></span><br><span class="line">1 + 2</span><br><span class="line">= 3</span><br><span class="line">3 - -2</span><br><span class="line">= 5</span><br><span class="line">1 + -2</span><br><span class="line">= -1</span><br><span class="line">1 + |-1|</span><br><span class="line">= 2</span><br></pre></td></tr></table></figure>
+
 <h1 id="高级语法"><a href="#高级语法" class="headerlink" title="高级语法"></a>高级语法</h1><h2 id="flex-1"><a href="#flex-1" class="headerlink" title="flex"></a>flex</h2><h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><table>
 <thead>
 <tr>
@@ -405,49 +244,22 @@ $ ./calc   # 执行
 </tr>
 </tbody></table>
 <h3 id="解析文件"><a href="#解析文件" class="headerlink" title="解析文件"></a>解析文件</h3><p>词法分析器总是从 <code>yyin</code> 读取输入，可以通过重新设定 <code>yyin</code> 实现从文件读取。也可以使用 <code>yyrestart</code> 指定输入源，此外，<code>yyrestart</code> 可以重置解析，并通过调用 <code>yylex</code> 重新开始。</p>
-<pre><code class="c++">%option noyywrap
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">%option noyywrap</span><br><span class="line"></span><br><span class="line">%&#123;</span><br><span class="line"><span class="keyword">int</span> chars = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> words = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> lines = <span class="number">0</span>;</span><br><span class="line">%&#125;</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line"></span><br><span class="line">[a-zA-Z]+   &#123; ++words; chars += <span class="built_in">strlen</span>(yytext); &#125;</span><br><span class="line">\n          &#123; ++chars; ++lines; &#125;</span><br><span class="line">.           &#123; ++chars; &#125;</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span> </span>&#123;</span><br><span class="line">    yyin = <span class="built_in">fopen</span>(<span class="string">&quot;wc.in&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br><span class="line">    <span class="comment">// yyrestart(fopen(&quot;wc.in&quot;, &quot;r&quot;));  // 也可以使用 yyrestart 指定输入源</span></span><br><span class="line">    <span class="built_in">yylex</span>();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%8d%8d%8d\n&quot;</span>, lines, words, chars);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-%&#123;
-int chars = 0;
-int words = 0;
-int lines = 0;
-%&#125;
-
-%%
-
-[a-zA-Z]+   &#123; ++words; chars += strlen(yytext); &#125;
-\n          &#123; ++chars; ++lines; &#125;
-.           &#123; ++chars; &#125;
-
-%%
-
-int main(int argc, char **argv) &#123;
-    yyin = fopen(&quot;wc.in&quot;, &quot;r&quot;);
-    // yyrestart(fopen(&quot;wc.in&quot;, &quot;r&quot;));  // 也可以使用 yyrestart 指定输入源
-    yylex();
-    printf(&quot;%8d%8d%8d\n&quot;, lines, words, chars);
-&#125;
-</code></pre>
 <h3 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h3><p>flex 词法分析器支持从文件或标准输入读取数据，flex 提供将数据预读取到缓冲区的机制，提高效率，行为大致如下。</p>
-<pre><code class="c++">YY_BUFFER_STATE bp;
-extern FILE* yyin;
-... // 第一次调用语法分析器之前所需要做的事情
-if (!yyin) yyin = stdin;
-bp = yy_create_buffer(yyin, YY_BUF_SIZE); // YY_BUF_SIZE 由 flex 定义，通常 16k
-yy_switch_to_buffer(bp);
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">YY_BUFFER_STATE bp;</span><br><span class="line"><span class="keyword">extern</span> FILE* yyin;</span><br><span class="line">... <span class="comment">// 第一次调用语法分析器之前所需要做的事情</span></span><br><span class="line"><span class="keyword">if</span> (!yyin) yyin = stdin;</span><br><span class="line">bp = <span class="built_in">yy_create_buffer</span>(yyin, YY_BUF_SIZE); <span class="comment">// YY_BUF_SIZE 由 flex 定义，通常 16k</span></span><br><span class="line"><span class="built_in">yy_switch_to_buffer</span>(bp);</span><br></pre></td></tr></table></figure>
+
 <p>通过如下宏定义，可重新定义用于输入到缓冲区的宏。</p>
-<pre><code class="c++">#define YY_INPUT(buf, result, max_size) ...
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_INPUT(buf, result, max_size) ...</span></span><br></pre></td></tr></table></figure>
+
 <p>每当词法分析器的输入缓冲区为空时，就会调用 YY_INPUT，buf 是缓冲区，max_size 是缓冲区大小，result 则用来放置实际读取的长度。</p>
 <h3 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h3><p>默认没有匹配的输入，都会被拷贝到 yyout 中，通过默认添加如下规则实现。</p>
-<pre><code class="c++">. ECHO
-#define ECHO fwrite(yytext, yyleng, 1, yyout)
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">. ECHO</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ECHO fwrite(yytext, yyleng, 1, yyout)</span></span><br></pre></td></tr></table></figure>
+
 <p>上面代码，定义一个规则 <code>.</code> 用于匹配所有未被识别的输入，并执行默认的行为 <code>fwrite(yytext, yyleng, 1, yyout)</code>。</p>
 <h3 id="option"><a href="#option" class="headerlink" title="option"></a>option</h3><p>flex 在文件头部通过 <code>%option</code> 定义选项。</p>
-<pre><code class="c++">%option noyywrap nodefault yylineno case-insensitive
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%option noyywrap nodefault yylineno <span class="keyword">case</span>-insensitive</span><br></pre></td></tr></table></figure>
+
 <table>
 <thead>
 <tr>
@@ -485,53 +297,31 @@ yy_switch_to_buffer(bp);
 </tr>
 </tbody></table>
 <h2 id="bison-1"><a href="#bison-1" class="headerlink" title="bison"></a>bison</h2><p>flex 可以识别正则表达式，bison 可以识别语法。flex 把输入流分解为若干个片段，而bison则分析这些记号并给予逻辑进行组合。</p>
-<h3 id="token"><a href="#token" class="headerlink" title="%token"></a>%token</h3><pre><code class="c++">// 规则
-%token &lt;type&gt; name &quot;string-literal&quot;
-  
-// 示例
-%token NUM 300    // 为 token 指定数字编码
-%token XNUM 0x12d // a GNU extension
-%union &#123;              /* define stack type */
-  double val;
-  symrec *tptr;
-&#125;
-%token &lt;val&gt; NUM      /* define token NUM and its type */
-  
-// 为 token 指定字符常量
-%token ARROW &quot;=&gt;&quot;     /* yylex 可通过 token 名称和 字符常量来获取 toKen 类型编码 */
-</code></pre>
+<h3 id="token"><a href="#token" class="headerlink" title="%token"></a>%token</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 规则</span></span><br><span class="line">%token &lt;type&gt; name <span class="string">&quot;string-literal&quot;</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// 示例</span></span><br><span class="line">%token NUM <span class="number">300</span>    <span class="comment">// 为 token 指定数字编码</span></span><br><span class="line">%token XNUM <span class="number">0x12d</span> <span class="comment">// a GNU extension</span></span><br><span class="line">%<span class="class"><span class="keyword">union</span> &#123;</span>              <span class="comment">/* define stack type */</span></span><br><span class="line">  <span class="keyword">double</span> val;</span><br><span class="line">  symrec *tptr;</span><br><span class="line">&#125;</span><br><span class="line">%token &lt;val&gt; NUM      <span class="comment">/* define token NUM and its type */</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// 为 token 指定字符常量</span></span><br><span class="line">%token ARROW <span class="string">&quot;=&gt;&quot;</span>     <span class="comment">/* yylex 可通过 token 名称和 字符常量来获取 toKen 类型编码 */</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="union"><a href="#union" class="headerlink" title="%union"></a>%union</h3><p><code>%union</code> 用于指定语义值的类型集合，定义语法和 c 中的 union 类似。</p>
-<pre><code class="c++">%union &#123;
-  double val;
-  symrec *tptr;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">%<span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">  <span class="keyword">double</span> val;</span><br><span class="line">  symrec *tptr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>上述声明，声明有两个可选类型 <code>double</code> 和 <code>symrec *</code>，并给定名字 <code>val</code> 和 <code>tptr</code> ，这些名字用在 <code>%token</code> 、 <code>%nterm</code> 和 <code>%type</code> 声明中，为终结符和非终结符指定类型。</p>
-<pre><code class="c++">%token &lt;val&gt; expr stmt   // 声明 expr、stmt 类型名称为 val，即 double
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%token &lt;val&gt; expr stmt   <span class="comment">// 声明 expr、stmt 类型名称为 val，即 double</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="type"><a href="#type" class="headerlink" title="%type"></a>%type</h3><p>每个语义值（即 <code>$$</code>）都有其类型，默认为 <code>int</code>，可以通过如下方式借助 bison api 修改默认语义值类型。</p>
-<pre><code class="c++">%define api.value.type &#123;double&#125;
-%define api.value.type &#123;struct semantic_type&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%define api.value.type &#123;<span class="keyword">double</span>&#125;</span><br><span class="line">%define api.value.type &#123;<span class="class"><span class="keyword">struct</span> <span class="title">semantic_type</span>&#125;</span></span><br></pre></td></tr></table></figure>
+
 <p>也可通过定义宏 <code>YYSTYPE</code> 借助编译器修改，值得注意的是，Bison并不知道 <code>YYSTYPE</code> 的值，甚至不知道其是否定义，因此无法提供部分支持。</p>
-<pre><code class="c++">%define YYSTYPE double
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%define YYSTYPE <span class="keyword">double</span></span><br></pre></td></tr></table></figure>
+
 <p>当使用 <code>%union</code> 指定多值类型时，必须为每个要指定值的非终结符声明值类型。这是通过 <code>%type</code> 声明完成的，类似于如下。</p>
-<pre><code class="c++">%type &lt;type&gt; nonterminal...
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%type &lt;type&gt; nonterminal...</span><br></pre></td></tr></table></figure>
+
 <p>这里的 <code>nonterminal</code> 是非终结符的名字，<code>type</code> 是 <code>%union</code> 中声明的可选类型名称。</p>
 <h3 id="code"><a href="#code" class="headerlink" title="%code"></a>%code</h3><p>在指定位置插入代码。</p>
-<pre><code class="c++">%code [place] &#123;
-  ... code ...
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">%code [place] &#123;</span><br><span class="line">  ... code ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><code>[place]</code> 用于指定位置，可选项有 <code>top</code>、<code>provides</code> 、<code>requires</code> ，对应的位置分别为文件的顶部、在YYSTYPE与YYLTYPE定义之前和之后。</p>
 <h3 id="defines"><a href="#defines" class="headerlink" title="%defines"></a>%defines</h3><p>生成解析器头文件，包含语法中定义的标记种类名称的定义及其它一些声明。如果解析器实现文件名为 name.c ，则解析器头文件名称为 name.h ，可通过 <code>%define api.header.include</code> 重新设定文件名。</p>
-<h3 id="define"><a href="#define" class="headerlink" title="%define"></a>%define</h3><pre><code>$define variable
-$define variable value
-$define variable &#123;value&#125;
-$define variable &quot;value&quot;
-</code></pre>
+<h3 id="define"><a href="#define" class="headerlink" title="%define"></a>%define</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$define variable</span><br><span class="line">$define variable value</span><br><span class="line">$define variable &#123;value&#125;</span><br><span class="line">$define variable &quot;value&quot;</span><br></pre></td></tr></table></figure>
+
 <p><strong>variable</strong></p>
 <table>
 <thead>
@@ -597,25 +387,8 @@ $define variable &quot;value&quot;
 <td>自定义类型</td>
 </tr>
 </tbody></table>
-<pre><code class="c++">%code requires
-&#123;
-  struct my_value
-  &#123;
-    enum
-    &#123;
-      is_int, is_str
-    &#125; kind;
-    union
-    &#123;
-      int ival;
-      char *sval;
-    &#125; u;
-  &#125;;
-&#125;
-%define api.value.type &#123;struct my_value&#125;   // 使用自定义类型
-%token &lt;u.ival&gt; INT &quot;integer&quot;
-%token &lt;u.sval&gt; STR &quot;string&quot;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">%code <span class="keyword">requires</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">my_value</span></span></span><br><span class="line"><span class="class">  &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">enum</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">      is_int, is_str</span><br><span class="line">    &#125; kind;</span><br><span class="line">    <span class="class"><span class="keyword">union</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">      <span class="keyword">int</span> ival;</span><br><span class="line">      <span class="keyword">char</span> *sval;</span><br><span class="line">    &#125; u;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">%define api.value.type &#123;<span class="class"><span class="keyword">struct</span> <span class="title">my_value</span>&#125;   // 使用自定义类型</span></span><br><span class="line"><span class="class">%<span class="title">token</span> &lt;</span>u.ival&gt; INT <span class="string">&quot;integer&quot;</span></span><br><span class="line">%token &lt;u.sval&gt; STR <span class="string">&quot;string&quot;</span></span><br></pre></td></tr></table></figure>
+
 <p>默认类型：</p>
 <ul>
 <li>如果定义 <code>%union</code> ，则是 union-directive</li>
@@ -623,30 +396,23 @@ $define variable &quot;value&quot;
 <li>否则为 undefined</li>
 </ul>
 <h3 id="parse-param"><a href="#parse-param" class="headerlink" title="%parse-param"></a>%parse-param</h3><p>定义解析器参数，比如。</p>
-<pre><code class="c++">%parse-param &#123;int *nastiness&#125; &#123;int *randomness&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%parse-param &#123;<span class="keyword">int</span> *nastiness&#125; &#123;<span class="keyword">int</span> *randomness&#125;</span><br></pre></td></tr></table></figure>
+
 <p>那么像如下方式，调用解析器。</p>
-<pre><code class="c++">&#123;
-  int nastiness, randomness;
-  …  /* Store proper data in nastiness and randomness. */
-  value = yyparse (&amp;nastiness, &amp;randomness);
-  …
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="keyword">int</span> nastiness, randomness;</span><br><span class="line">  …  <span class="comment">/* Store proper data in nastiness and randomness. */</span></span><br><span class="line">  value = <span class="built_in">yyparse</span> (&amp;nastiness, &amp;randomness);</span><br><span class="line">  …</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>在语法的action中，像如下使用变量。</p>
-<pre><code class="c++">exp: …    &#123; …; *randomness += 1; … &#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exp: …    &#123; …; *randomness += <span class="number">1</span>; … &#125;</span><br></pre></td></tr></table></figure>
+
 <p>下面的定义。</p>
-<pre><code class="c++">%parse-param &#123;int *randomness&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%parse-param &#123;<span class="keyword">int</span> *randomness&#125;</span><br></pre></td></tr></table></figure>
+
 <p>会生成如下签名。</p>
-<pre><code class="c++">void yyerror (int *randomness, const char *msg);
-int  yyparse (int *randomness);
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">yyerror</span> <span class="params">(<span class="keyword">int</span> *randomness, <span class="keyword">const</span> <span class="keyword">char</span> *msg)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">yyparse</span> <span class="params">(<span class="keyword">int</span> *randomness)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <p>如果 <code>%define api.pure full</code> 和 <code>%locations </code> 被使用，那么签名会如下所示。</p>
-<pre><code class="c++">void yyerror (YYLTYPE *llocp, int *randomness, const char *msg);
-int  yyparse (int *randomness);
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">yyerror</span> <span class="params">(YYLTYPE *llocp, <span class="keyword">int</span> *randomness, <span class="keyword">const</span> <span class="keyword">char</span> *msg)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">yyparse</span> <span class="params">(<span class="keyword">int</span> *randomness)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <h3 id="locations"><a href="#locations" class="headerlink" title="%locations"></a>%locations</h3><p>使用 <code>%locations</code> 时，c++解析器支持位置追踪，具体参照<a target="_blank" rel="noopener" href="https://www.gnu.org/software/bison/manual/html_node/Tracking-Locations.html">这里</a>。</p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/120812270">https://zhuanlan.zhihu.com/p/120812270</a></li>
@@ -662,7 +428,7 @@ int  yyparse (int *randomness);
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/28/computer%20science/fundamentals%20of%20compiling/flex-bison/" data-id="ckomwlry800pqrhn9ev5ec6jz" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/01/28/computer%20science/fundamentals%20of%20compiling/flex-bison/" data-id="ckonrt82f00pqc8n94pf13rdo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" rel="tag">语法解析</a></li></ul>
@@ -743,7 +509,7 @@ int  yyparse (int *randomness);
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -751,7 +517,7 @@ int  yyparse (int *randomness);
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

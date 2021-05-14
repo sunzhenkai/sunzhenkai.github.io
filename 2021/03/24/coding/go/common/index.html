@@ -7,12 +7,12 @@
   
   <title>go common | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="time.Durationd :&#x3D; time.Duration(10) d :&#x3D; 10 * time.Nanosecond &#x2F;&#x2F; d :&#x3D; rand.Intn(100) * time.Nanosecond ERROR d :&#x3D; time.Duration(rand.Intn(100)) * time.Nanosecond  打印打印数组fmt.Printf(&quot;%v&quot;, []fl">
+  <meta name="description" content="time.Duration1234d :&#x3D; time.Duration(10)d :&#x3D; 10 * time.Nanosecond&#x2F;&#x2F; d :&#x3D; rand.Intn(100) * time.Nanosecond ERRORd :&#x3D; time.Duration(rand.Intn(100)) * time.Nanosecond  打印打印数组1fmt.Printf(&quot;%v&quot;, []">
 <meta property="og:type" content="article">
 <meta property="og:title" content="go common">
 <meta property="og:url" content="http://wii.pub/2021/03/24/coding/go/common/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="time.Durationd :&#x3D; time.Duration(10) d :&#x3D; 10 * time.Nanosecond &#x2F;&#x2F; d :&#x3D; rand.Intn(100) * time.Nanosecond ERROR d :&#x3D; time.Duration(rand.Intn(100)) * time.Nanosecond  打印打印数组fmt.Printf(&quot;%v&quot;, []fl">
+<meta property="og:description" content="time.Duration1234d :&#x3D; time.Duration(10)d :&#x3D; 10 * time.Nanosecond&#x2F;&#x2F; d :&#x3D; rand.Intn(100) * time.Nanosecond ERRORd :&#x3D; time.Duration(rand.Intn(100)) * time.Nanosecond  打印打印数组1fmt.Printf(&quot;%v&quot;, []">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-03-23T16:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.575Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,31 +92,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="time-Duration"><a href="#time-Duration" class="headerlink" title="time.Duration"></a>time.Duration</h1><pre><code class="go">d := time.Duration(10)
-d := 10 * time.Nanosecond
-// d := rand.Intn(100) * time.Nanosecond ERROR
-d := time.Duration(rand.Intn(100)) * time.Nanosecond
-</code></pre>
-<h1 id="打印"><a href="#打印" class="headerlink" title="打印"></a>打印</h1><h2 id="打印数组"><a href="#打印数组" class="headerlink" title="打印数组"></a>打印数组</h2><pre><code class="go">fmt.Printf(&quot;%v&quot;, []float64&#123;0.1, 0.5, 0.99, 0.999&#125;)
-</code></pre>
-<h1 id="network"><a href="#network" class="headerlink" title="network"></a>network</h1><h2 id="发送请求"><a href="#发送请求" class="headerlink" title="发送请求"></a>发送请求</h2><pre><code class="go">urlBaiduFanyiSug := &quot;https://fanyi.baidu.com/sug&quot;
-data := map[string]string&#123;&quot;kw&quot;: &quot;hi&quot;&#125;
-js, _ := json.Marshal(data)
-res, err := http.Post(urlBaiduFanyiSug, &quot;application/json&quot;, bytes.NewBuffer(js))
-</code></pre>
-<h2 id="解析请求"><a href="#解析请求" class="headerlink" title="解析请求"></a>解析请求</h2><pre><code class="go">
-</code></pre>
-<h1 id="byte-和-string"><a href="#byte-和-string" class="headerlink" title="[]byte 和 string"></a>[]byte 和 string</h1><pre><code class="go">// []byte -&gt; string; bys: []byte
-s := string(bys)
+        <h1 id="time-Duration"><a href="#time-Duration" class="headerlink" title="time.Duration"></a>time.Duration</h1><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">d := time.Duration(<span class="number">10</span>)</span><br><span class="line">d := <span class="number">10</span> * time.Nanosecond</span><br><span class="line"><span class="comment">// d := rand.Intn(100) * time.Nanosecond ERROR</span></span><br><span class="line">d := time.Duration(rand.Intn(<span class="number">100</span>)) * time.Nanosecond</span><br></pre></td></tr></table></figure>
 
-// string -&gt; []byte
-bys := []byte(s)
-</code></pre>
+<h1 id="打印"><a href="#打印" class="headerlink" title="打印"></a>打印</h1><h2 id="打印数组"><a href="#打印数组" class="headerlink" title="打印数组"></a>打印数组</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Printf(<span class="string">&quot;%v&quot;</span>, []<span class="keyword">float64</span>&#123;<span class="number">0.1</span>, <span class="number">0.5</span>, <span class="number">0.99</span>, <span class="number">0.999</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="network"><a href="#network" class="headerlink" title="network"></a>network</h1><h2 id="发送请求"><a href="#发送请求" class="headerlink" title="发送请求"></a>发送请求</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">urlBaiduFanyiSug := <span class="string">&quot;https://fanyi.baidu.com/sug&quot;</span></span><br><span class="line">data := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;<span class="string">&quot;kw&quot;</span>: <span class="string">&quot;hi&quot;</span>&#125;</span><br><span class="line">js, _ := json.Marshal(data)</span><br><span class="line">res, err := http.Post(urlBaiduFanyiSug, <span class="string">&quot;application/json&quot;</span>, bytes.NewBuffer(js))</span><br></pre></td></tr></table></figure>
+
+<h2 id="解析请求"><a href="#解析请求" class="headerlink" title="解析请求"></a>解析请求</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="byte-和-string"><a href="#byte-和-string" class="headerlink" title="[]byte 和 string"></a>[]byte 和 string</h1><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// []byte -&gt; string; bys: []byte</span></span><br><span class="line">s := <span class="keyword">string</span>(bys)</span><br><span class="line"></span><br><span class="line"><span class="comment">// string -&gt; []byte</span></span><br><span class="line">bys := []<span class="keyword">byte</span>(s)</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/24/coding/go/common/" data-id="ckomwlrss0016rhn952w6fxx1" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/24/coding/go/common/" data-id="ckonrt7uc0016c8n90vpo7wq6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
@@ -195,7 +187,7 @@ bys := []byte(s)
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -203,7 +195,7 @@ bys := []byte(s)
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

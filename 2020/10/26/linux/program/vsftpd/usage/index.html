@@ -7,12 +7,12 @@
   
   <title>vsftpd usage | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="安装# ubuntu $ sudo apt install vsftpd  配置配置文件路径# ubuntu &#x2F;etc&#x2F;vsftpd.conf  配置项listen&#x3D;YES    # 是否监听网络端口, 默认NO  用户本地用户local_enable&#x3D;YES    # 允许使用本地用户账号密码登录  虚拟用户仅用于登录ftp服务器的账号密码。 # [required] 安装 pam &amp;">
+  <meta name="description" content="安装12# ubuntu$ sudo apt install vsftpd  配置配置文件路径12# ubuntu&#x2F;etc&#x2F;vsftpd.conf  配置项1listen&#x3D;YES    # 是否监听网络端口, 默认NO  用户本地用户1local_enable&#x3D;YES    # 允许使用本地用户账号密码登录  虚拟用户仅用于登录ftp服务器的账号密码。 1234567891011121314151">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vsftpd usage">
 <meta property="og:url" content="http://wii.pub/2020/10/26/linux/program/vsftpd/usage/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="安装# ubuntu $ sudo apt install vsftpd  配置配置文件路径# ubuntu &#x2F;etc&#x2F;vsftpd.conf  配置项listen&#x3D;YES    # 是否监听网络端口, 默认NO  用户本地用户local_enable&#x3D;YES    # 允许使用本地用户账号密码登录  虚拟用户仅用于登录ftp服务器的账号密码。 # [required] 安装 pam &amp;">
+<meta property="og:description" content="安装12# ubuntu$ sudo apt install vsftpd  配置配置文件路径12# ubuntu&#x2F;etc&#x2F;vsftpd.conf  配置项1listen&#x3D;YES    # 是否监听网络端口, 默认NO  用户本地用户1local_enable&#x3D;YES    # 允许使用本地用户账号密码登录  虚拟用户仅用于登录ftp服务器的账号密码。 1234567891011121314151">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-10-26T10:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.647Z">
@@ -25,6 +25,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -91,60 +93,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code class="shell"># ubuntu
-$ sudo apt install vsftpd
-</code></pre>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="配置文件路径"><a href="#配置文件路径" class="headerlink" title="配置文件路径"></a>配置文件路径</h2><pre><code class="shell"># ubuntu
-/etc/vsftpd.conf
-</code></pre>
-<h2 id="配置项"><a href="#配置项" class="headerlink" title="配置项"></a>配置项</h2><pre><code class="shell">listen=YES    # 是否监听网络端口, 默认NO
-</code></pre>
-<h1 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h1><h2 id="本地用户"><a href="#本地用户" class="headerlink" title="本地用户"></a>本地用户</h2><pre><code class="shell">local_enable=YES    # 允许使用本地用户账号密码登录
-</code></pre>
+        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ubuntu</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt install vsftpd</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="配置文件路径"><a href="#配置文件路径" class="headerlink" title="配置文件路径"></a>配置文件路径</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ubuntu</span></span><br><span class="line">/etc/vsftpd.conf</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置项"><a href="#配置项" class="headerlink" title="配置项"></a>配置项</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listen=YES    # 是否监听网络端口, 默认NO</span><br></pre></td></tr></table></figure>
+
+<h1 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h1><h2 id="本地用户"><a href="#本地用户" class="headerlink" title="本地用户"></a>本地用户</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local_enable=YES    # 允许使用本地用户账号密码登录</span><br></pre></td></tr></table></figure>
+
 <h2 id="虚拟用户"><a href="#虚拟用户" class="headerlink" title="虚拟用户"></a>虚拟用户</h2><p>仅用于登录ftp服务器的账号密码。</p>
-<pre><code class="shell"># [required] 安装 pam &amp; htpasswd
-$ sudo apt install libpam-pwdfile apache2-utils
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> [required] 安装 pam &amp; htpasswd</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt install libpam-pwdfile apache2-utils</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [required] 创建目录</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo mkdir /home/ftp</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo mkdir /etc/vsftpd</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [required] /etc/vsftpd.conf 修改为如下配置</span></span><br><span class="line">listen=YES</span><br><span class="line">anonymous_enable=NO</span><br><span class="line">local_enable=YES</span><br><span class="line">write_enable=YES</span><br><span class="line">local_umask=022</span><br><span class="line">nopriv_user=vsftpd</span><br><span class="line">virtual_use_local_privs=YES</span><br><span class="line">guest_enable=YES</span><br><span class="line">user_sub_token=$USER</span><br><span class="line">local_root=/var/www/$USER        # root, 登录前确保用户目录已存在</span><br><span class="line">chroot_local_user=YES</span><br><span class="line">hide_ids=YES</span><br><span class="line">guest_username=vsftpd</span><br><span class="line">user_config_dir=/etc/vsftpd_user_conf</span><br><span class="line">allow_writeable_chroo=YES</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [required] 创建ftp用户</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo htpasswd -<span class="built_in">cd</span> /etc/vsftpd/ftpd.passwd user-name    <span class="comment"># then enter password</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> -c: create, 如需额外添加，去除该参数</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [required] /etc/pam.d/vsftpd 替换为如下内容</span></span><br><span class="line">auth required pam_pwdfile.so pwdfile /etc/vsftpd/ftpd.passwd</span><br><span class="line">account required pam_permit.so</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [required] 创建没有shell登录权限的本地用户 vsftpd，用于虚拟用户登录</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo useradd --home /home/vsftpd --gid nogroup -m --shell /bin/<span class="literal">false</span> vsftpd</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [optional] 验证</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> id vsftpd</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [optional untested] 用户独立配置，配置文件路径为 <span class="variable">$&#123;user_config_dir&#125;</span>/<span class="variable">$&#123;user&#125;</span>，以 wii 为例</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo vim /etc/vsftpd_user_conf</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [required] 重启vsftpd</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo service vsftpd restart</span></span><br></pre></td></tr></table></figure>
 
-# [required] 创建目录
-$ sudo mkdir /home/ftp
-$ sudo mkdir /etc/vsftpd
-
-# [required] /etc/vsftpd.conf 修改为如下配置
-listen=YES
-anonymous_enable=NO
-local_enable=YES
-write_enable=YES
-local_umask=022
-nopriv_user=vsftpd
-virtual_use_local_privs=YES
-guest_enable=YES
-user_sub_token=$USER
-local_root=/var/www/$USER        # root, 登录前确保用户目录已存在
-chroot_local_user=YES
-hide_ids=YES
-guest_username=vsftpd
-user_config_dir=/etc/vsftpd_user_conf
-allow_writeable_chroo=YES
-
-# [required] 创建ftp用户
-$ sudo htpasswd -cd /etc/vsftpd/ftpd.passwd user-name    # then enter password
-# -c: create, 如需额外添加，去除该参数
-
-# [required] /etc/pam.d/vsftpd 替换为如下内容
-auth required pam_pwdfile.so pwdfile /etc/vsftpd/ftpd.passwd
-account required pam_permit.so
-
-# [required] 创建没有shell登录权限的本地用户 vsftpd，用于虚拟用户登录
-$ sudo useradd --home /home/vsftpd --gid nogroup -m --shell /bin/false vsftpd
-# [optional] 验证
-$ id vsftpd
-
-# [optional untested] 用户独立配置，配置文件路径为 $&#123;user_config_dir&#125;/$&#123;user&#125;，以 wii 为例
-$ sudo vim /etc/vsftpd_user_conf
-
-# [required] 重启vsftpd
-$ sudo service vsftpd restart
-</code></pre>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://askubuntu.com/questions/575523/how-to-setup-virtual-users-for-vsftpd-with-access-to-a-specific-sub-directory">https://askubuntu.com/questions/575523/how-to-setup-virtual-users-for-vsftpd-with-access-to-a-specific-sub-directory</a></li>
 </ul>
@@ -152,7 +111,7 @@ $ sudo service vsftpd restart
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/10/26/linux/program/vsftpd/usage/" data-id="ckomwlrve009lrhn9gelpc8wa" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/10/26/linux/program/vsftpd/usage/" data-id="ckonrt7y3009lc8n9a6g5fgl8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ftp/" rel="tag">ftp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vsftpd/" rel="tag">vsftpd</a></li></ul>
@@ -163,11 +122,11 @@ $ sudo service vsftpd restart
     
 <nav id="article-nav">
   
-    <a href="/2020/10/27/architecture/storage/compare/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/10/27/architecture/storage/mysql/usage/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          数据存储对比
+          mysql usage
         
       </div>
     </a>
@@ -233,7 +192,7 @@ $ sudo service vsftpd restart
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -241,7 +200,7 @@ $ sudo service vsftpd restart
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

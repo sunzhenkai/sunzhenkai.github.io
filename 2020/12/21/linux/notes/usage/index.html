@@ -7,12 +7,12 @@
   
   <title>linux usage | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="按大小排序打印文件$ ls -lSh   # -S: 按大小排序; -h: human readable $ ls -lShr  # -r: 倒序 $ ls -lShrR # -R: 递归列出子文件夹  在特定文件内查找内容grep $ grep -inr --include pom.xml apollo . # i: 忽略大小写; r: 递归; n: 行号  vim :vimgrep &#x2F;apol">
+  <meta name="description" content="按大小排序打印文件123$ ls -lSh   # -S: 按大小排序; -h: human readable$ ls -lShr  # -r: 倒序$ ls -lShrR # -R: 递归列出子文件夹  在特定文件内查找内容grep 1$ grep -inr --include pom.xml apollo . # i: 忽略大小写; r: 递归; n: 行号  vim 1:vimgrep &#x2F;a">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux usage">
 <meta property="og:url" content="http://wii.pub/2020/12/21/linux/notes/usage/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="按大小排序打印文件$ ls -lSh   # -S: 按大小排序; -h: human readable $ ls -lShr  # -r: 倒序 $ ls -lShrR # -R: 递归列出子文件夹  在特定文件内查找内容grep $ grep -inr --include pom.xml apollo . # i: 忽略大小写; r: 递归; n: 行号  vim :vimgrep &#x2F;apol">
+<meta property="og:description" content="按大小排序打印文件123$ ls -lSh   # -S: 按大小排序; -h: human readable$ ls -lShr  # -r: 倒序$ ls -lShrR # -R: 递归列出子文件夹  在特定文件内查找内容grep 1$ grep -inr --include pom.xml apollo . # i: 忽略大小写; r: 递归; n: 行号  vim 1:vimgrep &#x2F;a">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-12-21T01:40:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.646Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,21 +92,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="按大小排序打印文件"><a href="#按大小排序打印文件" class="headerlink" title="按大小排序打印文件"></a>按大小排序打印文件</h1><pre><code class="shell">$ ls -lSh   # -S: 按大小排序; -h: human readable
-$ ls -lShr  # -r: 倒序
-$ ls -lShrR # -R: 递归列出子文件夹
-</code></pre>
+        <h1 id="按大小排序打印文件"><a href="#按大小排序打印文件" class="headerlink" title="按大小排序打印文件"></a>按大小排序打印文件</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ls -lSh   <span class="comment"># -S: 按大小排序; -h: human readable</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ls -lShr  <span class="comment"># -r: 倒序</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ls -lShrR <span class="comment"># -R: 递归列出子文件夹</span></span></span><br></pre></td></tr></table></figure>
+
 <h1 id="在特定文件内查找内容"><a href="#在特定文件内查找内容" class="headerlink" title="在特定文件内查找内容"></a>在特定文件内查找内容</h1><p><strong>grep</strong></p>
-<pre><code class="shell">$ grep -inr --include pom.xml apollo . # i: 忽略大小写; r: 递归; n: 行号
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> grep -inr --include pom.xml apollo . <span class="comment"># i: 忽略大小写; r: 递归; n: 行号</span></span></span><br></pre></td></tr></table></figure>
+
 <p><strong>vim</strong></p>
-<pre><code class="shell">:vimgrep /apollo/g **/pom.xml 
-</code></pre>
-<h1 id="递归查找特定文件-夹"><a href="#递归查找特定文件-夹" class="headerlink" title="递归查找特定文件[夹]"></a>递归查找特定文件[夹]</h1><pre><code class="shell">$ find . -name &#39;\.idea&#39;
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:vimgrep /apollo/g **/pom.xml </span><br></pre></td></tr></table></figure>
+
+<h1 id="递归查找特定文件-夹"><a href="#递归查找特定文件-夹" class="headerlink" title="递归查找特定文件[夹]"></a>递归查找特定文件[夹]</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> find . -name <span class="string">&#x27;\.idea&#x27;</span></span></span><br></pre></td></tr></table></figure>
+
 <p><strong>删除</strong></p>
-<pre><code class="shell">$ find . -name &#39;\.idea&#39; | xargs rm  -r
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> find . -name <span class="string">&#x27;\.idea&#x27;</span> | xargs rm  -r</span></span><br></pre></td></tr></table></figure>
+
 <h1 id="目录栈"><a href="#目录栈" class="headerlink" title="目录栈"></a>目录栈</h1><p><code>dirs</code> : 查看当前目录栈</p>
 <ul>
 <li><code>-v</code> : 列出目录及其序号</li>
@@ -113,22 +113,13 @@ $ ls -lShrR # -R: 递归列出子文件夹
 </ul>
 <p><code>pushd</code> ：改变目录并将原目录压入栈</p>
 <p><code>popd</code> : 修改当前目录为栈顶目录并将栈顶目录出栈</p>
-<pre><code class="shell">$  ~ dirs
-~
-$  ~ pushd Downloads 
-~/Downloads ~
-$  Downloads dirs
-~/Downloads ~
-$  Downloads popd           
-~
-$  ~ dirs
-~
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">  ~ <span class="built_in">dirs</span></span></span><br><span class="line">~</span><br><span class="line"><span class="meta">$</span><span class="bash">  ~ <span class="built_in">pushd</span> Downloads</span> </span><br><span class="line">~/Downloads ~</span><br><span class="line"><span class="meta">$</span><span class="bash">  Downloads <span class="built_in">dirs</span></span></span><br><span class="line">~/Downloads ~</span><br><span class="line"><span class="meta">$</span><span class="bash">  Downloads <span class="built_in">popd</span></span>           </span><br><span class="line">~</span><br><span class="line"><span class="meta">$</span><span class="bash">  ~ <span class="built_in">dirs</span></span></span><br><span class="line">~</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/21/linux/notes/usage/" data-id="ckomwlrtk003brhn91y2y0y7p" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/21/linux/notes/usage/" data-id="ckonrt7vh003bc8n9gqc48xxe" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
@@ -209,7 +200,7 @@ $  ~ dirs
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -217,7 +208,7 @@ $  ~ dirs
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

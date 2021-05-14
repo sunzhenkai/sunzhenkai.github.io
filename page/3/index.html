@@ -20,6 +20,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -106,7 +108,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/11/computer%20science/operation%20system/process-thread/" data-id="ckomwlrt80027rhn9cmvcev6u" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/11/computer%20science/operation%20system/process-thread/" data-id="ckonrt7v00027c8n9d3c236u0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li></ul>
@@ -118,14 +120,14 @@
 
 
   
-    <article id="post-computer science/operation system/lock" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-coding/c++/notes/datastruct" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/03/11/computer%20science/operation%20system/lock/" class="article-date">
+    <a href="/2021/03/11/coding/c++/notes/datastruct/" class="article-date">
   <time datetime="2021-03-10T16:00:00.000Z" itemprop="datePublished">2021-03-11</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/">计算机科学</a>►<a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/c/">c++</a>
   </div>
 
   </div>
@@ -136,7 +138,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/11/computer%20science/operation%20system/lock/">操作系统 - 锁</a>
+      <a class="article-title" href="/2021/03/11/coding/c++/notes/datastruct/">c++ 数据结构</a>
     </h1>
   
 
@@ -144,28 +146,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="mutex-lock"><a href="#mutex-lock" class="headerlink" title="mutex lock"></a>mutex lock</h2><p>所谓锁，在计算机中，本质是内存中的一块空间，其值被赋予了加锁/未加锁的含义，其底层实现，是基于计算机系统中的原子操作。</p>
-<p>mutex lock 核心包含两点。</p>
+        <h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1><h2 id="map-VS-unordered-map"><a href="#map-VS-unordered-map" class="headerlink" title="map VS unordered_map"></a>map VS unordered_map</h2><ul>
+<li>map<ul>
+<li>底层为红黑树</li>
+</ul>
+</li>
+<li>unordered_map<ul>
+<li>底层为哈希表</li>
+</ul>
+</li>
+</ul>
+<p><strong>对比</strong></p>
 <ul>
-<li>Compare And Set（CAS）<ul>
-<li>互斥锁是对临界区的保护，能否进入临界区即能否获取到锁，思路都是判断并置位一个标志位，这个标志位本身可以是一个普通的内存变量，关键在于，对于这个变量的”判断并置位”操作需要是原子的。</li>
-<li>计算机实现原子操作，对于单核机器，关中断防止调度即可；多核理论上可使用 spinlock 保护，实际一般通过原子汇编语言实现，比如x86的tsl指令（test and set），可以用一条“无法继续分割的”汇编指令实现判断变量值并根据是否为0进行置位，具体这个指令实现原子性一般通过锁总线实现，也就是我执行这条指令时，其它核都不能访问这个地址了。</li>
-</ul>
-</li>
-<li>根据所是否获得，决定执行策略<ul>
-<li>如果锁持有，则继续运行</li>
-<li>如果所没有获取到，常规做法是将当前任务挂起，并附在 mutex 变量对应的链表上，一旦锁被释放，查找锁上挂起的任务并唤醒</li>
-</ul>
-</li>
+<li>map 有序，unordered_map 无序</li>
+<li>unordered_map 查找效率更高</li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/11/computer%20science/operation%20system/lock/" data-id="ckomwlrt70025rhn9h4osen7c" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/11/coding/c++/notes/datastruct/" data-id="ckonrt7xb007kc8n959y43kz1" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
 
     </footer>
   </div>
@@ -204,46 +207,13 @@
 <li><code>Function&lt;A, B&gt;</code> : 一个参数 + 返回值</li>
 <li><code>Supplier&lt;A&gt;</code>  : 无参数 + 返回值</li>
 </ul>
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><pre><code class="java">public class FunctionTest &#123;
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FunctionTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Function&lt;A, B&gt; : 一个参数 + 返回值</span></span><br><span class="line">    <span class="comment">// Supplier&lt;A&gt;    : 无参数 + 返回值</span></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">FC</span> <span class="keyword">implements</span> <span class="title">Function</span>&lt;<span class="title">String</span>, <span class="title">String</span>&gt; </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> Function&lt;String, String&gt; f;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> Supplier&lt;Long&gt; spl;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> Function&lt;String[], String&gt; mf;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">FC</span><span class="params">(Function&lt;String, String&gt; f,</span></span></span><br><span class="line"><span class="params"><span class="function">                  Supplier&lt;Long&gt; spl,</span></span></span><br><span class="line"><span class="params"><span class="function">                  Function&lt;String[], String&gt; mf)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.f = f;</span><br><span class="line">            <span class="keyword">this</span>.spl = spl;</span><br><span class="line">            <span class="keyword">this</span>.mf = mf;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">apply</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> spl.get() + <span class="string">&quot; &quot;</span> + f.apply(s);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">rmf</span><span class="params">(String[] ss)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> mf.apply(ss);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        FC fc = <span class="keyword">new</span> FC((item) -&gt; <span class="string">&quot;Hello &quot;</span> + item,</span><br><span class="line">                System::currentTimeMillis,</span><br><span class="line">                (ags) -&gt; String.join(<span class="string">&quot;,&quot;</span>, ags));</span><br><span class="line">        System.out.println(fc.apply(fc.rmf(<span class="keyword">new</span> String[]&#123;<span class="string">&quot;Tom&quot;</span>, <span class="string">&quot;Kitty&quot;</span>&#125;)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // Function&lt;A, B&gt; : 一个参数 + 返回值
-    // Supplier&lt;A&gt;    : 无参数 + 返回值
-    static class FC implements Function&lt;String, String&gt; &#123;
-        private final Function&lt;String, String&gt; f;
-        private final Supplier&lt;Long&gt; spl;
-        private final Function&lt;String[], String&gt; mf;
-
-        public FC(Function&lt;String, String&gt; f,
-                  Supplier&lt;Long&gt; spl,
-                  Function&lt;String[], String&gt; mf) &#123;
-            this.f = f;
-            this.spl = spl;
-            this.mf = mf;
-        &#125;
-
-        @Override
-        public String apply(String s) &#123;
-            return spl.get() + &quot; &quot; + f.apply(s);
-        &#125;
-
-        public String rmf(String[] ss) &#123;
-            return mf.apply(ss);
-        &#125;
-    &#125;
-
-    public static void main(String[] args) &#123;
-        FC fc = new FC((item) -&gt; &quot;Hello &quot; + item,
-                System::currentTimeMillis,
-                (ags) -&gt; String.join(&quot;,&quot;, ags));
-        System.out.println(fc.apply(fc.rmf(new String[]&#123;&quot;Tom&quot;, &quot;Kitty&quot;&#125;)));
-    &#125;
-&#125;
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/function/" data-id="ckomwlruv007yrhn95tra9de0" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/function/" data-id="ckonrt7xf007yc8n98net9k7x" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -281,19 +251,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h1><pre><code class="java">// 创建 executor
-private static final ExecutorService executor = Executors.newFixedThreadPool(8);
+        <h1 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建 executor</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ExecutorService executor = Executors.newFixedThreadPool(<span class="number">8</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 异步提交 </span></span><br><span class="line">executor.submit(Callable&lt;V&gt; / Runnable);</span><br><span class="line">executor.execute(Runnable);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同步等待</span></span><br><span class="line">executor.invokeAll(Collection&lt;Callable&lt;V&gt;&gt;);</span><br><span class="line">  </span><br><span class="line"><span class="comment">// shutdown </span></span><br><span class="line">executor.shutdown();</span><br></pre></td></tr></table></figure>
 
-// 异步提交 
-executor.submit(Callable&lt;V&gt; / Runnable);
-executor.execute(Runnable);
-
-// 同步等待
-executor.invokeAll(Collection&lt;Callable&lt;V&gt;&gt;);
-  
-// shutdown 
-executor.shutdown();
-</code></pre>
 <p><strong>Tips</strong></p>
 <ul>
 <li><strong>submit</strong> VS <strong>execute</strong> <ul>
@@ -307,7 +266,7 @@ executor.shutdown();
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/thread/" data-id="ckomwlruy008arhn92vqf2bc8" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/thread/" data-id="ckonrt7xk008ac8n9f07zhf07" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -385,21 +344,8 @@ executor.shutdown();
 <h2 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h2><p><strong>自旋锁（spinlock）：是指当一个线程在获取锁的时候，如果锁已经被其它线程获取，那么该线程将循环等待，然后不断的判断锁是否能够被成功获取，直到获取到锁才会退出循环</strong>。</p>
 <p>它是为实现保护共享资源而提出一种锁机制。其实，自旋锁与互斥锁比较类似，它们都是为了解决对某项资源的互斥使用。<strong>无论是互斥锁，还是自旋锁，在任何时刻，最多只能有一个保持者，也就说，在任何时刻最多只能有一个执行单元获得锁</strong>。但是两者在调度机制上略有不同。对于互斥锁，如果资源已经被占用，资源申请者只能进入睡眠状态。但是自旋锁不会引起调用者睡眠，如果自旋锁已经被别的执行单元保持，调用者就一直循环在那里看是否该自旋锁的保持者已经释放了锁，”自旋”一词就是因此而得名。</p>
 <p><strong>实现示例</strong></p>
-<pre><code class="java">public class SpinLock &#123;
-   private AtomicReference&lt;Thread&gt; cas = new AtomicReference&lt;Thread&gt;();
-   public void lock() &#123;
-       Thread current = Thread.currentThread();
-       // 利用CAS
-       while (!cas.compareAndSet(null, current)) &#123;
-           // DO nothing
-       &#125;
-   &#125;
-   public void unlock() &#123;
-       Thread current = Thread.currentThread();
-       cas.compareAndSet(current, null);
-   &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpinLock</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> AtomicReference&lt;Thread&gt; cas = <span class="keyword">new</span> AtomicReference&lt;Thread&gt;();</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       Thread current = Thread.currentThread();</span><br><span class="line">       <span class="comment">// 利用CAS</span></span><br><span class="line">       <span class="keyword">while</span> (!cas.compareAndSet(<span class="keyword">null</span>, current)) &#123;</span><br><span class="line">           <span class="comment">// DO nothing</span></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       Thread current = Thread.currentThread();</span><br><span class="line">       cas.compareAndSet(current, <span class="keyword">null</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>lock() 方法利用的CAS，当第一个线程A获取锁的时候，能够成功获取到，不会进入while循环，如果此时线程A没有释放锁，另一个线程B又来获取锁，此时由于不满足CAS，所以就会进入while循环，不断判断是否满足CAS，直到A线程调用unlock方法释放了该锁。</p>
 <p><strong>问题</strong></p>
 <p>1、如果某个线程持有锁的时间过长，就会导致其它等待获取锁的线程进入循环等待，消耗CPU。使用不当会造成CPU使用率极高。<br>2、上面Java实现的自旋锁不是公平的，即无法满足等待时间最长的线程优先获取锁。不公平的锁就会存在“线程饥饿”问题。</p>
@@ -474,62 +420,8 @@ executor.shutdown();
 <td>关键词括号内的对象</td>
 </tr>
 </tbody></table>
-<pre><code class="java">public class TestLock &#123;
-    private static final ExecutorService es = Executors.newFixedThreadPool(16);
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestLock</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ExecutorService es = Executors.newFixedThreadPool(<span class="number">16</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sleep</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">fe</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fe: &quot;</span> + LocalDateTime.now());</span><br><span class="line">        sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fd: &quot;</span> + LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fc: &quot;</span> + LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fb</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fb: &quot;</span> + LocalDateTime.now());</span><br><span class="line">        fc();</span><br><span class="line">        es.submit(<span class="keyword">this</span>::fd);</span><br><span class="line">        sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fa</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fa: &quot;</span> + LocalDateTime.now());</span><br><span class="line">        sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        TestLock tl = <span class="keyword">new</span> TestLock();</span><br><span class="line">        es.submit(tl::fa);</span><br><span class="line">        es.submit(tl::fb);</span><br><span class="line">        es.submit(tl::fe);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// output</span></span><br><span class="line">fe: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">10.698877</span></span><br><span class="line">fa: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">10.698912</span></span><br><span class="line">fb: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">15.703141</span></span><br><span class="line">fc: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">15.703565</span></span><br><span class="line">fd: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">20.708362</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// description</span></span><br><span class="line"><span class="number">1.</span> 普通同步方法，锁粒度为当前实例对象</span><br><span class="line"><span class="number">2.</span> <span class="keyword">synchronized</span> 为可重入锁，在 fb 中调用 fc 需要重复为当前实例对象上锁</span><br><span class="line"><span class="number">3.</span> 重入锁不适用于子线程</span><br></pre></td></tr></table></figure>
 
-    void sleep() &#123;
-        try &#123;
-            Thread.sleep(5000);
-        &#125; catch (Exception e) &#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-
-    void fe() &#123;
-        System.out.println(&quot;fe: &quot; + LocalDateTime.now());
-        sleep();
-    &#125;
-
-    synchronized void fd() &#123;
-        System.out.println(&quot;fd: &quot; + LocalDateTime.now());
-    &#125;
-
-    synchronized void fc() &#123;
-        System.out.println(&quot;fc: &quot; + LocalDateTime.now());
-    &#125;
-
-    synchronized void fb() &#123;
-        System.out.println(&quot;fb: &quot; + LocalDateTime.now());
-        fc();
-        es.submit(this::fd);
-        sleep();
-    &#125;
-
-    synchronized void fa() &#123;
-        System.out.println(&quot;fa: &quot; + LocalDateTime.now());
-        sleep();
-    &#125;
-
-    public static void main(String[] args) &#123;
-        TestLock tl = new TestLock();
-        es.submit(tl::fa);
-        es.submit(tl::fb);
-        es.submit(tl::fe);
-    &#125;
-&#125;
-
-// output
-fe: 2021-03-11T19:57:10.698877
-fa: 2021-03-11T19:57:10.698912
-fb: 2021-03-11T19:57:15.703141
-fc: 2021-03-11T19:57:15.703565
-fd: 2021-03-11T19:57:20.708362
-  
-// description
-1. 普通同步方法，锁粒度为当前实例对象
-2. synchronized 为可重入锁，在 fb 中调用 fc 需要重复为当前实例对象上锁
-3. 重入锁不适用于子线程
-</code></pre>
 <h2 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h2><p>AQS：AbstractQuenedSynchronizer抽象的队列式同步器。是除了java自带的synchronized关键字之外的锁机制。</p>
 <p>核心思想，如果被请求的共享资源空闲，那么将当前请求资源的线程设置为有效的工作线程，将共享资源设置为锁定状态；如果共享资源被占用，就需要一定的阻塞等待机制来保证锁分配。这个机制主要用的是CLH队列的变体实现的，将暂时获取不到锁的线程加入到队列中。</p>
 <p><img src="/2021/03/10/coding/java/notes/lock/001.png"></p>
@@ -595,25 +487,18 @@ fd: 2021-03-11T19:57:20.708362
 </ul>
 <h2 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h2><p><strong>JDK 1.7</strong></p>
 <p>Jdk 1.7 中，HashMap 底层为数组+链表实现，ConcurrentHashMap与其不同的是，添加了 Segment 作为数组+链表的上层结构，Concurrent 继承 ReentrantLock，对 Segment 加锁，实现不同 Segment 可以同时读写。在写入获取key所在Segment是需要保证可见性，ConcurrentHashMap使用如下方法保证可见性，取得最新的Segment。</p>
-<pre><code class="java">Segment&lt;K,V&gt; s = (Segment&lt;K,V&gt;)UNSAFE.getObjectVolatile(segments, u)
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Segment&lt;K,V&gt; s = (Segment&lt;K,V&gt;)UNSAFE.getObjectVolatile(segments, u)</span><br></pre></td></tr></table></figure>
+
 <p>写入 Segment 时，需要获取锁，先使用自旋锁，超过重试次数后，通过 lock 获取锁（会被阻塞，切换至内核态等待）。</p>
 <p><strong>JDK 1.8</strong></p>
 <p>Jdk 1.8 中的 ConcurrentHashMap 刨除了 Segment 的设计，直接 &lt;大数组+[链表|红黑树]&gt; 的方式，如果数组对应的链表超过一定阈值后，转换为红黑树。大数组使用 volatile 关键字修饰。</p>
 <p>对于写操作，key对应的数组元素，使用 synchronized 关键字申请锁（当然，如果为null，则不需要加锁），然后进行操作。</p>
 <p>对于读操作，数组使用 volatile 保证可见性，数组的每个元素为Node实例（jdk 1.7 为 HashEntry），他的 key 和 hash 值都使用 final 修饰，无需担心可见性。value 和下一个元素的引用由 volatile 修饰，保证可见性。</p>
-<pre><code class="java">static class Node&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; &#123;
-  final int hash;
-  final K key;
-  volatile V val;
-  volatile Node&lt;K,V&gt; next;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">  <span class="keyword">final</span> K key;</span><br><span class="line">  <span class="keyword">volatile</span> V val;</span><br><span class="line">  <span class="keyword">volatile</span> Node&lt;K,V&gt; next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>对于 key 对应的数组元素的可见性，使用 Unsafe 的 getObjectVolatile 方法保证。</p>
-<pre><code class="java">static final &lt;K,V&gt; Node&lt;K,V&gt; tabAt(Node&lt;K,V&gt;[] tab, int i) &#123;
-  return (Node&lt;K,V&gt;)U.getObjectVolatile(tab, ((long)i &lt;&lt; ASHIFT) + ABASE);
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> &lt;K,V&gt; <span class="function">Node&lt;K,V&gt; <span class="title">tabAt</span><span class="params">(Node&lt;K,V&gt;[] tab, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (Node&lt;K,V&gt;)U.getObjectVolatile(tab, ((<span class="keyword">long</span>)i &lt;&lt; ASHIFT) + ABASE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="mutex-lock"><a href="#mutex-lock" class="headerlink" title="mutex lock"></a>mutex lock</h2><p>所谓锁，在计算机中，本质是内存中的一块空间，其值被赋予了加锁/未加锁的含义，其底层实现，是基于计算机系统中的原子操作。</p>
 <p>mutex lock 核心包含两点。</p>
 <ul>
@@ -645,7 +530,7 @@ fd: 2021-03-11T19:57:20.708362
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/lock/" data-id="ckomwlryb00pvrhn945yj90qb" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/lock/" data-id="ckonrt82i00pvc8n92s5mfhie" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -683,17 +568,15 @@ fd: 2021-03-11T19:57:20.708362
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><pre><code class="java">TSerializer serializer = new TSerializer(new TBinaryProtocol.Factory());
-byte[] serialized = serializer.serialize(obj);
-</code></pre>
-<h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><pre><code class="java">TDeserializer deserializer = new TDeserializer(new TBinaryProtocol.Factory());
-deserializer.deserialize(obj, bytes);
-</code></pre>
+        <h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TSerializer serializer = <span class="keyword">new</span> TSerializer(<span class="keyword">new</span> TBinaryProtocol.Factory());</span><br><span class="line"><span class="keyword">byte</span>[] serialized = serializer.serialize(obj);</span><br></pre></td></tr></table></figure>
+
+<h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TDeserializer deserializer = <span class="keyword">new</span> TDeserializer(<span class="keyword">new</span> TBinaryProtocol.Factory());</span><br><span class="line">deserializer.deserialize(obj, bytes);</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/05/architecture/protocol/thrift/thrift/" data-id="ckomwlruk006xrhn90zs13sro" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/05/architecture/protocol/thrift/thrift/" data-id="ckonrt7x2006xc8n9ee3obuzt" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thrift/" rel="tag">Thrift</a></li></ul>
@@ -732,142 +615,16 @@ deserializer.deserialize(obj, bytes);
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h1><p><strong>正则</strong></p>
-<pre><code class="java">// 将 :***.*** 替换为 $&#123;***.***&#125;
-:([\w.]+*)  // 匹配
-#&#123;$1&#125;                // 替换，选取分组
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将 :***.*** 替换为 $&#123;***.***&#125;</span></span><br><span class="line">:([\w.]+*)  <span class="comment">// 匹配</span></span><br><span class="line">#&#123;$<span class="number">1</span>&#125;				<span class="comment">// 替换，选取分组</span></span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/03/tools/jebtrains/ides/" data-id="ckomwlru1004xrhn9gwxxa1ai" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/03/tools/jebtrains/ides/" data-id="ckonrt7w8004yc8n94mc1f0oe" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-coding/go/packages" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/03/01/coding/go/packages/" class="article-date">
-  <time datetime="2021-02-28T16:00:00.000Z" itemprop="datePublished">2021-03-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/go/">go</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/01/coding/go/packages/">Go 依赖包</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/spf13/viper">viper</a><ul>
-<li>设置默认配置</li>
-<li>支持 json、yaml、toml、hcl、envfile、java properties config file</li>
-</ul>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/01/coding/go/packages/" data-id="ckomwlrsu001grhn9afvhghoi" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-coding/go/styleguide" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/03/01/coding/go/styleguide/" class="article-date">
-  <time datetime="2021-02-28T16:00:00.000Z" itemprop="datePublished">2021-03-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/go/">go</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/01/coding/go/styleguide/">Go 代码规范</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h1><p>命名中的首字母大小写，大写指明可被外部访问，小写指明私有。对于 bool 类型，首字母应该为 <code>Has</code> 、<code>Is</code> 、<code>Can</code>、<code>Allow</code>。</p>
-<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><ul>
-<li>驼峰，首字母根据访问控制选择大写、小写</li>
-</ul>
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><ul>
-<li>变量名尽量短<ul>
-<li>局部变量，<code>c</code> 好于 <code>lineCount</code>，<code>i</code> 好于 <code>slliceIndex</code> </li>
-<li>方法参数，一两个字母即可</li>
-<li>全局变量，需要更多的描述信息</li>
-</ul>
-</li>
-<li>如果使用长单词<ul>
-<li>驼峰，首字母根据访问控制选择大写、小写</li>
-</ul>
-</li>
-</ul>
-<h2 id="包名"><a href="#包名" class="headerlink" title="包名"></a>包名</h2><ul>
-<li>包中所有名称引用都会使用包名，所以可以简化引用的名称，如使用 <code>chubby.File</code> 代替 <code>chubby.ChubbyFile</code> </li>
-</ul>
-<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><ul>
-<li>小写单词</li>
-<li>下划线 <code>_</code> 分隔</li>
-</ul>
-<h1 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h1><h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><pre><code class="go">// Package math provides basic constants and mathematical functions.
-package math
-
-/*
-Package template implements data-driven templates for generating textual
-output such as HTML.
-....
-*/
-package template
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/01/coding/go/styleguide/" data-id="ckomwlrsz001prhn9fqa30jjf" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
 
     </footer>
   </div>
@@ -903,9 +660,8 @@ package template
     <div class="article-entry" itemprop="articleBody">
       
         <p>[toc]</p>
-<h1 id="组织"><a href="#组织" class="headerlink" title="组织"></a>组织</h1><h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><pre><code class="go">package main
-package config
-</code></pre>
+<h1 id="组织"><a href="#组织" class="headerlink" title="组织"></a>组织</h1><h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">package</span> config</span><br></pre></td></tr></table></figure>
+
 <h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><h3 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h3><table>
 <thead>
 <tr>
@@ -983,256 +739,74 @@ package config
 </tr>
 </tbody></table>
 <p><strong>示例</strong></p>
-<pre><code class="go">var i int = 1
-var f32 float32 = 1.0
-var f64 float64 = 1.0
-</code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i <span class="keyword">int</span> = <span class="number">1</span></span><br><span class="line"><span class="keyword">var</span> f32 <span class="keyword">float32</span> = <span class="number">1.0</span></span><br><span class="line"><span class="keyword">var</span> f64 <span class="keyword">float64</span> = <span class="number">1.0</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p><strong>定义</strong></p>
-<pre><code class="go">var name string = &quot;wii&quot;
-</code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name <span class="keyword">string</span> = <span class="string">&quot;wii&quot;</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>操作</strong></p>
-<pre><code class="go">// 拼接
-var name string = &quot;name&quot; + &quot; : &quot; + &quot;wii&quot;
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 拼接</span></span><br><span class="line"><span class="keyword">var</span> name <span class="keyword">string</span> = <span class="string">&quot;name&quot;</span> + <span class="string">&quot; : &quot;</span> + <span class="string">&quot;wii&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 取长度</span></span><br><span class="line"><span class="built_in">len</span>(<span class="string">&quot;wii&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 截断</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-// 取长度
-len(&quot;wii&quot;)
+<h3 id="布尔"><a href="#布尔" class="headerlink" title="布尔"></a>布尔</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val b <span class="keyword">bool</span> = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
-// 截断
-</code></pre>
-<h3 id="布尔"><a href="#布尔" class="headerlink" title="布尔"></a>布尔</h3><pre><code class="go">val b bool = true
-</code></pre>
 <h2 id="限定"><a href="#限定" class="headerlink" title="限定"></a>限定</h2><h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><p><strong>字面常量</strong></p>
-<pre><code class="go">var i, s, b = 1, &quot;wii&quot;, false
-</code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i, s, b = <span class="number">1</span>, <span class="string">&quot;wii&quot;</span>, <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>itoa</strong></p>
 <p>特殊常量，可以被编译器修改的常量。</p>
-<pre><code class="go">const (
-  a = iota   //0
-  b          //1
-  c          //2
-  d = &quot;ha&quot;   //独立值，iota += 1
-  e          //&quot;ha&quot;   iota += 1
-  f = 100    //iota +=1
-  g          //100  iota +=1
-  h = iota   //7,恢复计数
-  i          //8
-)
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (</span><br><span class="line">  a = <span class="literal">iota</span>   <span class="comment">//0</span></span><br><span class="line">  b          <span class="comment">//1</span></span><br><span class="line">  c          <span class="comment">//2</span></span><br><span class="line">  d = <span class="string">&quot;ha&quot;</span>   <span class="comment">//独立值，iota += 1</span></span><br><span class="line">  e          <span class="comment">//&quot;ha&quot;   iota += 1</span></span><br><span class="line">  f = <span class="number">100</span>    <span class="comment">//iota +=1</span></span><br><span class="line">  g          <span class="comment">//100  iota +=1</span></span><br><span class="line">  h = <span class="literal">iota</span>   <span class="comment">//7,恢复计数</span></span><br><span class="line">  i          <span class="comment">//8</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    i=<span class="number">1</span>&lt;&lt;<span class="literal">iota</span>	<span class="comment">// 1</span></span><br><span class="line">    j=<span class="number">3</span>&lt;&lt;<span class="literal">iota</span> <span class="comment">// 6</span></span><br><span class="line">    k         <span class="comment">// 12</span></span><br><span class="line">    l         <span class="comment">// 24</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
-const (
-    i=1&lt;&lt;iota    // 1
-    j=3&lt;&lt;iota // 6
-    k         // 12
-    l         // 24
-)
-</code></pre>
 <h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p><strong>声明</strong></p>
-<pre><code class="go">var identifier [type] = v
-var id1, id2 [type] = v1, v2  // 如果只声明，不初始化值，必须制定类型；制定初始化值，编译器可自行推断
-id3 := value                  // OK := 左侧需要有未被声明过的标识符，有即可
-id1 := value                  // ERROR id1 已被声明
-id1, id4 := v1, v2            // OK id4 未被声明
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> identifier [<span class="keyword">type</span>] = v</span><br><span class="line"><span class="keyword">var</span> id1, id2 [<span class="keyword">type</span>] = v1, v2  <span class="comment">// 如果只声明，不初始化值，必须制定类型；制定初始化值，编译器可自行推断</span></span><br><span class="line">id3 := value                  <span class="comment">// OK := 左侧需要有未被声明过的标识符，有即可</span></span><br><span class="line">id1 := value                  <span class="comment">// ERROR id1 已被声明</span></span><br><span class="line">id1, id4 := v1, v2            <span class="comment">// OK id4 未被声明</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (                         <span class="comment">// 因式分解式，一般用于声明全局变量</span></span><br><span class="line">  id5 <span class="keyword">type</span></span><br><span class="line">  id6 <span class="keyword">type</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
-var (                         // 因式分解式，一般用于声明全局变量
-  id5 type
-  id6 type
-)
-</code></pre>
 <p><strong>示例</strong></p>
-<pre><code class="go">var a string = &quot;wii&quot;
-var b, c int = 1, 2
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">string</span> = <span class="string">&quot;wii&quot;</span></span><br><span class="line"><span class="keyword">var</span> b, c <span class="keyword">int</span> = <span class="number">1</span>, <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> e, f = <span class="number">123</span>, <span class="string">&quot;hello&quot;</span></span><br><span class="line">g, h := <span class="number">123</span>, <span class="string">&quot;hello&quot;</span></span><br></pre></td></tr></table></figure>
 
-var e, f = 123, &quot;hello&quot;
-g, h := 123, &quot;hello&quot;
-</code></pre>
 <h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p><strong>声明</strong></p>
-<pre><code class="go">var variable_name [SIZE] variable_type
-var variable_name [SIZE1][SIZE2]...[SIZEN] variable_type  // 多维数组
-</code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> variable_name [SIZE] variable_type</span><br><span class="line"><span class="keyword">var</span> variable_name [SIZE1][SIZE2]...[SIZEN] variable_type  <span class="comment">// 多维数组</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>初始化</strong></p>
-<pre><code class="go">var balance = [5]float32&#123;1000.0, 2.0, 3.4, 7.0, 50.0&#125;
-balance := [5]float32&#123;1000.0, 2.0, 3.4, 7.0, 50.0&#125;
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> balance = [<span class="number">5</span>]<span class="keyword">float32</span>&#123;<span class="number">1000.0</span>, <span class="number">2.0</span>, <span class="number">3.4</span>, <span class="number">7.0</span>, <span class="number">50.0</span>&#125;</span><br><span class="line">balance := [<span class="number">5</span>]<span class="keyword">float32</span>&#123;<span class="number">1000.0</span>, <span class="number">2.0</span>, <span class="number">3.4</span>, <span class="number">7.0</span>, <span class="number">50.0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ... 代替长度</span></span><br><span class="line"><span class="keyword">var</span> balance = [...]<span class="keyword">float32</span>&#123;<span class="number">1000.0</span>, <span class="number">2.0</span>, <span class="number">3.4</span>, <span class="number">7.0</span>, <span class="number">50.0</span>&#125;</span><br><span class="line">balance := [...]<span class="keyword">float32</span>&#123;<span class="number">1000.0</span>, <span class="number">2.0</span>, <span class="number">3.4</span>, <span class="number">7.0</span>, <span class="number">50.0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过下表初始化</span></span><br><span class="line">balance := [<span class="number">5</span>]<span class="keyword">float32</span>&#123;<span class="number">1</span>:<span class="number">2.0</span>,<span class="number">3</span>:<span class="number">7.0</span>&#125;   <span class="comment">// 将索引为 1 和 3 的元素初始化</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化二维数组</span></span><br><span class="line">a := [<span class="number">3</span>][<span class="number">4</span>]<span class="keyword">int</span>&#123;  </span><br><span class="line"> &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125; ,   <span class="comment">/*  第一行索引为 0 */</span></span><br><span class="line"> &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125; ,   <span class="comment">/*  第二行索引为 1 */</span></span><br><span class="line"> &#123;<span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>&#125;,   <span class="comment">/* 第三行索引为 2 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// ... 代替长度
-var balance = [...]float32&#123;1000.0, 2.0, 3.4, 7.0, 50.0&#125;
-balance := [...]float32&#123;1000.0, 2.0, 3.4, 7.0, 50.0&#125;
-
-// 通过下表初始化
-balance := [5]float32&#123;1:2.0,3:7.0&#125;   // 将索引为 1 和 3 的元素初始化
-
-// 初始化二维数组
-a := [3][4]int&#123;  
- &#123;0, 1, 2, 3&#125; ,   /*  第一行索引为 0 */
- &#123;4, 5, 6, 7&#125; ,   /*  第二行索引为 1 */
- &#123;8, 9, 10, 11&#125;,   /* 第三行索引为 2 */
-&#125;
-</code></pre>
 <p><strong>多维数组示例</strong></p>
-<pre><code class="go">// 先声明后赋值
-values := [][]int&#123;&#125;            // 创建数组
-row1 := []int&#123;1, 2, 3&#125;
-row2 := []int&#123;4, 5, 6&#125;
-values = append(values, row1)  // 使用 appped() 函数向空的二维数组添加两行一维数组
-values = append(values, row2)
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先声明后赋值</span></span><br><span class="line">values := [][]<span class="keyword">int</span>&#123;&#125;            <span class="comment">// 创建数组</span></span><br><span class="line">row1 := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">row2 := []<span class="keyword">int</span>&#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;</span><br><span class="line">values = <span class="built_in">append</span>(values, row1)  <span class="comment">// 使用 appped() 函数向空的二维数组添加两行一维数组</span></span><br><span class="line">values = <span class="built_in">append</span>(values, row2)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 维度不一致数组</span></span><br><span class="line">animals := [][]<span class="keyword">string</span>&#123;&#125;</span><br><span class="line">row1 := []<span class="keyword">string</span>&#123;<span class="string">&quot;fish&quot;</span>, <span class="string">&quot;shark&quot;</span>, <span class="string">&quot;eel&quot;</span>&#125;</span><br><span class="line">row2 := []<span class="keyword">string</span>&#123;<span class="string">&quot;bird&quot;</span>&#125;</span><br><span class="line">row3 := []<span class="keyword">string</span>&#123;<span class="string">&quot;lizard&quot;</span>, <span class="string">&quot;salamander&quot;</span>&#125;</span><br><span class="line">animals = <span class="built_in">append</span>(animals, row1)</span><br><span class="line">animals = <span class="built_in">append</span>(animals, row2)</span><br><span class="line">animals = <span class="built_in">append</span>(animals, row3)</span><br></pre></td></tr></table></figure>
 
-// 维度不一致数组
-animals := [][]string&#123;&#125;
-row1 := []string&#123;&quot;fish&quot;, &quot;shark&quot;, &quot;eel&quot;&#125;
-row2 := []string&#123;&quot;bird&quot;&#125;
-row3 := []string&#123;&quot;lizard&quot;, &quot;salamander&quot;&#125;
-animals = append(animals, row1)
-animals = append(animals, row2)
-animals = append(animals, row3)
-</code></pre>
-<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><pre><code class="go">var m map[string]string = map[string]string&#123;&quot;France&quot;: &quot;Paris&quot;, &quot;Italy&quot;: &quot;Rome&quot;, &quot;Japan&quot;: &quot;Tokyo&quot;&#125;
-</code></pre>
-<h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="程序结构"><a href="#程序结构" class="headerlink" title="程序结构"></a>程序结构</h2><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><pre><code class="go">// 单行注释
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> m <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span> = <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;<span class="string">&quot;France&quot;</span>: <span class="string">&quot;Paris&quot;</span>, <span class="string">&quot;Italy&quot;</span>: <span class="string">&quot;Rome&quot;</span>, <span class="string">&quot;Japan&quot;</span>: <span class="string">&quot;Tokyo&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
 
-/*
- 多行注释
-*/
-</code></pre>
-<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><h2 id="条件控制"><a href="#条件控制" class="headerlink" title="条件控制"></a>条件控制</h2><h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><pre><code class="go">// 1. 类似于 for(...; ...; ...)
-for init; condition; post &#123; &#125;
+<h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="程序结构"><a href="#程序结构" class="headerlink" title="程序结构"></a>程序结构</h2><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单行注释</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 多行注释</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
 
-// 2. 类似于 while
-for condition &#123; &#125;
+<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><h2 id="条件控制"><a href="#条件控制" class="headerlink" title="条件控制"></a>条件控制</h2><h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 类似于 for(...; ...; ...)</span></span><br><span class="line"><span class="keyword">for</span> init; condition; post &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 类似于 while</span></span><br><span class="line"><span class="keyword">for</span> condition &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 类似于 for (;;)</span></span><br><span class="line"><span class="keyword">for</span> &#123; &#125;</span><br></pre></td></tr></table></figure>
 
-// 3. 类似于 for (;;)
-for &#123; &#125;
-</code></pre>
 <p><strong>range</strong></p>
-<pre><code class="go">// map
-for key, value := range oldMap &#123;
-    newMap[key] = value
-&#125;
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// map</span></span><br><span class="line"><span class="keyword">for</span> key, value := <span class="keyword">range</span> oldMap &#123;</span><br><span class="line">    newMap[key] = value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">strings := []<span class="keyword">string</span>&#123;<span class="string">&quot;google&quot;</span>, <span class="string">&quot;runoob&quot;</span>&#125;</span><br><span class="line"><span class="keyword">for</span> i, s := <span class="keyword">range</span> strings &#123;</span><br><span class="line">    fmt.Println(i, s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-strings := []string&#123;&quot;google&quot;, &quot;runoob&quot;&#125;
-for i, s := range strings &#123;
-    fmt.Println(i, s)
-&#125;
-</code></pre>
 <h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p><strong>格式</strong></p>
-<pre><code class="go">func function_name( [parameter list] ) [return_types] &#123;
-   // 函数体
-&#125;
-</code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">function_name</span><span class="params">( [parameter list] )</span> [<span class="title">return_types</span>]</span> &#123;</span><br><span class="line">   <span class="comment">// 函数体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><strong>示例</strong></p>
-<pre><code class="go">func swap(x, y string) (string, string) &#123;
-   return y, x
-&#125;
-</code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">swap</span><span class="params">(x, y <span class="keyword">string</span>)</span> <span class="params">(<span class="keyword">string</span>, <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">   <span class="keyword">return</span> y, x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><strong>参数</strong></p>
-<pre><code class="go">// 值传递
-func swap(x, y int) int &#123;
-   var temp int
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 值传递</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">swap</span><span class="params">(x, y <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">   <span class="keyword">var</span> temp <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">   temp = x <span class="comment">/* 保存 x 的值 */</span></span><br><span class="line">   x = y    <span class="comment">/* 将 y 值赋给 x */</span></span><br><span class="line">   y = temp <span class="comment">/* 将 temp 值赋给 y*/</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br><span class="line">swap(a, b)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 引用传递</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">swap</span><span class="params">(x *<span class="keyword">int</span>, y *<span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">   <span class="keyword">var</span> temp <span class="keyword">int</span></span><br><span class="line">   temp = *x    <span class="comment">/* 保持 x 地址上的值 */</span></span><br><span class="line">   *x = *y      <span class="comment">/* 将 y 值赋给 x */</span></span><br><span class="line">   *y = temp    <span class="comment">/* 将 temp 值赋给 y */</span></span><br><span class="line">&#125;</span><br><span class="line">swap(&amp;a, &amp;b)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数参数</span></span><br><span class="line">getSquareRoot := <span class="function"><span class="keyword">func</span><span class="params">(x <span class="keyword">float64</span>)</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">  <span class="keyword">return</span> math.Sqrt(x)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(getSquareRoot(<span class="number">9</span>))</span><br></pre></td></tr></table></figure>
 
-   temp = x /* 保存 x 的值 */
-   x = y    /* 将 y 值赋给 x */
-   y = temp /* 将 temp 值赋给 y*/
-
-   return temp;
-&#125;
-swap(a, b)
-
-// 引用传递
-func swap(x *int, y *int) &#123;
-   var temp int
-   temp = *x    /* 保持 x 地址上的值 */
-   *x = *y      /* 将 y 值赋给 x */
-   *y = temp    /* 将 temp 值赋给 y */
-&#125;
-swap(&amp;a, &amp;b)
-
-// 函数参数
-getSquareRoot := func(x float64) float64 &#123;
-  return math.Sqrt(x)
-&#125;
-fmt.Println(getSquareRoot(9))
-</code></pre>
 <p><strong>函数参数</strong></p>
-<pre><code class="go">package main
-import &quot;fmt&quot;
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明一个函数类型</span></span><br><span class="line"><span class="keyword">type</span> cb <span class="function"><span class="keyword">func</span><span class="params">(<span class="keyword">int</span>)</span> <span class="title">int</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    testCallBack(<span class="number">1</span>, callBack)</span><br><span class="line">    testCallBack(<span class="number">2</span>, <span class="function"><span class="keyword">func</span><span class="params">(x <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">        fmt.Printf(<span class="string">&quot;我是回调，x：%d\n&quot;</span>, x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testCallBack</span><span class="params">(x <span class="keyword">int</span>, f cb)</span></span> &#123;</span><br><span class="line">    f(x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">callBack</span><span class="params">(x <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;我是回调，x：%d\n&quot;</span>, x)</span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// 声明一个函数类型
-type cb func(int) int
-
-func main() &#123;
-    testCallBack(1, callBack)
-    testCallBack(2, func(x int) int &#123;
-        fmt.Printf(&quot;我是回调，x：%d\n&quot;, x)
-        return x
-    &#125;)
-&#125;
-
-func testCallBack(x int, f cb) &#123;
-    f(x)
-&#125;
-
-func callBack(x int) int &#123;
-    fmt.Printf(&quot;我是回调，x：%d\n&quot;, x)
-    return x
-&#125;
-</code></pre>
 <p><strong>匿名函数</strong></p>
-<pre><code class="go">func getSequence() func() int &#123;
-   i:=0
-   return func() int &#123;
-      i+=1
-     return i  
-   &#125;
-&#125;
-</code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getSequence</span><span class="params">()</span> <span class="title">func</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">   i:=<span class="number">0</span></span><br><span class="line">   <span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">      i+=<span class="number">1</span></span><br><span class="line">     <span class="keyword">return</span> i  </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><strong>方法</strong></p>
 <p>Go 同时有函数和方法，一个方法就是一个包含了接受者的函数，接受者可以是命名类型或者结构体类型的一个值或者是一个指针。所有给定类型的方法属于该类型的方法集，格式如下。</p>
-<pre><code class="go">func (variable_name variable_data_type) function_name() [return_type]&#123;
-   /* 方法体 */
-&#125;
-</code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(variable_name variable_data_type)</span> <span class="title">function_name</span><span class="params">()</span> [<span class="title">return_type</span>]</span>&#123;</span><br><span class="line">   <span class="comment">/* 方法体 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>下面定义一个结构体，及该类型的一个方法。</p>
-<pre><code class="go">package main
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">&quot;fmt&quot;</span>  </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 定义结构体 */</span></span><br><span class="line"><span class="keyword">type</span> Circle <span class="keyword">struct</span> &#123;</span><br><span class="line">  radius <span class="keyword">float64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">var</span> c1 Circle</span><br><span class="line">  c1.radius = <span class="number">10.00</span></span><br><span class="line">  fmt.Println(<span class="string">&quot;圆的面积 = &quot;</span>, c1.getArea())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//该 method 属于 Circle 类型对象中的方法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c Circle)</span> <span class="title">getArea</span><span class="params">()</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">  <span class="comment">//c.radius 即为 Circle 类型对象中的属性</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">3.14</span> * c.radius * c.radius</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-import (
-   &quot;fmt&quot;  
-)
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义</span></span><br><span class="line"><span class="keyword">type</span> struct_variable_type <span class="keyword">struct</span> &#123;</span><br><span class="line">   member definition</span><br><span class="line">   member definition</span><br><span class="line">   ...</span><br><span class="line">   member definition</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明</span></span><br><span class="line">variable_name := structure_variable_type &#123;value1, value2...valuen&#125;</span><br><span class="line">variable_name := structure_variable_type &#123; key1: value1, key2: value2..., keyn: valuen&#125;</span><br></pre></td></tr></table></figure>
 
-/* 定义结构体 */
-type Circle struct &#123;
-  radius float64
-&#125;
-
-func main() &#123;
-  var c1 Circle
-  c1.radius = 10.00
-  fmt.Println(&quot;圆的面积 = &quot;, c1.getArea())
-&#125;
-
-//该 method 属于 Circle 类型对象中的方法
-func (c Circle) getArea() float64 &#123;
-  //c.radius 即为 Circle 类型对象中的属性
-  return 3.14 * c.radius * c.radius
-&#125;
-</code></pre>
-<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><pre><code class="go">// 定义
-type struct_variable_type struct &#123;
-   member definition
-   member definition
-   ...
-   member definition
-&#125;
-
-// 声明
-variable_name := structure_variable_type &#123;value1, value2...valuen&#125;
-variable_name := structure_variable_type &#123; key1: value1, key2: value2..., keyn: valuen&#125;
-</code></pre>
 <p><strong>示例</strong></p>
-<pre><code class="go">type Data struct &#123;
-  s    string
-    sl   []string
-    ll   [][]string
-&#125;
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Data <span class="keyword">struct</span> &#123;</span><br><span class="line">  s    <span class="keyword">string</span></span><br><span class="line">	sl   []<span class="keyword">string</span></span><br><span class="line">	ll   [][]<span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">data := Data &#123;s: <span class="string">&quot;yes&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
 
-data := Data &#123;s: &quot;yes&quot;&#125;
-</code></pre>
 <h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><h2 id="语法糖"><a href="#语法糖" class="headerlink" title="语法糖"></a>语法糖</h2><h2 id="空指针处理"><a href="#空指针处理" class="headerlink" title="空指针处理"></a>空指针处理</h2><h2 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h2><h2 id="泛型编程"><a href="#泛型编程" class="headerlink" title="泛型编程"></a>泛型编程</h2><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://draveness.me/golang/">Go 语言设计与实现</a></li>
 </ul>
@@ -1240,7 +814,123 @@ data := Data &#123;s: &quot;yes&quot;&#125;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/01/coding/go/go/" data-id="ckomwlrst001arhn974hq7v1r" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/01/coding/go/go/" data-id="ckonrt7ue001ac8n99znqh8nc" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/go/packages" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/01/coding/go/packages/" class="article-date">
+  <time datetime="2021-02-28T16:00:00.000Z" itemprop="datePublished">2021-03-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/go/">go</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/01/coding/go/packages/">Go 依赖包</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/spf13/viper">viper</a><ul>
+<li>设置默认配置</li>
+<li>支持 json、yaml、toml、hcl、envfile、java properties config file</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/01/coding/go/packages/" data-id="ckonrt7uj001gc8n9btxj9p9v" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/go/styleguide" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/01/coding/go/styleguide/" class="article-date">
+  <time datetime="2021-02-28T16:00:00.000Z" itemprop="datePublished">2021-03-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/go/">go</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/01/coding/go/styleguide/">Go 代码规范</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h1><p>命名中的首字母大小写，大写指明可被外部访问，小写指明私有。对于 bool 类型，首字母应该为 <code>Has</code> 、<code>Is</code> 、<code>Can</code>、<code>Allow</code>。</p>
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><ul>
+<li>驼峰，首字母根据访问控制选择大写、小写</li>
+</ul>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><ul>
+<li>变量名尽量短<ul>
+<li>局部变量，<code>c</code> 好于 <code>lineCount</code>，<code>i</code> 好于 <code>slliceIndex</code> </li>
+<li>方法参数，一两个字母即可</li>
+<li>全局变量，需要更多的描述信息</li>
+</ul>
+</li>
+<li>如果使用长单词<ul>
+<li>驼峰，首字母根据访问控制选择大写、小写</li>
+</ul>
+</li>
+</ul>
+<h2 id="包名"><a href="#包名" class="headerlink" title="包名"></a>包名</h2><ul>
+<li>包中所有名称引用都会使用包名，所以可以简化引用的名称，如使用 <code>chubby.File</code> 代替 <code>chubby.ChubbyFile</code> </li>
+</ul>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><ul>
+<li>小写单词</li>
+<li>下划线 <code>_</code> 分隔</li>
+</ul>
+<h1 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h1><h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Package math provides basic constants and mathematical functions.</span></span><br><span class="line"><span class="keyword">package</span> math</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Package template implements data-driven templates for generating textual</span></span><br><span class="line"><span class="comment">output such as HTML.</span></span><br><span class="line"><span class="comment">....</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">package</span> template</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/01/coding/go/styleguide/" data-id="ckonrt7ur001sc8n9aioqahny" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
@@ -1309,7 +999,7 @@ data := Data &#123;s: &quot;yes&quot;&#125;
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -1317,7 +1007,7 @@ data := Data &#123;s: &quot;yes&quot;&#125;
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

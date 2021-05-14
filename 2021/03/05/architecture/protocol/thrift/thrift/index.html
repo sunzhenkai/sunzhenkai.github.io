@@ -7,12 +7,12 @@
   
   <title>Thrift | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="示例序列化TSerializer serializer &#x3D; new TSerializer(new TBinaryProtocol.Factory()); byte[] serialized &#x3D; serializer.serialize(obj);  反序列化TDeserializer deserializer &#x3D; new TDeserializer(new TBinaryProtocol.Fac">
+  <meta name="description" content="示例序列化12TSerializer serializer &#x3D; new TSerializer(new TBinaryProtocol.Factory());byte[] serialized &#x3D; serializer.serialize(obj);  反序列化12TDeserializer deserializer &#x3D; new TDeserializer(new TBinaryProtocol.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Thrift">
 <meta property="og:url" content="http://wii.pub/2021/03/05/architecture/protocol/thrift/thrift/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="示例序列化TSerializer serializer &#x3D; new TSerializer(new TBinaryProtocol.Factory()); byte[] serialized &#x3D; serializer.serialize(obj);  反序列化TDeserializer deserializer &#x3D; new TDeserializer(new TBinaryProtocol.Fac">
+<meta property="og:description" content="示例序列化12TSerializer serializer &#x3D; new TSerializer(new TBinaryProtocol.Factory());byte[] serialized &#x3D; serializer.serialize(obj);  反序列化12TDeserializer deserializer &#x3D; new TDeserializer(new TBinaryProtocol.">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-03-04T16:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.570Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,17 +92,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><pre><code class="java">TSerializer serializer = new TSerializer(new TBinaryProtocol.Factory());
-byte[] serialized = serializer.serialize(obj);
-</code></pre>
-<h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><pre><code class="java">TDeserializer deserializer = new TDeserializer(new TBinaryProtocol.Factory());
-deserializer.deserialize(obj, bytes);
-</code></pre>
+        <h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TSerializer serializer = <span class="keyword">new</span> TSerializer(<span class="keyword">new</span> TBinaryProtocol.Factory());</span><br><span class="line"><span class="keyword">byte</span>[] serialized = serializer.serialize(obj);</span><br></pre></td></tr></table></figure>
+
+<h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TDeserializer deserializer = <span class="keyword">new</span> TDeserializer(<span class="keyword">new</span> TBinaryProtocol.Factory());</span><br><span class="line">deserializer.deserialize(obj, bytes);</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/05/architecture/protocol/thrift/thrift/" data-id="ckomwlruk006xrhn90zs13sro" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/05/architecture/protocol/thrift/thrift/" data-id="ckonrt7x2006xc8n9ee3obuzt" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thrift/" rel="tag">Thrift</a></li></ul>
@@ -181,7 +181,7 @@ deserializer.deserialize(obj, bytes);
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -189,7 +189,7 @@ deserializer.deserialize(obj, bytes);
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

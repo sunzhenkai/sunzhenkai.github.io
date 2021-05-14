@@ -35,6 +35,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -107,29 +109,12 @@
 <p><code>/v1/*</code> 接口，向部署的node应用发送请求，node 应用再将请求通过插件（ <code>express-http-proxy</code> ）代理转发至 consul server。</p>
 <p>很奇怪，其他所有机房都没有问题。而且，多刷几次，偶尔可以正常响应。</p>
 <h3 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h3><p>这一台机器的 Java 服务报了奇怪的 <code>\n not found: limit=0 content=�~@�</code> 异常。</p>
-<pre><code>[ERROR 2021-03-15 20:21:39.114] com...init(ConsulBase.java:58) [[consul] init consul base failed, e=[com.orbitz.consul.ConsulException: Error connecting to Consul
-        at com.orbitz.consul.AgentClient.ping(AgentClient.java:69)
-        at com.orbitz.consul.Consul$Builder.build(Consul.java:708)
-        ...
-Caused by: java.io.IOException: unexpected end of stream on http://127.0.0.1:8500/...
-        at okhttp3.internal.http1.Http1ExchangeCodec.readResponseHeaders(Http1ExchangeCodec.kt:205)
-        at okhttp3.internal.connection.Exchange.readResponseHeaders(Exchange.kt:105)
-        ...
-        at okhttp3.RealCall.getResponseWithInterceptorChain(RealCall.kt:184)
-        at okhttp3.RealCall.execute(RealCall.kt:66)
-        at retrofit2.OkHttpCall.execute(OkHttpCall.java:186)
-        at com.orbitz.consul.AgentClient.ping(AgentClient.java:62)
-        ... 14 more
-Caused by: java.io.EOFException: \n not found: limit=0 content=�~@�
-        at okio.RealBufferedSource.readUtf8LineStrict(RealBufferedSource.kt:231)
-        at okhttp3.internal.http1.Http1ExchangeCodec.readHeaderLine(Http1ExchangeCodec.kt:210)
-        at okhttp3.internal.http1.Http1ExchangeCodec.readResponseHeaders(Http1ExchangeCodec.kt:181)
-        ... 35 more
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[ERROR 2021-03-15 20:21:39.114] com...init(ConsulBase.java:58) [[consul] init consul base failed, e=[com.orbitz.consul.ConsulException: Error connecting to Consul</span><br><span class="line">        at com.orbitz.consul.AgentClient.ping(AgentClient.java:69)</span><br><span class="line">        at com.orbitz.consul.Consul$Builder.build(Consul.java:708)</span><br><span class="line">        ...</span><br><span class="line">Caused by: java.io.IOException: unexpected end of stream on http://127.0.0.1:8500/...</span><br><span class="line">        at okhttp3.internal.http1.Http1ExchangeCodec.readResponseHeaders(Http1ExchangeCodec.kt:205)</span><br><span class="line">        at okhttp3.internal.connection.Exchange.readResponseHeaders(Exchange.kt:105)</span><br><span class="line">        ...</span><br><span class="line">        at okhttp3.RealCall.getResponseWithInterceptorChain(RealCall.kt:184)</span><br><span class="line">        at okhttp3.RealCall.execute(RealCall.kt:66)</span><br><span class="line">        at retrofit2.OkHttpCall.execute(OkHttpCall.java:186)</span><br><span class="line">        at com.orbitz.consul.AgentClient.ping(AgentClient.java:62)</span><br><span class="line">        ... 14 more</span><br><span class="line">Caused by: java.io.EOFException: \n not found: limit=0 content=�~@�</span><br><span class="line">        at okio.RealBufferedSource.readUtf8LineStrict(RealBufferedSource.kt:231)</span><br><span class="line">        at okhttp3.internal.http1.Http1ExchangeCodec.readHeaderLine(Http1ExchangeCodec.kt:210)</span><br><span class="line">        at okhttp3.internal.http1.Http1ExchangeCodec.readResponseHeaders(Http1ExchangeCodec.kt:181)</span><br><span class="line">        ... 35 more</span><br></pre></td></tr></table></figure>
+
 <p>看样子，是无法连接consul，接口异常？此外，由于无法连接consol，报了一堆无法找到服务端的RPC异常，这也正常，注册中心连不上，肯定也就拿不到服务列表。</p>
 <p>我们的 C++ 服务（ 使用库<code>ppconsul</code> ），直接报了无法注册的异常。</p>
-<pre><code class="shell">E0315 19:28:54.129444 11661 ...cpp:456] [consul] register local consul agent failed!
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E0315 19:28:54.129444 11661 ...cpp:456] [consul] register local consul agent failed!</span><br></pre></td></tr></table></figure>
+
 <h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>首先，尝试重启 consul server。不重启还好，一重启，这台机器之前注册的服务全没了，怎么重启服务都注册不上。</p>
 <p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315224053342.png" alt="image-20210315224053342"></p>
 <p>随后，查看consul日志，伴随着不太明了的异常。</p>
@@ -137,8 +122,8 @@ Caused by: java.io.EOFException: \n not found: limit=0 content=�~@�
 <p>于是，想通过consul程序，看下members，确认加入了集群，但是…. </p>
 <p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315224420906.png" alt="image-20210315224420906"></p>
 <p>他，出错了，很奇怪的错。</p>
-<pre><code class="shell">Error retrieving members: Get &quot;http://127.0.0.1:8500/v1/agent/members?segment=_all&quot;: EOF
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error retrieving members: Get &quot;http://127.0.0.1:8500/v1/agent/members?segment=_all&quot;: EOF</span><br></pre></td></tr></table></figure>
+
 <p>到这里，可以想到的是，是consul接口出问题。开始的时候前端请求异常，应该也是因为代理请求consul接口，出错导致的。凡事都有个但是，排查端口发现，有正常的连接建立啊。</p>
 <p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315225135881.png" alt="image-20210315225135881"></p>
 <p>而且呢，还很多。</p>
@@ -148,42 +133,14 @@ Caused by: java.io.EOFException: \n not found: limit=0 content=�~@�
 <p>好吧，找到了这里。</p>
 <p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315225530866.png" alt="image-20210315225530866"></p>
 <p>单个 IP 限制的最大连接数，是 200。行吧。改大试试吧。</p>
-<pre><code class="json">&#123;
-    &quot;client_addr&quot;: &quot;0.0.0.0&quot;,
-    &quot;datacenter&quot;: &quot;...&quot;,
-    &quot;data_dir&quot;: &quot;...&quot;,
-    &quot;domain&quot;: &quot;...&quot;,
-    &quot;dns_config&quot;: &#123;
-        &quot;enable_truncate&quot;: true,
-        &quot;only_passing&quot;: true
-    &#125;,
-    &quot;limits&quot;: &#123;
-        &quot;http_max_conns_per_client&quot;: 500
-    &#125;,
-    &quot;enable_syslog&quot;: true,
-    &quot;encrypt&quot;: &quot;...&quot;,
-    &quot;leave_on_terminate&quot;: true,
-    &quot;log_level&quot;: &quot;INFO&quot;,
-    &quot;rejoin_after_leave&quot;: true,
-    &quot;server&quot;: true,
-    &quot;bootstrap&quot;: false,
-    &quot;bootstrap_expect&quot;: 3,
-    &quot;retry_join&quot;: [
-        &quot;...&quot;,
-        &quot;...&quot;,
-        &quot;...&quot;,
-        &quot;...&quot;,
-        &quot;...&quot;,
-    ],
-    &quot;ui&quot;: false
-&#125;
-</code></pre>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;client_addr&quot;</span>: <span class="string">&quot;0.0.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;datacenter&quot;</span>: <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;data_dir&quot;</span>: <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;domain&quot;</span>: <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;dns_config&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;enable_truncate&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">&quot;only_passing&quot;</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;limits&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;http_max_conns_per_client&quot;</span>: <span class="number">500</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;enable_syslog&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;encrypt&quot;</span>: <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;leave_on_terminate&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;log_level&quot;</span>: <span class="string">&quot;INFO&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;rejoin_after_leave&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;server&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;bootstrap&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;bootstrap_expect&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;retry_join&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;ui&quot;</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>至此，好了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/15/architecture/discovery/consul/trouble-shooting/" data-id="ckomwlrub0061rhn9gag33k28" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/15/architecture/discovery/consul/trouble-shooting/" data-id="ckonrt7wo0061c8n96h4g9ij6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/consul/" rel="tag">consul</a></li></ul>
@@ -204,9 +161,9 @@ Caused by: java.io.EOFException: \n not found: limit=0 content=�~@�
     </a>
   
   
-    <a href="/2021/03/13/computer%20science/networking/networking/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/03/13/architecture/framework/netty/netty/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">计算机网络</div>
+      <div class="article-nav-title">netty</div>
     </a>
   
 </nav>
@@ -264,7 +221,7 @@ Caused by: java.io.EOFException: \n not found: limit=0 content=�~@�
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -272,7 +229,7 @@ Caused by: java.io.EOFException: \n not found: limit=0 content=�~@�
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

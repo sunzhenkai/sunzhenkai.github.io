@@ -7,12 +7,12 @@
   
   <title>Linux之查看系统信息 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="查看版本信息发行版名称及信息# lsb_release $ lsb_release -a No LSB modules are available. Distributor ID:    Ubuntu Description:    Ubuntu 18.04.5 LTS Release:    18.04 Codename:    bionic  # os-release $ cat &#x2F;etc&#x2F;o">
+  <meta name="description" content="查看版本信息发行版名称及信息1234567891011121314151617181920212223242526272829303132333435363738# lsb_release$ lsb_release -aNo LSB modules are available.Distributor ID:	UbuntuDescription:	Ubuntu 18.04.5 LTSRelease:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux之查看系统信息">
 <meta property="og:url" content="http://wii.pub/2020/12/05/linux/notes/infos/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="查看版本信息发行版名称及信息# lsb_release $ lsb_release -a No LSB modules are available. Distributor ID:    Ubuntu Description:    Ubuntu 18.04.5 LTS Release:    18.04 Codename:    bionic  # os-release $ cat &#x2F;etc&#x2F;o">
+<meta property="og:description" content="查看版本信息发行版名称及信息1234567891011121314151617181920212223242526272829303132333435363738# lsb_release$ lsb_release -aNo LSB modules are available.Distributor ID:	UbuntuDescription:	Ubuntu 18.04.5 LTSRelease:">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-12-05T10:40:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T12:54:33.173Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,54 +92,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="查看版本信息"><a href="#查看版本信息" class="headerlink" title="查看版本信息"></a>查看版本信息</h1><h2 id="发行版名称及信息"><a href="#发行版名称及信息" class="headerlink" title="发行版名称及信息"></a>发行版名称及信息</h2><pre><code class="shell"># lsb_release
-$ lsb_release -a
-No LSB modules are available.
-Distributor ID:    Ubuntu
-Description:    Ubuntu 18.04.5 LTS
-Release:    18.04
-Codename:    bionic
+        <h1 id="查看版本信息"><a href="#查看版本信息" class="headerlink" title="查看版本信息"></a>查看版本信息</h1><h2 id="发行版名称及信息"><a href="#发行版名称及信息" class="headerlink" title="发行版名称及信息"></a>发行版名称及信息</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> lsb_release</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> lsb_release -a</span></span><br><span class="line">No LSB modules are available.</span><br><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu 18.04.5 LTS</span><br><span class="line">Release:	18.04</span><br><span class="line">Codename:	bionic</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> os-release</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat /etc/os-release</span></span><br><span class="line">NAME=&quot;Ubuntu&quot;</span><br><span class="line">VERSION=&quot;18.04.5 LTS (Bionic Beaver)&quot;</span><br><span class="line">ID=ubuntu</span><br><span class="line">ID_LIKE=debian</span><br><span class="line">PRETTY_NAME=&quot;Ubuntu 18.04.5 LTS&quot;</span><br><span class="line">VERSION_ID=&quot;18.04&quot;</span><br><span class="line">HOME_URL=&quot;https://www.ubuntu.com/&quot;</span><br><span class="line">SUPPORT_URL=&quot;https://help.ubuntu.com/&quot;</span><br><span class="line">BUG_REPORT_URL=&quot;https://bugs.launchpad.net/ubuntu/&quot;</span><br><span class="line">PRIVACY_POLICY_URL=&quot;https://www.ubuntu.com/legal/terms-and-policies/privacy-policy&quot;</span><br><span class="line">VERSION_CODENAME=bionic</span><br><span class="line">UBUNTU_CODENAME=bionic</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> hostnamectl</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> hostnamectl</span></span><br><span class="line">   Static hostname: mvm</span><br><span class="line">         Icon name: computer-vm</span><br><span class="line">           Chassis: vm</span><br><span class="line">        Machine ID: 2d1d6a0bc90a451ab6ed062e9c2153bf</span><br><span class="line">           Boot ID: d8d4f12a272847b0b7d1de1ec2307493</span><br><span class="line">    Virtualization: qemu</span><br><span class="line">  Operating System: Ubuntu 18.04.5 LTS</span><br><span class="line">            Kernel: Linux 4.15.0-126-generic</span><br><span class="line">      Architecture: x86-64</span><br><span class="line">      </span><br><span class="line"><span class="meta">#</span><span class="bash"> issue</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat /etc/issue</span></span><br><span class="line">Ubuntu 18.04.5 LTS \n \l</span><br></pre></td></tr></table></figure>
 
-# os-release
-$ cat /etc/os-release
-NAME=&quot;Ubuntu&quot;
-VERSION=&quot;18.04.5 LTS (Bionic Beaver)&quot;
-ID=ubuntu
-ID_LIKE=debian
-PRETTY_NAME=&quot;Ubuntu 18.04.5 LTS&quot;
-VERSION_ID=&quot;18.04&quot;
-HOME_URL=&quot;https://www.ubuntu.com/&quot;
-SUPPORT_URL=&quot;https://help.ubuntu.com/&quot;
-BUG_REPORT_URL=&quot;https://bugs.launchpad.net/ubuntu/&quot;
-PRIVACY_POLICY_URL=&quot;https://www.ubuntu.com/legal/terms-and-policies/privacy-policy&quot;
-VERSION_CODENAME=bionic
-UBUNTU_CODENAME=bionic
+<h2 id="内核版本"><a href="#内核版本" class="headerlink" title="内核版本"></a>内核版本</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> uname</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> uname -r  <span class="comment"># OR -a</span></span></span><br><span class="line">4.15.0-126-generic</span><br></pre></td></tr></table></figure>
 
-# hostnamectl
-$ hostnamectl
-   Static hostname: mvm
-         Icon name: computer-vm
-           Chassis: vm
-        Machine ID: 2d1d6a0bc90a451ab6ed062e9c2153bf
-           Boot ID: d8d4f12a272847b0b7d1de1ec2307493
-    Virtualization: qemu
-  Operating System: Ubuntu 18.04.5 LTS
-            Kernel: Linux 4.15.0-126-generic
-      Architecture: x86-64
-      
-# issue
-$ cat /etc/issue
-Ubuntu 18.04.5 LTS \n \l
-</code></pre>
-<h2 id="内核版本"><a href="#内核版本" class="headerlink" title="内核版本"></a>内核版本</h2><pre><code class="shell"># uname
-$ uname -r  # OR -a
-4.15.0-126-generic
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/05/linux/notes/infos/" data-id="ckomwlrtj0035rhn9gth2fcmb" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/05/linux/notes/infos/" data-id="ckonrt7ve0035c8n93jqm77at" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
@@ -148,19 +111,19 @@ $ uname -r  # OR -a
     
 <nav id="article-nav">
   
-    <a href="/2020/12/06/play/rpi/gpio/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/12/05/linux/notes/devices/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          树莓派 GPIO
+          Linux之查看设备
         
       </div>
     </a>
   
   
-    <a href="/2020/12/05/play/rpi/config/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/12/05/linux/notes/network/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">树莓派配置</div>
+      <div class="article-nav-title">Linux之网络配置</div>
     </a>
   
 </nav>
@@ -218,7 +181,7 @@ $ uname -r  # OR -a
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -226,7 +189,7 @@ $ uname -r  # OR -a
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

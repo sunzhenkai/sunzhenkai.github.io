@@ -7,12 +7,12 @@
   
   <title>java function | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="简述 Function&lt;A, B&gt; : 一个参数 + 返回值 Supplier&lt;A&gt;  : 无参数 + 返回值  示例public class FunctionTest &amp;#123;      &#x2F;&#x2F; Function&lt;A, B&gt; : 一个参数 + 返回值     &#x2F;&#x2F; Supplier&lt;A&gt;    : 无参数 + 返回值     static cla">
+  <meta name="description" content="简述 Function&lt;A, B&gt; : 一个参数 + 返回值 Supplier&lt;A&gt;  : 无参数 + 返回值  示例12345678910111213141516171819202122232425262728293031323334public class FunctionTest &amp;#123;    &#x2F;&#x2F; Function&lt;A, B&gt; : 一个参数 + 返">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java function">
 <meta property="og:url" content="http://wii.pub/2021/03/10/coding/java/notes/function/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="简述 Function&lt;A, B&gt; : 一个参数 + 返回值 Supplier&lt;A&gt;  : 无参数 + 返回值  示例public class FunctionTest &amp;#123;      &#x2F;&#x2F; Function&lt;A, B&gt; : 一个参数 + 返回值     &#x2F;&#x2F; Supplier&lt;A&gt;    : 无参数 + 返回值     static cla">
+<meta property="og:description" content="简述 Function&lt;A, B&gt; : 一个参数 + 返回值 Supplier&lt;A&gt;  : 无参数 + 返回值  示例12345678910111213141516171819202122232425262728293031323334public class FunctionTest &amp;#123;    &#x2F;&#x2F; Function&lt;A, B&gt; : 一个参数 + 返">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-03-09T16:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.578Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -94,46 +96,13 @@
 <li><code>Function&lt;A, B&gt;</code> : 一个参数 + 返回值</li>
 <li><code>Supplier&lt;A&gt;</code>  : 无参数 + 返回值</li>
 </ul>
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><pre><code class="java">public class FunctionTest &#123;
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FunctionTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Function&lt;A, B&gt; : 一个参数 + 返回值</span></span><br><span class="line">    <span class="comment">// Supplier&lt;A&gt;    : 无参数 + 返回值</span></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">FC</span> <span class="keyword">implements</span> <span class="title">Function</span>&lt;<span class="title">String</span>, <span class="title">String</span>&gt; </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> Function&lt;String, String&gt; f;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> Supplier&lt;Long&gt; spl;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> Function&lt;String[], String&gt; mf;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">FC</span><span class="params">(Function&lt;String, String&gt; f,</span></span></span><br><span class="line"><span class="params"><span class="function">                  Supplier&lt;Long&gt; spl,</span></span></span><br><span class="line"><span class="params"><span class="function">                  Function&lt;String[], String&gt; mf)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.f = f;</span><br><span class="line">            <span class="keyword">this</span>.spl = spl;</span><br><span class="line">            <span class="keyword">this</span>.mf = mf;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">apply</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> spl.get() + <span class="string">&quot; &quot;</span> + f.apply(s);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">rmf</span><span class="params">(String[] ss)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> mf.apply(ss);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        FC fc = <span class="keyword">new</span> FC((item) -&gt; <span class="string">&quot;Hello &quot;</span> + item,</span><br><span class="line">                System::currentTimeMillis,</span><br><span class="line">                (ags) -&gt; String.join(<span class="string">&quot;,&quot;</span>, ags));</span><br><span class="line">        System.out.println(fc.apply(fc.rmf(<span class="keyword">new</span> String[]&#123;<span class="string">&quot;Tom&quot;</span>, <span class="string">&quot;Kitty&quot;</span>&#125;)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // Function&lt;A, B&gt; : 一个参数 + 返回值
-    // Supplier&lt;A&gt;    : 无参数 + 返回值
-    static class FC implements Function&lt;String, String&gt; &#123;
-        private final Function&lt;String, String&gt; f;
-        private final Supplier&lt;Long&gt; spl;
-        private final Function&lt;String[], String&gt; mf;
-
-        public FC(Function&lt;String, String&gt; f,
-                  Supplier&lt;Long&gt; spl,
-                  Function&lt;String[], String&gt; mf) &#123;
-            this.f = f;
-            this.spl = spl;
-            this.mf = mf;
-        &#125;
-
-        @Override
-        public String apply(String s) &#123;
-            return spl.get() + &quot; &quot; + f.apply(s);
-        &#125;
-
-        public String rmf(String[] ss) &#123;
-            return mf.apply(ss);
-        &#125;
-    &#125;
-
-    public static void main(String[] args) &#123;
-        FC fc = new FC((item) -&gt; &quot;Hello &quot; + item,
-                System::currentTimeMillis,
-                (ags) -&gt; String.join(&quot;,&quot;, ags));
-        System.out.println(fc.apply(fc.rmf(new String[]&#123;&quot;Tom&quot;, &quot;Kitty&quot;&#125;)));
-    &#125;
-&#125;
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/function/" data-id="ckomwlruv007yrhn95tra9de0" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/function/" data-id="ckonrt7xf007yc8n98net9k7x" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -144,11 +113,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2021/03/11/computer%20science/operation%20system/lock/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/03/11/coding/c++/notes/datastruct/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          操作系统 - 锁
+          c++ 数据结构
         
       </div>
     </a>
@@ -214,7 +183,7 @@
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -222,7 +191,7 @@
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

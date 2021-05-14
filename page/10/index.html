@@ -20,6 +20,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -61,91 +63,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-coding/python/library/virtualenv/usage" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/10/coding/python/library/virtualenv/usage/" class="article-date">
-  <time datetime="2020-12-10T11:00:00.000Z" itemprop="datePublished">2020-12-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/python/">python</a>►<a class="article-category-link" href="/categories/python/library/">library</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/10/coding/python/library/virtualenv/usage/">python virtualenv</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code class="shell"># ubuntu
-$ sudo apt install python3-pip # 安装pip3
-## OR
-$ sudo apt-get install python-pip python-dev python-virtualenv # for Python 2.7
-$ sudo apt-get install python3-pip python3-dev python-virtualenv # for Python 3.n
-
-# pip
-$ pip3 install virtualenv
-</code></pre>
-<h2 id="新建虚拟环境"><a href="#新建虚拟环境" class="headerlink" title="新建虚拟环境"></a>新建虚拟环境</h2><pre><code class="shell">$ virtualenv venv    # sample
-
-$ virtualenv --no-site-packages venv     # 不使用外部库; 默认不使用，在virtualenv&gt;=20版本中移除，添加上可能会报错
-$ virtualenv --system-site-packages venv # 使用系统库
-$ virtualenv -p python3 venv             # 指定Python版本
-$ virtualenv --copies venv                              # 复制Python程序等，而不是链接
-</code></pre>
-<h2 id="激活新环境"><a href="#激活新环境" class="headerlink" title="激活新环境"></a>激活新环境</h2><pre><code class="shell"># 进入环境
-$ cd venv 
-# 激活
-$ source bin/activate
-
-$ source bin/activate # bash, sh, ksh, or zsh
-$ source bin/activate.csh  # csh or tcsh
-</code></pre>
-<h2 id="退出环境"><a href="#退出环境" class="headerlink" title="退出环境"></a>退出环境</h2><pre><code class="shell">deactivate
-</code></pre>
-<h2 id="配合supervisor"><a href="#配合supervisor" class="headerlink" title="配合supervisor"></a>配合supervisor</h2><h3 id="supervisor配置文件"><a href="#supervisor配置文件" class="headerlink" title="supervisor配置文件"></a>supervisor配置文件</h3><pre><code class="ini">[program:myproj-uwsgi]
-process_name=myproj-uwsgi
-command=/home/myuser/.virtualenvs/myproj/bin/uwsgi
-    --chdir /home/myuser/projects/myproj
-    -w myproj:app
-environment=PATH=&quot;/home/myuser/.virtualenvs/myproj/bin:%(ENV_PATH)s&quot;
-user=myuser
-group=myuser
-killasgroup=true
-startsecs=5
-stopwaitsecs=10
-</code></pre>
-<h2 id="导出环境"><a href="#导出环境" class="headerlink" title="导出环境"></a>导出环境</h2><pre><code class="shell"># 导出
-$ pip freeze &gt; requirements
-# 安装
-$ pip install -r requirements
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/10/coding/python/library/virtualenv/usage/" data-id="ckomwlrvj00a2rhn9ec710lnd" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/virtualenv/" rel="tag">virtualenv</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-coding/python/library/django/startup" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/12/10/coding/python/library/django/startup/" class="article-date">
@@ -172,50 +89,76 @@ $ pip install -r requirements
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code class="shell"># 安装最新
-$ pip3 install django
+        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装最新</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip3 install django</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定版本</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip3 install django==3.0.7</span></span><br></pre></td></tr></table></figure>
 
-# 指定版本
-$ pip3 install django==3.0.7
-</code></pre>
-<h1 id="创建应用"><a href="#创建应用" class="headerlink" title="创建应用"></a>创建应用</h1><pre><code class="shell"># 创建Project
-$ django-admin startproject mysite
+<h1 id="创建应用"><a href="#创建应用" class="headerlink" title="创建应用"></a>创建应用</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建Project</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> django-admin startproject mysite</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建应用</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> python3 manage.py startapp polls</span></span><br></pre></td></tr></table></figure>
 
-# 创建应用
-$ python3 manage.py startapp polls
-</code></pre>
 <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><p><strong>使用 pymysql 库替代 mysqldb</strong></p>
-<pre><code class="shell"># 安装
-$ pip install pymysql
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip install pymysql</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># settings.py 中添加</span></span></span><br><span class="line">import pymysql</span><br><span class="line">pymysql.version_info = (1, 4, 13, &#x27;final&#x27;, 0)</span><br><span class="line">pymysql.install_as_MySQLdb()</span><br></pre></td></tr></table></figure>
 
-# 替换
-## settings.py 中添加
-import pymysql
-pymysql.version_info = (1, 4, 13, &#39;final&#39;, 0)
-pymysql.install_as_MySQLdb()
-</code></pre>
 <p><strong>配置</strong></p>
-<pre><code class="python"># settings.py
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># settings.py</span></span><br><span class="line"></span><br><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">&#x27;default&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;ENGINE&#x27;</span>: <span class="string">&#x27;django.db.backends.mysql&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;NAME&#x27;</span>: <span class="string">&#x27;test-db&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;HOST&#x27;</span>: <span class="string">&#x27;127.0.0.1&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;PORT&#x27;</span>: <span class="number">3306</span>,</span><br><span class="line">        <span class="string">&#x27;USER&#x27;</span>: <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;PASSWORD&#x27;</span>: <span class="string">&#x27;root&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-DATABASES = &#123;
-    &#39;default&#39;: &#123;
-        &#39;ENGINE&#39;: &#39;django.db.backends.mysql&#39;,
-        &#39;NAME&#39;: &#39;test-db&#39;,
-        &#39;HOST&#39;: &#39;127.0.0.1&#39;,
-        &#39;PORT&#39;: 3306,
-        &#39;USER&#39;: &#39;root&#39;,
-        &#39;PASSWORD&#39;: &#39;root&#39;
-    &#125;
-&#125;
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/10/coding/python/library/django/startup/" data-id="ckomwlrvh009xrhn93f7h9vlt" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/10/coding/python/library/django/startup/" data-id="ckonrt7y8009yc8n949aohk6n" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/django/" rel="tag">django</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/python/library/virtualenv/usage" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/12/10/coding/python/library/virtualenv/usage/" class="article-date">
+  <time datetime="2020-12-10T11:00:00.000Z" itemprop="datePublished">2020-12-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>►<a class="article-category-link" href="/categories/python/library/">library</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/10/coding/python/library/virtualenv/usage/">python virtualenv</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ubuntu</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt install python3-pip <span class="comment"># 安装pip3</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># OR</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install python-pip python-dev python-virtualenv <span class="comment"># for Python 2.7</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install python3-pip python3-dev python-virtualenv <span class="comment"># for Python 3.n</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> pip</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip3 install virtualenv</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="新建虚拟环境"><a href="#新建虚拟环境" class="headerlink" title="新建虚拟环境"></a>新建虚拟环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> virtualenv venv	<span class="comment"># sample</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> virtualenv --no-site-packages venv     <span class="comment"># 不使用外部库; 默认不使用，在virtualenv&gt;=20版本中移除，添加上可能会报错</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> virtualenv --system-site-packages venv <span class="comment"># 使用系统库</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> virtualenv -p python3 venv             <span class="comment"># 指定Python版本</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> virtualenv --copies venv 							 <span class="comment"># 复制Python程序等，而不是链接</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="激活新环境"><a href="#激活新环境" class="headerlink" title="激活新环境"></a>激活新环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入环境</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> venv</span> </span><br><span class="line"><span class="meta">#</span><span class="bash"> 激活</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">source</span> bin/activate</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">source</span> bin/activate <span class="comment"># bash, sh, ksh, or zsh</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">source</span> bin/activate.csh  <span class="comment"># csh or tcsh</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="退出环境"><a href="#退出环境" class="headerlink" title="退出环境"></a>退出环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+
+<h2 id="配合supervisor"><a href="#配合supervisor" class="headerlink" title="配合supervisor"></a>配合supervisor</h2><h3 id="supervisor配置文件"><a href="#supervisor配置文件" class="headerlink" title="supervisor配置文件"></a>supervisor配置文件</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[program:myproj-uwsgi]</span></span><br><span class="line"><span class="attr">process_name</span>=myproj-uwsgi</span><br><span class="line"><span class="attr">command</span>=/home/myuser/.virtualenvs/myproj/bin/uwsgi</span><br><span class="line">    --chdir /home/myuser/projects/myproj</span><br><span class="line">    -w myproj:app</span><br><span class="line"><span class="attr">environment</span>=PATH=<span class="string">&quot;/home/myuser/.virtualenvs/myproj/bin:%(ENV_PATH)s&quot;</span></span><br><span class="line"><span class="attr">user</span>=myuser</span><br><span class="line"><span class="attr">group</span>=myuser</span><br><span class="line"><span class="attr">killasgroup</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">startsecs</span>=<span class="number">5</span></span><br><span class="line"><span class="attr">stopwaitsecs</span>=<span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="导出环境"><a href="#导出环境" class="headerlink" title="导出环境"></a>导出环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 导出</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip freeze &gt; requirements</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip install -r requirements</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2020/12/10/coding/python/library/virtualenv/usage/" data-id="ckonrt7ya00a2c8n9ak294nr4" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/virtualenv/" rel="tag">virtualenv</a></li></ul>
 
     </footer>
   </div>
@@ -250,47 +193,21 @@ DATABASES = &#123;
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code class="shell">$ pip3 install requests
-</code></pre>
-<h1 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h1><pre><code class="python">import requests
-</code></pre>
-<h1 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h1><h2 id="头"><a href="#头" class="headerlink" title="头"></a>头</h2><pre><code class="python">headers = &#123;&#39;user-agent&#39;: &#39;...&#39;&#125;
-requests.get(url, headers=headers)
-</code></pre>
-<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><pre><code class="python"># Get
-payload = &#123;&#39;key1&#39;: &#39;value1&#39;, &#39;key2&#39;: [&#39;value2&#39;, &#39;value3&#39;]&#125;
-r = requests.get(url, params=payload)
+        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip3 install requests</span></span><br></pre></td></tr></table></figure>
 
-# Post Json
-data = &#123;&#39;key&#39;: &#39;value&#39;&#125;
-r = requests.post(url, data=json.dumps(data), headers=headers) # OR
-r = requests.post(url, json=data)
-</code></pre>
-<h1 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h1><pre><code class="python"># 返回码
-r.status_code
+<h1 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br></pre></td></tr></table></figure>
 
-# Json 数据
-r.json()
+<h1 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h1><h2 id="头"><a href="#头" class="headerlink" title="头"></a>头</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">headers = &#123;<span class="string">&#x27;user-agent&#x27;</span>: <span class="string">&#x27;...&#x27;</span>&#125;</span><br><span class="line">requests.get(url, headers=headers)</span><br></pre></td></tr></table></figure>
 
-# 读取二进制数据
-r.content
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Get</span></span><br><span class="line">payload = &#123;<span class="string">&#x27;key1&#x27;</span>: <span class="string">&#x27;value1&#x27;</span>, <span class="string">&#x27;key2&#x27;</span>: [<span class="string">&#x27;value2&#x27;</span>, <span class="string">&#x27;value3&#x27;</span>]&#125;</span><br><span class="line">r = requests.get(url, params=payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Post Json</span></span><br><span class="line">data = &#123;<span class="string">&#x27;key&#x27;</span>: <span class="string">&#x27;value&#x27;</span>&#125;</span><br><span class="line">r = requests.post(url, data=json.dumps(data), headers=headers) <span class="comment"># OR</span></span><br><span class="line">r = requests.post(url, json=data)</span><br></pre></td></tr></table></figure>
 
-# 读取图片
-from PIL import Image
-from io import BytesIO
+<h1 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回码</span></span><br><span class="line">r.status_code</span><br><span class="line"></span><br><span class="line"><span class="comment"># Json 数据</span></span><br><span class="line">r.json()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取二进制数据</span></span><br><span class="line">r.content</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取图片</span></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">from</span> io <span class="keyword">import</span> BytesIO</span><br><span class="line"></span><br><span class="line">i = Image.<span class="built_in">open</span>(BytesIO(r.content))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存到文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> fd:</span><br><span class="line">    <span class="keyword">for</span> chunk <span class="keyword">in</span> r.iter_content(chunk_size=<span class="number">128</span>):</span><br><span class="line">        fd.write(chunk)</span><br></pre></td></tr></table></figure>
 
-i = Image.open(BytesIO(r.content))
-
-# 保存到文件
-with open(filename, &#39;wb&#39;) as fd:
-    for chunk in r.iter_content(chunk_size=128):
-        fd.write(chunk)
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/08/coding/python/library/requests/" data-id="ckomwlrv0008hrhn99mau3xl3" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/08/coding/python/library/requests/" data-id="ckonrt7xn008hc8n9anoge5st" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
@@ -334,10 +251,56 @@ with open(filename, &#39;wb&#39;) as fd:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/06/play/rpi/gpio/" data-id="ckomwlrtr003wrhn9cbhfel4f" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/06/play/rpi/gpio/" data-id="ckonrt7vs003wc8n947eq5sqi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-linux/notes/devices" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/12/05/linux/notes/devices/" class="article-date">
+  <time datetime="2020-12-05T10:40:00.000Z" itemprop="datePublished">2020-12-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/linux/">linux</a>►<a class="article-category-link" href="/categories/linux/notes/">notes</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/05/linux/notes/devices/">Linux之查看设备</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> lscpu</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="PCI-设备"><a href="#PCI-设备" class="headerlink" title="PCI 设备"></a>PCI 设备</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> lspci</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2020/12/05/linux/notes/devices/" data-id="ckonrt7vc0031c8n94m383f0y" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
 
     </footer>
   </div>
@@ -372,54 +335,59 @@ with open(filename, &#39;wb&#39;) as fd:
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="查看版本信息"><a href="#查看版本信息" class="headerlink" title="查看版本信息"></a>查看版本信息</h1><h2 id="发行版名称及信息"><a href="#发行版名称及信息" class="headerlink" title="发行版名称及信息"></a>发行版名称及信息</h2><pre><code class="shell"># lsb_release
-$ lsb_release -a
-No LSB modules are available.
-Distributor ID:    Ubuntu
-Description:    Ubuntu 18.04.5 LTS
-Release:    18.04
-Codename:    bionic
+        <h1 id="查看版本信息"><a href="#查看版本信息" class="headerlink" title="查看版本信息"></a>查看版本信息</h1><h2 id="发行版名称及信息"><a href="#发行版名称及信息" class="headerlink" title="发行版名称及信息"></a>发行版名称及信息</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> lsb_release</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> lsb_release -a</span></span><br><span class="line">No LSB modules are available.</span><br><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu 18.04.5 LTS</span><br><span class="line">Release:	18.04</span><br><span class="line">Codename:	bionic</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> os-release</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat /etc/os-release</span></span><br><span class="line">NAME=&quot;Ubuntu&quot;</span><br><span class="line">VERSION=&quot;18.04.5 LTS (Bionic Beaver)&quot;</span><br><span class="line">ID=ubuntu</span><br><span class="line">ID_LIKE=debian</span><br><span class="line">PRETTY_NAME=&quot;Ubuntu 18.04.5 LTS&quot;</span><br><span class="line">VERSION_ID=&quot;18.04&quot;</span><br><span class="line">HOME_URL=&quot;https://www.ubuntu.com/&quot;</span><br><span class="line">SUPPORT_URL=&quot;https://help.ubuntu.com/&quot;</span><br><span class="line">BUG_REPORT_URL=&quot;https://bugs.launchpad.net/ubuntu/&quot;</span><br><span class="line">PRIVACY_POLICY_URL=&quot;https://www.ubuntu.com/legal/terms-and-policies/privacy-policy&quot;</span><br><span class="line">VERSION_CODENAME=bionic</span><br><span class="line">UBUNTU_CODENAME=bionic</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> hostnamectl</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> hostnamectl</span></span><br><span class="line">   Static hostname: mvm</span><br><span class="line">         Icon name: computer-vm</span><br><span class="line">           Chassis: vm</span><br><span class="line">        Machine ID: 2d1d6a0bc90a451ab6ed062e9c2153bf</span><br><span class="line">           Boot ID: d8d4f12a272847b0b7d1de1ec2307493</span><br><span class="line">    Virtualization: qemu</span><br><span class="line">  Operating System: Ubuntu 18.04.5 LTS</span><br><span class="line">            Kernel: Linux 4.15.0-126-generic</span><br><span class="line">      Architecture: x86-64</span><br><span class="line">      </span><br><span class="line"><span class="meta">#</span><span class="bash"> issue</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat /etc/issue</span></span><br><span class="line">Ubuntu 18.04.5 LTS \n \l</span><br></pre></td></tr></table></figure>
 
-# os-release
-$ cat /etc/os-release
-NAME=&quot;Ubuntu&quot;
-VERSION=&quot;18.04.5 LTS (Bionic Beaver)&quot;
-ID=ubuntu
-ID_LIKE=debian
-PRETTY_NAME=&quot;Ubuntu 18.04.5 LTS&quot;
-VERSION_ID=&quot;18.04&quot;
-HOME_URL=&quot;https://www.ubuntu.com/&quot;
-SUPPORT_URL=&quot;https://help.ubuntu.com/&quot;
-BUG_REPORT_URL=&quot;https://bugs.launchpad.net/ubuntu/&quot;
-PRIVACY_POLICY_URL=&quot;https://www.ubuntu.com/legal/terms-and-policies/privacy-policy&quot;
-VERSION_CODENAME=bionic
-UBUNTU_CODENAME=bionic
+<h2 id="内核版本"><a href="#内核版本" class="headerlink" title="内核版本"></a>内核版本</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> uname</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> uname -r  <span class="comment"># OR -a</span></span></span><br><span class="line">4.15.0-126-generic</span><br></pre></td></tr></table></figure>
 
-# hostnamectl
-$ hostnamectl
-   Static hostname: mvm
-         Icon name: computer-vm
-           Chassis: vm
-        Machine ID: 2d1d6a0bc90a451ab6ed062e9c2153bf
-           Boot ID: d8d4f12a272847b0b7d1de1ec2307493
-    Virtualization: qemu
-  Operating System: Ubuntu 18.04.5 LTS
-            Kernel: Linux 4.15.0-126-generic
-      Architecture: x86-64
-      
-# issue
-$ cat /etc/issue
-Ubuntu 18.04.5 LTS \n \l
-</code></pre>
-<h2 id="内核版本"><a href="#内核版本" class="headerlink" title="内核版本"></a>内核版本</h2><pre><code class="shell"># uname
-$ uname -r  # OR -a
-4.15.0-126-generic
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/05/linux/notes/infos/" data-id="ckomwlrtj0035rhn9gth2fcmb" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/05/linux/notes/infos/" data-id="ckonrt7ve0035c8n93jqm77at" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-linux/notes/network" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/12/05/linux/notes/network/" class="article-date">
+  <time datetime="2020-12-05T10:40:00.000Z" itemprop="datePublished">2020-12-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/linux/">linux</a>►<a class="article-category-link" href="/categories/linux/notes/">notes</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/05/linux/notes/network/">Linux之网络配置</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h1><h2 id="Debian"><a href="#Debian" class="headerlink" title="Debian+"></a>Debian+</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> interfaces; configured by dns-nameserver</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat /etc/network/interfaces</span></span><br><span class="line">...</span><br><span class="line">auto wlan0</span><br><span class="line">allow-hotplug wlan0</span><br><span class="line">iface wlan0 inet static</span><br><span class="line">	address 192.168.8.160</span><br><span class="line">	netmask 255.255.255.0</span><br><span class="line">	network 192.168.8.1</span><br><span class="line">	gateway 192.168.8.1</span><br><span class="line">	broadcast 192.168.8.255</span><br><span class="line">	wpa-essid &quot;&lt;wifi-id&gt;&quot;</span><br><span class="line">	wpa-psk &quot;&lt;wifi-password&gt;&quot;</span><br><span class="line">	dns-nameserver 8.8.8.8</span><br><span class="line">	dns-nameserver 8.8.4.4</span><br><span class="line">	dns-nameserver 192.168.8.1</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2020/12/05/linux/notes/network/" data-id="ckonrt7vf0037c8n95f6b53ve" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
@@ -457,77 +425,13 @@ $ uname -r  # OR -a
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Wifi认证及静态IP"><a href="#Wifi认证及静态IP" class="headerlink" title="Wifi认证及静态IP"></a>Wifi认证及静态IP</h1><pre><code class="shell">#### Raspbian
-$ cat /etc/network/interfaces
-# ...
-source-directory /etc/network/interfaces.d
+        <h1 id="Wifi认证及静态IP"><a href="#Wifi认证及静态IP" class="headerlink" title="Wifi认证及静态IP"></a>Wifi认证及静态IP</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### Raspbian</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat /etc/network/interfaces</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> ...</span></span><br><span class="line">source-directory /etc/network/interfaces.d</span><br><span class="line"></span><br><span class="line">auto wlan0</span><br><span class="line">allow-hotplug wlan0</span><br><span class="line">iface wlan0 inet static</span><br><span class="line">	address 192.168.8.160</span><br><span class="line">	netmask 255.255.255.0</span><br><span class="line">	network 192.168.8.1</span><br><span class="line">	gateway 192.168.8.1</span><br><span class="line">	broadcast 192.168.8.255</span><br><span class="line">	wpa-essid &quot;...&quot;</span><br><span class="line">	wpa-psk &quot;...&quot;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> wpa-essid: wifi名称</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> wpa-psk: wifi 密码，psk认证</span></span><br></pre></td></tr></table></figure>
 
-auto wlan0
-allow-hotplug wlan0
-iface wlan0 inet static
-    address 192.168.8.160
-    netmask 255.255.255.0
-    network 192.168.8.1
-    gateway 192.168.8.1
-    broadcast 192.168.8.255
-    wpa-essid &quot;...&quot;
-    wpa-psk &quot;...&quot;
-
-# wpa-essid: wifi名称
-# wpa-psk: wifi 密码，psk认证
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/05/play/rpi/config/" data-id="ckomwlrtp003prhn95ehuees2" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-play/rpi/librarys" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/05/play/rpi/librarys/" class="article-date">
-  <time datetime="2020-12-05T10:40:00.000Z" itemprop="datePublished">2020-12-05</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/play/">play</a>►<a class="article-category-link" href="/categories/play/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/05/play/rpi/librarys/">树莓派配置</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="linux-headers-kernel-headers"><a href="#linux-headers-kernel-headers" class="headerlink" title="linux-headers / kernel-headers"></a>linux-headers / kernel-headers</h1><pre><code class="shell"># Raspbian
-$ sudo apt install raspberrypi-kernel-headers
-</code></pre>
-<h1 id="GPIO"><a href="#GPIO" class="headerlink" title="GPIO"></a>GPIO</h1><pre><code class="shell">$ pip3 install RPIO
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/05/play/rpi/librarys/" data-id="ckomwlrts0043rhn9chy11p88" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/05/play/rpi/config/" data-id="ckonrt7vp003pc8n9501o015t" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
@@ -565,45 +469,18 @@ $ sudo apt install raspberrypi-kernel-headers
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="驱动"><a href="#驱动" class="headerlink" title="驱动"></a>驱动</h1><h2 id="xpadneo"><a href="#xpadneo" class="headerlink" title="xpadneo"></a>xpadneo</h2><h3 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h3><pre><code class="shell"># Raspbian
-$ sudo apt install dkms raspberrypi-kernel-headers
-</code></pre>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code class="shell">$ git clone https://github.com/atar-axis/xpadneo.git
-$ cd xpadneo
-$ sudo ./install.sh
+        <h1 id="驱动"><a href="#驱动" class="headerlink" title="驱动"></a>驱动</h1><h2 id="xpadneo"><a href="#xpadneo" class="headerlink" title="xpadneo"></a>xpadneo</h2><h3 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Raspbian</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt install dkms raspberrypi-kernel-headers</span></span><br></pre></td></tr></table></figure>
 
-# 如遇如下报错
-# Your kernel headers for kernel 4.19.97-v7l+ cannot be found at
-# /lib/modules/4.19.97-v7l+/build or /lib/modules/4.19.97-v7l+/source.
-# 将 /lib/modules 下拷贝一份至缺失版本，如:
-# sudo cp -r /lib/modules/5.4.79-v7l+ /lib/modules/4.19.97-v7l+
-</code></pre>
-<h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><pre><code class="shell">$ bluetoothctl
-$ [bluetooth]# scan on
-...
-# 长按xbox前侧配对键，至指示灯快速闪烁，出下如下新设备，记录其mac地址
-[NEW] Device &lt;MAC&gt; Xbox Wireless Controller
-...
-[bluetooth]# pairable on
-[bluetooth]# power on
-[bluetooth]# pair &lt;MAC&gt;
-[bluetooth]# trust &lt;MAC&gt;
-[bluetooth]# connect &lt;MAC&gt;
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/atar-axis/xpadneo.git</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> xpadneo</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo ./install.sh</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如遇如下报错</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Your kernel headers <span class="keyword">for</span> kernel 4.19.97-v7l+ cannot be found at</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> /lib/modules/4.19.97-v7l+/build or /lib/modules/4.19.97-v7l+/<span class="built_in">source</span>.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 将 /lib/modules 下拷贝一份至缺失版本，如:</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sudo cp -r /lib/modules/5.4.79-v7l+ /lib/modules/4.19.97-v7l+</span></span><br></pre></td></tr></table></figure>
 
-# 如若报 Failed to connect: org.bluez.Error.Failed 错误，执行如下命令并重启系统
-$ echo &#39;options bluetooth disable_ertm=Y&#39; | sudo tee -a /etc/modprobe.d/bluetooth.conf
-</code></pre>
+<h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> bluetoothctl</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> [bluetooth]<span class="comment"># scan on</span></span></span><br><span class="line">...</span><br><span class="line"><span class="meta">#</span><span class="bash"> 长按xbox前侧配对键，至指示灯快速闪烁，出下如下新设备，记录其mac地址</span></span><br><span class="line">[NEW] Device &lt;MAC&gt; Xbox Wireless Controller</span><br><span class="line">...</span><br><span class="line"><span class="meta">[bluetooth]#</span><span class="bash"> pairable on</span></span><br><span class="line"><span class="meta">[bluetooth]#</span><span class="bash"> power on</span></span><br><span class="line"><span class="meta">[bluetooth]#</span><span class="bash"> pair &lt;MAC&gt;</span></span><br><span class="line"><span class="meta">[bluetooth]#</span><span class="bash"> trust &lt;MAC&gt;</span></span><br><span class="line"><span class="meta">[bluetooth]#</span><span class="bash"> connect &lt;MAC&gt;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如若报 Failed to connect: org.bluez.Error.Failed 错误，执行如下命令并重启系统</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="string">&#x27;options bluetooth disable_ertm=Y&#x27;</span> | sudo tee -a /etc/modprobe.d/bluetooth.conf</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h4 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h4><p><strong>安装依赖</strong></p>
-<pre><code class="shell">$ sudo pip3 install evdev asyncio
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo pip3 install evdev asyncio</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>测试</strong></p>
-<pre><code class="python">$ cd xpadneo/misc/examples # 克隆下来的Git仓库
-$ python3 python_asyncio_evdev/gamepad.py
-press x to stop, Y to rumble light, B to rumble once, trigger and joystick right to see analog value
- trigger_right =  32.98   joystick_right_x =  0
-  
-# 如果一切顺利，按手柄Y会感受到长震动；按B会感受到短震动；按X退出程序
-</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ cd xpadneo/misc/examples <span class="comment"># 克隆下来的Git仓库</span></span><br><span class="line">$ python3 python_asyncio_evdev/gamepad.py</span><br><span class="line">press x to stop, Y to rumble light, B to rumble once, trigger <span class="keyword">and</span> joystick right to see analog value</span><br><span class="line"> trigger_right =  <span class="number">32.98</span>   joystick_right_x =  <span class="number">0</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># 如果一切顺利，按手柄Y会感受到长震动；按B会感受到短震动；按X退出程序</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>按键</strong></p>
 <table>
 <thead>
@@ -731,7 +608,7 @@ press x to stop, Y to rumble light, B to rumble once, trigger and joystick right
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/05/play/rpi/gamepad/" data-id="ckomwlrtq003srhn94ri20758" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/05/play/rpi/gamepad/" data-id="ckonrt7vr003sc8n9cy1o876d" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
@@ -743,14 +620,14 @@ press x to stop, Y to rumble light, B to rumble once, trigger and joystick right
 
 
   
-    <article id="post-linux/notes/devices" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-play/rpi/hardware" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/12/05/linux/notes/devices/" class="article-date">
+    <a href="/2020/12/05/play/rpi/hardware/" class="article-date">
   <time datetime="2020-12-05T10:40:00.000Z" itemprop="datePublished">2020-12-05</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/linux/">linux</a>►<a class="article-category-link" href="/categories/linux/notes/">notes</a>
+    <a class="article-category-link" href="/categories/play/">play</a>►<a class="article-category-link" href="/categories/play/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a>
   </div>
 
   </div>
@@ -761,7 +638,7 @@ press x to stop, Y to rumble light, B to rumble once, trigger and joystick right
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/05/linux/notes/devices/">Linux之查看设备</a>
+      <a class="article-title" href="/2020/12/05/play/rpi/hardware/">树莓派连接硬件</a>
     </h1>
   
 
@@ -769,77 +646,25 @@ press x to stop, Y to rumble light, B to rumble once, trigger and joystick right
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h1><pre><code class="shell">$ lscpu
-</code></pre>
-<h1 id="PCI-设备"><a href="#PCI-设备" class="headerlink" title="PCI 设备"></a>PCI 设备</h1><pre><code class="shell">$ lspci
-</code></pre>
+        <h1 id="Speaker"><a href="#Speaker" class="headerlink" title="Speaker"></a>Speaker</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> play audio</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install sox libsox-fmt-all</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> play file-name.mp3</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> turn volume</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> amixer <span class="built_in">set</span> Master 50%</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> amixer <span class="built_in">set</span> Master 10%+</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> slelect speaker</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> alsamixer</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># F6 to select device</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">set</span> volume over 100%</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt install pulseaudio</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pulseaudio --start -D</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pulseaudio --check -v <span class="comment"># check</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install pulseaudio-utils</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pactl set-sink-volume 0 300%</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Camera"><a href="#Camera" class="headerlink" title="Camera"></a>Camera</h1><h2 id="Web-Stream"><a href="#Web-Stream" class="headerlink" title="Web Stream"></a>Web Stream</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> install</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install libjpeg8-dev imagemagick</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Reference</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> setup and <span class="built_in">test</span></span></span><br><span class="line">https://www.raspberrypi.org/documentation/configuration/camera.md</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> official documents</span></span><br><span class="line">https://www.raspberrypi.org/documentation/raspbian/applications/camera.md</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> web stream</span></span><br><span class="line">https://blog.miguelgrinberg.com/post/stream-video-from-the-raspberry-pi-camera-to-web-browsers-even-on-ios-and-android</span><br><span class="line">https://blog.miguelgrinberg.com/post/how-to-build-and-run-mjpg-streamer-on-the-raspberry-pi</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 注释 mjpg-streamer/util.c stats.h</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> // <span class="comment">#include &lt;linux/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> // <span class="comment">#include &lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> generate stream</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> raspistill --nopreview -w 640 -h 480 -q 5 -o /home/pi/test.jpg -tl 100 -t 9999999 -th 0:0:0</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> serve stream</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> LD_LIBRARY_PATH=/usr/<span class="built_in">local</span>/lib mjpg_streamer -i <span class="string">&quot;input_file.so -f /home/pi -n test.jpg&quot;</span> -o <span class="string">&quot;output_http.so -w /usr/local/www&quot;</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> watch</span></span><br><span class="line">http://rpi-ip:8080</span><br></pre></td></tr></table></figure>
+
+<h1 id="L298N"><a href="#L298N" class="headerlink" title="L298N"></a>L298N</h1><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.teachmemicro.com/use-l298n-motor-driver/">https://www.teachmemicro.com/use-l298n-motor-driver/</a></li>
+<li><a target="_blank" rel="noopener" href="https://raspberrypi.stackexchange.com/questions/108888/rpi-python-gpio-pwm-control-l298n-motor-direction-and-speed-problem">https://raspberrypi.stackexchange.com/questions/108888/rpi-python-gpio-pwm-control-l298n-motor-direction-and-speed-problem</a></li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/05/linux/notes/devices/" data-id="ckomwlrti0031rhn990f9bl9o" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/05/play/rpi/hardware/" data-id="ckonrt7vt003zc8n9eug3cqu2" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-linux/notes/network" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/05/linux/notes/network/" class="article-date">
-  <time datetime="2020-12-05T10:40:00.000Z" itemprop="datePublished">2020-12-05</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/linux/">linux</a>►<a class="article-category-link" href="/categories/linux/notes/">notes</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/05/linux/notes/network/">Linux之网络配置</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h1><h2 id="Debian"><a href="#Debian" class="headerlink" title="Debian+"></a>Debian+</h2><pre><code class="shell"># interfaces; configured by dns-nameserver
-$ cat /etc/network/interfaces
-...
-auto wlan0
-allow-hotplug wlan0
-iface wlan0 inet static
-    address 192.168.8.160
-    netmask 255.255.255.0
-    network 192.168.8.1
-    gateway 192.168.8.1
-    broadcast 192.168.8.255
-    wpa-essid &quot;&lt;wifi-id&gt;&quot;
-    wpa-psk &quot;&lt;wifi-password&gt;&quot;
-    dns-nameserver 8.8.8.8
-    dns-nameserver 8.8.4.4
-    dns-nameserver 192.168.8.1
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/05/linux/notes/network/" data-id="ckomwlrtj0037rhn94mx0g5dv" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
 
     </footer>
   </div>
@@ -905,7 +730,7 @@ iface wlan0 inet static
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -913,7 +738,7 @@ iface wlan0 inet static
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

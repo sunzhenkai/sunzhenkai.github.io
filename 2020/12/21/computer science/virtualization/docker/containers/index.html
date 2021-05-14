@@ -7,12 +7,12 @@
   
   <title>Docker 容器 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="MySQL &amp; mariadbMySQL$ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD&#x3D;root -d mysql:latest --default-authentication-plugin&#x3D;mysql_native_password # 认证插件 mysql_native_password, passwd, s">
+  <meta name="description" content="MySQL &amp; mariadbMySQL12$ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD&#x3D;root -d mysql:latest --default-authentication-plugin&#x3D;mysql_native_password# 认证插件 mysql_native_password, passwd,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker 容器">
 <meta property="og:url" content="http://wii.pub/2020/12/21/computer%20science/virtualization/docker/containers/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="MySQL &amp; mariadbMySQL$ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD&#x3D;root -d mysql:latest --default-authentication-plugin&#x3D;mysql_native_password # 认证插件 mysql_native_password, passwd, s">
+<meta property="og:description" content="MySQL &amp; mariadbMySQL12$ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD&#x3D;root -d mysql:latest --default-authentication-plugin&#x3D;mysql_native_password# 认证插件 mysql_native_password, passwd,">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-12-21T11:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.635Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,30 +92,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="MySQL-amp-mariadb"><a href="#MySQL-amp-mariadb" class="headerlink" title="MySQL &amp; mariadb"></a>MySQL &amp; mariadb</h1><h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><pre><code class="shell">$ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:latest --default-authentication-plugin=mysql_native_password
-# 认证插件 mysql_native_password, passwd, sha256_password; 如果工具连接出错，可尝试添加
-</code></pre>
+        <h1 id="MySQL-amp-mariadb"><a href="#MySQL-amp-mariadb" class="headerlink" title="MySQL &amp; mariadb"></a>MySQL &amp; mariadb</h1><h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:latest --default-authentication-plugin=mysql_native_password</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 认证插件 mysql_native_password, passwd, sha256_password; 如果工具连接出错，可尝试添加</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="mariadb"><a href="#mariadb" class="headerlink" title="mariadb"></a>mariadb</h2><p><strong>下载镜像</strong></p>
-<pre><code class="shell">$ docker pull mariadb:latest
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker pull mariadb:latest</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>运行镜像</strong></p>
-<pre><code class="shell">$ docker run -p 3306:3306 --name mariadb -e MYSQL_ROOT_PASSWORD=ipwd -d mariadb:latest
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run -p 3306:3306 --name mariadb -e MYSQL_ROOT_PASSWORD=ipwd -d mariadb:latest</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li><a target="_blank" rel="noopener" href="https://hub.docker.com/_/mysql/">https://hub.docker.com/_/mysql/</a></li>
 <li><a target="_blank" rel="noopener" href="https://hub.docker.com/_/mariadb">https://hub.docker.com/_/mariadb</a></li>
 </ul>
 <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p><strong>下载镜像</strong></p>
-<pre><code class="shell">$ docker pull redis:latest
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker pull redis:latest</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>运行容器</strong></p>
-<pre><code class="shell">$ docker run -itd --name redis -p 6379:6379 redis:latest
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run -itd --name redis -p 6379:6379 redis:latest</span></span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/21/computer%20science/virtualization/docker/containers/" data-id="ckomwlrv7008zrhn9fy4cdo4l" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/21/computer%20science/virtualization/docker/containers/" data-id="ckonrt7xu008zc8n9afld6wr3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
@@ -194,7 +195,7 @@
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -202,7 +203,7 @@
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

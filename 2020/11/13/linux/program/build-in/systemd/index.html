@@ -7,12 +7,12 @@
   
   <title>systemd使用 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="添加服务 创建可执行服务程序 创建 Unit File 复制 Unit File 至 &#x2F;etc&#x2F;systemd&#x2F;system 服务启 &#x2F; 停  示例# [required] 1. 创建可执行服务程序 ## File: test_service.sh DATE&#x3D;&#96;date &#39;+%Y-%m-%d %H:%M:%S&#39;&#96; echo &quot;Example service started">
+  <meta name="description" content="添加服务 创建可执行服务程序 创建 Unit File 复制 Unit File 至 &#x2F;etc&#x2F;systemd&#x2F;system 服务启 &#x2F; 停  示例123456789101112131415161718192021222324252627282930# [required] 1. 创建可执行服务程序## File: test_service.shDATE&#x3D;&#96;date &amp;#x27;+%Y-%m-%d">
 <meta property="og:type" content="article">
 <meta property="og:title" content="systemd使用">
 <meta property="og:url" content="http://wii.pub/2020/11/13/linux/program/build-in/systemd/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="添加服务 创建可执行服务程序 创建 Unit File 复制 Unit File 至 &#x2F;etc&#x2F;systemd&#x2F;system 服务启 &#x2F; 停  示例# [required] 1. 创建可执行服务程序 ## File: test_service.sh DATE&#x3D;&#96;date &#39;+%Y-%m-%d %H:%M:%S&#39;&#96; echo &quot;Example service started">
+<meta property="og:description" content="添加服务 创建可执行服务程序 创建 Unit File 复制 Unit File 至 &#x2F;etc&#x2F;systemd&#x2F;system 服务启 &#x2F; 停  示例123456789101112131415161718192021222324252627282930# [required] 1. 创建可执行服务程序## File: test_service.shDATE&#x3D;&#96;date &amp;#x27;+%Y-%m-%d">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-11-13T14:30:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.647Z">
@@ -25,6 +25,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -97,57 +99,15 @@
 <li>复制 Unit File 至 <code>/etc/systemd/system</code></li>
 <li>服务启 / 停</li>
 </ul>
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><pre><code class="shell"># [required] 1. 创建可执行服务程序
-## File: test_service.sh
-DATE=`date &#39;+%Y-%m-%d %H:%M:%S&#39;`
-echo &quot;Example service started at $&#123;DATE&#125;&quot; | systemd-cat -p info
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> [required] 1. 创建可执行服务程序</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># File: test_service.sh</span></span></span><br><span class="line">DATE=`date &#x27;+%Y-%m-%d %H:%M:%S&#x27;`</span><br><span class="line">echo &quot;Example service started at $&#123;DATE&#125;&quot; | systemd-cat -p info</span><br><span class="line"></span><br><span class="line">while :</span><br><span class="line">do</span><br><span class="line">  echo &quot;Looping...&quot;;</span><br><span class="line">  sleep 30;</span><br><span class="line">done</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [optional] 2. 复制程序至 /usr/bin</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo cp test_service.sh /usr/bin/test_service.sh</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo chmod +x /usr/bin/test_service.sh</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [required] 3. 创建 Unit File</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># File: myservice.service</span></span></span><br><span class="line">[Unit]</span><br><span class="line">Description=Example systemd service.</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">ExecStart=/bin/bash /usr/bin/test_service.sh</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [required] 4. 复制 Unit File 至 /etc/systemd/system</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo cp myservice.service /etc/systemd/system/myservice.service</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo chmod 644 /etc/systemd/system/myservice.service</span></span><br></pre></td></tr></table></figure>
 
-while :
-do
-  echo &quot;Looping...&quot;;
-  sleep 30;
-done
+<h1 id="服务启停"><a href="#服务启停" class="headerlink" title="服务启停"></a>服务启停</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 启动</span> </span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo systemctl start myservice</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看状态</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo systemctl status myservice</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 停止</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo systemctl stop myservice</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo systemctl restart myservice</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 开机启动</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo systemctl <span class="built_in">enable</span> myservice</span></span><br></pre></td></tr></table></figure>
 
-# [optional] 2. 复制程序至 /usr/bin
-$ sudo cp test_service.sh /usr/bin/test_service.sh
-$ sudo chmod +x /usr/bin/test_service.sh
-
-# [required] 3. 创建 Unit File
-## File: myservice.service
-[Unit]
-Description=Example systemd service.
-
-[Service]
-Type=simple
-ExecStart=/bin/bash /usr/bin/test_service.sh
-
-[Install]
-WantedBy=multi-user.target
-
-# [required] 4. 复制 Unit File 至 /etc/systemd/system
-$ sudo cp myservice.service /etc/systemd/system/myservice.service
-$ sudo chmod 644 /etc/systemd/system/myservice.service
-</code></pre>
-<h1 id="服务启停"><a href="#服务启停" class="headerlink" title="服务启停"></a>服务启停</h1><pre><code class="shell"># 启动 
-$ sudo systemctl start myservice
-
-# 查看状态
-$ sudo systemctl status myservice
-
-# 停止
-$ sudo systemctl stop myservice
-
-# 重启
-$ sudo systemctl restart myservice
-
-# 开机启动
-$ sudo systemctl enable myservice
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/13/linux/program/build-in/systemd/" data-id="ckomwlrvc009erhn9dra61ct6" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/11/13/linux/program/build-in/systemd/" data-id="ckonrt7y0009ec8n9fbf28wcy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/systemd/" rel="tag">systemd</a></li></ul>
@@ -228,7 +188,7 @@ $ sudo systemctl enable myservice
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -236,7 +196,7 @@ $ sudo systemctl enable myservice
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

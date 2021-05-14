@@ -7,12 +7,12 @@
   
   <title>mac usage | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="初始化homebrew$ &#x2F;bin&#x2F;bash -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;HEAD&#x2F;install.sh)&quot;  node参见 前端&#x2F;node。 工具homebrew 安装路径  &#x2F;usr&#x2F;local&#x2F;Cellar &#x2F;usr&#x2F;local&#x2F;Caskroom   源  清华源使">
+  <meta name="description" content="初始化homebrew1$ &#x2F;bin&#x2F;bash -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;HEAD&#x2F;install.sh)&quot;  node参见 前端&#x2F;node。 工具homebrew 安装路径  &#x2F;usr&#x2F;local&#x2F;Cellar &#x2F;usr&#x2F;local&#x2F;Caskroom   源  清华源">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mac usage">
 <meta property="og:url" content="http://wii.pub/2020/10/27/linux/mac/mac/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="初始化homebrew$ &#x2F;bin&#x2F;bash -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;HEAD&#x2F;install.sh)&quot;  node参见 前端&#x2F;node。 工具homebrew 安装路径  &#x2F;usr&#x2F;local&#x2F;Cellar &#x2F;usr&#x2F;local&#x2F;Caskroom   源  清华源使">
+<meta property="og:description" content="初始化homebrew1$ &#x2F;bin&#x2F;bash -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;HEAD&#x2F;install.sh)&quot;  node参见 前端&#x2F;node。 工具homebrew 安装路径  &#x2F;usr&#x2F;local&#x2F;Cellar &#x2F;usr&#x2F;local&#x2F;Caskroom   源  清华源">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-10-27T11:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.645Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,8 +92,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><h2 id="homebrew"><a href="#homebrew" class="headerlink" title="homebrew"></a>homebrew</h2><pre><code class="shell">$ /bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;
-</code></pre>
+        <h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><h2 id="homebrew"><a href="#homebrew" class="headerlink" title="homebrew"></a>homebrew</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> /bin/bash -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)</span>&quot;</span></span></span><br></pre></td></tr></table></figure>
+
 <h2 id="node"><a href="#node" class="headerlink" title="node"></a>node</h2><p>参见 <code>前端/node</code>。</p>
 <h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><h2 id="homebrew-1"><a href="#homebrew-1" class="headerlink" title="homebrew"></a>homebrew</h2><ul>
 <li><p>安装路径</p>
@@ -106,42 +108,16 @@
 </ul>
 </li>
 </ul>
-<h2 id="commond-line-tools"><a href="#commond-line-tools" class="headerlink" title="commond line tools"></a>commond line tools</h2><pre><code class="shell"># install
-$ xcode-select --install
+<h2 id="commond-line-tools"><a href="#commond-line-tools" class="headerlink" title="commond line tools"></a>commond line tools</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> install</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> xcode-select --install</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> delete</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo rm -rf `xcode-select -p` <span class="comment"># 一般会在文件夹 /Library/Developer/CommandLineTools 内</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Problems</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># Can’t install the software because it is not currently available from the Software Update server.</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 手动下载</span></span><br><span class="line">https://developer.apple.com/download/more/?=command%20line%20tools</span><br></pre></td></tr></table></figure>
 
-# delete
-$ sudo rm -rf `xcode-select -p` # 一般会在文件夹 /Library/Developer/CommandLineTools 内
-
-# Problems
-## Can’t install the software because it is not currently available from the Software Update server.
-# 手动下载
-https://developer.apple.com/download/more/?=command%20line%20tools
-</code></pre>
 <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="拷贝文件导致图标变灰无法访问"><a href="#拷贝文件导致图标变灰无法访问" class="headerlink" title="拷贝文件导致图标变灰无法访问"></a>拷贝文件导致图标变灰无法访问</h2><p>尝试 <a target="_blank" rel="noopener" href="https://blog.csdn.net/evandeng2009/article/details/53242196">这里</a> 无果。</p>
-<pre><code class="shell"># 仅适用文件夹
-# 命令行输入如下内容
-exitFun() &#123;
-  echo &quot;ERROR: failed, due to $1&quot;
-  exit 1
-&#125;
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 仅适用文件夹</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 命令行输入如下内容</span></span><br><span class="line">exitFun() &#123;</span><br><span class="line">  echo &quot;ERROR: failed, due to $1&quot;</span><br><span class="line">  exit 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fix() &#123;</span><br><span class="line">    [ ! -d &quot;$&#123;1&#125;&quot; ] &amp;&amp; exitFun &quot;target is not folder&quot;</span><br><span class="line">    mv &quot;$&#123;1&#125;&quot; &quot;$&#123;1&#125;_back&quot;</span><br><span class="line">    mkdir &quot;$&#123;1&#125;&quot;</span><br><span class="line">    mv &quot;$&#123;1&#125;_back&quot;/* &quot;$&#123;1&#125;/&quot;</span><br><span class="line">    mv &quot;$&#123;1&#125;_back&quot;/.[^.]* &quot;$&#123;1&#125;/&quot;</span><br><span class="line">    rmdir &quot;$&#123;1&#125;_back&quot;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 修复，输入 fix &lt;文件夹目录&gt; OR 输入 fix [拖拽文件夹至终端]</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> fix &lt;path&gt;</span>	</span><br></pre></td></tr></table></figure>
 
-fix() &#123;
-    [ ! -d &quot;$&#123;1&#125;&quot; ] &amp;&amp; exitFun &quot;target is not folder&quot;
-    mv &quot;$&#123;1&#125;&quot; &quot;$&#123;1&#125;_back&quot;
-    mkdir &quot;$&#123;1&#125;&quot;
-    mv &quot;$&#123;1&#125;_back&quot;/* &quot;$&#123;1&#125;/&quot;
-    mv &quot;$&#123;1&#125;_back&quot;/.[^.]* &quot;$&#123;1&#125;/&quot;
-    rmdir &quot;$&#123;1&#125;_back&quot;
-&#125;
-
-# 修复，输入 fix &lt;文件夹目录&gt; OR 输入 fix [拖拽文件夹至终端]
-$ fix &lt;path&gt;    
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/10/27/linux/mac/mac/" data-id="ckomwlrtg002xrhn9bud65qyi" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/10/27/linux/mac/mac/" data-id="ckonrt7vb002yc8n92w8nctws" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/usage/" rel="tag">usage</a></li></ul>
@@ -152,11 +128,11 @@ $ fix &lt;path&gt;
     
 <nav id="article-nav">
   
-    <a href="/2020/10/27/terms/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/10/27/architecture/storage/compare/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          术语
+          数据存储对比
         
       </div>
     </a>
@@ -222,7 +198,7 @@ $ fix &lt;path&gt;
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -230,7 +206,7 @@ $ fix &lt;path&gt;
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

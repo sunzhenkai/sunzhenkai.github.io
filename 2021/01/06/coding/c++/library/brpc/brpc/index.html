@@ -7,12 +7,12 @@
   
   <title>brpc | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="编译$ bash config_brpc.sh --headers&#x3D;&quot;&#x2F;path&#x2F;to&#x2F;deps&#x2F;include&#x2F;&quot; --libs&#x3D;&quot;&#x2F;path&#x2F;to&#x2F;deps&#x2F;lib&#x2F;&quot; --with-glog --with-thrift $ make -j $&amp;#123;make_thread_num&amp;#125; $ cp -a output&#x2F;include&#x2F;* &amp;qu">
+  <meta name="description" content="编译12345$ bash config_brpc.sh --headers&#x3D;&quot;&#x2F;path&#x2F;to&#x2F;deps&#x2F;include&#x2F;&quot; --libs&#x3D;&quot;&#x2F;path&#x2F;to&#x2F;deps&#x2F;lib&#x2F;&quot; --with-glog --with-thrift$ make -j $&amp;#123;make_thread_num&amp;#125;$ cp -a output&#x2F;include&#x2F;*">
 <meta property="og:type" content="article">
 <meta property="og:title" content="brpc">
 <meta property="og:url" content="http://wii.pub/2021/01/06/coding/c++/library/brpc/brpc/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="编译$ bash config_brpc.sh --headers&#x3D;&quot;&#x2F;path&#x2F;to&#x2F;deps&#x2F;include&#x2F;&quot; --libs&#x3D;&quot;&#x2F;path&#x2F;to&#x2F;deps&#x2F;lib&#x2F;&quot; --with-glog --with-thrift $ make -j $&amp;#123;make_thread_num&amp;#125; $ cp -a output&#x2F;include&#x2F;* &amp;qu">
+<meta property="og:description" content="编译12345$ bash config_brpc.sh --headers&#x3D;&quot;&#x2F;path&#x2F;to&#x2F;deps&#x2F;include&#x2F;&quot; --libs&#x3D;&quot;&#x2F;path&#x2F;to&#x2F;deps&#x2F;lib&#x2F;&quot; --with-glog --with-thrift$ make -j $&amp;#123;make_thread_num&amp;#125;$ cp -a output&#x2F;include&#x2F;*">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-01-06T13:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.574Z">
@@ -25,6 +25,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -91,27 +93,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><pre><code class="shell">$ bash config_brpc.sh --headers=&quot;/path/to/deps/include/&quot; --libs=&quot;/path/to/deps/lib/&quot; --with-glog --with-thrift
-$ make -j $&#123;make_thread_num&#125;
-$ cp -a output/include/* &quot;/path/to/install/include/&quot;
-$ cp -a output/lib/* &quot;/path/to/install/lib/&quot;
-$ cp -a output/bin/* &quot;/path/to/install/lib/&quot;
-</code></pre>
+        <h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> bash config_brpc.sh --headers=<span class="string">&quot;/path/to/deps/include/&quot;</span> --libs=<span class="string">&quot;/path/to/deps/lib/&quot;</span> --with-glog --with-thrift</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make -j <span class="variable">$&#123;make_thread_num&#125;</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cp -a output/include/* <span class="string">&quot;/path/to/install/include/&quot;</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cp -a output/lib/* <span class="string">&quot;/path/to/install/lib/&quot;</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cp -a output/bin/* <span class="string">&quot;/path/to/install/lib/&quot;</span></span></span><br></pre></td></tr></table></figure>
+
 <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="NO-1"><a href="#NO-1" class="headerlink" title="NO 1"></a>NO 1</h2><p><strong>描述</strong></p>
-<pre><code>ERROR: something wrong with flag &#39;flagfile&#39; in file &#39;/home/wii/Git/cooking/c++/universal/third/build/gflags-2.2.2/src/gflags.cc&#39;.  One possibility: file &#39;/home/wii/Git/cooking/c++/universal/third/build/gflags-2.2.2/src/gflags.cc&#39; is being linked both statically and dynamically into this executable.
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ERROR: something wrong with flag &#x27;flagfile&#x27; in file &#x27;/home/wii/Git/cooking/c++/universal/third/build/gflags-2.2.2/src/gflags.cc&#x27;.  One possibility: file &#x27;/home/wii/Git/cooking/c++/universal/third/build/gflags-2.2.2/src/gflags.cc&#x27; is being linked both statically and dynamically into this executable.</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">Ignoring RegisterValidateFunction() for flag pointer 0x7f3d0b54893c: no flag found at that address</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 
-或者
-
-Ignoring RegisterValidateFunction() for flag pointer 0x7f3d0b54893c: no flag found at that address
-...
-</code></pre>
 <p><strong>解决</strong></p>
 <p>gflags静态库和共享库同时存在导致。gflags 是选择手动编译，在编译时为cmake指定<code>-DBUILD_SHARED_LIBS=1</code>只编译共享库，如果是使用命令安装，可以尝试先移除<code>/usr/local/lib/libgflag.a</code> 和 <code>/usr/local/lib/libgflag_nothread.a</code>。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/06/coding/c++/library/brpc/brpc/" data-id="ckomwlrvf009qrhn9dwkjdtdp" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/01/06/coding/c++/library/brpc/brpc/" data-id="ckonrt7y5009qc8n9cg3vc2sf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/brpc/" rel="tag">brpc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
@@ -192,7 +185,7 @@ Ignoring RegisterValidateFunction() for flag pointer 0x7f3d0b54893c: no flag fou
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -200,7 +193,7 @@ Ignoring RegisterValidateFunction() for flag pointer 0x7f3d0b54893c: no flag fou
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

@@ -7,12 +7,12 @@
   
   <title>nginx配置 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="默认配置## # You should look at the following URL&#39;s in order to grasp a solid understanding # of Nginx configuration files in order to fully unleash the power of Nginx. # https:&#x2F;&#x2F;www.nginx.com&#x2F;resourc">
+  <meta name="description" content="默认配置12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091### You should look at">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx配置">
 <meta property="og:url" content="http://wii.pub/2020/11/13/linux/program/nginx/config/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="默认配置## # You should look at the following URL&#39;s in order to grasp a solid understanding # of Nginx configuration files in order to fully unleash the power of Nginx. # https:&#x2F;&#x2F;www.nginx.com&#x2F;resourc">
+<meta property="og:description" content="默认配置12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091### You should look at">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-11-13T14:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.647Z">
@@ -25,6 +25,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -91,150 +93,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="默认配置"><a href="#默认配置" class="headerlink" title="默认配置"></a>默认配置</h1><pre><code>##
-# You should look at the following URL&#39;s in order to grasp a solid understanding
-# of Nginx configuration files in order to fully unleash the power of Nginx.
-# https://www.nginx.com/resources/wiki/start/
-# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
-# https://wiki.debian.org/Nginx/DirectoryStructure
-#
-# In most cases, administrators will remove this file from sites-enabled/ and
-# leave it as reference inside of sites-available where it will continue to be
-# updated by the nginx packaging team.
-#
-# This file will automatically load configuration files provided by other
-# applications, such as Drupal or Wordpress. These applications will be made
-# available underneath a path with that package name, such as /drupal8.
-#
-# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
-##
+        <h1 id="默认配置"><a href="#默认配置" class="headerlink" title="默认配置"></a>默认配置</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">##</span><br><span class="line"># You should look at the following URL&#x27;s in order to grasp a solid understanding</span><br><span class="line"># of Nginx configuration files in order to fully unleash the power of Nginx.</span><br><span class="line"># https://www.nginx.com/resources/wiki/start/</span><br><span class="line"># https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/</span><br><span class="line"># https://wiki.debian.org/Nginx/DirectoryStructure</span><br><span class="line">#</span><br><span class="line"># In most cases, administrators will remove this file from sites-enabled/ and</span><br><span class="line"># leave it as reference inside of sites-available where it will continue to be</span><br><span class="line"># updated by the nginx packaging team.</span><br><span class="line">#</span><br><span class="line"># This file will automatically load configuration files provided by other</span><br><span class="line"># applications, such as Drupal or Wordpress. These applications will be made</span><br><span class="line"># available underneath a path with that package name, such as /drupal8.</span><br><span class="line">#</span><br><span class="line"># Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.</span><br><span class="line">##</span><br><span class="line"></span><br><span class="line"># Default server configuration</span><br><span class="line">#</span><br><span class="line">server &#123;</span><br><span class="line">	listen 80 default_server;</span><br><span class="line">	listen [::]:80 default_server;</span><br><span class="line"></span><br><span class="line">	# SSL configuration</span><br><span class="line">	#</span><br><span class="line">	# listen 443 ssl default_server;</span><br><span class="line">	# listen [::]:443 ssl default_server;</span><br><span class="line">	#</span><br><span class="line">	# Note: You should disable gzip for SSL traffic.</span><br><span class="line">	# See: https://bugs.debian.org/773332</span><br><span class="line">	#</span><br><span class="line">	# Read up on ssl_ciphers to ensure a secure configuration.</span><br><span class="line">	# See: https://bugs.debian.org/765782</span><br><span class="line">	#</span><br><span class="line">	# Self signed certs generated by the ssl-cert package</span><br><span class="line">	# Don&#x27;t use them in a production server!</span><br><span class="line">	#</span><br><span class="line">	# include snippets/snakeoil.conf;</span><br><span class="line"></span><br><span class="line">	root /var/www/html;</span><br><span class="line"></span><br><span class="line">	# Add index.php to the list if you are using PHP</span><br><span class="line">	index index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">	server_name _;</span><br><span class="line"></span><br><span class="line">	location / &#123;</span><br><span class="line">		# First attempt to serve request as file, then</span><br><span class="line">		# as directory, then fall back to displaying a 404.</span><br><span class="line">		try_files $uri $uri/ =404;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	# pass PHP scripts to FastCGI server</span><br><span class="line">	#</span><br><span class="line">	#location ~ \.php$ &#123;</span><br><span class="line">	#	include snippets/fastcgi-php.conf;</span><br><span class="line">	#</span><br><span class="line">	#	# With php-fpm (or other unix sockets):</span><br><span class="line">	#	fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;</span><br><span class="line">	#	# With php-cgi (or other tcp sockets):</span><br><span class="line">	#	fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">	#&#125;</span><br><span class="line"></span><br><span class="line">	# deny access to .htaccess files, if Apache&#x27;s document root</span><br><span class="line">	# concurs with nginx&#x27;s one</span><br><span class="line">	#</span><br><span class="line">	#location ~ /\.ht &#123;</span><br><span class="line">	#	deny all;</span><br><span class="line">	#&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Virtual Host configuration for example.com</span><br><span class="line">#</span><br><span class="line"># You can move that to a different file under sites-available/ and symlink that</span><br><span class="line"># to sites-enabled/ to enable it.</span><br><span class="line">#</span><br><span class="line">#server &#123;</span><br><span class="line">#	listen 80;</span><br><span class="line">#	listen [::]:80;</span><br><span class="line">#</span><br><span class="line">#	server_name example.com;</span><br><span class="line">#</span><br><span class="line">#	root /var/www/example.com;</span><br><span class="line">#	index index.html;</span><br><span class="line">#</span><br><span class="line">#	location / &#123;</span><br><span class="line">#		try_files $uri $uri/ =404;</span><br><span class="line">#	&#125;</span><br><span class="line">#&#125;</span><br></pre></td></tr></table></figure>
 
-# Default server configuration
-#
-server &#123;
-    listen 80 default_server;
-    listen [::]:80 default_server;
+<h1 id="配置服务"><a href="#配置服务" class="headerlink" title="配置服务"></a>配置服务</h1><h2 id="upstream"><a href="#upstream" class="headerlink" title="upstream"></a>upstream</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">upstream [us-name] &#123;</span><br><span class="line">    server 127.0.0.1:[port];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  example.com;</span><br><span class="line">    client_max_body_size 100m;</span><br><span class="line"></span><br><span class="line">    # rewrite ^/(.*) https://example.com/$1 permanent;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass         http://[us-name];</span><br><span class="line">        proxy_set_header   Host             $host;</span><br><span class="line">        proxy_set_header   X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    # SSL configuration
-    #
-    # listen 443 ssl default_server;
-    # listen [::]:443 ssl default_server;
-    #
-    # Note: You should disable gzip for SSL traffic.
-    # See: https://bugs.debian.org/773332
-    #
-    # Read up on ssl_ciphers to ensure a secure configuration.
-    # See: https://bugs.debian.org/765782
-    #
-    # Self signed certs generated by the ssl-cert package
-    # Don&#39;t use them in a production server!
-    #
-    # include snippets/snakeoil.conf;
+<h1 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h1><h2 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1. 安装 apache2-utils (Debian, Ubuntu) / httpd-tools (RHEL/CentOS/Oracle Linux)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2. 创建认证文件</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo mkdir /etc/apache2</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 创建</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo htpasswd -c /etc/apache2/.htpasswd user</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 添加，移除 -c 参数</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo htpasswd /etc/apache2/.htpasswd another-user</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 3. 配置</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 按路径配置</span></span></span><br><span class="line">server &#123;</span><br><span class="line">	...</span><br><span class="line">  location /api &#123;</span><br><span class="line">      auth_basic           &quot;Administrator’s Area&quot;;</span><br><span class="line">      auth_basic_user_file /etc/apache2/.htpasswd; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 全局配置</span></span></span><br><span class="line">server &#123;</span><br><span class="line">	...</span><br><span class="line">	auth_basic           &quot;Administrator’s Area&quot;;</span><br><span class="line">  auth_basic_user_file /etc/apache2/.htpasswd; </span><br><span class="line">  </span><br><span class="line">  location /api &#123;</span><br><span class="line">  	...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    root /var/www/html;
-
-    # Add index.php to the list if you are using PHP
-    index index.html index.htm index.nginx-debian.html;
-
-    server_name _;
-
-    location / &#123;
-        # First attempt to serve request as file, then
-        # as directory, then fall back to displaying a 404.
-        try_files $uri $uri/ =404;
-    &#125;
-
-    # pass PHP scripts to FastCGI server
-    #
-    #location ~ \.php$ &#123;
-    #    include snippets/fastcgi-php.conf;
-    #
-    #    # With php-fpm (or other unix sockets):
-    #    fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
-    #    # With php-cgi (or other tcp sockets):
-    #    fastcgi_pass 127.0.0.1:9000;
-    #&#125;
-
-    # deny access to .htaccess files, if Apache&#39;s document root
-    # concurs with nginx&#39;s one
-    #
-    #location ~ /\.ht &#123;
-    #    deny all;
-    #&#125;
-&#125;
-
-
-# Virtual Host configuration for example.com
-#
-# You can move that to a different file under sites-available/ and symlink that
-# to sites-enabled/ to enable it.
-#
-#server &#123;
-#    listen 80;
-#    listen [::]:80;
-#
-#    server_name example.com;
-#
-#    root /var/www/example.com;
-#    index index.html;
-#
-#    location / &#123;
-#        try_files $uri $uri/ =404;
-#    &#125;
-#&#125;
-</code></pre>
-<h1 id="配置服务"><a href="#配置服务" class="headerlink" title="配置服务"></a>配置服务</h1><h2 id="upstream"><a href="#upstream" class="headerlink" title="upstream"></a>upstream</h2><pre><code>upstream [us-name] &#123;
-    server 127.0.0.1:[port];
-&#125;
-
-server &#123;
-    listen       80;
-    server_name  example.com;
-    client_max_body_size 100m;
-
-    # rewrite ^/(.*) https://example.com/$1 permanent;
-
-    location / &#123;
-        proxy_pass         http://[us-name];
-        proxy_set_header   Host             $host;
-        proxy_set_header   X-Real-IP        $remote_addr;
-        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
-    &#125;
-&#125;
-</code></pre>
-<h1 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h1><h2 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h2><pre><code class="shell"># 1. 安装 apache2-utils (Debian, Ubuntu) / httpd-tools (RHEL/CentOS/Oracle Linux)
-# 2. 创建认证文件
-$ sudo mkdir /etc/apache2
-## 创建
-$ sudo htpasswd -c /etc/apache2/.htpasswd user
-## 添加，移除 -c 参数
-$ sudo htpasswd /etc/apache2/.htpasswd another-user
-
-# 3. 配置
-## 按路径配置
-server &#123;
-    ...
-  location /api &#123;
-      auth_basic           &quot;Administrator’s Area&quot;;
-      auth_basic_user_file /etc/apache2/.htpasswd; 
-  &#125;
-&#125;
-## 全局配置
-server &#123;
-    ...
-    auth_basic           &quot;Administrator’s Area&quot;;
-  auth_basic_user_file /etc/apache2/.htpasswd; 
-  
-  location /api &#123;
-      ...
-  &#125;
-&#125;
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/13/linux/program/nginx/config/" data-id="ckomwlrvd009jrhn917c539b3" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/11/13/linux/program/nginx/config/" data-id="ckonrt7y2009jc8n95onn8r04" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li></ul>
@@ -315,7 +184,7 @@ server &#123;
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -323,7 +192,7 @@ server &#123;
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

@@ -7,12 +7,12 @@
   
   <title>java - 正则 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="match&#x2F;&#x2F; string.match: yes OR no private static final String REGEX &#x3D; &quot;^@encrypt\\&amp;#123;(.*)&amp;#125;$&quot;; &quot;@encrypt&amp;#123;file:mysql.username&amp;#125;&quot;.match(REGEX); &#x2F;&#x2F; return true  &#x2F;&#x2F; Patte">
+  <meta name="description" content="match12345678910111213&#x2F;&#x2F; string.match: yes OR noprivate static final String REGEX &#x3D; &quot;^@encrypt\\&amp;#123;(.*)&amp;#125;$&quot;;&quot;@encrypt&amp;#123;file:mysql.username&amp;#125;&quot;.match(REGEX); &#x2F;&#x2F; return">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java - 正则">
 <meta property="og:url" content="http://wii.pub/2021/05/11/coding/java/notes/regex/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="match&#x2F;&#x2F; string.match: yes OR no private static final String REGEX &#x3D; &quot;^@encrypt\\&amp;#123;(.*)&amp;#125;$&quot;; &quot;@encrypt&amp;#123;file:mysql.username&amp;#125;&quot;.match(REGEX); &#x2F;&#x2F; return true  &#x2F;&#x2F; Patte">
+<meta property="og:description" content="match12345678910111213&#x2F;&#x2F; string.match: yes OR noprivate static final String REGEX &#x3D; &quot;^@encrypt\\&amp;#123;(.*)&amp;#125;$&quot;;&quot;@encrypt&amp;#123;file:mysql.username&amp;#125;&quot;.match(REGEX); &#x2F;&#x2F; return">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-05-10T16:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.579Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,25 +92,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="match"><a href="#match" class="headerlink" title="match"></a>match</h1><pre><code class="java">// string.match: yes OR no
-private static final String REGEX = &quot;^@encrypt\\&#123;(.*)&#125;$&quot;;
-&quot;@encrypt&#123;file:mysql.username&#125;&quot;.match(REGEX); // return true
+        <h1 id="match"><a href="#match" class="headerlink" title="match"></a>match</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// string.match: yes OR no</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String REGEX = <span class="string">&quot;^@encrypt\\&#123;(.*)&#125;$&quot;</span>;</span><br><span class="line"><span class="string">&quot;@encrypt&#123;file:mysql.username&#125;&quot;</span>.match(REGEX); <span class="comment">// return true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Pattern</span></span><br><span class="line">String REGEX = <span class="string">&quot;^@encrypt\\&#123;(.*)&#125;$&quot;</span>;</span><br><span class="line">Pattern PT = Pattern.compile(REGEX);</span><br><span class="line">Matcher m = PT.matcher(value);</span><br><span class="line"></span><br><span class="line">m.find();  <span class="comment">// find matched subsequence one by one; yes OR no</span></span><br><span class="line">m.match(); <span class="comment">// match entire string; yes OR no</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// group</span></span><br></pre></td></tr></table></figure>
 
-// Pattern
-String REGEX = &quot;^@encrypt\\&#123;(.*)&#125;$&quot;;
-Pattern PT = Pattern.compile(REGEX);
-Matcher m = PT.matcher(value);
-
-m.find();  // find matched subsequence one by one; yes OR no
-m.match(); // match entire string; yes OR no
-
-// group
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/11/coding/java/notes/regex/" data-id="ckomwlrux0084rhn97rc55nbm" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/05/11/coding/java/notes/regex/" data-id="ckonrt7xg0080c8n9eg8cb5uh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -189,7 +179,7 @@ m.match(); // match entire string; yes OR no
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -197,7 +187,7 @@ m.match(); // match entire string; yes OR no
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

@@ -20,6 +20,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -61,387 +63,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-frontend/node/npm" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/05/13/frontend/node/npm/" class="article-date">
-  <time datetime="2021-05-12T16:00:00.000Z" itemprop="datePublished">2021-05-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>►<a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/node/">node</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/13/frontend/node/npm/">node - npm</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="install-pkg"><a href="#install-pkg" class="headerlink" title="install pkg"></a>install pkg</h1><pre><code class="shell">$ npm -i &lt;pkg-name&gt; # OR npm install &lt;pkg-name&gt;
-</code></pre>
-<h1 id="Upgrade-pkg"><a href="#Upgrade-pkg" class="headerlink" title="Upgrade pkg"></a>Upgrade pkg</h1><pre><code class="shell">$ npm update &lt;pkg-name&gt; --save # OR --save-dev
-</code></pre>
-<p><strong>使用工具更新所有依赖</strong></p>
-<pre><code class="shell">$ npm i -g npm-check-updates # 安装依赖
-$ ncu -u                     # 升级
-$ npm install                                 # 安装升级后的依赖
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/13/frontend/node/npm/" data-id="ckomwlrtc002irhn9910a7w51" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/" rel="tag">npm</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-coding/go/strange" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/05/13/coding/go/strange/" class="article-date">
-  <time datetime="2021-05-12T16:00:00.000Z" itemprop="datePublished">2021-05-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/go/">go</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/13/coding/go/strange/">go - strange</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="三目元算符"><a href="#三目元算符" class="headerlink" title="三目元算符"></a>三目元算符</h1><p>go 没有三目运算符，可以通过定义方法，实现类似的功能。这里要<strong>注意参数拷贝传递</strong>的问题，避免造成性能损失和逻辑错误。首先，不使用指针。</p>
-<pre><code class="go">package main
-
-import &quot;reflect&quot;
-
-type Person struct &#123;
-    Age int
-    Name string
-&#125;
-
-func IF(condition bool, tv, fv interface&#123;&#125;) interface&#123;&#125; &#123;
-    if condition &#123;
-        return tv
-    &#125; else &#123;
-        return fv
-    &#125;
-&#125;
-
-func main() &#123;
-    a := 1
-    b := 2
-    c := IF(a &gt; b, a, b)
-    println(reflect.TypeOf(c).Name())
-    println(c.(int))
-
-    pa := Person&#123;Age: 18, Name: &quot;wii&quot;&#125;
-    pb := Person&#123;Age: 16, Name: &quot;bvz&quot;&#125;
-    pc := IF(pa.Age &gt; pb.Age, pa, pb)
-    println(&amp;pa, &amp;pb, &amp;pc)
-
-    pd := IF(pa.Age &gt; pb.Age, &amp;pa, &amp;pb).(*Person)
-    println(&amp;pa, &amp;pb, pd)
-&#125;
-</code></pre>
-<p>输出。</p>
-<pre><code class="shel">int
-2
-0xc00006ef30 0xc00006ef18 0xc00006eef8
-0xc00006ef30 0xc00006ef18 0xc00006ef30
-</code></pre>
-<p>从输出可以看出，<code>pc := IF(pa.Age &gt; pb.Age, pa, pb)</code> 的返回值的内存地址，既不是 pa，也不是 pb。</p>
-<h1 id="interface"><a href="#interface" class="headerlink" title="interface{}"></a>interface{}</h1><pre><code class="go">package main
-
-type Dt struct &#123;
-    content string
-&#125;
-
-func Ifc(ifc interface&#123;&#125;)  &#123;
-    println(&quot;Ifc, &amp;ifc:&quot;, &amp;ifc)
-&#125;
-
-func IfcPtr(ifc interface&#123;&#125;)  &#123;
-    println(&quot;IfcPtr, ifc:&quot;, ifc.(*Dt))
-&#125;
-
-func main() &#123;
-    dt := Dt&#123;&quot;wii&quot;&#125;
-    println(&quot;main, &amp;dt:&quot;, &amp;dt)
-    Ifc(dt)
-    IfcPtr(&amp;dt)
-&#125;
-</code></pre>
-<p>输出</p>
-<pre><code class="shell">main, &amp;dt: 0xc000044758
-Ifc, &amp;ifc: 0xc000044748
-IfcPtr, ifc: 0xc000044758
-</code></pre>
-<p>可以看出，interface{} 类型参数传递时，并不会把变量隐式转换为指针。</p>
-<h1 id="结构-amp-成员函数"><a href="#结构-amp-成员函数" class="headerlink" title="结构 &amp; 成员函数"></a>结构 &amp; 成员函数</h1><p>go 与其他语言定义结构（类）的方式不同。</p>
-<pre><code class="go">// 定义结构
-type Data struct &#123;
-    name string   // 定义成员变量
-&#125;
-
-// 定义成员函数
-func (p *Data) Ptr() &#123;
-    println(&quot;ptr: &quot;, p.name)
-&#125;
-
-func (p Data) Cp() &#123;
-    println(&quot;cp: &quot;, p.name)
-&#125;
-
-// 使用
-dt := Data&#123;name: &quot;wii&quot;&#125; // OR dt := Data&#123;&quot;wii&quot;&#125;
-dt.Ptr()
-</code></pre>
-<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><p>go 与其他语言定义接口的方式也不同。</p>
-<pre><code class="go">package main
-
-import &quot;fmt&quot;
-
-// Bird 定义接口
-type Bird interface &#123;
-    Name() string
-    Fly() bool
-    Chirp() string
-&#125;
-
-// Duck 定义接口实现
-type Duck struct &#123;
-    nm string
-    CanFly bool
-    Sound string
-&#125;
-
-// NewDuck 创建 Duck; go 中的类型，没有构造函数的概念，这里定义一个函数，用户创建对象并初始化
-func NewDuck() *Duck &#123;
-    return &amp;Duck&#123;CanFly: false, Sound: &quot;quack&quot;, nm: &quot;Duck&quot;&#125;
-&#125;
-
-// Name 定义接口函数实现
-func (duck *Duck) Name() string  &#123;
-    return duck.nm
-&#125;
-
-func (duck *Duck) Fly() bool &#123;
-    return duck.CanFly
-&#125;
-
-func (duck *Duck) Chirp() string &#123;
-    return duck.Sound
-&#125;
-
-// IF go 中没有三目运算符, 这个函数实现简单的三目运算
-func IF(condition bool, tv interface&#123;&#125;, fv interface&#123;&#125;) interface&#123;&#125; &#123;
-    if condition &#123;
-        return tv
-    &#125; else &#123;
-        return fv
-    &#125;
-&#125;
-
-func main() &#123;
-    var bird Bird = NewDuck()
-    fmt.Printf(&quot;%v\n&quot;, IF(bird.Fly(), bird.Name() + &quot; is flying!&quot;, bird.Name() + &quot; cannot fly!&quot;))
-    println(bird.Name() + &quot; is chirping:&quot;, bird.Chirp(), bird.Chirp(), &quot;...&quot;)
-&#125;
-</code></pre>
-<p>可以看出，在接口是实现上，只要一个类定义了接口的所有方法，那么就可以把该对象的实例赋值给接口类型变量。</p>
-<h1 id="拷贝传递-amp-指针传递"><a href="#拷贝传递-amp-指针传递" class="headerlink" title="拷贝传递 &amp; 指针传递"></a>拷贝传递 &amp; 指针传递</h1><p>和 C++ 类似，go 也有拷贝传递和指针传递。首先来看一个示例。</p>
-<pre><code class="go">package main
-
-type Data struct &#123;
-    name string
-&#125;
-
-func (p *Data) Ptr() &#123;
-    println(&quot;ptr, p: &quot;, p)
-    println(&quot;ptr: &quot;, p.name)
-&#125;
-
-func (p Data) Cp() &#123;
-    println(&quot;cp, &amp;p: &quot;, &amp;p)
-    println(&quot;cp: &quot;, p.name)
-&#125;
-
-func Ptr(p *Data) &#123;
-    println(&quot;ptr, p: &quot;, p)
-    println(&quot;ptr: &quot;, p.name)
-&#125;
-
-func Cp(p Data) &#123;
-    println(&quot;cp, &amp;p: &quot;, &amp;p)
-    println(&quot;cp: &quot;, p.name)
-&#125;
-
-func main() &#123;
-    da := Data&#123;name: &quot;wii&quot;&#125;
-    println(&quot;main, &amp;da: &quot;, &amp;da)
-  
-    da.Ptr()
-    (&amp;da).Ptr()
-    da.Cp()
-    (&amp;da).Cp()
-
-    println(&quot;-----&quot;)
-
-    Ptr(&amp;da)
-    // Ptr(da) // ERROR: Cannot use &#39;da&#39; (type Data) as the type *Data
-    Cp(da)
-  // Cp(&amp;da)    // ERROR: Cannot use &#39;&amp;da&#39; (type *Data) as the type Data
-&#125;
-</code></pre>
-<p>输出。</p>
-<pre><code class="shell">main, &amp;da:  0xc000044768
-ptr, p:  0xc000044768
-ptr:  wii
-ptr, p:  0xc000044768
-ptr:  wii
-cp, &amp;p:  0xc000044748
-cp:  wii
-cp, &amp;p:  0xc000044738
-cp:  wii
------
-ptr, p:  0xc000044768
-ptr:  wii
-cp, &amp;p:  0xc000044758
-cp:  wii
-</code></pre>
-<p>关注下面两个点</p>
-<ul>
-<li>参数类型（指针和非指针）</li>
-<li>成员函数和普通函数</li>
-</ul>
-<p>首先，定义 Data 变量 da，内存地址为 <code>0xc000044768</code>。紧接着是四次调用，2（调用对象指针、非指针） * 2（参数指针、非指针）的组合；从这四次调用可以可以发现；对于<strong>结构的成员函数</strong>，调用对象的形式和参数形式无需匹配，实际效果以参数形式为准。如果成员函数参数为指针，则得到的是调用对象的指针形式（无论调用对象是否是指针形式）；同样的，如果成员函数参数为非指针形式，则得到的是调用对象的非指针形式（无论调用对象是否是非指针形式）；且，两种方式都可以编译通过。</p>
-<p>其次，对于普通函数调用，严格区分参数是否为指针形式。比如，<code>Cp(&amp;da)</code> 和 <code>Ptr(da)</code> 两种调用方式都无法通过编译。</p>
-<p>最后，从变量的内存地址可以看出，拷贝传递会创建新的内存区域保存传递的参数。</p>
-<p>接下来，再来看一个实例。</p>
-<pre><code class="go">// file: st.go; mod: &quot;evaluate-go/pkg/st&quot;
-package st
-
-type Cart struct &#123;
-    Price float64
-    Count int
-    Promo float64
-&#125;
-
-func (r Cart) TotalPrice() float64 &#123;
-    return r.Price * float64(r.Count) * r.Promo
-&#125;
-
-func (r *Cart) TotalPricePtr() float64 &#123;
-    return r.Price * float64(r.Count) * r.Promo
-&#125;
-
-func (r Cart) Promotion(p float64) float64 &#123;
-    println(&quot;Promotion, &amp;r: &quot;, &amp;r)
-    r.Promo *= p
-    return r.TotalPrice()
-&#125;
-
-func (r *Cart) PromotionPtr(p float64) float64 &#123;
-    println(&quot;PromotionPtr, &amp;r: &quot;, r)
-    r.Promo *= p
-    return r.TotalPricePtr()
-&#125;
-</code></pre>
-<pre><code class="go">// file: st.go; mod: &quot;evaluate-go/cmd/st&quot;
-package main
-
-import (
-    &quot;evaluate-go/pkg/st&quot;
-    &quot;fmt&quot;
-)
-
-func main() &#123;
-    ra := st.Cart&#123;Price: 4, Count: 5, Promo: 1&#125;
-    fmt.Printf(&quot;%v\n&quot;, ra.TotalPrice())
-    fmt.Printf(&quot;%v\n&quot;, ra.TotalPricePtr())
-    fmt.Printf(&quot;%v\n&quot;, (&amp;ra).TotalPricePtr())
-
-    println(&quot;-----&quot;)
-    fmt.Printf(&quot;%v\n&quot;, ra.Promotion(0.9))
-    fmt.Printf(&quot;%v\n&quot;, ra.TotalPrice())
-    fmt.Printf(&quot;%v\n&quot;, ra.TotalPricePtr())
-
-    println(&quot;-----&quot;)
-    rb := st.Cart&#123;Price: 4, Count: 5, Promo: 1&#125;
-    fmt.Printf(&quot;%v\n&quot;, rb.PromotionPtr(0.9))
-    fmt.Printf(&quot;%v\n&quot;, rb.TotalPrice())
-    fmt.Printf(&quot;%v\n&quot;, rb.TotalPricePtr())
-&#125;
-</code></pre>
-<p>输出。</p>
-<pre><code class="shell">main, &amp;ra:  0xc000092eb8
-20
-20
-20
------
-Promotion, &amp;r:  0xc000092ed0
-18
-20
-20
------
-PromotionPtr, &amp;r:  0xc000092ea0
-18
-18
-18
-</code></pre>
-<p>这里需要注意的是，<code>ra.Promotion(0.9)</code> 这个调用，由于是拷贝传递，修改的 Promo 值，是临时变量的，而不是<code>ra</code> 的；这里可能会感到比较奇怪的是，调用了<code>ra.Promotion(0.9)</code> 来设置促销信息（Promo），但是计算总价时，设置的促销信息并未生效（<code>ra.TotalPrice()</code> 返回值仍是 20）；调用 <code>rb.PromotionPtr(0.9)</code> 设置促销信息之后，则符合预期。</p>
-<h1 id="整形-浮点"><a href="#整形-浮点" class="headerlink" title="整形 * 浮点"></a>整形 * 浮点</h1><p>整形和浮点进行运算，需要显式转换类型。</p>
-<pre><code class="go">i := 10
-f := 1.2
-// println(i * f)     ERROR: Invalid operation: i * f (mismatched types int and float64)
-println(float64(i) * f)
-println(i * int(f))
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/13/coding/go/strange/" data-id="ckomwlrsy001orhn92kff1f9a" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-architecture/notes/distributed lock" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/05/13/architecture/notes/distributed%20lock/" class="article-date">
@@ -482,10 +103,149 @@ println(i * int(f))
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/13/architecture/notes/distributed%20lock/" data-id="ckomwlrsn000prhn9cq1khzua" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/05/13/architecture/notes/distributed%20lock/" data-id="ckonrt7u2000nc8n9g49w3g4k" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" rel="tag">分布式锁</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/go/strange" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/05/13/coding/go/strange/" class="article-date">
+  <time datetime="2021-05-12T16:00:00.000Z" itemprop="datePublished">2021-05-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/go/">go</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/13/coding/go/strange/">go - strange</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="三目元算符"><a href="#三目元算符" class="headerlink" title="三目元算符"></a>三目元算符</h1><p>go 没有三目运算符，可以通过定义方法，实现类似的功能。这里要<strong>注意参数拷贝传递</strong>的问题，避免造成性能损失和逻辑错误。首先，不使用指针。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;reflect&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;</span><br><span class="line">	Age <span class="keyword">int</span></span><br><span class="line">	Name <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">IF</span><span class="params">(condition <span class="keyword">bool</span>, tv, fv <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">interface</span></span>&#123;&#125; &#123;</span><br><span class="line">	<span class="keyword">if</span> condition &#123;</span><br><span class="line">		<span class="keyword">return</span> tv</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> fv</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a := <span class="number">1</span></span><br><span class="line">	b := <span class="number">2</span></span><br><span class="line">	c := IF(a &gt; b, a, b)</span><br><span class="line">	<span class="built_in">println</span>(reflect.TypeOf(c).Name())</span><br><span class="line">	<span class="built_in">println</span>(c.(<span class="keyword">int</span>))</span><br><span class="line"></span><br><span class="line">	pa := Person&#123;Age: <span class="number">18</span>, Name: <span class="string">&quot;wii&quot;</span>&#125;</span><br><span class="line">	pb := Person&#123;Age: <span class="number">16</span>, Name: <span class="string">&quot;bvz&quot;</span>&#125;</span><br><span class="line">	pc := IF(pa.Age &gt; pb.Age, pa, pb)</span><br><span class="line">	<span class="built_in">println</span>(&amp;pa, &amp;pb, &amp;pc)</span><br><span class="line"></span><br><span class="line">	pd := IF(pa.Age &gt; pb.Age, &amp;pa, &amp;pb).(*Person)</span><br><span class="line">	<span class="built_in">println</span>(&amp;pa, &amp;pb, pd)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int</span><br><span class="line">2</span><br><span class="line">0xc00006ef30 0xc00006ef18 0xc00006eef8</span><br><span class="line">0xc00006ef30 0xc00006ef18 0xc00006ef30</span><br></pre></td></tr></table></figure>
+
+<p>从输出可以看出，<code>pc := IF(pa.Age &gt; pb.Age, pa, pb)</code> 的返回值的内存地址，既不是 pa，也不是 pb。</p>
+<h1 id="interface"><a href="#interface" class="headerlink" title="interface{}"></a>interface{}</h1><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Dt <span class="keyword">struct</span> &#123;</span><br><span class="line">	content <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Ifc</span><span class="params">(ifc <span class="keyword">interface</span>&#123;&#125;)</span></span>  &#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;Ifc, &amp;ifc:&quot;</span>, &amp;ifc)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">IfcPtr</span><span class="params">(ifc <span class="keyword">interface</span>&#123;&#125;)</span></span>  &#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;IfcPtr, ifc:&quot;</span>, ifc.(*Dt))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	dt := Dt&#123;<span class="string">&quot;wii&quot;</span>&#125;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;main, &amp;dt:&quot;</span>, &amp;dt)</span><br><span class="line">	Ifc(dt)</span><br><span class="line">	IfcPtr(&amp;dt)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main, &amp;dt: 0xc000044758</span><br><span class="line">Ifc, &amp;ifc: 0xc000044748</span><br><span class="line">IfcPtr, ifc: 0xc000044758</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，interface{} 类型参数传递时，并不会把变量隐式转换为指针。</p>
+<h1 id="结构-amp-成员函数"><a href="#结构-amp-成员函数" class="headerlink" title="结构 &amp; 成员函数"></a>结构 &amp; 成员函数</h1><p>go 与其他语言定义结构（类）的方式不同。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义结构</span></span><br><span class="line"><span class="keyword">type</span> Data <span class="keyword">struct</span> &#123;</span><br><span class="line">	name <span class="keyword">string</span>   <span class="comment">// 定义成员变量</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义成员函数</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *Data)</span> <span class="title">Ptr</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;ptr: &quot;</span>, p.name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p Data)</span> <span class="title">Cp</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;cp: &quot;</span>, p.name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用</span></span><br><span class="line">dt := Data&#123;name: <span class="string">&quot;wii&quot;</span>&#125; <span class="comment">// OR dt := Data&#123;&quot;wii&quot;&#125;</span></span><br><span class="line">dt.Ptr()</span><br></pre></td></tr></table></figure>
+
+<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><p>go 与其他语言定义接口的方式也不同。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Bird 定义接口</span></span><br><span class="line"><span class="keyword">type</span> Bird <span class="keyword">interface</span> &#123;</span><br><span class="line">	Name() <span class="keyword">string</span></span><br><span class="line">	Fly() <span class="keyword">bool</span></span><br><span class="line">	Chirp() <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Duck 定义接口实现</span></span><br><span class="line"><span class="keyword">type</span> Duck <span class="keyword">struct</span> &#123;</span><br><span class="line">	nm <span class="keyword">string</span></span><br><span class="line">	CanFly <span class="keyword">bool</span></span><br><span class="line">	Sound <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NewDuck 创建 Duck; go 中的类型，没有构造函数的概念，这里定义一个函数，用户创建对象并初始化</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewDuck</span><span class="params">()</span> *<span class="title">Duck</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;Duck&#123;CanFly: <span class="literal">false</span>, Sound: <span class="string">&quot;quack&quot;</span>, nm: <span class="string">&quot;Duck&quot;</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Name 定义接口函数实现</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(duck *Duck)</span> <span class="title">Name</span><span class="params">()</span> <span class="title">string</span></span>  &#123;</span><br><span class="line">	<span class="keyword">return</span> duck.nm</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(duck *Duck)</span> <span class="title">Fly</span><span class="params">()</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> duck.CanFly</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(duck *Duck)</span> <span class="title">Chirp</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> duck.Sound</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// IF go 中没有三目运算符, 这个函数实现简单的三目运算</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">IF</span><span class="params">(condition <span class="keyword">bool</span>, tv <span class="keyword">interface</span>&#123;&#125;, fv <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">interface</span></span>&#123;&#125; &#123;</span><br><span class="line">	<span class="keyword">if</span> condition &#123;</span><br><span class="line">		<span class="keyword">return</span> tv</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> fv</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> bird Bird = NewDuck()</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%v\n&quot;</span>, IF(bird.Fly(), bird.Name() + <span class="string">&quot; is flying!&quot;</span>, bird.Name() + <span class="string">&quot; cannot fly!&quot;</span>))</span><br><span class="line">	<span class="built_in">println</span>(bird.Name() + <span class="string">&quot; is chirping:&quot;</span>, bird.Chirp(), bird.Chirp(), <span class="string">&quot;...&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，在接口是实现上，只要一个类定义了接口的所有方法，那么就可以把该对象的实例赋值给接口类型变量。</p>
+<h1 id="拷贝传递-amp-指针传递"><a href="#拷贝传递-amp-指针传递" class="headerlink" title="拷贝传递 &amp; 指针传递"></a>拷贝传递 &amp; 指针传递</h1><p>和 C++ 类似，go 也有拷贝传递和指针传递。首先来看一个示例。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Data <span class="keyword">struct</span> &#123;</span><br><span class="line">	name <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *Data)</span> <span class="title">Ptr</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;ptr, p: &quot;</span>, p)</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;ptr: &quot;</span>, p.name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p Data)</span> <span class="title">Cp</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;cp, &amp;p: &quot;</span>, &amp;p)</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;cp: &quot;</span>, p.name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Ptr</span><span class="params">(p *Data)</span></span> &#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;ptr, p: &quot;</span>, p)</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;ptr: &quot;</span>, p.name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Cp</span><span class="params">(p Data)</span></span> &#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;cp, &amp;p: &quot;</span>, &amp;p)</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;cp: &quot;</span>, p.name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	da := Data&#123;name: <span class="string">&quot;wii&quot;</span>&#125;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;main, &amp;da: &quot;</span>, &amp;da)</span><br><span class="line">  </span><br><span class="line">	da.Ptr()</span><br><span class="line">	(&amp;da).Ptr()</span><br><span class="line">	da.Cp()</span><br><span class="line">	(&amp;da).Cp()</span><br><span class="line"></span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;-----&quot;</span>)</span><br><span class="line"></span><br><span class="line">	Ptr(&amp;da)</span><br><span class="line">	<span class="comment">// Ptr(da) // ERROR: Cannot use &#x27;da&#x27; (type Data) as the type *Data</span></span><br><span class="line">	Cp(da)</span><br><span class="line">  <span class="comment">// Cp(&amp;da)    // ERROR: Cannot use &#x27;&amp;da&#x27; (type *Data) as the type Data</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">main, &amp;da:  0xc000044768</span><br><span class="line">ptr, p:  0xc000044768</span><br><span class="line">ptr:  wii</span><br><span class="line">ptr, p:  0xc000044768</span><br><span class="line">ptr:  wii</span><br><span class="line">cp, &amp;p:  0xc000044748</span><br><span class="line">cp:  wii</span><br><span class="line">cp, &amp;p:  0xc000044738</span><br><span class="line">cp:  wii</span><br><span class="line">-----</span><br><span class="line">ptr, p:  0xc000044768</span><br><span class="line">ptr:  wii</span><br><span class="line">cp, &amp;p:  0xc000044758</span><br><span class="line">cp:  wii</span><br></pre></td></tr></table></figure>
+
+<p>关注下面两个点</p>
+<ul>
+<li>参数类型（指针和非指针）</li>
+<li>成员函数和普通函数</li>
+</ul>
+<p>首先，定义 Data 变量 da，内存地址为 <code>0xc000044768</code>。紧接着是四次调用，2（调用对象指针、非指针） * 2（参数指针、非指针）的组合；从这四次调用可以可以发现；对于<strong>结构的成员函数</strong>，调用对象的形式和参数形式无需匹配，实际效果以参数形式为准。如果成员函数参数为指针，则得到的是调用对象的指针形式（无论调用对象是否是指针形式）；同样的，如果成员函数参数为非指针形式，则得到的是调用对象的非指针形式（无论调用对象是否是非指针形式）；且，两种方式都可以编译通过。</p>
+<p>其次，对于普通函数调用，严格区分参数是否为指针形式。比如，<code>Cp(&amp;da)</code> 和 <code>Ptr(da)</code> 两种调用方式都无法通过编译。</p>
+<p>最后，从变量的内存地址可以看出，拷贝传递会创建新的内存区域保存传递的参数。</p>
+<p>接下来，再来看一个实例。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// file: st.go; mod: &quot;evaluate-go/pkg/st&quot;</span></span><br><span class="line"><span class="keyword">package</span> st</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Cart <span class="keyword">struct</span> &#123;</span><br><span class="line">	Price <span class="keyword">float64</span></span><br><span class="line">	Count <span class="keyword">int</span></span><br><span class="line">	Promo <span class="keyword">float64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r Cart)</span> <span class="title">TotalPrice</span><span class="params">()</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> r.Price * <span class="keyword">float64</span>(r.Count) * r.Promo</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *Cart)</span> <span class="title">TotalPricePtr</span><span class="params">()</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> r.Price * <span class="keyword">float64</span>(r.Count) * r.Promo</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r Cart)</span> <span class="title">Promotion</span><span class="params">(p <span class="keyword">float64</span>)</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;Promotion, &amp;r: &quot;</span>, &amp;r)</span><br><span class="line">	r.Promo *= p</span><br><span class="line">	<span class="keyword">return</span> r.TotalPrice()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *Cart)</span> <span class="title">PromotionPtr</span><span class="params">(p <span class="keyword">float64</span>)</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;PromotionPtr, &amp;r: &quot;</span>, r)</span><br><span class="line">	r.Promo *= p</span><br><span class="line">	<span class="keyword">return</span> r.TotalPricePtr()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// file: st.go; mod: &quot;evaluate-go/cmd/st&quot;</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;evaluate-go/pkg/st&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ra := st.Cart&#123;Price: <span class="number">4</span>, Count: <span class="number">5</span>, Promo: <span class="number">1</span>&#125;</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%v\n&quot;</span>, ra.TotalPrice())</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%v\n&quot;</span>, ra.TotalPricePtr())</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%v\n&quot;</span>, (&amp;ra).TotalPricePtr())</span><br><span class="line"></span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;-----&quot;</span>)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%v\n&quot;</span>, ra.Promotion(<span class="number">0.9</span>))</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%v\n&quot;</span>, ra.TotalPrice())</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%v\n&quot;</span>, ra.TotalPricePtr())</span><br><span class="line"></span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;-----&quot;</span>)</span><br><span class="line">	rb := st.Cart&#123;Price: <span class="number">4</span>, Count: <span class="number">5</span>, Promo: <span class="number">1</span>&#125;</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%v\n&quot;</span>, rb.PromotionPtr(<span class="number">0.9</span>))</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%v\n&quot;</span>, rb.TotalPrice())</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%v\n&quot;</span>, rb.TotalPricePtr())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">main, &amp;ra:  0xc000092eb8</span><br><span class="line">20</span><br><span class="line">20</span><br><span class="line">20</span><br><span class="line">-----</span><br><span class="line">Promotion, &amp;r:  0xc000092ed0</span><br><span class="line">18</span><br><span class="line">20</span><br><span class="line">20</span><br><span class="line">-----</span><br><span class="line">PromotionPtr, &amp;r:  0xc000092ea0</span><br><span class="line">18</span><br><span class="line">18</span><br><span class="line">18</span><br></pre></td></tr></table></figure>
+
+<p>这里需要注意的是，<code>ra.Promotion(0.9)</code> 这个调用，由于是拷贝传递，修改的 Promo 值，是临时变量的，而不是<code>ra</code> 的；这里可能会感到比较奇怪的是，调用了<code>ra.Promotion(0.9)</code> 来设置促销信息（Promo），但是计算总价时，设置的促销信息并未生效（<code>ra.TotalPrice()</code> 返回值仍是 20）；调用 <code>rb.PromotionPtr(0.9)</code> 设置促销信息之后，则符合预期。</p>
+<h1 id="整形-浮点"><a href="#整形-浮点" class="headerlink" title="整形 * 浮点"></a>整形 * 浮点</h1><p>整形和浮点进行运算，需要显式转换类型。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">i := <span class="number">10</span></span><br><span class="line">f := <span class="number">1.2</span></span><br><span class="line"><span class="comment">// println(i * f)     ERROR: Invalid operation: i * f (mismatched types int and float64)</span></span><br><span class="line"><span class="built_in">println</span>(<span class="keyword">float64</span>(i) * f)</span><br><span class="line"><span class="built_in">println</span>(i * <span class="keyword">int</span>(f))</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/05/13/coding/go/strange/" data-id="ckonrt7uo001oc8n93hxl023m" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-frontend/node/npm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/05/13/frontend/node/npm/" class="article-date">
+  <time datetime="2021-05-12T16:00:00.000Z" itemprop="datePublished">2021-05-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>►<a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/node/">node</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/13/frontend/node/npm/">node - npm</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="install-pkg"><a href="#install-pkg" class="headerlink" title="install pkg"></a>install pkg</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm install &lt;pkg-name&gt; <span class="comment"># OR npm install &lt;pkg-name&gt;</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm install &lt;pkg-name&gt;@&lt;version&gt; -s</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Upgrade-pkg"><a href="#Upgrade-pkg" class="headerlink" title="Upgrade pkg"></a>Upgrade pkg</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm update &lt;pkg-name&gt; --save <span class="comment"># OR --save-dev</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用工具更新所有依赖</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm i -g npm-check-updates <span class="comment"># 安装依赖</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ncu -u                     <span class="comment"># 升级</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm install								 <span class="comment"># 安装升级后的依赖</span></span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/05/13/frontend/node/npm/" data-id="ckonrt7v5002jc8n9ad7r5fzy" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/" rel="tag">npm</a></li></ul>
 
     </footer>
   </div>
@@ -520,51 +280,15 @@ println(i * int(f))
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Dependency"><a href="#Dependency" class="headerlink" title="Dependency"></a>Dependency</h1><pre><code class="xml">&lt;!-- exclude logback-classic --&gt;
-&lt;dependency&gt;
-  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-  &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-  &lt;exclusions&gt;
-    &lt;exclusion&gt;
-      &lt;groupId&gt;ch.qos.logback&lt;/groupId&gt;
-      &lt;artifactId&gt;logback-classic&lt;/artifactId&gt;
-    &lt;/exclusion&gt;
-  &lt;/exclusions&gt;
-&lt;/dependency&gt;
+        <h1 id="Dependency"><a href="#Dependency" class="headerlink" title="Dependency"></a>Dependency</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- exclude logback-classic --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>ch.qos.logback<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>logback-classic<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- add slf4j-log4j12 dependency --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-log4j12<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.30<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-&lt;!-- add slf4j-log4j12 dependency --&gt;
-&lt;dependency&gt;
-  &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
-  &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
-  &lt;version&gt;1.7.30&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-<h1 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h1><pre><code class="properties"># root logger setup; [level], appenderName...
-log4j.rootLogger=INFO, CL, FILE
+<h1 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h1><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># root logger setup; [level], appenderName...</span></span><br><span class="line"><span class="meta">log4j.rootLogger</span>=<span class="string">INFO, CL, FILE</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># appender; consul</span></span><br><span class="line"><span class="meta">log4j.appender.CL</span>=<span class="string">org.apache.log4j.ConsoleAppender</span></span><br><span class="line"><span class="meta">log4j.appender.CL.layout</span>=<span class="string">org.apache.log4j.PatternLayout</span></span><br><span class="line"><span class="meta">log4j.appender.CL.layout.ConversionPattern</span>=<span class="string">%-5p %c %x - %m%n</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># appender; file</span></span><br><span class="line"><span class="meta">log4j.appender.FILE</span>=<span class="string">org.apache.log4j.RollingFileAppender</span></span><br><span class="line"><span class="meta">log4j.appender.FILE.File</span>=<span class="string">/tmp/eubalaena.log</span></span><br><span class="line"><span class="meta">log4j.appender.FILE.MaxFileSize</span>=<span class="string">1MB</span></span><br><span class="line"><span class="meta">log4j.appender.FILE.MaxBackupIndex</span>=<span class="string">15</span></span><br><span class="line"><span class="meta">log4j.appender.FILE.layout</span>=<span class="string">org.apache.log4j.PatternLayout</span></span><br><span class="line"><span class="meta">log4j.appender.FILE.layout.ConversionPattern</span>=<span class="string">%-5p %c %x - %m%n</span></span><br><span class="line"></span><br><span class="line"><span class="meta">log4j.logger.pub.wii</span>=<span class="string">DEBUG, FILE</span></span><br><span class="line"><span class="meta">log4j.logger.org.springframework</span>=<span class="string">INFO, FILE</span></span><br><span class="line"><span class="meta">log4j.logger.org.mybatis</span>=<span class="string">INFO, FILE</span></span><br><span class="line"><span class="meta">org.mybatis.spring.mapper.ClassPathMapperScanner</span>=<span class="string">OFF</span></span><br></pre></td></tr></table></figure>
 
-# appender; consul
-log4j.appender.CL=org.apache.log4j.ConsoleAppender
-log4j.appender.CL.layout=org.apache.log4j.PatternLayout
-log4j.appender.CL.layout.ConversionPattern=%-5p %c %x - %m%n
-
-# appender; file
-log4j.appender.FILE=org.apache.log4j.RollingFileAppender
-log4j.appender.FILE.File=/tmp/eubalaena.log
-log4j.appender.FILE.MaxFileSize=1MB
-log4j.appender.FILE.MaxBackupIndex=15
-log4j.appender.FILE.layout=org.apache.log4j.PatternLayout
-log4j.appender.FILE.layout.ConversionPattern=%-5p %c %x - %m%n
-
-log4j.logger.pub.wii=DEBUG, FILE
-log4j.logger.org.springframework=INFO, FILE
-log4j.logger.org.mybatis=INFO, FILE
-org.mybatis.spring.mapper.ClassPathMapperScanner=OFF
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/12/architecture/framework/spring%20boot/log4j/" data-id="ckomwlrug006jrhn9a3j33ry5" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/05/12/architecture/framework/spring%20boot/log4j/" data-id="ckonrt7ww006jc8n9ekk92zvw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/log4j-spring-boot/" rel="tag">log4j - spring boot</a></li></ul>
@@ -602,25 +326,13 @@ org.mybatis.spring.mapper.ClassPathMapperScanner=OFF
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="match"><a href="#match" class="headerlink" title="match"></a>match</h1><pre><code class="java">// string.match: yes OR no
-private static final String REGEX = &quot;^@encrypt\\&#123;(.*)&#125;$&quot;;
-&quot;@encrypt&#123;file:mysql.username&#125;&quot;.match(REGEX); // return true
+        <h1 id="match"><a href="#match" class="headerlink" title="match"></a>match</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// string.match: yes OR no</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String REGEX = <span class="string">&quot;^@encrypt\\&#123;(.*)&#125;$&quot;</span>;</span><br><span class="line"><span class="string">&quot;@encrypt&#123;file:mysql.username&#125;&quot;</span>.match(REGEX); <span class="comment">// return true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Pattern</span></span><br><span class="line">String REGEX = <span class="string">&quot;^@encrypt\\&#123;(.*)&#125;$&quot;</span>;</span><br><span class="line">Pattern PT = Pattern.compile(REGEX);</span><br><span class="line">Matcher m = PT.matcher(value);</span><br><span class="line"></span><br><span class="line">m.find();  <span class="comment">// find matched subsequence one by one; yes OR no</span></span><br><span class="line">m.match(); <span class="comment">// match entire string; yes OR no</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// group</span></span><br></pre></td></tr></table></figure>
 
-// Pattern
-String REGEX = &quot;^@encrypt\\&#123;(.*)&#125;$&quot;;
-Pattern PT = Pattern.compile(REGEX);
-Matcher m = PT.matcher(value);
-
-m.find();  // find matched subsequence one by one; yes OR no
-m.match(); // match entire string; yes OR no
-
-// group
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/11/coding/java/notes/regex/" data-id="ckomwlrux0084rhn97rc55nbm" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/05/11/coding/java/notes/regex/" data-id="ckonrt7xg0080c8n9eg8cb5uh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -658,42 +370,76 @@ m.match(); // match entire string; yes OR no
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><pre><code class="shell">$ sh -c &quot;$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
-</code></pre>
-<h1 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h1><pre><code class="shell">$ chsh -s /bin/zsh
-$ chsh -s /bin/bash
-</code></pre>
-<h1 id="Plugins"><a href="#Plugins" class="headerlink" title="Plugins"></a>Plugins</h1><pre><code class="shell">$ pip install powerline-status --user
-</code></pre>
-<p><strong>Install</strong></p>
-<pre><code class="shell">$ cd ~/.oh-my-zsh/custom/plugins/
-$ git clone &lt;plugin-repo&gt;
-$ vim ~/.zshrc
-</code></pre>
-<p><strong>高亮</strong></p>
-<pre><code class="shell">$ cd ~/.oh-my-zsh/custom/plugins/
-$ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
-$ vim ~/.zshrc
-</code></pre>
-<p><strong>补全</strong></p>
-<pre><code class="shell">$ cd ~/.oh-my-zsh/custom/plugins/
-$ git clone https://github.com/zsh-users/zsh-autosuggestions
-$ vim ~/.zshrc
+        <h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sh -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>&quot;</span></span></span><br></pre></td></tr></table></figure>
 
-plugins=(
-    git
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-    )
-</code></pre>
+<h1 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> chsh -s /bin/zsh</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> chsh -s /bin/bash</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Plugins"><a href="#Plugins" class="headerlink" title="Plugins"></a>Plugins</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip install powerline-status --user</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Install</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/.oh-my-zsh/custom/plugins/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> &lt;plugin-repo&gt;</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.zshrc</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>高亮</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/.oh-my-zsh/custom/plugins/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.zshrc</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>补全</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/.oh-my-zsh/custom/plugins/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.zshrc</span></span><br><span class="line"></span><br><span class="line">plugins=(</span><br><span class="line">    git</span><br><span class="line">    zsh-autosuggestions</span><br><span class="line">    zsh-syntax-highlighting</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/10/tools/zsh/install/" data-id="ckomwlru9005trhn930qf5g3b" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/05/10/tools/zsh/install/" data-id="ckonrt7wl005tc8n93aje8waj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-architecture/framework/spring boot/spring-boot-mysql" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/05/10/architecture/framework/spring%20boot/spring-boot-mysql/" class="article-date">
+  <time datetime="2021-05-09T16:00:00.000Z" itemprop="datePublished">2021-05-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/">框架</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/10/architecture/framework/spring%20boot/spring-boot-mysql/">spring boot 常见问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/">https://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/05/10/architecture/framework/spring%20boot/spring-boot-mysql/" data-id="ckonrt7wy006qc8n93htp84kz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-boot/" rel="tag">spring boot</a></li></ul>
 
     </footer>
   </div>
@@ -752,63 +498,7 @@ plugins=(
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/10/architecture/framework/spring%20boot/user-register-password/" data-id="ckomwlrui006rrhn96d3o55sv" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-boot/" rel="tag">spring boot</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-architecture/framework/spring boot/spring-boot-mysql" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/05/10/architecture/framework/spring%20boot/spring-boot-mysql/" class="article-date">
-  <time datetime="2021-05-09T16:00:00.000Z" itemprop="datePublished">2021-05-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/">框架</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/10/architecture/framework/spring%20boot/spring-boot-mysql/">spring boot 常见问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h1><pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;
-    &lt;version&gt;2.1.3&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-      &lt;groupId&gt;mysql&lt;/groupId&gt;
-      &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
-      &lt;scope&gt;runtime&lt;/scope&gt;
-&lt;/dependency&gt;
-</code></pre>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/">https://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/10/architecture/framework/spring%20boot/spring-boot-mysql/" data-id="ckomwlrui006prhn9aqke7a8u" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/05/10/architecture/framework/spring%20boot/user-register-password/" data-id="ckonrt7wz006sc8n98yaq7od8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-boot/" rel="tag">spring boot</a></li></ul>
@@ -914,7 +604,7 @@ plugins=(
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/04/17/algorithm/basic/" data-id="ckomwlrsf0003rhn98c9u6p4h" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/04/17/algorithm/basic/" data-id="ckonrt7tv0005c8n9ehlw6wll" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
@@ -963,53 +653,19 @@ plugins=(
 <li>递归的对游标左侧数组和右侧数组排序</li>
 <li>得到一个排序完成的数组</li>
 </ul>
-<h2 id="Javascript"><a href="#Javascript" class="headerlink" title="Javascript"></a>Javascript</h2><pre><code class="javascript">/**
- * 快速排序
- * @param nums  数组
- * @param left  排序的左边界索引
- * @param right 排序的右边界索引
- */
-function qsort(nums, left, right) &#123;
-    if (left &gt;= right) return;
+<h2 id="Javascript"><a href="#Javascript" class="headerlink" title="Javascript"></a>Javascript</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 快速排序</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>nums  数组</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>left  排序的左边界索引</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>right 排序的右边界索引</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">qsort</span>(<span class="params">nums, left, right</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (left &gt;= right) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> pivot = nums[left], i = left, j = right;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; nums[j] &gt; pivot) --j;</span><br><span class="line">        nums[i] = nums[j];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; nums[i] &lt;= pivot) ++i;</span><br><span class="line">        nums[j] = nums[i];</span><br><span class="line">    &#125;</span><br><span class="line">    nums[i] = pivot;</span><br><span class="line">    qsort(nums, left, i-<span class="number">1</span>);</span><br><span class="line">    qsort(nums, i+<span class="number">1</span>, right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    var pivot = nums[left], i = left, j = right;
-    while (i &lt; j) &#123;
-        while (i &lt; j &amp;&amp; nums[j] &gt; pivot) --j;
-        nums[i] = nums[j];
-
-        while (i &lt; j &amp;&amp; nums[i] &lt;= pivot) ++i;
-        nums[j] = nums[i];
-    &#125;
-    nums[i] = pivot;
-    qsort(nums, left, i-1);
-    qsort(nums, i+1, right);
-&#125;
-</code></pre>
 <p><strong>测试</strong></p>
-<pre><code class="javascript">
-var v;
-v = [3, 2, 1, 3, 4, 0, -1, 8, 9, 1, 0];
-qsort(v, 0, v.length - 1);
-console.log(v);
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> v;</span><br><span class="line">v = [<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">0</span>];</span><br><span class="line">qsort(v, <span class="number">0</span>, v.length - <span class="number">1</span>);</span><br><span class="line"><span class="built_in">console</span>.log(v);</span><br><span class="line"></span><br><span class="line">v = [];</span><br><span class="line">qsort(v, <span class="number">0</span>, v.length - <span class="number">1</span>);</span><br><span class="line"><span class="built_in">console</span>.log(v);</span><br><span class="line"></span><br><span class="line">v = [<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>];</span><br><span class="line">qsort(v, <span class="number">0</span>, v.length - <span class="number">1</span>);</span><br><span class="line"><span class="built_in">console</span>.log(v);</span><br></pre></td></tr></table></figure>
 
-v = [];
-qsort(v, 0, v.length - 1);
-console.log(v);
-
-v = [5, 4, 3, 2, 1];
-qsort(v, 0, v.length - 1);
-console.log(v);
-</code></pre>
 <p><strong>输出</strong></p>
-<pre><code class="shell">[ -1, 0, 0, 1, 1, 2, 3, 3, 4, 8, 9 ]
-[]
-[ 1, 2, 3, 4, 5 ]
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ -1, 0, 0, 1, 1, 2, 3, 3, 4, 8, 9 ]</span><br><span class="line">[]</span><br><span class="line">[ 1, 2, 3, 4, 5 ]</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/04/12/coding/algorithm/sort/" data-id="ckomwlrsr0013rhn96niq78hd" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/04/12/coding/algorithm/sort/" data-id="ckonrt7u90013c8n9gpif8vu9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
@@ -1078,7 +734,7 @@ console.log(v);
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -1086,7 +742,7 @@ console.log(v);
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

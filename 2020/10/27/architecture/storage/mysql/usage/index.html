@@ -7,12 +7,12 @@
   
   <title>mysql usage | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="[toc] MySQL**注 : **有些操作和操作系统有关。 CLI登录mysql -h localhost --port 3306 -u root -p --socket&#x3D;&#x2F;var&#x2F;lib&#x2F;mysql&#x2F;mysql.sock    #### 示例 bovenson@MBP:~&#x2F;Git&#x2F;notes&#x2F;MySQL$ mysql -h localhost -u root -p Enter passwor">
+  <meta name="description" content="[toc] MySQL**注 : **有些操作和操作系统有关。 CLI登录123456789101112131415161718mysql -h localhost --port 3306 -u root -p --socket&#x3D;&#x2F;var&#x2F;lib&#x2F;mysql&#x2F;mysql.sock  #### 示例bovenson@MBP:~&#x2F;Git&#x2F;notes&#x2F;MySQL$ mysql -h localhost">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql usage">
 <meta property="og:url" content="http://wii.pub/2020/10/27/architecture/storage/mysql/usage/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="[toc] MySQL**注 : **有些操作和操作系统有关。 CLI登录mysql -h localhost --port 3306 -u root -p --socket&#x3D;&#x2F;var&#x2F;lib&#x2F;mysql&#x2F;mysql.sock    #### 示例 bovenson@MBP:~&#x2F;Git&#x2F;notes&#x2F;MySQL$ mysql -h localhost -u root -p Enter passwor">
+<meta property="og:description" content="[toc] MySQL**注 : **有些操作和操作系统有关。 CLI登录123456789101112131415161718mysql -h localhost --port 3306 -u root -p --socket&#x3D;&#x2F;var&#x2F;lib&#x2F;mysql&#x2F;mysql.sock  #### 示例bovenson@MBP:~&#x2F;Git&#x2F;notes&#x2F;MySQL$ mysql -h localhost">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-10-27T11:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.571Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -92,107 +94,39 @@
       
         <p>[toc]</p>
 <h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><p>**注 : **有些操作和操作系统有关。</p>
-<h2 id="CLI登录"><a href="#CLI登录" class="headerlink" title="CLI登录"></a>CLI登录</h2><pre><code class="shell">mysql -h localhost --port 3306 -u root -p --socket=/var/lib/mysql/mysql.sock  
+<h2 id="CLI登录"><a href="#CLI登录" class="headerlink" title="CLI登录"></a>CLI登录</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql -h localhost --port 3306 -u root -p --socket=/var/lib/mysql/mysql.sock  </span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 示例</span></span></span><br><span class="line">bovenson@MBP:~/Git/notes/MySQL$ mysql -h localhost -u root -p</span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 14</span><br><span class="line">Server version: 5.7.20 MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> </span></span><br></pre></td></tr></table></figure>
 
-#### 示例
-bovenson@MBP:~/Git/notes/MySQL$ mysql -h localhost -u root -p
-Enter password: 
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 14
-Server version: 5.7.20 MySQL Community Server (GPL)
+<h2 id="启动-停止"><a href="#启动-停止" class="headerlink" title="启动/停止"></a>启动/停止</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## Mac</span></span></span><br><span class="line">sudo /usr/local/mysql/support-files/mysql.server start	# 启动</span><br><span class="line">sudo /usr/local/mysql/support-files/mysql.server stop	# 停止</span><br><span class="line">sudo /usr/local/mysql/support-files/mysql.server restart	# 重启</span><br></pre></td></tr></table></figure>
 
-Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+<h2 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h2><h3 id="SET-PASSWORD"><a href="#SET-PASSWORD" class="headerlink" title="SET PASSWORD"></a>SET PASSWORD</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">set</span> password <span class="keyword">for</span> 用户名@localhost = password(<span class="string">&#x27;新密码&#x27;</span>);</span> </span><br><span class="line">set password for root@localhost = password(&#x27;123&#x27;); </span><br></pre></td></tr></table></figure>
 
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
+<h2 id="系统用户"><a href="#系统用户" class="headerlink" title="系统用户"></a>系统用户</h2><h3 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#x27;myuser&#x27;@&#x27;localhost&#x27; IDENTIFIED BY &#x27;mypass&#x27;;</span><br><span class="line">CREATE USER &#x27;myuser&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;mypass&#x27;;</span><br></pre></td></tr></table></figure>
 
-Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+<h3 id="赋予权限"><a href="#赋予权限" class="headerlink" title="赋予权限"></a>赋予权限</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GRANT ALL ON *.* TO &#x27;myuser&#x27;@&#x27;localhost&#x27;;</span><br><span class="line">GRANT ALL ON *.* TO &#x27;myuser&#x27;@&#x27;%&#x27;;</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO &#x27;root&#x27;@&#x27;%&#x27; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
 
-mysql&gt; 
-</code></pre>
-<h2 id="启动-停止"><a href="#启动-停止" class="headerlink" title="启动/停止"></a>启动/停止</h2><pre><code class="shell">### Mac
-sudo /usr/local/mysql/support-files/mysql.server start    # 启动
-sudo /usr/local/mysql/support-files/mysql.server stop    # 停止
-sudo /usr/local/mysql/support-files/mysql.server restart    # 重启
-</code></pre>
-<h2 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h2><h3 id="SET-PASSWORD"><a href="#SET-PASSWORD" class="headerlink" title="SET PASSWORD"></a>SET PASSWORD</h3><pre><code class="shell"># set password for 用户名@localhost = password(&#39;新密码&#39;); 
-set password for root@localhost = password(&#39;123&#39;); 
-</code></pre>
-<h2 id="系统用户"><a href="#系统用户" class="headerlink" title="系统用户"></a>系统用户</h2><h3 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h3><pre><code class="shell">CREATE USER &#39;myuser&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;mypass&#39;;
-CREATE USER &#39;myuser&#39;@&#39;%&#39; IDENTIFIED BY &#39;mypass&#39;;
-</code></pre>
-<h3 id="赋予权限"><a href="#赋予权限" class="headerlink" title="赋予权限"></a>赋予权限</h3><pre><code class="shell">GRANT ALL ON *.* TO &#39;myuser&#39;@&#39;localhost&#39;;
-GRANT ALL ON *.* TO &#39;myuser&#39;@&#39;%&#39;;
-GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; WITH GRANT OPTION;
-</code></pre>
-<h2 id="允许远程连接"><a href="#允许远程连接" class="headerlink" title="允许远程连接"></a>允许远程连接</h2><h3 id="设置bind-address"><a href="#设置bind-address" class="headerlink" title="设置bind-address"></a>设置bind-address</h3><pre><code class="shell">sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
-# 修改bind-address
-bind-address = 0.0.0.0
-</code></pre>
+<h2 id="允许远程连接"><a href="#允许远程连接" class="headerlink" title="允许远程连接"></a>允许远程连接</h2><h3 id="设置bind-address"><a href="#设置bind-address" class="headerlink" title="设置bind-address"></a>设置bind-address</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改bind-address</span></span><br><span class="line">bind-address = 0.0.0.0</span><br></pre></td></tr></table></figure>
+
 <h3 id="添加-修改账户"><a href="#添加-修改账户" class="headerlink" title="添加/修改账户"></a>添加/修改账户</h3><p>添加/修改账户允许的<code>Host</code>为<code>%</code></p>
-<h2 id="命令行远程登录mysql服务器"><a href="#命令行远程登录mysql服务器" class="headerlink" title="命令行远程登录mysql服务器"></a>命令行远程登录mysql服务器</h2><pre><code class="shell">mysql -u root -p -h 10.154.0.43 -P 3306
-</code></pre>
+<h2 id="命令行远程登录mysql服务器"><a href="#命令行远程登录mysql服务器" class="headerlink" title="命令行远程登录mysql服务器"></a>命令行远程登录mysql服务器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p -h 10.154.0.43 -P 3306</span><br></pre></td></tr></table></figure>
+
 <h2 id="workbench"><a href="#workbench" class="headerlink" title="workbench"></a>workbench</h2><h3 id="时间设置默认当前"><a href="#时间设置默认当前" class="headerlink" title="时间设置默认当前"></a>时间设置默认当前</h3><p>默认设置为<code>CURRENT_TIMESTAMP</code></p>
 <h2 id="添加管理账户"><a href="#添加管理账户" class="headerlink" title="添加管理账户"></a>添加管理账户</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/6085455/restoring-deleted-root-user-and-password-for-mysql">参考1</a></li>
 <li><a target="_blank" rel="noopener" href="http://www.kevssite.com/deleted-rootlocalhost-account-in-mysql/">参考2</a></li>
 </ul>
 <h2 id="lower-case"><a href="#lower-case" class="headerlink" title="lower_case"></a>lower_case</h2><h2 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h2><h3 id="Can’t-get-hostname-from-your-ip-address"><a href="#Can’t-get-hostname-from-your-ip-address" class="headerlink" title="Can’t get hostname from your ip address"></a>Can’t get hostname from your ip address</h3><p>Just add below in <code>my.ini</code> or <code>my.cnf</code>.</p>
-<pre><code>[mysqld]
-skip-name-resolve 
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">skip-name-resolve </span><br></pre></td></tr></table></figure>
+
 <ul>
 <li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/5118151/mysql-error-cant-get-hostname-from-your-ip-address">参考</a></li>
 </ul>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="CentOS"><a href="#CentOS" class="headerlink" title="CentOS"></a>CentOS</h2><pre><code class="shell"># 下载 rpm 源
-$ wget https://repo.mysql.com//mysql57-community-release-el7-11.noarch.rpm
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="CentOS"><a href="#CentOS" class="headerlink" title="CentOS"></a>CentOS</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 下载 rpm 源</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> wget https://repo.mysql.com//mysql57-community-release-el7-11.noarch.rpm</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装 rpm 源</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> yum localinstall mysql57-community-release-el7-11.noarch.rpm</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装 MySQL</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> yum install mysql-community-server</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动 MySQL</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> systemctl start mysqld</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 开机启动</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> systemctl <span class="built_in">enable</span> mysqld</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> systemctl daemon-reload</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 获取root密码</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat /var/<span class="built_in">log</span>/mysqld.log | grep password</span></span><br><span class="line">... [Note] A temporary password is generated for root@localhost:  ...</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 登录mysql</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mysql -u root -p</span>	</span><br><span class="line"><span class="meta">#</span><span class="bash"> 输入获取到的临时密码</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 重置root密码</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> ALTER USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="string">&#x27;&#123;password&#125;&#x27;</span>;</span> </span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 更新密码</span></span><br><span class="line">mysql &gt; UPDATE mysql.user SET Password=PASSWORD(&#x27;root&#x27;) WHERE User=&#x27;root&#x27; AND Host=&#x27;%&#x27;;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 新建远程登录用户</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> CREATE USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED BY <span class="string">&#x27;&#123;password&#125;&#x27;</span>;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 授权</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> GRANT ALL PRIVILEGES ON *.* TO <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;%&#x27;</span> WITH GRANT OPTION;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 刷新权限</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> FLUSH PRIVILEGES;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 防火墙放行3306端口</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> firewall-cmd --zone=public --add-port=3306/tcp --permanent</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> firewall-cmd --reload</span></span><br></pre></td></tr></table></figure>
 
-# 安装 rpm 源
-$ yum localinstall mysql57-community-release-el7-11.noarch.rpm
-
-# 安装 MySQL
-$ yum install mysql-community-server
-
-# 启动 MySQL
-$ systemctl start mysqld
-
-# 开机启动
-$ systemctl enable mysqld
-$ systemctl daemon-reload
-
-# 获取root密码
-$ cat /var/log/mysqld.log | grep password
-... [Note] A temporary password is generated for root@localhost:  ...
-
-# 登录mysql
-$ mysql -u root -p    
-# 输入获取到的临时密码
-
-# 重置root密码
-mysql&gt; ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;&#123;password&#125;&#39;; 
-
-# 更新密码
-mysql &gt; UPDATE mysql.user SET Password=PASSWORD(&#39;root&#39;) WHERE User=&#39;root&#39; AND Host=&#39;%&#39;;
-
-# 新建远程登录用户
-mysql&gt; CREATE USER &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;&#123;password&#125;&#39;;
-
-# 授权
-mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; WITH GRANT OPTION;
-
-# 刷新权限
-mysql&gt; FLUSH PRIVILEGES;
-
-# 防火墙放行3306端口
-$ firewall-cmd --zone=public --add-port=3306/tcp --permanent
-$ firewall-cmd --reload
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/10/27/architecture/storage/mysql/usage/" data-id="ckomwlrum0074rhn95mfo8yoj" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/10/27/architecture/storage/mysql/usage/" data-id="ckonrt7x50074c8n9hv686s0n" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
@@ -203,19 +137,19 @@ $ firewall-cmd --reload
     
 <nav id="article-nav">
   
-    <a href="/2020/10/29/coding/java/socket-send-file/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/10/27/linux/scripts/shell-program/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Java Socket 传输文件
+          shell 编程
         
       </div>
     </a>
   
   
-    <a href="/2020/10/27/terms/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/10/26/linux/program/vsftpd/usage/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">术语</div>
+      <div class="article-nav-title">vsftpd usage</div>
     </a>
   
 </nav>
@@ -273,7 +207,7 @@ $ firewall-cmd --reload
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -281,7 +215,7 @@ $ firewall-cmd --reload
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

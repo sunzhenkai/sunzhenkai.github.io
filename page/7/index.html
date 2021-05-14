@@ -20,6 +20,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -61,107 +63,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-tools/cmake/usage" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/31/tools/cmake/usage/" class="article-date">
-  <time datetime="2020-12-30T16:00:00.000Z" itemprop="datePublished">2020-12-31</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>►<a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/cmake/">cmake</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/31/tools/cmake/usage/">cmake 使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[toc]</p>
-<h1 id="Command-Line"><a href="#Command-Line" class="headerlink" title="Command Line"></a>Command Line</h1><pre><code class="shell">$ Generate a Project Buildsystem
-# cmake [&lt;options&gt;] &lt;path-to-source&gt;
-# cmake [&lt;options&gt;] &lt;path-to-existing-build&gt;
-# cmake [&lt;options&gt;] -S &lt;path-to-source&gt; -B &lt;path-to-build&gt;
-
-$ Build a Project
-# cmake --build &lt;dir&gt; [&lt;options&gt;] [-- &lt;build-tool-options&gt;]
-
-$ Install a Project
-# cmake --install &lt;dir&gt; [&lt;options&gt;]
-
-$ Open a Project
-# cmake --open &lt;dir&gt;
-
-$ Run a Script
-# cmake [&#123;-D &lt;var&gt;=&lt;value&gt;&#125;...] -P &lt;cmake-script-file&gt;
-
-$ Run a Command-Line Tool
-# cmake -E &lt;command&gt; [&lt;options&gt;]
-
-$ Run the Find-Package Tool
-# cmake --find-package [&lt;options&gt;]
-
-$ View Help
-# cmake --help[-&lt;topic&gt;]
-</code></pre>
-<h1 id="CMakeLists"><a href="#CMakeLists" class="headerlink" title="CMakeLists"></a>CMakeLists</h1><h2 id="设置cmake最小版本"><a href="#设置cmake最小版本" class="headerlink" title="设置cmake最小版本"></a>设置cmake最小版本</h2><pre><code class="cmake">cmake_minimum_required(VERSION 2.8)
-</code></pre>
-<h2 id="设置项目名称"><a href="#设置项目名称" class="headerlink" title="设置项目名称"></a>设置项目名称</h2><pre><code class="cmake">project(&quot;...&quot;)
-</code></pre>
-<h2 id="判断OS"><a href="#判断OS" class="headerlink" title="判断OS"></a>判断OS</h2><pre><code class="cmake">if (APPLE)
-  # do something
-  set(CMAKE_CXX_FLAGS &quot;$&#123;CMAKE_CXX_FLAGS&#125;&quot;)
-elseif (UNIX)
-  # do something
-  set(CMAKE_CXX_FLAGS &quot;$&#123;CMAKE_CXX_FLAGS&#125; -pthread&quot;)
-endif()
-</code></pre>
-<h2 id="生成共享库"><a href="#生成共享库" class="headerlink" title="生成共享库"></a>生成共享库</h2><pre><code class="cmake">add_library(name SHARED src)
-</code></pre>
-<h2 id="使用静态库"><a href="#使用静态库" class="headerlink" title="使用静态库"></a>使用静态库</h2><pre><code class="cmake">SET(CMAKE_FIND_LIBRARY_SUFFIXES &quot;.a&quot;)    # 查找库文件后缀
-SET(BUILD_SHARED_LIBS OFF)                             # 关闭使用共享库
-SET(CMAKE_EXE_LINKER_FLAGS &quot;-static&quot;)    # 连接时使用静态库
-</code></pre>
-<h2 id="生成可执行文件"><a href="#生成可执行文件" class="headerlink" title="生成可执行文件"></a>生成可执行文件</h2><pre><code class="cmake">add_executable(MAIN src/main.cpp)
-</code></pre>
-<h2 id="包含cmake文件"><a href="#包含cmake文件" class="headerlink" title="包含cmake文件"></a>包含cmake文件</h2><pre><code class="cmake">include(path/to/cmake)
-</code></pre>
-<h2 id="打印消息"><a href="#打印消息" class="headerlink" title="打印消息"></a>打印消息</h2><pre><code class="cmake">MESSAGE(&quot;msg...&quot;)
-</code></pre>
-<h2 id="指定compiler"><a href="#指定compiler" class="headerlink" title="指定compiler"></a>指定compiler</h2><pre><code class="cmake">set(CMAKE_C_COMPILER &quot;gcc-5&quot;)
-set(CMAKE_CXX_COMPILER &quot;g++-5&quot;)
-</code></pre>
-<h2 id="编译类型"><a href="#编译类型" class="headerlink" title="编译类型"></a>编译类型</h2><pre><code class="shell">set(CMAKE_BUILD_TYPE=Release)    # or Debug
-</code></pre>
-<h2 id="指定FLAGS"><a href="#指定FLAGS" class="headerlink" title="指定FLAGS"></a>指定FLAGS</h2><pre><code class="shell">set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS &quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++11&quot;)
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/31/tools/cmake/usage/" data-id="ckomwlrty004nrhn94ugzc9se" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cmake/" rel="tag">cmake</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-tools/cmake/example" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/12/31/tools/cmake/example/" class="article-date">
@@ -189,49 +90,29 @@ set(CMAKE_CXX_FLAGS &quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++11&quot;)
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><p><strong>CMakeLists.txt</strong></p>
-<pre><code class="shell">$ mkdir cmake-project
-$ cd cmake-project
-$ touch CMakeLists.txt
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir cmake-project</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> cmake-project</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> touch CMakeLists.txt</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>Code</strong></p>
-<pre><code class="shell">$ mkdir src &amp;&amp; vim src/main.cpp
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir src &amp;&amp; vim src/main.cpp</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>Config</strong></p>
-<pre><code class="cmake">cmake_minimum_required(VERSION 3.10)
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># set the project name</span></span><br><span class="line"><span class="keyword">project</span>(Tutorial)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the executable</span></span><br><span class="line"><span class="keyword">add_executable</span>(Tutorial src/main.cpp)</span><br></pre></td></tr></table></figure>
 
-# set the project name
-project(Tutorial)
-
-# add the executable
-add_executable(Tutorial src/main.cpp)
-</code></pre>
 <p><strong>Build</strong></p>
-<pre><code class="shell">$ mkdir build &amp;&amp; cd build
-$ cmake ..
-$ make
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir build &amp;&amp; <span class="built_in">cd</span> build</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cmake ..</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>Run</strong></p>
-<pre><code class="shell">$ ./Tutorial
-Hello, CMake.
-</code></pre>
-<h1 id="语法示例"><a href="#语法示例" class="headerlink" title="语法示例"></a><strong>语法示例</strong></h1><pre><code class="cmake">cmake_minimum_required(VERSION 2.8)
-project(&quot;pybindcpp&quot;)
-add_executable(HELLO src/pybindcpp.cpp)
-</code></pre>
-<h1 id="完整示例"><a href="#完整示例" class="headerlink" title="完整示例"></a><strong>完整示例</strong></h1><pre><code class="cmake">cmake_minimum_required(VERSION 2.8)
-project(&quot;pybindcpp&quot;)
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./Tutorial</span></span><br><span class="line">Hello, CMake.</span><br></pre></td></tr></table></figure>
 
-add_executable(HELLO src/pybindcpp.cpp)
-</code></pre>
-<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a><strong>编译</strong></h1><pre><code class="shell">$ mkdir build &amp;&amp; cd build
-$ cmake ..
-$ make
-</code></pre>
+<h1 id="语法示例"><a href="#语法示例" class="headerlink" title="语法示例"></a><strong>语法示例</strong></h1><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">2.8</span>)</span><br><span class="line"><span class="keyword">project</span>(<span class="string">&quot;pybindcpp&quot;</span>)</span><br><span class="line"><span class="keyword">add_executable</span>(HELLO src/pybindcpp.cpp)</span><br></pre></td></tr></table></figure>
 
+<h1 id="完整示例"><a href="#完整示例" class="headerlink" title="完整示例"></a><strong>完整示例</strong></h1><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">2.8</span>)</span><br><span class="line"><span class="keyword">project</span>(<span class="string">&quot;pybindcpp&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(HELLO src/pybindcpp.cpp)</span><br></pre></td></tr></table></figure>
+
+<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a><strong>编译</strong></h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir build &amp;&amp; <span class="built_in">cd</span> build</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cmake ..</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make</span></span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/31/tools/cmake/example/" data-id="ckomwlrtv004crhn9fwoa1xts" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/31/tools/cmake/example/" data-id="ckonrt7vy004dc8n9dyiq0p6b" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cmake/" rel="tag">cmake</a></li></ul>
@@ -277,19 +158,10 @@ $ make
 <li>使用 <code>make install</code> 安装</li>
 </ul>
 <h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><h2 id="指定安装路径"><a href="#指定安装路径" class="headerlink" title="指定安装路径"></a>指定安装路径</h2><p>参考 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/6003374/what-is-cmake-equivalent-of-configure-prefix-dir-make-all-install">这里</a></p>
-<pre><code class="shell"># 3.15 +
-$ cmake --install /path/to/build --prefix /path/to/install [--config &lt;CONFIG&gt;]
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 3.15 +</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cmake --install /path/to/build --prefix /path/to/install [--config &lt;CONFIG&gt;]</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> &lt; 3.15</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> build</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cmake -DCMAKE_INSTALL_PREFIX=/path/to/install -P cmake_install.cmake</span> </span><br></pre></td></tr></table></figure>
 
-# &lt; 3.15
-$ cd build
-$ cmake -DCMAKE_INSTALL_PREFIX=/path/to/install -P cmake_install.cmake 
-</code></pre>
-<h2 id="指定编译类型"><a href="#指定编译类型" class="headerlink" title="指定编译类型"></a>指定编译类型</h2><pre><code class="shell"># 1
-$ cmake -DCMAKE_INSTALL_PREFIX:PATH=/path/to/install -DCMAKE_BUILD_TYPE=Release /path/to/src
+<h2 id="指定编译类型"><a href="#指定编译类型" class="headerlink" title="指定编译类型"></a>指定编译类型</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cmake -DCMAKE_INSTALL_PREFIX:PATH=/path/to/install -DCMAKE_BUILD_TYPE=Release /path/to/src</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cmake --config Release --build . --target install</span> </span><br></pre></td></tr></table></figure>
 
-# 2
-$ cmake --config Release --build . --target install 
-</code></pre>
 <h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><p>CMakeLists.txt 的语法比较简单，由命令、注释和空格组成。<code>#</code> 后面的是注释。</p>
 <p><code>commond (args ...)</code></p>
 <ul>
@@ -302,8 +174,8 @@ $ cmake --config Release --build . --target install
 <p><strong>变量引用</strong></p>
 <p>变量引用用 <code>$&#123;VAR&#125;</code> 语法</p>
 <h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><h2 id="set"><a href="#set" class="headerlink" title="set"></a><strong><code>set</code></strong></h2><p><code>set</code>命令将多变量放在一起。</p>
-<pre><code class="cmake">set (Foo a b c)
-</code></pre>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> (Foo a b c)</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li><code>commond($&#123;Foo&#125;)</code> 等价于 <code>command(a b c)</code></li>
 <li><code>commond(&quot;$&#123;Foo&#125;&quot;)</code> 等价于 <code>command(&quot;a b c&quot;)</code></li>
@@ -311,44 +183,39 @@ $ cmake --config Release --build . --target install
 <h2 id="cmake-minimum-required"><a href="#cmake-minimum-required" class="headerlink" title="cmake_minimum_required"></a><strong><code>cmake_minimum_required</code></strong></h2><p>指定运行此配置文件所需的CMake的最低版本。</p>
 <p><code>cmake_minimum_required (VERSION 2.8)</code></p>
 <h2 id="project"><a href="#project" class="headerlink" title="project"></a><strong><code>project</code></strong></h2><p>指定项目信息。</p>
-<pre><code class="cmake">project (Demo)
-</code></pre>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">project</span> (Demo)</span><br></pre></td></tr></table></figure>
+
 <h2 id="add-executable"><a href="#add-executable" class="headerlink" title="add_executable"></a><code>add_executable</code></h2><p>指定生成目标。</p>
-<pre><code class="cmake">add_executable(Demo demo.cpp)
-</code></pre>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(Demo demo.cpp)</span><br></pre></td></tr></table></figure>
+
 <h2 id="aux-source-directory"><a href="#aux-source-directory" class="headerlink" title="aux_source_directory"></a><code>aux_source_directory</code></h2><p>查找指定目录下的所有源文件，将结果存进指定变量名。</p>
-<pre><code class="cmake">aux_source_directory(&lt;dir&gt; &lt;variable&gt;)
-</code></pre>
-<pre><code class="cmake">cmake_minimum_required (VERSION 2.8)
-project (Demo)
-aux_source_directory (. DIR_SRCS)
-add_executable(Demo $&#123;DIR_SRCS&#125;)
-</code></pre>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">aux_source_directory</span>(&lt;dir&gt; &lt;variable&gt;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span> (VERSION <span class="number">2.8</span>)</span><br><span class="line"><span class="keyword">project</span> (Demo)</span><br><span class="line"><span class="keyword">aux_source_directory</span> (. DIR_SRCS)</span><br><span class="line"><span class="keyword">add_executable</span>(Demo <span class="variable">$&#123;DIR_SRCS&#125;</span>)</span><br></pre></td></tr></table></figure>
+
 <h2 id="add-subdirectory"><a href="#add-subdirectory" class="headerlink" title="add_subdirectory"></a><code>add_subdirectory</code></h2><p>指明项目包含一个子目录，这样该目录下的<code>CMakeLists.txt</code>文件和源文件也会被处理。</p>
-<pre><code class="cmake">add_subdirectory(math)
-</code></pre>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_subdirectory</span>(<span class="keyword">math</span>)</span><br></pre></td></tr></table></figure>
+
 <h2 id="target-link-libraries"><a href="#target-link-libraries" class="headerlink" title="target_link_libraries"></a><code>target_link_libraries</code></h2><p>指明可执行文件需要链接的库。</p>
-<pre><code class="cmake">target_link_libraries(Demo MathFunctions)
-</code></pre>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">target_link_libraries</span>(Demo MathFunctions)</span><br></pre></td></tr></table></figure>
+
 <h2 id="add-library"><a href="#add-library" class="headerlink" title="add_library"></a><code>add_library</code></h2><p>将指定的源文件生成链接文件，然后添加到工程中去</p>
-<pre><code class="cmake">aux_source_directory(. DIR_LIB_SRCS)
-add_library(MathFunctions $&#123;DIR_LIB_SRCS&#125;)
-</code></pre>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">aux_source_directory</span>(. DIR_LIB_SRCS)</span><br><span class="line"><span class="keyword">add_library</span>(MathFunctions <span class="variable">$&#123;DIR_LIB_SRCS&#125;</span>)</span><br></pre></td></tr></table></figure>
+
 <h2 id="link-directories"><a href="#link-directories" class="headerlink" title="link_directories"></a><code>link_directories</code></h2><p>指定连接器查找库的文件夹。此命令的相对路径被解释为相对于当前源目录。</p>
 <p><strong>格式</strong></p>
-<pre><code class="shell">link_directories(directory1 directory2 ...)
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">link_directories(directory1 directory2 ...)</span><br></pre></td></tr></table></figure>
+
 <p><strong>示例</strong> </p>
-<pre><code class="cmake">link_directories($&#123;PROJECT_BINARY_DIR&#125;/third_party/googletest/)
-</code></pre>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">link_directories</span>(<span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>/third_party/googletest/)</span><br></pre></td></tr></table></figure>
+
 <h2 id="include-directories"><a href="#include-directories" class="headerlink" title="include_directories"></a><code>include_directories</code></h2><p>将给定的目录添加到编译器用来搜索头文件的目录中。相对路径被解释为相对于当前源目录。</p>
 <p><strong>格式</strong></p>
-<pre><code class="cmake">include_directories([AFTER|BEFORE] [SYSTEM] dir1 [dir2 ...])
-</code></pre>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include_directories</span>([AFTER|BEFORE] [SYSTEM] dir1 [dir2 ...])</span><br></pre></td></tr></table></figure>
+
 <p><strong>示例</strong></p>
-<pre><code class="cmake">include_directories($&#123;PROJECT_SOURCE_DIR&#125;/third_party/glog/)
-include_directories($&#123;PROJECT_SOURCE_DIR&#125;/third_party/hdfs/)
-</code></pre>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/third_party/glog/)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/third_party/hdfs/)</span><br></pre></td></tr></table></figure>
+
 <h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><h2 id="常用变量"><a href="#常用变量" class="headerlink" title="常用变量"></a>常用变量</h2><ul>
 <li>PROJECT_BINARY_DIR<ul>
 <li>Full path to build directory for project.</li>
@@ -363,136 +230,8 @@ include_directories($&#123;PROJECT_SOURCE_DIR&#125;/third_party/hdfs/)
 </ul>
 </li>
 </ul>
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><pre><code class="shell">bovenson@HP:~/Git/notes/C++/Code/CMake/test$ tree
-.
-├── CMakeLists.txt
-└── t.cpp
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line">bovenson@HP:~/Git/notes/C++/Code/CMake/test$ tree</span><br><span class="line">.</span><br><span class="line">├── CMakeLists.txt</span><br><span class="line">└── t.cpp</span><br><span class="line"></span><br><span class="line">0 directories, 2 files</span><br><span class="line">bovenson@HP:~/Git/notes/C++/Code/CMake/test$ cat t.cpp </span><br><span class="line"><span class="meta">#</span><span class="bash">include &lt;iostream&gt;</span></span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    cout&lt;&lt;&quot;Hello&quot;&lt;&lt;endl;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">bovenson@HP:~/Git/notes/C++/Code/CMake/test$ cat CMakeLists.txt </span><br><span class="line">project(&quot;test&quot;)</span><br><span class="line">add_executable(Hello t.cpp)</span><br><span class="line">bovenson@HP:~/Git/notes/C++/Code/CMake/test$ cmake .</span><br><span class="line">-- The C compiler identification is GNU 5.4.0</span><br><span class="line">-- The CXX compiler identification is GNU 5.4.0</span><br><span class="line">-- Check for working C compiler: /usr/bin/cc</span><br><span class="line">-- Check for working C compiler: /usr/bin/cc -- works</span><br><span class="line">-- Detecting C compiler ABI info</span><br><span class="line">-- Detecting C compiler ABI info - done</span><br><span class="line">-- Detecting C compile features</span><br><span class="line">-- Detecting C compile features - done</span><br><span class="line">-- Check for working CXX compiler: /usr/bin/c++</span><br><span class="line">-- Check for working CXX compiler: /usr/bin/c++ -- works</span><br><span class="line">-- Detecting CXX compiler ABI info</span><br><span class="line">-- Detecting CXX compiler ABI info - done</span><br><span class="line">-- Detecting CXX compile features</span><br><span class="line">-- Detecting CXX compile features - done</span><br><span class="line">-- Configuring done</span><br><span class="line">-- Generating done</span><br><span class="line">-- Build files have been written to: /home/bovenson/Git/notes/C++/Code/CMake/test</span><br><span class="line">bovenson@HP:~/Git/notes/C++/Code/CMake/test$ tree</span><br><span class="line">.</span><br><span class="line">├── CMakeCache.txt</span><br><span class="line">├── CMakeFiles</span><br><span class="line">│   ├── 3.5.1</span><br><span class="line">│   │   ├── CMakeCCompiler.cmake</span><br><span class="line">│   │   ├── CMakeCXXCompiler.cmake</span><br><span class="line">│   │   ├── CMakeDetermineCompilerABI_C.bin</span><br><span class="line">│   │   ├── CMakeDetermineCompilerABI_CXX.bin</span><br><span class="line">│   │   ├── CMakeSystem.cmake</span><br><span class="line">│   │   ├── CompilerIdC</span><br><span class="line">│   │   │   ├── a.out</span><br><span class="line">│   │   │   └── CMakeCCompilerId.c</span><br><span class="line">│   │   └── CompilerIdCXX</span><br><span class="line">│   │       ├── a.out</span><br><span class="line">│   │       └── CMakeCXXCompilerId.cpp</span><br><span class="line">│   ├── cmake.check_cache</span><br><span class="line">│   ├── CMakeDirectoryInformation.cmake</span><br><span class="line">│   ├── CMakeOutput.log</span><br><span class="line">│   ├── CMakeTmp</span><br><span class="line">│   ├── feature_tests.bin</span><br><span class="line">│   ├── feature_tests.c</span><br><span class="line">│   ├── feature_tests.cxx</span><br><span class="line">│   ├── Hello.dir</span><br><span class="line">│   │   ├── build.make</span><br><span class="line">│   │   ├── cmake_clean.cmake</span><br><span class="line">│   │   ├── DependInfo.cmake</span><br><span class="line">│   │   ├── depend.make</span><br><span class="line">│   │   ├── flags.make</span><br><span class="line">│   │   ├── link.txt</span><br><span class="line">│   │   └── progress.make</span><br><span class="line">│   ├── Makefile2</span><br><span class="line">│   ├── Makefile.cmake</span><br><span class="line">│   ├── progress.marks</span><br><span class="line">│   └── TargetDirectories.txt</span><br><span class="line">├── cmake_install.cmake</span><br><span class="line">├── CMakeLists.txt</span><br><span class="line">├── Makefile</span><br><span class="line">└── t.cpp</span><br><span class="line"></span><br><span class="line">6 directories, 31 files</span><br><span class="line">bovenson@HP:~/Git/notes/C++/Code/CMake/test$ make</span><br><span class="line">Scanning dependencies of target Hello</span><br><span class="line">[ 50%] Building CXX object CMakeFiles/Hello.dir/t.cpp.o</span><br><span class="line"><span class="meta">[100%</span><span class="bash">] Linking CXX executable Hello</span></span><br><span class="line"><span class="meta">[100%</span><span class="bash">] Built target Hello</span></span><br><span class="line">bovenson@HP:~/Git/notes/C++/Code/CMake/test$ tree</span><br><span class="line">.</span><br><span class="line">├── CMakeCache.txt</span><br><span class="line">├── CMakeFiles</span><br><span class="line">│   ├── 3.5.1</span><br><span class="line">│   │   ├── CMakeCCompiler.cmake</span><br><span class="line">│   │   ├── CMakeCXXCompiler.cmake</span><br><span class="line">│   │   ├── CMakeDetermineCompilerABI_C.bin</span><br><span class="line">│   │   ├── CMakeDetermineCompilerABI_CXX.bin</span><br><span class="line">│   │   ├── CMakeSystem.cmake</span><br><span class="line">│   │   ├── CompilerIdC</span><br><span class="line">│   │   │   ├── a.out</span><br><span class="line">│   │   │   └── CMakeCCompilerId.c</span><br><span class="line">│   │   └── CompilerIdCXX</span><br><span class="line">│   │       ├── a.out</span><br><span class="line">│   │       └── CMakeCXXCompilerId.cpp</span><br><span class="line">│   ├── cmake.check_cache</span><br><span class="line">│   ├── CMakeDirectoryInformation.cmake</span><br><span class="line">│   ├── CMakeOutput.log</span><br><span class="line">│   ├── CMakeTmp</span><br><span class="line">│   ├── feature_tests.bin</span><br><span class="line">│   ├── feature_tests.c</span><br><span class="line">│   ├── feature_tests.cxx</span><br><span class="line">│   ├── Hello.dir</span><br><span class="line">│   │   ├── build.make</span><br><span class="line">│   │   ├── cmake_clean.cmake</span><br><span class="line">│   │   ├── CXX.includecache</span><br><span class="line">│   │   ├── DependInfo.cmake</span><br><span class="line">│   │   ├── depend.internal</span><br><span class="line">│   │   ├── depend.make</span><br><span class="line">│   │   ├── flags.make</span><br><span class="line">│   │   ├── link.txt</span><br><span class="line">│   │   ├── progress.make</span><br><span class="line">│   │   └── t.cpp.o</span><br><span class="line">│   ├── Makefile2</span><br><span class="line">│   ├── Makefile.cmake</span><br><span class="line">│   ├── progress.marks</span><br><span class="line">│   └── TargetDirectories.txt</span><br><span class="line">├── cmake_install.cmake</span><br><span class="line">├── CMakeLists.txt</span><br><span class="line">├── Hello</span><br><span class="line">├── Makefile</span><br><span class="line">└── t.cpp</span><br><span class="line"></span><br><span class="line">6 directories, 35 files</span><br><span class="line">bovenson@HP:~/Git/notes/C++/Code/CMake/test$ ./Hello </span><br><span class="line">Hello</span><br></pre></td></tr></table></figure>
 
-0 directories, 2 files
-bovenson@HP:~/Git/notes/C++/Code/CMake/test$ cat t.cpp 
-#include &lt;iostream&gt;
-
-using namespace std;
-
-int main() &#123;
-    cout&lt;&lt;&quot;Hello&quot;&lt;&lt;endl;
-    return 0;
-&#125;
-bovenson@HP:~/Git/notes/C++/Code/CMake/test$ cat CMakeLists.txt 
-project(&quot;test&quot;)
-add_executable(Hello t.cpp)
-bovenson@HP:~/Git/notes/C++/Code/CMake/test$ cmake .
--- The C compiler identification is GNU 5.4.0
--- The CXX compiler identification is GNU 5.4.0
--- Check for working C compiler: /usr/bin/cc
--- Check for working C compiler: /usr/bin/cc -- works
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Detecting C compile features
--- Detecting C compile features - done
--- Check for working CXX compiler: /usr/bin/c++
--- Check for working CXX compiler: /usr/bin/c++ -- works
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Detecting CXX compile features
--- Detecting CXX compile features - done
--- Configuring done
--- Generating done
--- Build files have been written to: /home/bovenson/Git/notes/C++/Code/CMake/test
-bovenson@HP:~/Git/notes/C++/Code/CMake/test$ tree
-.
-├── CMakeCache.txt
-├── CMakeFiles
-│   ├── 3.5.1
-│   │   ├── CMakeCCompiler.cmake
-│   │   ├── CMakeCXXCompiler.cmake
-│   │   ├── CMakeDetermineCompilerABI_C.bin
-│   │   ├── CMakeDetermineCompilerABI_CXX.bin
-│   │   ├── CMakeSystem.cmake
-│   │   ├── CompilerIdC
-│   │   │   ├── a.out
-│   │   │   └── CMakeCCompilerId.c
-│   │   └── CompilerIdCXX
-│   │       ├── a.out
-│   │       └── CMakeCXXCompilerId.cpp
-│   ├── cmake.check_cache
-│   ├── CMakeDirectoryInformation.cmake
-│   ├── CMakeOutput.log
-│   ├── CMakeTmp
-│   ├── feature_tests.bin
-│   ├── feature_tests.c
-│   ├── feature_tests.cxx
-│   ├── Hello.dir
-│   │   ├── build.make
-│   │   ├── cmake_clean.cmake
-│   │   ├── DependInfo.cmake
-│   │   ├── depend.make
-│   │   ├── flags.make
-│   │   ├── link.txt
-│   │   └── progress.make
-│   ├── Makefile2
-│   ├── Makefile.cmake
-│   ├── progress.marks
-│   └── TargetDirectories.txt
-├── cmake_install.cmake
-├── CMakeLists.txt
-├── Makefile
-└── t.cpp
-
-6 directories, 31 files
-bovenson@HP:~/Git/notes/C++/Code/CMake/test$ make
-Scanning dependencies of target Hello
-[ 50%] Building CXX object CMakeFiles/Hello.dir/t.cpp.o
-[100%] Linking CXX executable Hello
-[100%] Built target Hello
-bovenson@HP:~/Git/notes/C++/Code/CMake/test$ tree
-.
-├── CMakeCache.txt
-├── CMakeFiles
-│   ├── 3.5.1
-│   │   ├── CMakeCCompiler.cmake
-│   │   ├── CMakeCXXCompiler.cmake
-│   │   ├── CMakeDetermineCompilerABI_C.bin
-│   │   ├── CMakeDetermineCompilerABI_CXX.bin
-│   │   ├── CMakeSystem.cmake
-│   │   ├── CompilerIdC
-│   │   │   ├── a.out
-│   │   │   └── CMakeCCompilerId.c
-│   │   └── CompilerIdCXX
-│   │       ├── a.out
-│   │       └── CMakeCXXCompilerId.cpp
-│   ├── cmake.check_cache
-│   ├── CMakeDirectoryInformation.cmake
-│   ├── CMakeOutput.log
-│   ├── CMakeTmp
-│   ├── feature_tests.bin
-│   ├── feature_tests.c
-│   ├── feature_tests.cxx
-│   ├── Hello.dir
-│   │   ├── build.make
-│   │   ├── cmake_clean.cmake
-│   │   ├── CXX.includecache
-│   │   ├── DependInfo.cmake
-│   │   ├── depend.internal
-│   │   ├── depend.make
-│   │   ├── flags.make
-│   │   ├── link.txt
-│   │   ├── progress.make
-│   │   └── t.cpp.o
-│   ├── Makefile2
-│   ├── Makefile.cmake
-│   ├── progress.marks
-│   └── TargetDirectories.txt
-├── cmake_install.cmake
-├── CMakeLists.txt
-├── Hello
-├── Makefile
-└── t.cpp
-
-6 directories, 35 files
-bovenson@HP:~/Git/notes/C++/Code/CMake/test$ ./Hello 
-Hello
-</code></pre>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qixianyu/p/6574048.html">CMake学习之路</a></li>
 <li><a target="_blank" rel="noopener" href="http://www.hahack.com/codes/cmake/">CMake 入门实战</a></li>
@@ -501,7 +240,74 @@ Hello
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/31/tools/cmake/startup/" data-id="ckomwlrtx004jrhn90ee2bir8" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/31/tools/cmake/startup/" data-id="ckonrt7w3004kc8n97zzz4zmz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cmake/" rel="tag">cmake</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-tools/cmake/usage" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/12/31/tools/cmake/usage/" class="article-date">
+  <time datetime="2020-12-30T16:00:00.000Z" itemprop="datePublished">2020-12-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>►<a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/cmake/">cmake</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/31/tools/cmake/usage/">cmake 使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h1 id="Command-Line"><a href="#Command-Line" class="headerlink" title="Command Line"></a>Command Line</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> Generate a Project Buildsystem</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake [&lt;options&gt;] &lt;path-to-source&gt;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake [&lt;options&gt;] &lt;path-to-existing-build&gt;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake [&lt;options&gt;] -S &lt;path-to-source&gt; -B &lt;path-to-build&gt;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> Build a Project</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake --build &lt;dir&gt; [&lt;options&gt;] [-- &lt;build-tool-options&gt;]</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> Install a Project</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake --install &lt;dir&gt; [&lt;options&gt;]</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> Open a Project</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake --open &lt;dir&gt;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> Run a Script</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake [&#123;-D &lt;var&gt;=&lt;value&gt;&#125;...] -P &lt;cmake-script-file&gt;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> Run a Command-Line Tool</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake -E &lt;<span class="built_in">command</span>&gt; [&lt;options&gt;]</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> Run the Find-Package Tool</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake --find-package [&lt;options&gt;]</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> View Help</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake --<span class="built_in">help</span>[-&lt;topic&gt;]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="CMakeLists"><a href="#CMakeLists" class="headerlink" title="CMakeLists"></a>CMakeLists</h1><h2 id="设置cmake最小版本"><a href="#设置cmake最小版本" class="headerlink" title="设置cmake最小版本"></a>设置cmake最小版本</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">2.8</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="设置项目名称"><a href="#设置项目名称" class="headerlink" title="设置项目名称"></a>设置项目名称</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">project</span>(<span class="string">&quot;...&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="判断OS"><a href="#判断OS" class="headerlink" title="判断OS"></a>判断OS</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (APPLE)</span><br><span class="line">  <span class="comment"># do something</span></span><br><span class="line">  <span class="keyword">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">elseif</span> (UNIX)</span><br><span class="line">  <span class="comment"># do something</span></span><br><span class="line">  <span class="keyword">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -pthread&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成共享库"><a href="#生成共享库" class="headerlink" title="生成共享库"></a>生成共享库</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(name SHARED src)</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用静态库"><a href="#使用静态库" class="headerlink" title="使用静态库"></a>使用静态库</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span>(CMAKE_FIND_LIBRARY_SUFFIXES <span class="string">&quot;.a&quot;</span>)    <span class="comment"># 查找库文件后缀</span></span><br><span class="line"><span class="keyword">SET</span>(BUILD_SHARED_LIBS <span class="keyword">OFF</span>)							 <span class="comment"># 关闭使用共享库</span></span><br><span class="line"><span class="keyword">SET</span>(CMAKE_EXE_LINKER_FLAGS <span class="string">&quot;-static&quot;</span>)    <span class="comment"># 连接时使用静态库</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="生成可执行文件"><a href="#生成可执行文件" class="headerlink" title="生成可执行文件"></a>生成可执行文件</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(MAIN src/main.cpp)</span><br></pre></td></tr></table></figure>
+
+<h2 id="包含cmake文件"><a href="#包含cmake文件" class="headerlink" title="包含cmake文件"></a>包含cmake文件</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span>(path/to/cmake)</span><br></pre></td></tr></table></figure>
+
+<h2 id="打印消息"><a href="#打印消息" class="headerlink" title="打印消息"></a>打印消息</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">MESSAGE</span>(<span class="string">&quot;msg...&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="指定compiler"><a href="#指定compiler" class="headerlink" title="指定compiler"></a>指定compiler</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_C_COMPILER <span class="string">&quot;gcc-5&quot;</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_COMPILER <span class="string">&quot;g++-5&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译类型"><a href="#编译类型" class="headerlink" title="编译类型"></a>编译类型</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set(CMAKE_BUILD_TYPE=Release)	# or Debug</span><br></pre></td></tr></table></figure>
+
+<h2 id="指定FLAGS"><a href="#指定FLAGS" class="headerlink" title="指定FLAGS"></a>指定FLAGS</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set(CMAKE_CXX_STANDARD 11)</span><br><span class="line">set(CMAKE_CXX_FLAGS &quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++11&quot;)</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2020/12/31/tools/cmake/usage/" data-id="ckonrt7w4004oc8n9f4hw2xqv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cmake/" rel="tag">cmake</a></li></ul>
@@ -550,7 +356,7 @@ Hello
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/31/architecture/framework/brpc/brpc-cpp/" data-id="ckomwlruc0065rhn90mrc9np1" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/31/architecture/framework/brpc/brpc-cpp/" data-id="ckonrt7wp0065c8n9148x7nhs" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/brpc/" rel="tag">brpc</a></li></ul>
@@ -591,11 +397,7 @@ Hello
         <h1 id="Command-T"><a href="#Command-T" class="headerlink" title="Command-T"></a>Command-T</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><strong>安装Ruby</strong></p>
 <ul>
 <li><p>源码安装</p>
-<pre><code class="shell">$ ./configure --prefix=/home/work/sunzhenkai/bin/ruby --enable-shared
-$ make -j24
-$ make install
-</code></pre>
-</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./configure --prefix=/home/work/sunzhenkai/bin/ruby --enable-shared</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make -j24</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make install</span></span><br></pre></td></tr></table></figure></li>
 <li><p>使用ruby-install安装</p>
 <ul>
 <li><p>Github</p>
@@ -604,95 +406,32 @@ $ make install
 </ul>
 </li>
 <li><p>安装</p>
-<pre><code class="shell">$ cd ruby-install
-$ ./bin/ruby-install --install-dir /home/work/sunzhenkai/bin/ruby ruby
-</code></pre>
-</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ruby-install</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./bin/ruby-install --install-dir /home/work/sunzhenkai/bin/ruby ruby</span></span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 </ul>
 <p><strong>异常</strong></p>
 <ul>
 <li><p>找不到 libruby.so.***</p>
-<pre><code class="shell">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/work/sunzhenkai/bin/ruby/lib
-</code></pre>
-</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/work/sunzhenkai/bin/ruby/lib</span><br></pre></td></tr></table></figure></li>
 <li><p>Command-T plugin error: could not load the C extension</p>
-<pre><code class="shell">$ cd /path/to/command-t
-$ rake make
-</code></pre>
-</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> /path/to/command-t</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> rake make</span></span><br></pre></td></tr></table></figure></li>
 </ul>
 <p><strong>Github</strong></p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/wincent/command-t">https://github.com/wincent/command-t</a></li>
 </ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h1 id="NERDTree"><a href="#NERDTree" class="headerlink" title="NERDTree"></a>NERDTree</h1><h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><pre><code class="shell">Plugin &#39;scrooloose/nerdtree&#39;
-</code></pre>
-<h2 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h2><pre><code class="shell">#### 注册热键
-map &lt;C-n&gt; :NERDTreeToggle&lt;CR&gt;  # ctrl+n 唤起 NERDTree
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h1 id="NERDTree"><a href="#NERDTree" class="headerlink" title="NERDTree"></a>NERDTree</h1><h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plugin &#x27;scrooloose/nerdtree&#x27;</span><br></pre></td></tr></table></figure>
 
-#### 切换工作台和目录
-ctrl + w + h    光标 focus 左侧树形目录
-ctrl + w + l    光标 focus 右侧文件显示窗口
-ctrl + w + w    光标自动在左右侧窗口切换
-ctrl + w + r    移动当前窗口的布局位置
+<h2 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 注册热键</span></span></span><br><span class="line">map &lt;C-n&gt; :NERDTreeToggle&lt;CR&gt;  # ctrl+n 唤起 NERDTree</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 切换工作台和目录</span></span></span><br><span class="line">ctrl + w + h    光标 focus 左侧树形目录</span><br><span class="line">ctrl + w + l    光标 focus 右侧文件显示窗口</span><br><span class="line">ctrl + w + w    光标自动在左右侧窗口切换</span><br><span class="line">ctrl + w + r    移动当前窗口的布局位置</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> * 为常用</span></span><br><span class="line">o       在已有窗口中打开文件、目录或书签，并跳到该窗口</span><br><span class="line">go      在已有窗口 中打开文件、目录或书签，但不跳到该窗口</span><br><span class="line">t       在新 Tab 中打开选中文件/书签，并跳到新 Tab</span><br><span class="line">T       在新 Tab 中打开选中文件/书签，但不跳到新 Tab</span><br><span class="line">i       split 一个新窗口打开选中文件，并跳到该窗口</span><br><span class="line">gi      split 一个新窗口打开选中文件，但不跳到该窗口</span><br><span class="line">s       vsplit 一个新窗口打开选中文件，并跳到该窗口</span><br><span class="line">gs      vsplit 一个新 窗口打开选中文件，但不跳到该窗口</span><br><span class="line">!       执行当前文件</span><br><span class="line">O       递归打开选中 结点下的所有目录</span><br><span class="line">m       * 文件操作：复制、删除、移动等</span><br><span class="line">x       收起当前打开的目录</span><br><span class="line">X       收起所有打开的目录</span><br><span class="line">e       以文件管理的方式打开选中的目录</span><br><span class="line">D       删除书签</span><br><span class="line">P       大写，跳转到当前根路径</span><br><span class="line">p       小写，跳转到光标所在的上一级路径</span><br><span class="line">K       跳转到第一个子路径</span><br><span class="line">J       跳转到最后一个子路径</span><br><span class="line">&lt;C-j&gt; 和 &lt;C-k&gt;       在同级目录和文件间移动，忽略子目录和子文件</span><br><span class="line">U       设置上级目录为跟路径，但是维持原来目录打开的状态</span><br><span class="line">R       刷新当前根路径</span><br><span class="line">I       * 显示或者不显示隐藏文件</span><br><span class="line">f       打开和关闭文件过滤器</span><br><span class="line">q       关闭 NERDTree</span><br><span class="line">A       全屏显示 NERDTree，或者关闭全屏</span><br><span class="line"></span><br><span class="line">r       * 刷新光标所在的目录</span><br><span class="line">C       * 将根路径设置为光标所在的目录</span><br><span class="line">u       * 设置上级目录为根路径</span><br><span class="line">cd		  * 设置当前工作路径</span><br></pre></td></tr></table></figure>
 
-# * 为常用
-o       在已有窗口中打开文件、目录或书签，并跳到该窗口
-go      在已有窗口 中打开文件、目录或书签，但不跳到该窗口
-t       在新 Tab 中打开选中文件/书签，并跳到新 Tab
-T       在新 Tab 中打开选中文件/书签，但不跳到新 Tab
-i       split 一个新窗口打开选中文件，并跳到该窗口
-gi      split 一个新窗口打开选中文件，但不跳到该窗口
-s       vsplit 一个新窗口打开选中文件，并跳到该窗口
-gs      vsplit 一个新 窗口打开选中文件，但不跳到该窗口
-!       执行当前文件
-O       递归打开选中 结点下的所有目录
-m       * 文件操作：复制、删除、移动等
-x       收起当前打开的目录
-X       收起所有打开的目录
-e       以文件管理的方式打开选中的目录
-D       删除书签
-P       大写，跳转到当前根路径
-p       小写，跳转到光标所在的上一级路径
-K       跳转到第一个子路径
-J       跳转到最后一个子路径
-&lt;C-j&gt; 和 &lt;C-k&gt;       在同级目录和文件间移动，忽略子目录和子文件
-U       设置上级目录为跟路径，但是维持原来目录打开的状态
-R       刷新当前根路径
-I       * 显示或者不显示隐藏文件
-f       打开和关闭文件过滤器
-q       关闭 NERDTree
-A       全屏显示 NERDTree，或者关闭全屏
+<h1 id="vim-javacomplete2"><a href="#vim-javacomplete2" class="headerlink" title="vim-javacomplete2"></a>vim-javacomplete2</h1><h2 id="安装-2"><a href="#安装-2" class="headerlink" title="安装"></a>安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plugin &#x27;artur-shaik/vim-javacomplete2&#x27;</span><br></pre></td></tr></table></figure>
 
-r       * 刷新光标所在的目录
-C       * 将根路径设置为光标所在的目录
-u       * 设置上级目录为根路径
-cd          * 设置当前工作路径
-</code></pre>
-<h1 id="vim-javacomplete2"><a href="#vim-javacomplete2" class="headerlink" title="vim-javacomplete2"></a>vim-javacomplete2</h1><h2 id="安装-2"><a href="#安装-2" class="headerlink" title="安装"></a>安装</h2><pre><code class="shell">Plugin &#39;artur-shaik/vim-javacomplete2&#39;
-</code></pre>
-<h1 id="YouCompleteMe"><a href="#YouCompleteMe" class="headerlink" title="YouCompleteMe"></a>YouCompleteMe</h1><pre><code class="shell"># 1 下载
-## .vimrc
-Plugin &#39;Valloric/YouCompleteMe&#39;
-## vim
-:PluginInstall
-
-# 2 Mac OS
-## 2.1 依赖
-$ brew install mono
-$ brew install go
-## 2.2 编译
-$ cd ~/.vim/bundle/YouCompleteMe
-$ git submodule update --init --recursive
-$ ./install.py --all --clangd-completer
-</code></pre>
-
+<h1 id="YouCompleteMe"><a href="#YouCompleteMe" class="headerlink" title="YouCompleteMe"></a>YouCompleteMe</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1 下载</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># .vimrc</span></span></span><br><span class="line">Plugin &#x27;Valloric/YouCompleteMe&#x27;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># vim</span></span></span><br><span class="line">:PluginInstall</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2 Mac OS</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 2.1 依赖</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew install mono</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew install go</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 2.2 编译</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/.vim/bundle/YouCompleteMe</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git submodule update --init --recursive</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./install.py --all --clangd-completer</span></span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/30/tools/vim/plugin/" data-id="ckomwlru7005orhn9273t5nrr" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/30/tools/vim/plugin/" data-id="ckonrt7wi005oc8n99ero0o4h" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/" rel="tag">vim</a></li></ul>
@@ -731,106 +470,25 @@ $ ./install.py --all --clangd-completer
     <div class="article-entry" itemprop="articleBody">
       
         <p>[toc]</p>
-<h1 id="Common"><a href="#Common" class="headerlink" title="Common"></a>Common</h1><pre><code class="shell"># 命令
-;              重复上一个动作
-:!!         重复上一条命令
-:shell    运行shell
+<h1 id="Common"><a href="#Common" class="headerlink" title="Common"></a>Common</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 命令</span></span><br><span class="line">;  			重复上一个动作</span><br><span class="line">:!! 		重复上一条命令</span><br><span class="line">:shell	运行shell</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 窗口</span></span><br><span class="line">:tabnew			新建窗口</span><br><span class="line">:resize/res 60/+5/-5	调整窗口高度 </span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 宽度</span></span></span><br><span class="line">:vertical resize 80</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 复制粘贴</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 复制一个当前单次</span></span></span><br><span class="line">byw    b: 到单次首; y: yank; w: for word</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># command mode 粘贴内容</span></span></span><br><span class="line">C-r&quot;  &quot;: default register</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 目录</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># NERDTree</span></span></span><br><span class="line">r     刷新光标所在的目录</span><br><span class="line">C     将根路径设置为光标所在的目录</span><br><span class="line">u     设置上级目录为根路径</span><br><span class="line">cd    设置当前工作路径</span><br><span class="line">m     文件操作：复制、删除、移动等</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查找</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 文件内查找</span></span></span><br><span class="line">/&#123;pattern&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 跨文件查找:q</span></span></span><br><span class="line">:vimgrep /&#123;pattern&#125;/g [file]    # :vimgrep /foobar/g **</span><br><span class="line">:cn[f]    下一个匹配[文件]</span><br><span class="line">:cp[f]    上一个匹配[文件]</span><br><span class="line">:cr/cla   回到开始/结束</span><br><span class="line">:copen    打开匹配列表</span><br></pre></td></tr></table></figure>
 
-# 窗口
-:tabnew            新建窗口
-:resize/res 60/+5/-5    调整窗口高度 
-## 宽度
-:vertical resize 80
+<h1 id="行内移动"><a href="#行内移动" class="headerlink" title="行内移动"></a>行内移动</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">h	 左移一位</span><br><span class="line">l	 右移一位</span><br><span class="line">0	 行首</span><br><span class="line"><span class="meta">$</span><span class="bash">  行尾</span></span><br><span class="line">^  当前行的第一个非空白符位置</span><br><span class="line">fx 移动当当前行的下一个x处</span><br><span class="line">Fx 移动当当前行的上一个x处</span><br><span class="line">tx 移动到x的左边一个位置</span><br><span class="line">w  往后移动一个词</span><br><span class="line">b  往前移动一个词</span><br><span class="line">)  移动到下一个句子</span><br><span class="line">(  移动到上一个句子</span><br></pre></td></tr></table></figure>
 
-# 复制粘贴
-## 复制一个当前单次
-byw    b: 到单次首; y: yank; w: for word
-## command mode 粘贴内容
-C-r&quot;  &quot;: default register
+<h1 id="文件内移动"><a href="#文件内移动" class="headerlink" title="文件内移动"></a>文件内移动</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;C-F&gt;  向下移动一屏</span><br><span class="line">&lt;C-B&gt;  向上移动一屏</span><br><span class="line">G      移动到文件末尾</span><br><span class="line">nG     移动到第n行</span><br><span class="line">gg     文件首</span><br><span class="line">H      移动光标到屏幕上部</span><br><span class="line">M      移动光标到屏幕中部</span><br><span class="line">L      移动光标到屏幕底部</span><br><span class="line">*      移动到光标所在字符串的下个位置</span><br><span class="line"><span class="meta">#</span><span class="bash">      移动到光标所在字符串的上个位置</span></span><br><span class="line">/s     向后搜索字符串s</span><br><span class="line">?s     向前搜索字符串s</span><br><span class="line">ma     打标签，标签名为a</span><br><span class="line">`a     跳转到标签a</span><br><span class="line">`.     跳转到上次编辑的地方</span><br></pre></td></tr></table></figure>
 
-# 目录
-## NERDTree
-r     刷新光标所在的目录
-C     将根路径设置为光标所在的目录
-u     设置上级目录为根路径
-cd    设置当前工作路径
-m     文件操作：复制、删除、移动等
+<h1 id="Commands"><a href="#Commands" class="headerlink" title="Commands"></a>Commands</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> run shell commands</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 1</span></span></span><br><span class="line">C-z			vim 后台运行</span><br><span class="line">fg 			调回vim</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 2</span></span></span><br><span class="line">:!&#123;cmd&#125;</span><br></pre></td></tr></table></figure>
 
-# 查找
-## 文件内查找
-/&#123;pattern&#125;
-## 跨文件查找:q
-:vimgrep /&#123;pattern&#125;/g [file]    # :vimgrep /foobar/g **
-:cn[f]    下一个匹配[文件]
-:cp[f]    上一个匹配[文件]
-:cr/cla   回到开始/结束
-:copen    打开匹配列表
-</code></pre>
-<h1 id="行内移动"><a href="#行内移动" class="headerlink" title="行内移动"></a>行内移动</h1><pre><code class="shell">h     左移一位
-l     右移一位
-0     行首
-$  行尾
-^  当前行的第一个非空白符位置
-fx 移动当当前行的下一个x处
-Fx 移动当当前行的上一个x处
-tx 移动到x的左边一个位置
-w  往后移动一个词
-b  往前移动一个词
-)  移动到下一个句子
-(  移动到上一个句子
-</code></pre>
-<h1 id="文件内移动"><a href="#文件内移动" class="headerlink" title="文件内移动"></a>文件内移动</h1><pre><code class="shell">&lt;C-F&gt;  向下移动一屏
-&lt;C-B&gt;  向上移动一屏
-G      移动到文件末尾
-nG     移动到第n行
-gg     文件首
-H      移动光标到屏幕上部
-M      移动光标到屏幕中部
-L      移动光标到屏幕底部
-*      移动到光标所在字符串的下个位置
-#      移动到光标所在字符串的上个位置
-/s     向后搜索字符串s
-?s     向前搜索字符串s
-ma     打标签，标签名为a
-`a     跳转到标签a
-`.     跳转到上次编辑的地方
-</code></pre>
-<h1 id="Commands"><a href="#Commands" class="headerlink" title="Commands"></a>Commands</h1><pre><code class="shell"># run shell commands
-## 1
-C-z            vim 后台运行
-fg             调回vim
+<h1 id="查找替换"><a href="#查找替换" class="headerlink" title="查找替换"></a>查找替换</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 搜索</span></span><br><span class="line">[ESC]</span><br><span class="line">/word</span><br><span class="line">n: next; N: previous</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换</span></span><br><span class="line">:%s/foo/bar/g</span><br><span class="line">:5,10s/foo/bar/gc   # with confirm</span><br></pre></td></tr></table></figure>
 
-## 2
-:!&#123;cmd&#125;
-</code></pre>
-<h1 id="查找替换"><a href="#查找替换" class="headerlink" title="查找替换"></a>查找替换</h1><pre><code class="shell"># 搜索
-[ESC]
-/word
-n: next; N: previous
-
-# 替换
-:%s/foo/bar/g
-:5,10s/foo/bar/gc   # with confirm
-</code></pre>
 <h1 id="多行注释"><a href="#多行注释" class="headerlink" title="多行注释"></a>多行注释</h1><p><strong>注释</strong></p>
-<pre><code class="shell">Esc
-Ctrl + v
-Shift + i (I)
-# select multi lines
-# input comments
-Esc
-</code></pre>
-<p><strong>取消注释</strong></p>
-<pre><code class="shell">Esc
-Ctrl + v
-# select 
-d / x
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Esc</span><br><span class="line">Ctrl + v</span><br><span class="line">Shift + i (I)</span><br><span class="line"><span class="meta">#</span><span class="bash"> select multi lines</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> input comments</span></span><br><span class="line">Esc</span><br></pre></td></tr></table></figure>
 
+<p><strong>取消注释</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Esc</span><br><span class="line">Ctrl + v</span><br><span class="line"><span class="meta">#</span><span class="bash"> select</span> </span><br><span class="line">d / x</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/30/tools/vim/tips/" data-id="ckomwlru8005qrhn9435ygk59" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/30/tools/vim/tips/" data-id="ckonrt7wj005qc8n9g6yf24p7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/" rel="tag">vim</a></li></ul>
@@ -1068,14 +726,10 @@ d / x
 <td>Search <em>something</em> in all the open buffers and replace it with<em>somethingelse</em></td>
 </tr>
 </tbody></table>
-<h2 id="剪切-删除"><a href="#剪切-删除" class="headerlink" title="剪切(删除)"></a>剪切(删除)</h2><pre><code class="shell">#### 删除某行至文件结尾
-G        # 转到文件结尾
-:10,.d    # 删除第10行至当前行(文件结尾)
+<h2 id="剪切-删除"><a href="#剪切-删除" class="headerlink" title="剪切(删除)"></a>剪切(删除)</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 删除某行至文件结尾</span></span></span><br><span class="line">G		# 转到文件结尾</span><br><span class="line">:10,.d	# 删除第10行至当前行(文件结尾)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 删除10行至20行</span></span></span><br><span class="line">20G		# 跳转至第20行</span><br><span class="line">:10,.d	# 删除第10行至当前行</span><br></pre></td></tr></table></figure>
 
-#### 删除10行至20行
-20G        # 跳转至第20行
-:10,.d    # 删除第10行至当前行
-</code></pre>
+
+
 <table>
 <thead>
 <tr>
@@ -1246,16 +900,8 @@ G        # 转到文件结尾
 <li><p>i(ignorecase): 不区分大小写</p>
 </li>
 </ul>
-<pre><code class="shell">:1,$ s/Professor/Teacher/gc    # 显示将要做改动的文本并要求确认
-replace with Teacher (y/n/a/q/l/^E/^Y)?    # 提示
-# y Yes：执行这个替换
-# n No：取消这个替换
-# a All：执行所有替换而不要再询问
-# q Quit：退出而不做任何改动
-# l Last：替换完当前匹配点后退出
-# CTRL-E 向上翻滚一行
-# CTRL-Y 向下翻滚一行
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">:1,$ s/Professor/Teacher/gc	# 显示将要做改动的文本并要求确认</span><br><span class="line">replace with Teacher (y/n/a/q/l/^E/^Y)?	# 提示</span><br><span class="line"><span class="meta">#</span><span class="bash"> y Yes：执行这个替换</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> n No：取消这个替换</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> a All：执行所有替换而不要再询问</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> q Quit：退出而不做任何改动</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> l Last：替换完当前匹配点后退出</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> CTRL-E 向上翻滚一行</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> CTRL-Y 向下翻滚一行</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="指定范围"><a href="#指定范围" class="headerlink" title="指定范围"></a>指定范围</h2><ul>
 <li>默认当前行</li>
 <li>$ : 至文档结尾</li>
@@ -1402,11 +1048,10 @@ replace with Teacher (y/n/a/q/l/^E/^Y)?    # 提示
 </tr>
 </tbody></table>
 <p><strong>示例</strong></p>
-<pre><code class="shell">:s/Linux/RHEL5        # 指将当前行中的第一个linux换为RHEL5
-:s/Linux/RHEL5/g    # 指将当前行中所有的linux换为RHEL5
-:%s/Linux/RHEL5        # 指将文件中每一行的第一个linux换为RHEL5
-:%s/Linux/RHEL5/g    # 整个文档范围内的linux换为RHEL5
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">:s/Linux/RHEL5		# 指将当前行中的第一个linux换为RHEL5</span><br><span class="line">:s/Linux/RHEL5/g	# 指将当前行中所有的linux换为RHEL5</span><br><span class="line">:%s/Linux/RHEL5		# 指将文件中每一行的第一个linux换为RHEL5</span><br><span class="line">:%s/Linux/RHEL5/g	# 整个文档范围内的linux换为RHEL5</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="大小写"><a href="#大小写" class="headerlink" title="大小写"></a>大小写</h2><table>
 <thead>
 <tr>
@@ -1623,8 +1268,8 @@ replace with Teacher (y/n/a/q/l/^E/^Y)?    # 提示
 <td>Edit <em>abc.txt</em> in new window</td>
 </tr>
 </tbody></table>
-<h2 id="多文件"><a href="#多文件" class="headerlink" title="多文件"></a>多文件</h2><pre><code class="shell">
-</code></pre>
+<h2 id="多文件"><a href="#多文件" class="headerlink" title="多文件"></a>多文件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
 <h2 id="分屏显示"><a href="#分屏显示" class="headerlink" title="分屏显示"></a>分屏显示</h2><table>
 <thead>
 <tr>
@@ -1685,24 +1330,8 @@ replace with Teacher (y/n/a/q/l/^E/^Y)?    # 提示
 <td>Open #2 in this window</td>
 </tr>
 </tbody></table>
-<h3 id="调整窗口大小"><a href="#调整窗口大小" class="headerlink" title="调整窗口大小"></a>调整窗口大小</h3><pre><code class="shell">## 高度
-:resize 60
-:res 60
-:res +5
-:res -5
+<h3 id="调整窗口大小"><a href="#调整窗口大小" class="headerlink" title="调整窗口大小"></a>调整窗口大小</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 高度</span></span></span><br><span class="line">:resize 60</span><br><span class="line">:res 60</span><br><span class="line">:res +5</span><br><span class="line">:res -5</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 宽度</span></span></span><br><span class="line">:vertical resize 80</span><br><span class="line">:vertical resize +5</span><br><span class="line">:vertical resize -5</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># hot key</span></span></span><br><span class="line">nnoremap &lt;silent&gt; &lt;Leader&gt;+ :exe &quot;resize &quot; . (winheight(0) * 3/2)&lt;CR&gt;</span><br><span class="line">nnoremap &lt;silent&gt; &lt;Leader&gt;- :exe &quot;resize &quot; . (winheight(0) * 2/3)&lt;CR&gt;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># ps</span></span></span><br><span class="line">default &lt;Leader&gt; is \</span><br></pre></td></tr></table></figure>
 
-## 宽度
-:vertical resize 80
-:vertical resize +5
-:vertical resize -5
-
-## hot key
-nnoremap &lt;silent&gt; &lt;Leader&gt;+ :exe &quot;resize &quot; . (winheight(0) * 3/2)&lt;CR&gt;
-nnoremap &lt;silent&gt; &lt;Leader&gt;- :exe &quot;resize &quot; . (winheight(0) * 2/3)&lt;CR&gt;
-
-## ps
-default &lt;Leader&gt; is \
-</code></pre>
 <h2 id="自动完成"><a href="#自动完成" class="headerlink" title="自动完成"></a>自动完成</h2><table>
 <thead>
 <tr>
@@ -1756,7 +1385,7 @@ default &lt;Leader&gt; is \
 </thead>
 <tbody><tr>
 <td><code>:ab mail mail@provider.org</code></td>
-<td>Define <em>mail</em> as abbreviation of <em><a href="mailto:&#109;&#x61;&#x69;&#108;&#x40;&#x70;&#114;&#111;&#118;&#105;&#100;&#101;&#x72;&#x2e;&#x6f;&#x72;&#x67;">&#109;&#x61;&#x69;&#108;&#x40;&#x70;&#114;&#111;&#118;&#105;&#100;&#101;&#x72;&#x2e;&#x6f;&#x72;&#x67;</a></em></td>
+<td>Define <em>mail</em> as abbreviation of <em><a href="mailto:&#x6d;&#x61;&#x69;&#x6c;&#x40;&#x70;&#x72;&#x6f;&#x76;&#105;&#x64;&#101;&#114;&#46;&#111;&#114;&#103;">&#x6d;&#x61;&#x69;&#x6c;&#x40;&#x70;&#x72;&#x6f;&#x76;&#105;&#x64;&#101;&#114;&#46;&#111;&#114;&#103;</a></em></td>
 </tr>
 </tbody></table>
 <h2 id="文本缩进"><a href="#文本缩进" class="headerlink" title="文本缩进"></a>文本缩进</h2><p><strong>缩进多行</strong></p>
@@ -1803,16 +1432,8 @@ default &lt;Leader&gt; is \
 <td>Indent the whole file</td>
 </tr>
 </tbody></table>
-<pre><code class="shell"># 缩进指定行
-# In command mode
-5&gt;&gt;
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 缩进指定行</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> In <span class="built_in">command</span> mode</span></span><br><span class="line"><span class="meta">5&gt;</span><span class="bash">&gt;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> In Visual Mode</span></span><br><span class="line">j	# 下一行</span><br><span class="line">j	# 下一行</span><br><span class="line">j	# 下一行</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">	<span class="comment"># 缩进</span></span></span><br></pre></td></tr></table></figure>
 
-# In Visual Mode
-j    # 下一行
-j    # 下一行
-j    # 下一行
-&gt;    # 缩进
-</code></pre>
 <h2 id="语法高亮"><a href="#语法高亮" class="headerlink" title="语法高亮"></a>语法高亮</h2><table>
 <thead>
 <tr>
@@ -1841,142 +1462,11 @@ j    # 下一行
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/maowang1991/p/3572299.html">参考一</a></li>
 </ul>
-<h2 id="示例配置"><a href="#示例配置" class="headerlink" title="示例配置"></a>示例配置</h2><h3 id="一"><a href="#一" class="headerlink" title="一"></a>一</h3><pre><code class="shell">&quot;设置语言为英文
-let $LANG = &#39;en&#39;  &quot;set message language  
-set langmenu=en   &quot;set menu&#39;s language of gvim. no spaces beside &#39;=&#39; 
-
-&quot;兼容性设置
-set nocompatible
-set backspace=indent,eol,start
-
-&quot;if has(&quot;win32&quot;)
-&quot;    set encoding=gbk
-&quot;    set fileencoding=ansi
-&quot;    set termencoding=gbk
-&quot;else
-&quot;    set encoding=utf-8
-&quot;    set fileencoding=ansi
-&quot;    set termencoding=utf-8
-&quot;endif
-
-:filetype plugin indent on        &quot;打开文件类型检测
-set showcmd                        &quot;在Vim窗口的右下角显示一个完整的命令已经完成的部分
-set completeopt=longest,menu    &quot;打开文件类型检测, 加了这句才可以用智能补全
-set mouse=a                        &quot;使用鼠标
-set selection=exclusive
-set selectmode=mouse,key
-set tabstop=4                    &quot;设置tab
-set softtabstop=4
-set shiftwidth=4
-syntax on                        &quot;语法高亮
-set showcmd                        &quot;显示输入的命令
-set autoindent                    &quot;自动缩进
-set    cindent
-set smartindent
-set showmatch                    &quot;高亮显示匹配的括号
-set number                         &quot;显示行号
-colorscheme desert                &quot;设置配色方案
-set guifont=consolas            &quot;设置字体
-&quot;set guifont=Courier_New:h12:b  &quot;设置字体示例
-set history=1000                &quot;设置历史
-&quot;设置状态栏
-set laststatus=2
-set statusline=%F%m%r%h%w\ [FORMAT=%&#123;&amp;ff&#125;]\ [TYPE=%Y]\[POS=%l,%v][%p%%]\ %&#123;strftime(\&quot;%d/%m/%y\ -\ %H:%M\&quot;)&#125; 
-
-autocmd GUIEnter * simalt ~x     &quot;窗口最大化
-
-
-
-&quot;自定义函数 - 新建文件时自动添加头部信息或者按F10添加头信息
-&quot;新建.c,.h,.sh,.java文件，自动插入文件头 
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec &quot;:call AppendHeadInfo()&quot; 
-map&lt;F10&gt; :call AppendHeadInfo()&lt;CR&gt;
-&quot;定义函数AppendHeadInfo，自动插入文件头 
-func AppendHeadInfo() 
-    &quot;如果文件类型为.sh文件 
-    let filename=expand(&quot;%&quot;)
-    let len=strlen(filename)
-    let posPoint=strridx(filename,&#39;.&#39;)
-    let fileformat=strpart(filename,posPoint+1,len)
-    if fileformat == &#39;sh&#39; 
-        call setline(1,&quot;\#########################################################################&quot;) 
-        call append(line(&quot;.&quot;), &quot;\# File Name: &quot;.expand(&quot;%&quot;)) 
-        call append(line(&quot;.&quot;)+1, &quot;\# Author: bovenson&quot;) 
-        call append(line(&quot;.&quot;)+2, &quot;\# Email:  szhkai@126.com&quot;) 
-        call append(line(&quot;.&quot;)+3, &quot;\# Created Time: &quot;.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)) 
-        call append(line(&quot;.&quot;)+4, &quot;\#########################################################################&quot;) 
-        call append(line(&quot;.&quot;)+5, &quot;\#!/bin/bash&quot;) 
-        call append(line(&quot;.&quot;)+6, &quot;&quot;) 
-    else 
-        call setline(1, &quot;\/*************************************************************************&quot;) 
-        call append(line(&quot;.&quot;), &quot;    &gt; File Name: &quot;.expand(&quot;%&quot;)) 
-        call append(line(&quot;.&quot;)+1, &quot;    &gt; Author: bovenson&quot;) 
-        call append(line(&quot;.&quot;)+2, &quot;    &gt; Email:  szhkai@126.com&quot;) 
-        call append(line(&quot;.&quot;)+3, &quot;    &gt; Created Time: &quot;.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)) 
-        call append(line(&quot;.&quot;)+4, &quot; ************************************************************************/&quot;) 
-        call append(line(&quot;.&quot;)+5, &quot;&quot;)
-    endif
-    if fileformat == &#39;cpp&#39;
-        call append(line(&quot;.&quot;)+6, &quot;#include &lt;iostream&gt;&quot;)
-        call append(line(&quot;.&quot;)+7, &quot;using namespace std;&quot;)
-        call append(line(&quot;.&quot;)+8, &quot;&quot;)
-        call append(line(&quot;.&quot;)+9, &quot;int main()&quot;)
-        call append(line(&quot;.&quot;)+10, &quot;&#123;&quot;)
-        call append(line(&quot;.&quot;)+11, &quot;    return 0;&quot;)
-        call append(line(&quot;.&quot;)+12, &quot;&#125;&quot;)
-        call append(line(&quot;.&quot;)+13, &quot;&quot;)
-    endif
-    if fileformat == &#39;c&#39;
-        call append(line(&quot;.&quot;)+6, &quot;#include &lt;stdio.h&gt;&quot;)
-        call append(line(&quot;.&quot;)+7, &quot;&quot;)
-        call append(line(&quot;.&quot;)+8, &quot;int main()&quot;)
-        call append(line(&quot;.&quot;)+9, &quot;&#123;&quot;)
-        call append(line(&quot;.&quot;)+10, &quot;    return 0;&quot;)
-        call append(line(&quot;.&quot;)+11, &quot;&#125;&quot;)
-        call append(line(&quot;.&quot;)+12, &quot;&quot;)
-    endif
-    &quot;if &amp;filetype == &#39;java&#39;
-    &quot;    call append(line(&quot;.&quot;)+6,&quot;public class &quot;.expand(&quot;%&quot;).&quot; &#123;&quot;)
-    &quot;    call append(line(&quot;.&quot;)+7,&quot;&#125;&quot;)
-    &quot;endif
-    &quot;新建文件后，自动定位到文件末尾
-    autocmd BufNewFile * normal G
-endfunc 
-
-&quot;自定义函数 - 程序的一键运行与调试
-&quot;按F5编译运行
-map &lt;F5&gt; :call CompileRunGcc()&lt;CR&gt;
-func! CompileRunGcc()
-    exec &quot;w&quot;
-    if &amp;filetype == &#39;c&#39;
-        exec &quot;!g++ % -o %&lt;&quot;
-        exec &quot;! ./%&lt;&quot;
-    elseif &amp;filetype == &#39;cpp&#39;
-        exec &quot;!g++ % -o %&lt;&quot;
-        exec &quot;! ./%&lt;&quot;
-    elseif &amp;filetype == &#39;java&#39; 
-        exec &quot;!javac %&quot; 
-        exec &quot;!java %&lt;&quot;
-    elseif &amp;filetype == &#39;sh&#39;
-        :!./%
-    elseif &amp;filetype == &#39;py&#39;
-        exec &quot;!python %&quot;
-        exec &quot;!python %&lt;&quot;
-    endif
-endfunc
-&quot;C,C++的调试
-map &lt;F8&gt; :call Rungdb()&lt;CR&gt;
-func! Rungdb()
-    exec &quot;w&quot;
-    exec &quot;!g++ % -g -o %&lt;&quot;
-    exec &quot;!gdb ./%&lt;&quot;
-endfunc
-</code></pre>
-
+<h2 id="示例配置"><a href="#示例配置" class="headerlink" title="示例配置"></a>示例配置</h2><h3 id="一"><a href="#一" class="headerlink" title="一"></a>一</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line">&quot;设置语言为英文</span><br><span class="line">let $LANG = &#x27;en&#x27;  &quot;set message language  </span><br><span class="line">set langmenu=en   &quot;set menu&#x27;s language of gvim. no spaces beside &#x27;=&#x27; </span><br><span class="line"></span><br><span class="line">&quot;兼容性设置</span><br><span class="line">set nocompatible</span><br><span class="line">set backspace=indent,eol,start</span><br><span class="line"></span><br><span class="line">&quot;if has(&quot;win32&quot;)</span><br><span class="line">&quot;	set encoding=gbk</span><br><span class="line">&quot;	set fileencoding=ansi</span><br><span class="line">&quot;	set termencoding=gbk</span><br><span class="line">&quot;else</span><br><span class="line">&quot;	set encoding=utf-8</span><br><span class="line">&quot;	set fileencoding=ansi</span><br><span class="line">&quot;	set termencoding=utf-8</span><br><span class="line">&quot;endif</span><br><span class="line"></span><br><span class="line">:filetype plugin indent on		&quot;打开文件类型检测</span><br><span class="line">set showcmd						&quot;在Vim窗口的右下角显示一个完整的命令已经完成的部分</span><br><span class="line">set completeopt=longest,menu	&quot;打开文件类型检测, 加了这句才可以用智能补全</span><br><span class="line">set mouse=a						&quot;使用鼠标</span><br><span class="line">set selection=exclusive</span><br><span class="line">set selectmode=mouse,key</span><br><span class="line">set tabstop=4					&quot;设置tab</span><br><span class="line">set softtabstop=4</span><br><span class="line">set shiftwidth=4</span><br><span class="line">syntax on						&quot;语法高亮</span><br><span class="line">set showcmd						&quot;显示输入的命令</span><br><span class="line">set autoindent					&quot;自动缩进</span><br><span class="line">set	cindent</span><br><span class="line">set smartindent</span><br><span class="line">set showmatch					&quot;高亮显示匹配的括号</span><br><span class="line">set number 						&quot;显示行号</span><br><span class="line">colorscheme desert				&quot;设置配色方案</span><br><span class="line">set guifont=consolas			&quot;设置字体</span><br><span class="line">&quot;set guifont=Courier_New:h12:b  &quot;设置字体示例</span><br><span class="line">set history=1000				&quot;设置历史</span><br><span class="line">&quot;设置状态栏</span><br><span class="line">set laststatus=2</span><br><span class="line">set statusline=%F%m%r%h%w\ [FORMAT=%&#123;&amp;ff&#125;]\ [TYPE=%Y]\[POS=%l,%v][%p%%]\ %&#123;strftime(\&quot;%d/%m/%y\ -\ %H:%M\&quot;)&#125; </span><br><span class="line"></span><br><span class="line">autocmd GUIEnter * simalt ~x 	&quot;窗口最大化</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&quot;自定义函数 - 新建文件时自动添加头部信息或者按F10添加头信息</span><br><span class="line">&quot;新建.c,.h,.sh,.java文件，自动插入文件头 </span><br><span class="line">autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec &quot;:call AppendHeadInfo()&quot; </span><br><span class="line">map&lt;F10&gt; :call AppendHeadInfo()&lt;CR&gt;</span><br><span class="line">&quot;定义函数AppendHeadInfo，自动插入文件头 </span><br><span class="line">func AppendHeadInfo() </span><br><span class="line">	&quot;如果文件类型为.sh文件 </span><br><span class="line">	let filename=expand(&quot;%&quot;)</span><br><span class="line">	let len=strlen(filename)</span><br><span class="line">	let posPoint=strridx(filename,&#x27;.&#x27;)</span><br><span class="line">	let fileformat=strpart(filename,posPoint+1,len)</span><br><span class="line">	if fileformat == &#x27;sh&#x27; </span><br><span class="line">		call setline(1,&quot;\#########################################################################&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;), &quot;\# File Name: &quot;.expand(&quot;%&quot;)) </span><br><span class="line">		call append(line(&quot;.&quot;)+1, &quot;\# Author: bovenson&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+2, &quot;\# Email:  szhkai@126.com&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+3, &quot;\# Created Time: &quot;.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)) </span><br><span class="line">		call append(line(&quot;.&quot;)+4, &quot;\#########################################################################&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+5, &quot;\#!/bin/bash&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+6, &quot;&quot;) </span><br><span class="line">	else </span><br><span class="line">		call setline(1, &quot;\/*************************************************************************&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;), &quot;	&gt; File Name: &quot;.expand(&quot;%&quot;)) </span><br><span class="line">		call append(line(&quot;.&quot;)+1, &quot;	&gt; Author: bovenson&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+2, &quot;	&gt; Email:  szhkai@126.com&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+3, &quot;	&gt; Created Time: &quot;.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)) </span><br><span class="line">		call append(line(&quot;.&quot;)+4, &quot; ************************************************************************/&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+5, &quot;&quot;)</span><br><span class="line">	endif</span><br><span class="line">	if fileformat == &#x27;cpp&#x27;</span><br><span class="line">		call append(line(&quot;.&quot;)+6, &quot;#include &lt;iostream&gt;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+7, &quot;using namespace std;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+8, &quot;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+9, &quot;int main()&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+10, &quot;&#123;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+11, &quot;	return 0;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+12, &quot;&#125;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+13, &quot;&quot;)</span><br><span class="line">	endif</span><br><span class="line">	if fileformat == &#x27;c&#x27;</span><br><span class="line">		call append(line(&quot;.&quot;)+6, &quot;#include &lt;stdio.h&gt;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+7, &quot;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+8, &quot;int main()&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+9, &quot;&#123;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+10, &quot;	return 0;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+11, &quot;&#125;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+12, &quot;&quot;)</span><br><span class="line">	endif</span><br><span class="line">	&quot;if &amp;filetype == &#x27;java&#x27;</span><br><span class="line">	&quot;	call append(line(&quot;.&quot;)+6,&quot;public class &quot;.expand(&quot;%&quot;).&quot; &#123;&quot;)</span><br><span class="line">	&quot;	call append(line(&quot;.&quot;)+7,&quot;&#125;&quot;)</span><br><span class="line">	&quot;endif</span><br><span class="line">	&quot;新建文件后，自动定位到文件末尾</span><br><span class="line">	autocmd BufNewFile * normal G</span><br><span class="line">endfunc </span><br><span class="line"></span><br><span class="line">&quot;自定义函数 - 程序的一键运行与调试</span><br><span class="line">&quot;按F5编译运行</span><br><span class="line">map &lt;F5&gt; :call CompileRunGcc()&lt;CR&gt;</span><br><span class="line">func! CompileRunGcc()</span><br><span class="line">	exec &quot;w&quot;</span><br><span class="line">	if &amp;filetype == &#x27;c&#x27;</span><br><span class="line">		exec &quot;!g++ % -o %&lt;&quot;</span><br><span class="line">		exec &quot;! ./%&lt;&quot;</span><br><span class="line">	elseif &amp;filetype == &#x27;cpp&#x27;</span><br><span class="line">		exec &quot;!g++ % -o %&lt;&quot;</span><br><span class="line">		exec &quot;! ./%&lt;&quot;</span><br><span class="line">	elseif &amp;filetype == &#x27;java&#x27; </span><br><span class="line">		exec &quot;!javac %&quot; </span><br><span class="line">		exec &quot;!java %&lt;&quot;</span><br><span class="line">	elseif &amp;filetype == &#x27;sh&#x27;</span><br><span class="line">		:!./%</span><br><span class="line">	elseif &amp;filetype == &#x27;py&#x27;</span><br><span class="line">		exec &quot;!python %&quot;</span><br><span class="line">		exec &quot;!python %&lt;&quot;</span><br><span class="line">	endif</span><br><span class="line">endfunc</span><br><span class="line">&quot;C,C++的调试</span><br><span class="line">map &lt;F8&gt; :call Rungdb()&lt;CR&gt;</span><br><span class="line">func! Rungdb()</span><br><span class="line">	exec &quot;w&quot;</span><br><span class="line">	exec &quot;!g++ % -g -o %&lt;&quot;</span><br><span class="line">	exec &quot;!gdb ./%&lt;&quot;</span><br><span class="line">endfunc</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/30/tools/vim/usage/" data-id="ckomwlrya00ptrhn914fz65q3" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/30/tools/vim/usage/" data-id="ckonrt82g00ptc8n98r5daig0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/" rel="tag">vim</a></li></ul>
@@ -1988,9 +1478,9 @@ endfunc
 
 
   
-    <article id="post-coding/go/startup" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-coding/go/govendor" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/12/30/coding/go/startup/" class="article-date">
+    <a href="/2020/12/30/coding/go/govendor/" class="article-date">
   <time datetime="2020-12-30T04:00:00.000Z" itemprop="datePublished">2020-12-30</time>
 </a>
     
@@ -2006,7 +1496,7 @@ endfunc
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/30/coding/go/startup/">go startup</a>
+      <a class="article-title" href="/2020/12/30/coding/go/govendor/">govendor</a>
     </h1>
   
 
@@ -2014,144 +1504,12 @@ endfunc
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code class="shell"># mac
-$ brew install go
-</code></pre>
-<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><pre><code class="shell">$ go build main.go
-$ go build -o output-file-name main.go
-</code></pre>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p><strong>代码</strong></p>
-<pre><code class="go">package main
-
-import &quot;fmt&quot;
-
-func main() &#123;
-  fmt.Println(&quot;Hello World!&quot;)
-&#125;
-</code></pre>
-<p><strong>运行</strong></p>
-<pre><code class="shell">$ go run hello.go
-Hello World!
-</code></pre>
-<p><strong>编译</strong></p>
-<pre><code class="shell">$ go build hello.go
-</code></pre>
-<h1 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h1><p>使用 <code>go get</code> 下载公开库，该命令会把依赖下载至第一个 <code>GOPATH</code> 下的 <code>src</code> 目录下。</p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-v</td>
-<td>打印详情日志</td>
-</tr>
-<tr>
-<td>-d</td>
-<td>只下载不安装</td>
-</tr>
-<tr>
-<td>-u</td>
-<td>下载丢失的包，不更新</td>
-</tr>
-</tbody></table>
-<p><strong>示例</strong></p>
-<pre><code class="shell">$ go get [dep-name]                # 安装单个依赖
-$ go get -d -v ./...             # 递归地下载当前目录下所有文件的依赖
-</code></pre>
-<h1 id="Package"><a href="#Package" class="headerlink" title="Package"></a>Package</h1><p>报名尽量使用单个词。</p>
-<pre><code class="go">package http;
-</code></pre>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://golang.org/doc/effective_go.html#package-names">Effective Go</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/golang/go/wiki/CodeReviewComments">Code Review Comments</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.runoob.com/go/go-tutorial.html">菜鸟教程</a></li>
-</ul>
+        <h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> macos</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew install govendor</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/30/coding/go/startup/" data-id="ckomwlrsw001lrhn94uqkgt0b" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-coding/go/types" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/30/coding/go/types/" class="article-date">
-  <time datetime="2020-12-30T04:00:00.000Z" itemprop="datePublished">2020-12-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/go/">go</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/30/coding/go/types/">go 类型</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="布尔类型"><a href="#布尔类型" class="headerlink" title="布尔类型"></a>布尔类型</h1><ul>
-<li>bool</li>
-</ul>
-<h1 id="数字类型"><a href="#数字类型" class="headerlink" title="数字类型"></a>数字类型</h1><h2 id="数字类型-1"><a href="#数字类型-1" class="headerlink" title="数字类型"></a>数字类型</h2><ul>
-<li>unit8</li>
-<li>unit16</li>
-<li>unit32</li>
-<li>unit64</li>
-<li>int8</li>
-<li>int16</li>
-<li>int32</li>
-<li>int64</li>
-</ul>
-<h2 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h2><ul>
-<li>float32</li>
-<li>float64</li>
-<li>complex64</li>
-<li>complex128</li>
-</ul>
-<h1 id="其他类型"><a href="#其他类型" class="headerlink" title="其他类型"></a>其他类型</h1><ul>
-<li>byte</li>
-<li>rune</li>
-<li>unit</li>
-<li>int</li>
-<li>uintptr</li>
-</ul>
-<h1 id="派生类型"><a href="#派生类型" class="headerlink" title="派生类型"></a>派生类型</h1><ul>
-<li>指针</li>
-<li>数组</li>
-<li>结构化类型</li>
-<li>Channel类型</li>
-<li>函数类型</li>
-<li>切片类型</li>
-<li>接口类型</li>
-<li>Map类型</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/30/coding/go/types/" data-id="ckomwlrt0001srhn9982j4i0t" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/30/coding/go/govendor/" data-id="ckonrt7ug001dc8n94b0p8uc7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
@@ -2189,32 +1547,10 @@ $ go get -d -v ./...             # 递归地下载当前目录下所有文件的
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Layout"><a href="#Layout" class="headerlink" title="Layout"></a>Layout</h1><pre><code class="shell">.
-├── api           # 符合 OpenAPI/Swagger 规范的服务接口
-├── assets        # 项目中使用的其他资源，如媒体资源等
-├── build         # 打包和持续集成; 将容器、包(deb、rpm、pkg)、脚本等放在 build/package; ci 放在 build/ci
-├── cmd           # 项目主要应用程序; 如, cmd/app/main.go &amp; cmd/tool/main.go
-├── configs       # 配置文件
-├── deployments   # Iaas，Paas，系统和容器编排部署配置和模板
-├── docs          # 设计和用户文档
-├── examples      # 样例
-├── init          # 系统初始化(systemd、upstart、sysv) 及进程管理(runit、supervisord)配置
-├── internal      # 内部代码，不希望被他人导入的代码
-├── pkg           # 外部应用程序可以使用的库代码
-├── scripts       # 用于执行构建、安装等操作的脚本
-├── test          # 外部测试应用程序和测试数据
-├── third_party   # 外部辅助工具
-├── tools         # 此项目支持的工具
-├── vendor        # 应用程序依赖关系
-├── web           # Web 应用程序的特定组件, 静态资源、前端模板等
-├── website       # github pages / 网站数据
-├── Makefile      # 打包
-├── go.mod        # 模块信息
-├── LICENSE.md
-└── README.md
-</code></pre>
-<h1 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h1><pre><code class="shell">$ go mod init github.com/sunzhenkai/go-hello-world
-</code></pre>
+        <h1 id="Layout"><a href="#Layout" class="headerlink" title="Layout"></a>Layout</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── api           # 符合 OpenAPI/Swagger 规范的服务接口</span><br><span class="line">├── assets        # 项目中使用的其他资源，如媒体资源等</span><br><span class="line">├── build         # 打包和持续集成; 将容器、包(deb、rpm、pkg)、脚本等放在 build/package; ci 放在 build/ci</span><br><span class="line">├── cmd           # 项目主要应用程序; 如, cmd/app/main.go &amp; cmd/tool/main.go</span><br><span class="line">├── configs       # 配置文件</span><br><span class="line">├── deployments   # Iaas，Paas，系统和容器编排部署配置和模板</span><br><span class="line">├── docs          # 设计和用户文档</span><br><span class="line">├── examples      # 样例</span><br><span class="line">├── init          # 系统初始化(systemd、upstart、sysv) 及进程管理(runit、supervisord)配置</span><br><span class="line">├── internal      # 内部代码，不希望被他人导入的代码</span><br><span class="line">├── pkg           # 外部应用程序可以使用的库代码</span><br><span class="line">├── scripts       # 用于执行构建、安装等操作的脚本</span><br><span class="line">├── test          # 外部测试应用程序和测试数据</span><br><span class="line">├── third_party   # 外部辅助工具</span><br><span class="line">├── tools         # 此项目支持的工具</span><br><span class="line">├── vendor        # 应用程序依赖关系</span><br><span class="line">├── web           # Web 应用程序的特定组件, 静态资源、前端模板等</span><br><span class="line">├── website       # github pages / 网站数据</span><br><span class="line">├── Makefile      # 打包</span><br><span class="line">├── go.mod        # 模块信息</span><br><span class="line">├── LICENSE.md</span><br><span class="line">└── README.md</span><br></pre></td></tr></table></figure>
+
+<h1 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go mod init github.com/sunzhenkai/go-hello-world</span></span><br></pre></td></tr></table></figure>
+
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/golang-standards/project-layout">Project Layout</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.wolfe.id.au/2020/03/10/starting-a-go-project/">Starting a go project</a></li>
@@ -2224,7 +1560,94 @@ $ go get -d -v ./...             # 递归地下载当前目录下所有文件的
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/30/coding/go/project/" data-id="ckomwlrsv001krhn93mlj12nn" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/30/coding/go/project/" data-id="ckonrt7um001kc8n9hb3t8pjw" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/go/startup" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/12/30/coding/go/startup/" class="article-date">
+  <time datetime="2020-12-30T04:00:00.000Z" itemprop="datePublished">2020-12-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/go/">go</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/30/coding/go/startup/">go startup</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> mac</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew install go</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go build main.go</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go build -o output-file-name main.go</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p><strong>代码</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  fmt.Println(<span class="string">&quot;Hello World!&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>运行</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go run hello.go</span></span><br><span class="line">Hello World!</span><br></pre></td></tr></table></figure>
+
+<p><strong>编译</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go build hello.go</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h1><p>使用 <code>go get</code> 下载公开库，该命令会把依赖下载至第一个 <code>GOPATH</code> 下的 <code>src</code> 目录下。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-v</td>
+<td>打印详情日志</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>只下载不安装</td>
+</tr>
+<tr>
+<td>-u</td>
+<td>下载丢失的包，不更新</td>
+</tr>
+</tbody></table>
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get [dep-name]				<span class="comment"># 安装单个依赖</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get -d -v ./... 			<span class="comment"># 递归地下载当前目录下所有文件的依赖</span></span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Package"><a href="#Package" class="headerlink" title="Package"></a>Package</h1><p>报名尽量使用单个词。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> http;</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://golang.org/doc/effective_go.html#package-names">Effective Go</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/golang/go/wiki/CodeReviewComments">Code Review Comments</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/go/go-tutorial.html">菜鸟教程</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2020/12/30/coding/go/startup/" data-id="ckonrt7un001lc8n9fkopcncj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
@@ -2293,7 +1716,7 @@ $ go get -d -v ./...             # 递归地下载当前目录下所有文件的
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -2301,7 +1724,7 @@ $ go get -d -v ./...             # 递归地下载当前目录下所有文件的
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

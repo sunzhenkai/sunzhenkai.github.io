@@ -7,12 +7,12 @@
   
   <title>sed | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="参数-E  使用扩展语法 扩展语法和基础语法区别主要在于少量字符的差异，?、+、()、&amp;#123;&amp;#125;，在基础语法中需要转义来作为特殊字符；相反，在扩展语法中，需要转义以匹配无特殊含义的文本字符  示例替换$ cat msg &amp;#123; &#39;localhost&#39; &#x3D;&gt; [&#39;domain_name&#39; &#x3D;&gt; &#39;default&#39;, &amp;#">
+  <meta name="description" content="参数-E  使用扩展语法 扩展语法和基础语法区别主要在于少量字符的差异，?、+、()、&amp;#123;&amp;#125;，在基础语法中需要转义来作为特殊字符；相反，在扩展语法中，需要转义以匹配无特殊含义的文本字符  示例替换123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051">
 <meta property="og:type" content="article">
 <meta property="og:title" content="sed">
 <meta property="og:url" content="http://wii.pub/2021/01/11/linux/program/build-in/sed/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="参数-E  使用扩展语法 扩展语法和基础语法区别主要在于少量字符的差异，?、+、()、&amp;#123;&amp;#125;，在基础语法中需要转义来作为特殊字符；相反，在扩展语法中，需要转义以匹配无特殊含义的文本字符  示例替换$ cat msg &amp;#123; &#39;localhost&#39; &#x3D;&gt; [&#39;domain_name&#39; &#x3D;&gt; &#39;default&#39;, &amp;#">
+<meta property="og:description" content="参数-E  使用扩展语法 扩展语法和基础语法区别主要在于少量字符的差异，?、+、()、&amp;#123;&amp;#125;，在基础语法中需要转义来作为特殊字符；相反，在扩展语法中，需要转义以匹配无特殊含义的文本字符  示例替换123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-01-10T16:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.646Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -95,96 +97,24 @@
 <li>使用扩展语法</li>
 <li>扩展语法和基础语法区别主要在于少量字符的差异，<code>?</code>、<code>+</code>、<code>()</code>、<code>&#123;&#125;</code>，在基础语法中需要转义来作为特殊字符；相反，在扩展语法中，需要转义以匹配无特殊含义的文本字符</li>
 </ul>
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h2><pre><code class="shell">$ cat msg
-&#123;
-&#39;localhost&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
-&#125;
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> cat msg</span></span><br><span class="line">&#123;</span><br><span class="line">&#x27;localhost&#x27; =&gt; [&#x27;domain_name&#x27; =&gt; &#x27;default&#x27;, &#x27;domain_type&#x27; =&gt; &#x27;mobile&#x27;],</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换文件内容并打印</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sed <span class="string">&#x27;/localhost/p; s/localhost/dev.ops/&#x27;</span> msg</span></span><br><span class="line">&#123;</span><br><span class="line">&#x27;localhost&#x27; =&gt; [&#x27;domain_name&#x27; =&gt; &#x27;default&#x27;, &#x27;domain_type&#x27; =&gt; &#x27;mobile&#x27;],</span><br><span class="line">&#x27;dev.ops&#x27; =&gt; [&#x27;domain_name&#x27; =&gt; &#x27;default&#x27;, &#x27;domain_type&#x27; =&gt; &#x27;mobile&#x27;],</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换文件内容并将输出重定向到新文件</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sed <span class="string">&#x27;/localhost/p; s/localhost/dev.ops/&#x27;</span> msg &gt; new_msg</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat new_msg</span></span><br><span class="line">&#123;</span><br><span class="line">&#x27;localhost&#x27; =&gt; [&#x27;domain_name&#x27; =&gt; &#x27;default&#x27;, &#x27;domain_type&#x27; =&gt; &#x27;mobile&#x27;],</span><br><span class="line">&#x27;dev.ops&#x27; =&gt; [&#x27;domain_name&#x27; =&gt; &#x27;default&#x27;, &#x27;domain_type&#x27; =&gt; &#x27;mobile&#x27;],</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 源文件并未更改</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat msg</span></span><br><span class="line">&#123;</span><br><span class="line">&#x27;localhost&#x27; =&gt; [&#x27;domain_name&#x27; =&gt; &#x27;default&#x27;, &#x27;domain_type&#x27; =&gt; &#x27;mobile&#x27;],</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 在源文件修改并保存源文件至备份文件</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sed -i <span class="string">&#x27;msg_backup&#x27;</span> <span class="string">&#x27;/localhost/p; s/localhost/dev.ops/&#x27;</span> msg</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ls</span></span><br><span class="line">msg		msgmsg_backup	new_msg</span><br><span class="line"><span class="meta">#</span><span class="bash"> 打印源文件备份</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat msgmsg_backup</span></span><br><span class="line">&#123;</span><br><span class="line">&#x27;localhost&#x27; =&gt; [&#x27;domain_name&#x27; =&gt; &#x27;default&#x27;, &#x27;domain_type&#x27; =&gt; &#x27;mobile&#x27;],</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 打印源文件</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat msg</span></span><br><span class="line">&#123;</span><br><span class="line">&#x27;localhost&#x27; =&gt; [&#x27;domain_name&#x27; =&gt; &#x27;default&#x27;, &#x27;domain_type&#x27; =&gt; &#x27;mobile&#x27;],</span><br><span class="line">&#x27;dev.ops&#x27; =&gt; [&#x27;domain_name&#x27; =&gt; &#x27;default&#x27;, &#x27;domain_type&#x27; =&gt; &#x27;mobile&#x27;],</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 直接修改源文件并且不保存备份</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sed -i <span class="string">&#x27;/localhost/p; s/localhost/dev.worker/&#x27;</span> msgmsg_backup</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> $ sed -i <span class="string">&#x27;&#x27;</span> <span class="string">&#x27;/localhost/p; s/localhost/dev.worker/&#x27;</span> msgmsg_backup	<span class="comment"># os x</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat msgmsg_backup</span></span><br><span class="line">&#123;</span><br><span class="line">&#x27;localhost&#x27; =&gt; [&#x27;domain_name&#x27; =&gt; &#x27;default&#x27;, &#x27;domain_type&#x27; =&gt; &#x27;mobile&#x27;],</span><br><span class="line">&#x27;dev.worker&#x27; =&gt; [&#x27;domain_name&#x27; =&gt; &#x27;default&#x27;, &#x27;domain_type&#x27; =&gt; &#x27;mobile&#x27;],</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ls</span></span><br><span class="line">msg		msgmsg_backup	new_msg</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### Other Examples</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 正则替换</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat script/config.sh</span></span><br><span class="line">workers=6666</span><br><span class="line">threads_compute=10</span><br><span class="line">threads=101</span><br><span class="line"><span class="meta">$</span><span class="bash"> sed -i <span class="string">&quot;s/workers=[0-9]*/workers=9/&quot;</span> ./script/config.sh</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat script/config.sh</span></span><br><span class="line">workers=9</span><br><span class="line">threads_compute=10</span><br><span class="line">threads=101</span><br></pre></td></tr></table></figure>
 
-# 替换文件内容并打印
-$ sed &#39;/localhost/p; s/localhost/dev.ops/&#39; msg
-&#123;
-&#39;localhost&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
-&#39;dev.ops&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
-&#125;
+<h1 id="替换子串"><a href="#替换子串" class="headerlink" title="替换子串"></a>替换子串</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sed -i &#x27;s/head/heap/g&#x27; Heap.cpp</span><br><span class="line"><span class="meta">#</span><span class="bash"> sed -i <span class="string">&#x27;&#x27;</span> <span class="string">&#x27;s/head/heap/g&#x27;</span> Heap.cpp	<span class="comment"># 不保留文件备份</span></span></span><br></pre></td></tr></table></figure>
 
-# 替换文件内容并将输出重定向到新文件
-$ sed &#39;/localhost/p; s/localhost/dev.ops/&#39; msg &gt; new_msg
-$ cat new_msg
-&#123;
-&#39;localhost&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
-&#39;dev.ops&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
-&#125;
-# 源文件并未更改
-$ cat msg
-&#123;
-&#39;localhost&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
-&#125;
+<h1 id="替换前复制行"><a href="#替换前复制行" class="headerlink" title="替换前复制行"></a>替换前复制行</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed &#x27;/localhost/p; s/localhost/dev.ops/&#x27; FILENAME</span><br></pre></td></tr></table></figure>
 
-# 在源文件修改并保存源文件至备份文件
-$ sed -i &#39;msg_backup&#39; &#39;/localhost/p; s/localhost/dev.ops/&#39; msg
-$ ls
-msg        msgmsg_backup    new_msg
-# 打印源文件备份
-$ cat msgmsg_backup
-&#123;
-&#39;localhost&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
-&#125;
-# 打印源文件
-$ cat msg
-&#123;
-&#39;localhost&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
-&#39;dev.ops&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
-&#125;
+<h1 id="group-替换"><a href="#group-替换" class="headerlink" title="group 替换"></a>group 替换</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="string">&quot;hello wii.&quot;</span> | sed -E <span class="string">&#x27;s/hello ([a-z]+).*/\1/&#x27;</span></span></span><br><span class="line">wii</span><br><span class="line"><span class="meta">#</span><span class="bash"> OR</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="string">&quot;hello wii.&quot;</span> | sed <span class="string">&#x27;s/hello \([a-z]\+\).*/\1/&#x27;</span>   <span class="comment"># 注: 不同系统，+ 号的行为可能不一致，这条命令在 big sur (mac os) 中无法输出预想结果</span></span></span><br><span class="line">wii</span><br></pre></td></tr></table></figure>
 
-# 直接修改源文件并且不保存备份
-$ sed -i &#39;/localhost/p; s/localhost/dev.worker/&#39; msgmsg_backup
-# $ sed -i &#39;&#39; &#39;/localhost/p; s/localhost/dev.worker/&#39; msgmsg_backup    # os x
-$ cat msgmsg_backup
-&#123;
-&#39;localhost&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
-&#39;dev.worker&#39; =&gt; [&#39;domain_name&#39; =&gt; &#39;default&#39;, &#39;domain_type&#39; =&gt; &#39;mobile&#39;],
-&#125;
-
-$ ls
-msg        msgmsg_backup    new_msg
-
-#### Other Examples
-## 正则替换
-$ cat script/config.sh
-workers=6666
-threads_compute=10
-threads=101
-$ sed -i &quot;s/workers=[0-9]*/workers=9/&quot; ./script/config.sh
-$ cat script/config.sh
-workers=9
-threads_compute=10
-threads=101
-</code></pre>
-<h1 id="替换子串"><a href="#替换子串" class="headerlink" title="替换子串"></a>替换子串</h1><pre><code class="shell">sed -i &#39;s/head/heap/g&#39; Heap.cpp
-# sed -i &#39;&#39; &#39;s/head/heap/g&#39; Heap.cpp    # 不保留文件备份
-</code></pre>
-<h1 id="替换前复制行"><a href="#替换前复制行" class="headerlink" title="替换前复制行"></a>替换前复制行</h1><pre><code class="shell">sed &#39;/localhost/p; s/localhost/dev.ops/&#39; FILENAME
-</code></pre>
-<h1 id="group-替换"><a href="#group-替换" class="headerlink" title="group 替换"></a>group 替换</h1><pre><code class="shell">$ echo &quot;hello wii.&quot; | sed -E &#39;s/hello ([a-z]+).*/\1/&#39;
-wii
-# OR
-$ echo &quot;hello wii.&quot; | sed &#39;s/hello \([a-z]\+\).*/\1/&#39;   # 注: 不同系统，+ 号的行为可能不一致，这条命令在 big sur (mac os) 中无法输出预想结果
-wii
-</code></pre>
 <p>以上有个问题，如果为匹配到数据，最终打印原始数据，比如。</p>
-<pre><code class="shell">$ echo &quot;hello wii.&quot; | sed -E &#39;s/hi ([a-z]+).*/\1/&#39;
-hello wii.
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="string">&quot;hello wii.&quot;</span> | sed -E <span class="string">&#x27;s/hi ([a-z]+).*/\1/&#x27;</span></span></span><br><span class="line">hello wii.</span><br></pre></td></tr></table></figure>
+
 <p><code>/patt/!d;s//repl/</code>可实现匹配不到打印空，如下。</p>
-<pre><code class="shell">$ echo &quot;hello wii.&quot; | sed -E &#39;/hi ([a-z]+).*/!d;s//\1/&#39; 
-# empty
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="string">&quot;hello wii.&quot;</span> | sed -E <span class="string">&#x27;/hi ([a-z]+).*/!d;s//\1/&#x27;</span></span> </span><br><span class="line"><span class="meta">#</span><span class="bash"> empty</span></span><br></pre></td></tr></table></figure>
+
 <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p><code>sed: 1:  ... : extra characters at the end of H command</code></p>
 <ul>
 <li><p>edit in place on OSX without keeping a backup, use <code>-i &#39;&#39;</code>:</p>
-<pre><code class="shell">sed -i &#39;&#39; -e &#39;/localhost/p; s/localhost/dev.ops/&#39; FILENAME
-</code></pre>
-</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i &#x27;&#x27; -e &#x27;/localhost/p; s/localhost/dev.ops/&#x27; FILENAME</span><br></pre></td></tr></table></figure></li>
 </ul>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a><strong>参考</strong></h1><ul>
 <li><a target="_blank" rel="noopener" href="https://unix.stackexchange.com/questions/112023/how-can-i-replace-a-string-in-a-files">Ref 1</a></li>
@@ -193,7 +123,7 @@ hello wii.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/11/linux/program/build-in/sed/" data-id="ckomwlrvb009brhn9h65z2p6v" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/01/11/linux/program/build-in/sed/" data-id="ckonrt7xz009bc8n913nj4gpn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sed/" rel="tag">sed</a></li></ul>
@@ -204,19 +134,19 @@ hello wii.
     
 <nav id="article-nav">
   
-    <a href="/2021/01/12/architecture/storage/sql/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/01/12/life/learn/english/common/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          SQL
+          英语常识
         
       </div>
     </a>
   
   
-    <a href="/2021/01/09/coding/kotlin/notes/basic/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/01/09/coding/learn-lang/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">kotlin 基础</div>
+      <div class="article-nav-title">学习编程语言指南</div>
     </a>
   
 </nav>
@@ -274,7 +204,7 @@ hello wii.
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -282,7 +212,7 @@ hello wii.
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

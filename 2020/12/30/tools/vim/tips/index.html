@@ -7,12 +7,12 @@
   
   <title>vim tips | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="[toc] Common# 命令 ;              重复上一个动作 :!!         重复上一条命令 :shell    运行shell  # 窗口 :tabnew            新建窗口 :resize&#x2F;res 60&#x2F;+5&#x2F;-5    调整窗口高度  ## 宽度 :vertical resize 80  # 复制粘贴 ## 复制一个当前单次 byw    b: 到单次首">
+  <meta name="description" content="[toc] Common12345678910111213141516171819202122232425262728293031323334# 命令;  			重复上一个动作:!! 		重复上一条命令:shell	运行shell# 窗口:tabnew			新建窗口:resize&#x2F;res 60&#x2F;+5&#x2F;-5	调整窗口高度 ## 宽度:vertical resize 80# 复制粘贴## 复制一个当前">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vim tips">
 <meta property="og:url" content="http://wii.pub/2020/12/30/tools/vim/tips/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="[toc] Common# 命令 ;              重复上一个动作 :!!         重复上一条命令 :shell    运行shell  # 窗口 :tabnew            新建窗口 :resize&#x2F;res 60&#x2F;+5&#x2F;-5    调整窗口高度  ## 宽度 :vertical resize 80  # 复制粘贴 ## 复制一个当前单次 byw    b: 到单次首">
+<meta property="og:description" content="[toc] Common12345678910111213141516171819202122232425262728293031323334# 命令;  			重复上一个动作:!! 		重复上一条命令:shell	运行shell# 窗口:tabnew			新建窗口:resize&#x2F;res 60&#x2F;+5&#x2F;-5	调整窗口高度 ## 宽度:vertical resize 80# 复制粘贴## 复制一个当前">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-12-30T11:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.653Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -91,106 +93,25 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>[toc]</p>
-<h1 id="Common"><a href="#Common" class="headerlink" title="Common"></a>Common</h1><pre><code class="shell"># 命令
-;              重复上一个动作
-:!!         重复上一条命令
-:shell    运行shell
+<h1 id="Common"><a href="#Common" class="headerlink" title="Common"></a>Common</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 命令</span></span><br><span class="line">;  			重复上一个动作</span><br><span class="line">:!! 		重复上一条命令</span><br><span class="line">:shell	运行shell</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 窗口</span></span><br><span class="line">:tabnew			新建窗口</span><br><span class="line">:resize/res 60/+5/-5	调整窗口高度 </span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 宽度</span></span></span><br><span class="line">:vertical resize 80</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 复制粘贴</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 复制一个当前单次</span></span></span><br><span class="line">byw    b: 到单次首; y: yank; w: for word</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># command mode 粘贴内容</span></span></span><br><span class="line">C-r&quot;  &quot;: default register</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 目录</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># NERDTree</span></span></span><br><span class="line">r     刷新光标所在的目录</span><br><span class="line">C     将根路径设置为光标所在的目录</span><br><span class="line">u     设置上级目录为根路径</span><br><span class="line">cd    设置当前工作路径</span><br><span class="line">m     文件操作：复制、删除、移动等</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查找</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 文件内查找</span></span></span><br><span class="line">/&#123;pattern&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 跨文件查找:q</span></span></span><br><span class="line">:vimgrep /&#123;pattern&#125;/g [file]    # :vimgrep /foobar/g **</span><br><span class="line">:cn[f]    下一个匹配[文件]</span><br><span class="line">:cp[f]    上一个匹配[文件]</span><br><span class="line">:cr/cla   回到开始/结束</span><br><span class="line">:copen    打开匹配列表</span><br></pre></td></tr></table></figure>
 
-# 窗口
-:tabnew            新建窗口
-:resize/res 60/+5/-5    调整窗口高度 
-## 宽度
-:vertical resize 80
+<h1 id="行内移动"><a href="#行内移动" class="headerlink" title="行内移动"></a>行内移动</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">h	 左移一位</span><br><span class="line">l	 右移一位</span><br><span class="line">0	 行首</span><br><span class="line"><span class="meta">$</span><span class="bash">  行尾</span></span><br><span class="line">^  当前行的第一个非空白符位置</span><br><span class="line">fx 移动当当前行的下一个x处</span><br><span class="line">Fx 移动当当前行的上一个x处</span><br><span class="line">tx 移动到x的左边一个位置</span><br><span class="line">w  往后移动一个词</span><br><span class="line">b  往前移动一个词</span><br><span class="line">)  移动到下一个句子</span><br><span class="line">(  移动到上一个句子</span><br></pre></td></tr></table></figure>
 
-# 复制粘贴
-## 复制一个当前单次
-byw    b: 到单次首; y: yank; w: for word
-## command mode 粘贴内容
-C-r&quot;  &quot;: default register
+<h1 id="文件内移动"><a href="#文件内移动" class="headerlink" title="文件内移动"></a>文件内移动</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;C-F&gt;  向下移动一屏</span><br><span class="line">&lt;C-B&gt;  向上移动一屏</span><br><span class="line">G      移动到文件末尾</span><br><span class="line">nG     移动到第n行</span><br><span class="line">gg     文件首</span><br><span class="line">H      移动光标到屏幕上部</span><br><span class="line">M      移动光标到屏幕中部</span><br><span class="line">L      移动光标到屏幕底部</span><br><span class="line">*      移动到光标所在字符串的下个位置</span><br><span class="line"><span class="meta">#</span><span class="bash">      移动到光标所在字符串的上个位置</span></span><br><span class="line">/s     向后搜索字符串s</span><br><span class="line">?s     向前搜索字符串s</span><br><span class="line">ma     打标签，标签名为a</span><br><span class="line">`a     跳转到标签a</span><br><span class="line">`.     跳转到上次编辑的地方</span><br></pre></td></tr></table></figure>
 
-# 目录
-## NERDTree
-r     刷新光标所在的目录
-C     将根路径设置为光标所在的目录
-u     设置上级目录为根路径
-cd    设置当前工作路径
-m     文件操作：复制、删除、移动等
+<h1 id="Commands"><a href="#Commands" class="headerlink" title="Commands"></a>Commands</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> run shell commands</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 1</span></span></span><br><span class="line">C-z			vim 后台运行</span><br><span class="line">fg 			调回vim</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 2</span></span></span><br><span class="line">:!&#123;cmd&#125;</span><br></pre></td></tr></table></figure>
 
-# 查找
-## 文件内查找
-/&#123;pattern&#125;
-## 跨文件查找:q
-:vimgrep /&#123;pattern&#125;/g [file]    # :vimgrep /foobar/g **
-:cn[f]    下一个匹配[文件]
-:cp[f]    上一个匹配[文件]
-:cr/cla   回到开始/结束
-:copen    打开匹配列表
-</code></pre>
-<h1 id="行内移动"><a href="#行内移动" class="headerlink" title="行内移动"></a>行内移动</h1><pre><code class="shell">h     左移一位
-l     右移一位
-0     行首
-$  行尾
-^  当前行的第一个非空白符位置
-fx 移动当当前行的下一个x处
-Fx 移动当当前行的上一个x处
-tx 移动到x的左边一个位置
-w  往后移动一个词
-b  往前移动一个词
-)  移动到下一个句子
-(  移动到上一个句子
-</code></pre>
-<h1 id="文件内移动"><a href="#文件内移动" class="headerlink" title="文件内移动"></a>文件内移动</h1><pre><code class="shell">&lt;C-F&gt;  向下移动一屏
-&lt;C-B&gt;  向上移动一屏
-G      移动到文件末尾
-nG     移动到第n行
-gg     文件首
-H      移动光标到屏幕上部
-M      移动光标到屏幕中部
-L      移动光标到屏幕底部
-*      移动到光标所在字符串的下个位置
-#      移动到光标所在字符串的上个位置
-/s     向后搜索字符串s
-?s     向前搜索字符串s
-ma     打标签，标签名为a
-`a     跳转到标签a
-`.     跳转到上次编辑的地方
-</code></pre>
-<h1 id="Commands"><a href="#Commands" class="headerlink" title="Commands"></a>Commands</h1><pre><code class="shell"># run shell commands
-## 1
-C-z            vim 后台运行
-fg             调回vim
+<h1 id="查找替换"><a href="#查找替换" class="headerlink" title="查找替换"></a>查找替换</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 搜索</span></span><br><span class="line">[ESC]</span><br><span class="line">/word</span><br><span class="line">n: next; N: previous</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换</span></span><br><span class="line">:%s/foo/bar/g</span><br><span class="line">:5,10s/foo/bar/gc   # with confirm</span><br></pre></td></tr></table></figure>
 
-## 2
-:!&#123;cmd&#125;
-</code></pre>
-<h1 id="查找替换"><a href="#查找替换" class="headerlink" title="查找替换"></a>查找替换</h1><pre><code class="shell"># 搜索
-[ESC]
-/word
-n: next; N: previous
-
-# 替换
-:%s/foo/bar/g
-:5,10s/foo/bar/gc   # with confirm
-</code></pre>
 <h1 id="多行注释"><a href="#多行注释" class="headerlink" title="多行注释"></a>多行注释</h1><p><strong>注释</strong></p>
-<pre><code class="shell">Esc
-Ctrl + v
-Shift + i (I)
-# select multi lines
-# input comments
-Esc
-</code></pre>
-<p><strong>取消注释</strong></p>
-<pre><code class="shell">Esc
-Ctrl + v
-# select 
-d / x
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Esc</span><br><span class="line">Ctrl + v</span><br><span class="line">Shift + i (I)</span><br><span class="line"><span class="meta">#</span><span class="bash"> select multi lines</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> input comments</span></span><br><span class="line">Esc</span><br></pre></td></tr></table></figure>
 
+<p><strong>取消注释</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Esc</span><br><span class="line">Ctrl + v</span><br><span class="line"><span class="meta">#</span><span class="bash"> select</span> </span><br><span class="line">d / x</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/30/tools/vim/tips/" data-id="ckomwlru8005qrhn9435ygk59" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/30/tools/vim/tips/" data-id="ckonrt7wj005qc8n9g6yf24p7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/" rel="tag">vim</a></li></ul>
@@ -271,7 +192,7 @@ d / x
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -279,7 +200,7 @@ d / x
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

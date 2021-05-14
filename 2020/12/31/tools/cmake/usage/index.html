@@ -7,12 +7,12 @@
   
   <title>cmake 使用 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="[toc] Command Line$ Generate a Project Buildsystem # cmake [&lt;options&gt;] &lt;path-to-source&gt; # cmake [&lt;options&gt;] &lt;path-to-existing-build&gt; # cmake [&lt;options&gt;] -S &lt;path-to-so">
+  <meta name="description" content="[toc] Command Line12345678910111213141516171819202122232425$ Generate a Project Buildsystem# cmake [&lt;options&gt;] &lt;path-to-source&gt;# cmake [&lt;options&gt;] &lt;path-to-existing-build&gt;# cma">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cmake 使用">
 <meta property="og:url" content="http://wii.pub/2020/12/31/tools/cmake/usage/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="[toc] Command Line$ Generate a Project Buildsystem # cmake [&lt;options&gt;] &lt;path-to-source&gt; # cmake [&lt;options&gt;] &lt;path-to-existing-build&gt; # cmake [&lt;options&gt;] -S &lt;path-to-so">
+<meta property="og:description" content="[toc] Command Line12345678910111213141516171819202122232425$ Generate a Project Buildsystem# cmake [&lt;options&gt;] &lt;path-to-source&gt;# cmake [&lt;options&gt;] &lt;path-to-existing-build&gt;# cma">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-12-30T16:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.650Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -91,69 +93,35 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>[toc]</p>
-<h1 id="Command-Line"><a href="#Command-Line" class="headerlink" title="Command Line"></a>Command Line</h1><pre><code class="shell">$ Generate a Project Buildsystem
-# cmake [&lt;options&gt;] &lt;path-to-source&gt;
-# cmake [&lt;options&gt;] &lt;path-to-existing-build&gt;
-# cmake [&lt;options&gt;] -S &lt;path-to-source&gt; -B &lt;path-to-build&gt;
+<h1 id="Command-Line"><a href="#Command-Line" class="headerlink" title="Command Line"></a>Command Line</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> Generate a Project Buildsystem</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake [&lt;options&gt;] &lt;path-to-source&gt;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake [&lt;options&gt;] &lt;path-to-existing-build&gt;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake [&lt;options&gt;] -S &lt;path-to-source&gt; -B &lt;path-to-build&gt;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> Build a Project</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake --build &lt;dir&gt; [&lt;options&gt;] [-- &lt;build-tool-options&gt;]</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> Install a Project</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake --install &lt;dir&gt; [&lt;options&gt;]</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> Open a Project</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake --open &lt;dir&gt;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> Run a Script</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake [&#123;-D &lt;var&gt;=&lt;value&gt;&#125;...] -P &lt;cmake-script-file&gt;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> Run a Command-Line Tool</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake -E &lt;<span class="built_in">command</span>&gt; [&lt;options&gt;]</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> Run the Find-Package Tool</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake --find-package [&lt;options&gt;]</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> View Help</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cmake --<span class="built_in">help</span>[-&lt;topic&gt;]</span></span><br></pre></td></tr></table></figure>
 
-$ Build a Project
-# cmake --build &lt;dir&gt; [&lt;options&gt;] [-- &lt;build-tool-options&gt;]
+<h1 id="CMakeLists"><a href="#CMakeLists" class="headerlink" title="CMakeLists"></a>CMakeLists</h1><h2 id="设置cmake最小版本"><a href="#设置cmake最小版本" class="headerlink" title="设置cmake最小版本"></a>设置cmake最小版本</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">2.8</span>)</span><br></pre></td></tr></table></figure>
 
-$ Install a Project
-# cmake --install &lt;dir&gt; [&lt;options&gt;]
+<h2 id="设置项目名称"><a href="#设置项目名称" class="headerlink" title="设置项目名称"></a>设置项目名称</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">project</span>(<span class="string">&quot;...&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-$ Open a Project
-# cmake --open &lt;dir&gt;
+<h2 id="判断OS"><a href="#判断OS" class="headerlink" title="判断OS"></a>判断OS</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (APPLE)</span><br><span class="line">  <span class="comment"># do something</span></span><br><span class="line">  <span class="keyword">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">elseif</span> (UNIX)</span><br><span class="line">  <span class="comment"># do something</span></span><br><span class="line">  <span class="keyword">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -pthread&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
 
-$ Run a Script
-# cmake [&#123;-D &lt;var&gt;=&lt;value&gt;&#125;...] -P &lt;cmake-script-file&gt;
+<h2 id="生成共享库"><a href="#生成共享库" class="headerlink" title="生成共享库"></a>生成共享库</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(name SHARED src)</span><br></pre></td></tr></table></figure>
 
-$ Run a Command-Line Tool
-# cmake -E &lt;command&gt; [&lt;options&gt;]
+<h2 id="使用静态库"><a href="#使用静态库" class="headerlink" title="使用静态库"></a>使用静态库</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span>(CMAKE_FIND_LIBRARY_SUFFIXES <span class="string">&quot;.a&quot;</span>)    <span class="comment"># 查找库文件后缀</span></span><br><span class="line"><span class="keyword">SET</span>(BUILD_SHARED_LIBS <span class="keyword">OFF</span>)							 <span class="comment"># 关闭使用共享库</span></span><br><span class="line"><span class="keyword">SET</span>(CMAKE_EXE_LINKER_FLAGS <span class="string">&quot;-static&quot;</span>)    <span class="comment"># 连接时使用静态库</span></span><br></pre></td></tr></table></figure>
 
-$ Run the Find-Package Tool
-# cmake --find-package [&lt;options&gt;]
+<h2 id="生成可执行文件"><a href="#生成可执行文件" class="headerlink" title="生成可执行文件"></a>生成可执行文件</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(MAIN src/main.cpp)</span><br></pre></td></tr></table></figure>
 
-$ View Help
-# cmake --help[-&lt;topic&gt;]
-</code></pre>
-<h1 id="CMakeLists"><a href="#CMakeLists" class="headerlink" title="CMakeLists"></a>CMakeLists</h1><h2 id="设置cmake最小版本"><a href="#设置cmake最小版本" class="headerlink" title="设置cmake最小版本"></a>设置cmake最小版本</h2><pre><code class="cmake">cmake_minimum_required(VERSION 2.8)
-</code></pre>
-<h2 id="设置项目名称"><a href="#设置项目名称" class="headerlink" title="设置项目名称"></a>设置项目名称</h2><pre><code class="cmake">project(&quot;...&quot;)
-</code></pre>
-<h2 id="判断OS"><a href="#判断OS" class="headerlink" title="判断OS"></a>判断OS</h2><pre><code class="cmake">if (APPLE)
-  # do something
-  set(CMAKE_CXX_FLAGS &quot;$&#123;CMAKE_CXX_FLAGS&#125;&quot;)
-elseif (UNIX)
-  # do something
-  set(CMAKE_CXX_FLAGS &quot;$&#123;CMAKE_CXX_FLAGS&#125; -pthread&quot;)
-endif()
-</code></pre>
-<h2 id="生成共享库"><a href="#生成共享库" class="headerlink" title="生成共享库"></a>生成共享库</h2><pre><code class="cmake">add_library(name SHARED src)
-</code></pre>
-<h2 id="使用静态库"><a href="#使用静态库" class="headerlink" title="使用静态库"></a>使用静态库</h2><pre><code class="cmake">SET(CMAKE_FIND_LIBRARY_SUFFIXES &quot;.a&quot;)    # 查找库文件后缀
-SET(BUILD_SHARED_LIBS OFF)                             # 关闭使用共享库
-SET(CMAKE_EXE_LINKER_FLAGS &quot;-static&quot;)    # 连接时使用静态库
-</code></pre>
-<h2 id="生成可执行文件"><a href="#生成可执行文件" class="headerlink" title="生成可执行文件"></a>生成可执行文件</h2><pre><code class="cmake">add_executable(MAIN src/main.cpp)
-</code></pre>
-<h2 id="包含cmake文件"><a href="#包含cmake文件" class="headerlink" title="包含cmake文件"></a>包含cmake文件</h2><pre><code class="cmake">include(path/to/cmake)
-</code></pre>
-<h2 id="打印消息"><a href="#打印消息" class="headerlink" title="打印消息"></a>打印消息</h2><pre><code class="cmake">MESSAGE(&quot;msg...&quot;)
-</code></pre>
-<h2 id="指定compiler"><a href="#指定compiler" class="headerlink" title="指定compiler"></a>指定compiler</h2><pre><code class="cmake">set(CMAKE_C_COMPILER &quot;gcc-5&quot;)
-set(CMAKE_CXX_COMPILER &quot;g++-5&quot;)
-</code></pre>
-<h2 id="编译类型"><a href="#编译类型" class="headerlink" title="编译类型"></a>编译类型</h2><pre><code class="shell">set(CMAKE_BUILD_TYPE=Release)    # or Debug
-</code></pre>
-<h2 id="指定FLAGS"><a href="#指定FLAGS" class="headerlink" title="指定FLAGS"></a>指定FLAGS</h2><pre><code class="shell">set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS &quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++11&quot;)
-</code></pre>
+<h2 id="包含cmake文件"><a href="#包含cmake文件" class="headerlink" title="包含cmake文件"></a>包含cmake文件</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span>(path/to/cmake)</span><br></pre></td></tr></table></figure>
+
+<h2 id="打印消息"><a href="#打印消息" class="headerlink" title="打印消息"></a>打印消息</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">MESSAGE</span>(<span class="string">&quot;msg...&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="指定compiler"><a href="#指定compiler" class="headerlink" title="指定compiler"></a>指定compiler</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_C_COMPILER <span class="string">&quot;gcc-5&quot;</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_COMPILER <span class="string">&quot;g++-5&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译类型"><a href="#编译类型" class="headerlink" title="编译类型"></a>编译类型</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set(CMAKE_BUILD_TYPE=Release)	# or Debug</span><br></pre></td></tr></table></figure>
+
+<h2 id="指定FLAGS"><a href="#指定FLAGS" class="headerlink" title="指定FLAGS"></a>指定FLAGS</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set(CMAKE_CXX_STANDARD 11)</span><br><span class="line">set(CMAKE_CXX_FLAGS &quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++11&quot;)</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/31/tools/cmake/usage/" data-id="ckomwlrty004nrhn94ugzc9se" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/31/tools/cmake/usage/" data-id="ckonrt7w4004oc8n9f4hw2xqv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cmake/" rel="tag">cmake</a></li></ul>
@@ -164,19 +132,19 @@ set(CMAKE_CXX_FLAGS &quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++11&quot;)
     
 <nav id="article-nav">
   
-    <a href="/2021/01/04/tools/cmake/flags/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/12/31/tools/cmake/startup/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          cmake/makefile flags
+          cmake 使用
         
       </div>
     </a>
   
   
-    <a href="/2020/12/31/tools/cmake/example/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/12/31/architecture/framework/brpc/brpc-cpp/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">cmake 使用</div>
+      <div class="article-nav-title">brpc c++</div>
     </a>
   
 </nav>
@@ -234,7 +202,7 @@ set(CMAKE_CXX_FLAGS &quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++11&quot;)
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -242,7 +210,7 @@ set(CMAKE_CXX_FLAGS &quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++11&quot;)
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

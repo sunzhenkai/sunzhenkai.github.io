@@ -7,12 +7,12 @@
   
   <title>django 常见问题 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="启动时执行一次# 在 app 目录下的 apps.py 中定义 Config  from django.apps import AppConfig   class JobConfig(AppConfig):     name &#x3D; &#39;job&#39;      def ready(self):         from jobs import scheduler  # jobs 为 app">
+  <meta name="description" content="启动时执行一次12345678910111213141516171819# 在 app 目录下的 apps.py 中定义 Configfrom django.apps import AppConfigclass JobConfig(AppConfig):    name &#x3D; &amp;#x27;job&amp;#x27;    def ready(self):        from jobs import sc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="django 常见问题">
 <meta property="og:url" content="http://wii.pub/2020/12/24/coding/python/library/django/problems/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="启动时执行一次# 在 app 目录下的 apps.py 中定义 Config  from django.apps import AppConfig   class JobConfig(AppConfig):     name &#x3D; &#39;job&#39;      def ready(self):         from jobs import scheduler  # jobs 为 app">
+<meta property="og:description" content="启动时执行一次12345678910111213141516171819# 在 app 目录下的 apps.py 中定义 Configfrom django.apps import AppConfigclass JobConfig(AppConfig):    name &#x3D; &amp;#x27;job&amp;#x27;    def ready(self):        from jobs import sc">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-12-24T11:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.581Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,59 +92,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="启动时执行一次"><a href="#启动时执行一次" class="headerlink" title="启动时执行一次"></a>启动时执行一次</h1><pre><code class="python"># 在 app 目录下的 apps.py 中定义 Config
+        <h1 id="启动时执行一次"><a href="#启动时执行一次" class="headerlink" title="启动时执行一次"></a>启动时执行一次</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 app 目录下的 apps.py 中定义 Config</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.apps <span class="keyword">import</span> AppConfig</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JobConfig</span>(<span class="params">AppConfig</span>):</span></span><br><span class="line">    name = <span class="string">&#x27;job&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">ready</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">from</span> jobs <span class="keyword">import</span> scheduler  <span class="comment"># jobs 为 app 名称</span></span><br><span class="line">        scheduler.start()           <span class="comment"># scheduler.start() 是要做的事情; 这里是启动一个定时器</span></span><br><span class="line">        </span><br><span class="line"><span class="comment"># 在 app 目录下的 __init__.py 中添加</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> os.environ.get(<span class="string">&#x27;RUN_MAIN&#x27;</span>, <span class="literal">None</span>) != <span class="string">&#x27;true&#x27;</span>:    <span class="comment"># 加这个判断，可以防止执行多次</span></span><br><span class="line">    default_app_config = <span class="string">&#x27;jobs.apps.JobConfig&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 注: 使用manage.py时，也有可能会运行</span></span><br></pre></td></tr></table></figure>
 
-from django.apps import AppConfig
+<h1 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> install django-cors-headers</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip install django-cors-headers</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> add apps <span class="keyword">in</span> settings.py</span></span><br><span class="line">INSTALLED_APPS = [</span><br><span class="line">    ...</span><br><span class="line">    &#x27;corsheaders&#x27;,</span><br><span class="line">    ...</span><br><span class="line">]</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> add middleware <span class="keyword">in</span> settings.py</span></span><br><span class="line">MIDDLEWARE = [</span><br><span class="line">    ...</span><br><span class="line">    &#x27;corsheaders.middleware.CorsMiddleware&#x27;,</span><br><span class="line">    &#x27;django.middleware.common.CommonMiddleware&#x27;,</span><br><span class="line">    ...</span><br><span class="line">]</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> add config <span class="keyword">in</span> settings.py</span></span><br><span class="line">CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect</span><br><span class="line">CORS_ALLOW_CREDENTIALS = True</span><br><span class="line">CORS_ORIGIN_WHITELIST = [</span><br><span class="line">    &#x27;http://localhost:3030&#x27;,</span><br><span class="line">] # If this is used, then not need to use `CORS_ORIGIN_ALLOW_ALL = True`</span><br><span class="line">CORS_ORIGIN_REGEX_WHITELIST = [</span><br><span class="line">    &#x27;http://*.example.com:3030&#x27;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 
-
-class JobConfig(AppConfig):
-    name = &#39;job&#39;
-
-    def ready(self):
-        from jobs import scheduler  # jobs 为 app 名称
-        scheduler.start()           # scheduler.start() 是要做的事情; 这里是启动一个定时器
-        
-# 在 app 目录下的 __init__.py 中添加
-import os
-
-if os.environ.get(&#39;RUN_MAIN&#39;, None) != &#39;true&#39;:    # 加这个判断，可以防止执行多次
-    default_app_config = &#39;jobs.apps.JobConfig&#39;
-
-# 注: 使用manage.py时，也有可能会运行
-</code></pre>
-<h1 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h1><pre><code class="shell"># install django-cors-headers
-$ pip install django-cors-headers
-
-# add apps in settings.py
-INSTALLED_APPS = [
-    ...
-    &#39;corsheaders&#39;,
-    ...
-]
-
-# add middleware in settings.py
-MIDDLEWARE = [
-    ...
-    &#39;corsheaders.middleware.CorsMiddleware&#39;,
-    &#39;django.middleware.common.CommonMiddleware&#39;,
-    ...
-]
-
-# add config in settings.py
-CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = [
-    &#39;http://localhost:3030&#39;,
-] # If this is used, then not need to use `CORS_ORIGIN_ALLOW_ALL = True`
-CORS_ORIGIN_REGEX_WHITELIST = [
-    &#39;http://*.example.com:3030&#39;,
-]
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/24/coding/python/library/django/problems/" data-id="ckomwlrvh009trhn9c739c4b2" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/24/coding/python/library/django/problems/" data-id="ckonrt7y7009vc8n9digcfjbf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/django/" rel="tag">django</a></li></ul>
@@ -153,19 +111,19 @@ CORS_ORIGIN_REGEX_WHITELIST = [
     
 <nav id="article-nav">
   
-    <a href="/2020/12/25/frontend/element-ui/problems/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/12/24/frontend/vue/problems/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          element ui
+          (no title)
         
       </div>
     </a>
   
   
-    <a href="/2020/12/24/frontend/vue/problems/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/12/24/frontend/vue/startup/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title"></div>
+      <div class="article-nav-title">vue startup</div>
     </a>
   
 </nav>
@@ -223,7 +181,7 @@ CORS_ORIGIN_REGEX_WHITELIST = [
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -231,7 +189,7 @@ CORS_ORIGIN_REGEX_WHITELIST = [
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

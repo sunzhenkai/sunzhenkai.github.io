@@ -7,12 +7,12 @@
   
   <title>django startup | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="安装# 安装最新 $ pip3 install django  # 指定版本 $ pip3 install django&#x3D;&#x3D;3.0.7  创建应用# 创建Project $ django-admin startproject mysite  # 创建应用 $ python3 manage.py startapp polls  配置数据库MySQL使用 pymysql 库替代 mysqldb # 安">
+  <meta name="description" content="安装12345# 安装最新$ pip3 install django# 指定版本$ pip3 install django&#x3D;&#x3D;3.0.7  创建应用12345# 创建Project$ django-admin startproject mysite# 创建应用$ python3 manage.py startapp polls  配置数据库MySQL使用 pymysql 库替代 mysqldb 1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="django startup">
 <meta property="og:url" content="http://wii.pub/2020/12/10/coding/python/library/django/startup/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="安装# 安装最新 $ pip3 install django  # 指定版本 $ pip3 install django&#x3D;&#x3D;3.0.7  创建应用# 创建Project $ django-admin startproject mysite  # 创建应用 $ python3 manage.py startapp polls  配置数据库MySQL使用 pymysql 库替代 mysqldb # 安">
+<meta property="og:description" content="安装12345# 安装最新$ pip3 install django# 指定版本$ pip3 install django&#x3D;&#x3D;3.0.7  创建应用12345# 创建Project$ django-admin startproject mysite# 创建应用$ python3 manage.py startapp polls  配置数据库MySQL使用 pymysql 库替代 mysqldb 1">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-12-10T11:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.581Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,47 +92,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code class="shell"># 安装最新
-$ pip3 install django
+        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装最新</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip3 install django</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定版本</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip3 install django==3.0.7</span></span><br></pre></td></tr></table></figure>
 
-# 指定版本
-$ pip3 install django==3.0.7
-</code></pre>
-<h1 id="创建应用"><a href="#创建应用" class="headerlink" title="创建应用"></a>创建应用</h1><pre><code class="shell"># 创建Project
-$ django-admin startproject mysite
+<h1 id="创建应用"><a href="#创建应用" class="headerlink" title="创建应用"></a>创建应用</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建Project</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> django-admin startproject mysite</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建应用</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> python3 manage.py startapp polls</span></span><br></pre></td></tr></table></figure>
 
-# 创建应用
-$ python3 manage.py startapp polls
-</code></pre>
 <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><p><strong>使用 pymysql 库替代 mysqldb</strong></p>
-<pre><code class="shell"># 安装
-$ pip install pymysql
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip install pymysql</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 替换</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># settings.py 中添加</span></span></span><br><span class="line">import pymysql</span><br><span class="line">pymysql.version_info = (1, 4, 13, &#x27;final&#x27;, 0)</span><br><span class="line">pymysql.install_as_MySQLdb()</span><br></pre></td></tr></table></figure>
 
-# 替换
-## settings.py 中添加
-import pymysql
-pymysql.version_info = (1, 4, 13, &#39;final&#39;, 0)
-pymysql.install_as_MySQLdb()
-</code></pre>
 <p><strong>配置</strong></p>
-<pre><code class="python"># settings.py
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># settings.py</span></span><br><span class="line"></span><br><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">&#x27;default&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;ENGINE&#x27;</span>: <span class="string">&#x27;django.db.backends.mysql&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;NAME&#x27;</span>: <span class="string">&#x27;test-db&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;HOST&#x27;</span>: <span class="string">&#x27;127.0.0.1&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;PORT&#x27;</span>: <span class="number">3306</span>,</span><br><span class="line">        <span class="string">&#x27;USER&#x27;</span>: <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;PASSWORD&#x27;</span>: <span class="string">&#x27;root&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-DATABASES = &#123;
-    &#39;default&#39;: &#123;
-        &#39;ENGINE&#39;: &#39;django.db.backends.mysql&#39;,
-        &#39;NAME&#39;: &#39;test-db&#39;,
-        &#39;HOST&#39;: &#39;127.0.0.1&#39;,
-        &#39;PORT&#39;: 3306,
-        &#39;USER&#39;: &#39;root&#39;,
-        &#39;PASSWORD&#39;: &#39;root&#39;
-    &#125;
-&#125;
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/10/coding/python/library/django/startup/" data-id="ckomwlrvh009xrhn93f7h9vlt" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/10/coding/python/library/django/startup/" data-id="ckonrt7y8009yc8n949aohk6n" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/django/" rel="tag">django</a></li></ul>
@@ -141,19 +117,19 @@ DATABASES = &#123;
     
 <nav id="article-nav">
   
-    <a href="/2020/12/10/coding/python/library/virtualenv/usage/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/12/11/play/unraid/usage/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          python virtualenv
+          unraid 插件
         
       </div>
     </a>
   
   
-    <a href="/2020/12/08/coding/python/library/requests/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/12/10/coding/python/library/virtualenv/usage/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">python requests</div>
+      <div class="article-nav-title">python virtualenv</div>
     </a>
   
 </nav>
@@ -211,7 +187,7 @@ DATABASES = &#123;
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -219,7 +195,7 @@ DATABASES = &#123;
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

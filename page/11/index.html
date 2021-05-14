@@ -20,6 +20,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -61,9 +63,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-play/rpi/hardware" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-play/rpi/librarys" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/12/05/play/rpi/hardware/" class="article-date">
+    <a href="/2020/12/05/play/rpi/librarys/" class="article-date">
   <time datetime="2020-12-05T10:40:00.000Z" itemprop="datePublished">2020-12-05</time>
 </a>
     
@@ -79,7 +81,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/05/play/rpi/hardware/">树莓派连接硬件</a>
+      <a class="article-title" href="/2020/12/05/play/rpi/librarys/">树莓派配置</a>
     </h1>
   
 
@@ -87,60 +89,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Speaker"><a href="#Speaker" class="headerlink" title="Speaker"></a>Speaker</h1><pre><code class="shell"># play audio
-$ sudo apt-get install sox libsox-fmt-all
-$ play file-name.mp3
+        <h1 id="linux-headers-kernel-headers"><a href="#linux-headers-kernel-headers" class="headerlink" title="linux-headers / kernel-headers"></a>linux-headers / kernel-headers</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Raspbian</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt install raspberrypi-kernel-headers</span></span><br></pre></td></tr></table></figure>
 
-# turn volume
-$ amixer set Master 50%
-$ amixer set Master 10%+
+<h1 id="GPIO"><a href="#GPIO" class="headerlink" title="GPIO"></a>GPIO</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip3 install RPIO</span></span><br></pre></td></tr></table></figure>
 
-# slelect speaker
-$ alsamixer
-## F6 to select device
-
-# set volume over 100%
-$ sudo apt install pulseaudio
-$ pulseaudio --start -D
-$ pulseaudio --check -v # check
-$ sudo apt-get install pulseaudio-utils
-$ pactl set-sink-volume 0 300%
-</code></pre>
-<h1 id="Camera"><a href="#Camera" class="headerlink" title="Camera"></a>Camera</h1><h2 id="Web-Stream"><a href="#Web-Stream" class="headerlink" title="Web Stream"></a>Web Stream</h2><pre><code class="shell"># install
-$ sudo apt-get install libjpeg8-dev imagemagick
-</code></pre>
-<p><strong>Reference</strong></p>
-<pre><code class="shell"># setup and test
-https://www.raspberrypi.org/documentation/configuration/camera.md
-
-# official documents
-https://www.raspberrypi.org/documentation/raspbian/applications/camera.md
-
-# web stream
-https://blog.miguelgrinberg.com/post/stream-video-from-the-raspberry-pi-camera-to-web-browsers-even-on-ios-and-android
-https://blog.miguelgrinberg.com/post/how-to-build-and-run-mjpg-streamer-on-the-raspberry-pi
-## 注释 mjpg-streamer/util.c stats.h
-# // #include &lt;linux/stat.h&gt;
-# // #include &lt;sys/stat.h&gt;
-
-# generate stream
-$ raspistill --nopreview -w 640 -h 480 -q 5 -o /home/pi/test.jpg -tl 100 -t 9999999 -th 0:0:0
-
-# serve stream
-$ LD_LIBRARY_PATH=/usr/local/lib mjpg_streamer -i &quot;input_file.so -f /home/pi -n test.jpg&quot; -o &quot;output_http.so -w /usr/local/www&quot;
-
-# watch
-http://rpi-ip:8080
-</code></pre>
-<h1 id="L298N"><a href="#L298N" class="headerlink" title="L298N"></a>L298N</h1><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.teachmemicro.com/use-l298n-motor-driver/">https://www.teachmemicro.com/use-l298n-motor-driver/</a></li>
-<li><a target="_blank" rel="noopener" href="https://raspberrypi.stackexchange.com/questions/108888/rpi-python-gpio-pwm-control-l298n-motor-direction-and-speed-problem">https://raspberrypi.stackexchange.com/questions/108888/rpi-python-gpio-pwm-control-l298n-motor-direction-and-speed-problem</a></li>
-</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/05/play/rpi/hardware/" data-id="ckomwlrtr003zrhn90tl16s1t" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/05/play/rpi/librarys/" data-id="ckonrt7vv0043c8n9enixa2er" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
@@ -182,7 +139,7 @@ http://rpi-ip:8080
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/04/coding/python/notes/entwork/" data-id="ckomwlrv1008krhn9asvj9it9" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/04/coding/python/notes/entwork/" data-id="ckonrt7xo008kc8n96aj5ewax" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
@@ -220,31 +177,23 @@ http://rpi-ip:8080
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h1><pre><code class="python">import pandas as pd
-</code></pre>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><pre><code class="python"># 修改print时显示列行列数
-pd.set_option(&#39;display.max_rows&#39;, 100)
-pd.set_option(&#39;display.max_columns&#39;, 100)
-pd.set_option(&#39;display.width&#39;, 1000)
-</code></pre>
-<h1 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h1><pre><code class="python"># 按列值过滤
-df[df[&#39;部门&#39;].isin([&#39;市场部&#39;]) &amp; ~df[&#39;省份&#39;].isin([&#39;北京&#39;])] # 部门=市场部 &amp; 省份!=北京
-</code></pre>
-<h1 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h1><pre><code class="python"># 转换所有列
-df = df.apply(pd.to_numeric)
-df = df.apply(pd.to_numeric, errors=&#39;ignore&#39;)     # 忽略异常
+        <h1 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></table></figure>
 
-# 转换特定列
-df[[&#39;a&#39;, &#39;b&#39;]] = df[[&#39;a&#39;, &#39;b&#39;]].apply(pd.to_numeric)
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修改print时显示列行列数</span></span><br><span class="line">pd.set_option(<span class="string">&#x27;display.max_rows&#x27;</span>, <span class="number">100</span>)</span><br><span class="line">pd.set_option(<span class="string">&#x27;display.max_columns&#x27;</span>, <span class="number">100</span>)</span><br><span class="line">pd.set_option(<span class="string">&#x27;display.width&#x27;</span>, <span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
 
-# 一列转换为多列
-df[[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]] = df[&#39;label&#39;].apply(lambda x: pd.Series(x.split(&#39;,&#39;)))
-</code></pre>
+<h1 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 按列值过滤</span></span><br><span class="line">df[df[<span class="string">&#x27;部门&#x27;</span>].isin([<span class="string">&#x27;市场部&#x27;</span>]) &amp; ~df[<span class="string">&#x27;省份&#x27;</span>].isin([<span class="string">&#x27;北京&#x27;</span>])] <span class="comment"># 部门=市场部 &amp; 省份!=北京</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 转换所有列</span></span><br><span class="line">df = df.apply(pd.to_numeric)</span><br><span class="line">df = df.apply(pd.to_numeric, errors=<span class="string">&#x27;ignore&#x27;</span>)	 <span class="comment"># 忽略异常</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 转换特定列</span></span><br><span class="line">df[[<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>]] = df[[<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>]].apply(pd.to_numeric)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一列转换为多列</span></span><br><span class="line">df[[<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>]] = df[<span class="string">&#x27;label&#x27;</span>].apply(<span class="keyword">lambda</span> x: pd.Series(x.split(<span class="string">&#x27;,&#x27;</span>)))</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/04/coding/python/library/panda/usage/" data-id="ckomwlrvi009zrhn9663p69og" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/04/coding/python/library/panda/usage/" data-id="ckonrt7y9009zc8n9dvpw0ne6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/panda/" rel="tag">panda</a></li></ul>
@@ -495,80 +444,10 @@ df[[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]] = df[&#39;label&#39;].apply(lambda x
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/04/coding/java/jvm/args/" data-id="ckomwlruu007urhn962c13lkv" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/04/coding/java/jvm/args/" data-id="ckonrt7xe007uc8n9feazbnax" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gc/" rel="tag">gc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-coding/c++/notes/sizeof" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/11/21/coding/c++/notes/sizeof/" class="article-date">
-  <time datetime="2020-11-21T04:00:00.000Z" itemprop="datePublished">2020-11-21</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/c/">c++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/21/coding/c++/notes/sizeof/">memset &amp; fill</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><pre><code class="c++">sizeof(type/object)
-
-查询对象/类型实际大小
-</code></pre>
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><pre><code class="c++">// 定义结构
-struct Empty &#123;&#125;;
-struct Base &#123; int a; &#125;;
-struct Derived : Base &#123; int b; &#125;;
-struct Bit &#123; unsigned bit: 1; &#125;;
-
-// 实例化
-Empty e;
-Derived d;
-Base&amp; b = d;
-[[maybe_unused]] Bit bit;
-int a[10];
-      
-// 查询大小
-sizeof e        // 1  Empty类大小
-sizeof &amp;e       // 8  类指针大小
-sizeof(Bit)     // 4  Bit类大小
-sizeof(int[10]) // 40 
-sizeof(a)       // 40
-((sizeof a) / (sizeof *a))    // 计算数组a的长度
-((sizeof a) / (sizeof a[0]))  // 计算数组a的长度
-sizeof d        // Derived对象大小
-sizeof b        // Base对象大小
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/21/coding/c++/notes/sizeof/" data-id="ckomwlrus007rrhn97znu1ti2" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
 
     </footer>
   </div>
@@ -603,38 +482,67 @@ sizeof b        // Base对象大小
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="memset"><a href="#memset" class="headerlink" title="memset"></a>memset</h1><h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2><pre><code class="c++">// c
-#include &lt;string.h&gt;
-// c++
-#include &lt;cstring&gt;
-</code></pre>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><pre><code class="c++">void *memset( void *dest, int ch, size_t count );
-dest : 需要填充内存指针
-ch   : 填充内容，被强转成unsigned char使用
-count: 需要填充数量
+        <h1 id="memset"><a href="#memset" class="headerlink" title="memset"></a>memset</h1><h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="comment">// c++</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br></pre></td></tr></table></figure>
 
-dest指针开始前count个字节的每个字节赋值为ch
-</code></pre>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><pre><code class="c++">char str[] = &quot;hello world&quot;;
-memset (str, &#39;-&#39;, 5);
-puts(str);
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">memset</span><span class="params">( <span class="keyword">void</span> *dest, <span class="keyword">int</span> ch, <span class="keyword">size_t</span> count )</span></span>;</span><br><span class="line">dest : 需要填充内存指针</span><br><span class="line">ch   : 填充内容，被强转成<span class="keyword">unsigned</span> <span class="keyword">char</span>使用</span><br><span class="line">count: 需要填充数量</span><br><span class="line"></span><br><span class="line">dest指针开始前count个字节的每个字节赋值为ch</span><br></pre></td></tr></table></figure>
 
-// output
-&quot;----- world&quot;
-</code></pre>
-<h1 id="fill"><a href="#fill" class="headerlink" title="fill"></a>fill</h1><h2 id="头文件-1"><a href="#头文件-1" class="headerlink" title="头文件"></a>头文件</h2><pre><code>#include &lt;algorithm&gt;
-</code></pre>
-<h2 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h2><pre><code class="c++">template&lt; class ForwardIt, class T &gt;
-constexpr void fill( ForwardIt first, ForwardIt last, const T&amp; value );
-first : 开始迭代器
-last  : 中止迭代器
-value : 需要填充的值
-</code></pre>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> str[] = <span class="string">&quot;hello world&quot;</span>;</span><br><span class="line"><span class="built_in">memset</span> (str, <span class="string">&#x27;-&#x27;</span>, <span class="number">5</span>);</span><br><span class="line"><span class="built_in">puts</span>(str);</span><br><span class="line"></span><br><span class="line"><span class="comment">// output</span></span><br><span class="line"><span class="string">&quot;----- world&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="fill"><a href="#fill" class="headerlink" title="fill"></a>fill</h1><h2 id="头文件-1"><a href="#头文件-1" class="headerlink" title="头文件"></a>头文件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;algorithm&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt; class ForwardIt, class T &gt;</span></span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="keyword">void</span> <span class="title">fill</span><span class="params">( ForwardIt first, ForwardIt last, <span class="keyword">const</span> T&amp; value )</span></span>;</span><br><span class="line">first : 开始迭代器</span><br><span class="line">last  : 中止迭代器</span><br><span class="line">value : 需要填充的值</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/21/coding/c++/notes/memset-fill/" data-id="ckomwlrur007mrhn96uh75mqm" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/11/21/coding/c++/notes/memset-fill/" data-id="ckonrt7xc007mc8n9cjbob1ez" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/c++/notes/sizeof" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/21/coding/c++/notes/sizeof/" class="article-date">
+  <time datetime="2020-11-21T04:00:00.000Z" itemprop="datePublished">2020-11-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/c/">c++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/21/coding/c++/notes/sizeof/">memset &amp; fill</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in"><span class="keyword">sizeof</span></span>(type/object)</span><br><span class="line"></span><br><span class="line">查询对象/类型实际大小</span><br></pre></td></tr></table></figure>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义结构</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Empty</span> &#123;</span>&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Base</span> &#123;</span> <span class="keyword">int</span> a; &#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Derived</span> :</span> Base &#123; <span class="keyword">int</span> b; &#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Bit</span> &#123;</span> <span class="keyword">unsigned</span> bit: <span class="number">1</span>; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例化</span></span><br><span class="line">Empty e;</span><br><span class="line">Derived d;</span><br><span class="line">Base&amp; b = d;</span><br><span class="line">[[maybe_unused]] Bit bit;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">10</span>];</span><br><span class="line">      </span><br><span class="line"><span class="comment">// 查询大小</span></span><br><span class="line"><span class="keyword">sizeof</span> e        <span class="comment">// 1  Empty类大小</span></span><br><span class="line"><span class="keyword">sizeof</span> &amp;e       <span class="comment">// 8  类指针大小</span></span><br><span class="line"><span class="built_in"><span class="keyword">sizeof</span></span>(Bit)     <span class="comment">// 4  Bit类大小</span></span><br><span class="line"><span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>[<span class="number">10</span>]) <span class="comment">// 40 </span></span><br><span class="line"><span class="built_in"><span class="keyword">sizeof</span></span>(a)       <span class="comment">// 40</span></span><br><span class="line">((<span class="keyword">sizeof</span> a) / (<span class="keyword">sizeof</span> *a))    <span class="comment">// 计算数组a的长度</span></span><br><span class="line">((<span class="keyword">sizeof</span> a) / (<span class="keyword">sizeof</span> a[<span class="number">0</span>]))  <span class="comment">// 计算数组a的长度</span></span><br><span class="line"><span class="keyword">sizeof</span> d        <span class="comment">// Derived对象大小</span></span><br><span class="line"><span class="keyword">sizeof</span> b        <span class="comment">// Base对象大小</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2020/11/21/coding/c++/notes/sizeof/" data-id="ckonrt7xd007rc8n9gws587qw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
@@ -672,118 +580,15 @@ value : 需要填充的值
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Common"><a href="#Common" class="headerlink" title="Common"></a>Common</h1><pre><code class="shell">.idea/
-</code></pre>
-<h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><pre><code class="shell"># Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+        <h1 id="Common"><a href="#Common" class="headerlink" title="Common"></a>Common</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.idea/</span><br></pre></td></tr></table></figure>
 
-# C extensions
-*.so
+<h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Byte-compiled / optimized / DLL files</span></span><br><span class="line">__pycache__/</span><br><span class="line">*.py[cod]</span><br><span class="line">*$py.class</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> C extensions</span></span><br><span class="line">*.so</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Distribution / packaging</span></span><br><span class="line">.Python</span><br><span class="line">build/</span><br><span class="line">develop-eggs/</span><br><span class="line">dist/</span><br><span class="line">downloads/</span><br><span class="line">eggs/</span><br><span class="line">.eggs/</span><br><span class="line">lib/</span><br><span class="line">lib64/</span><br><span class="line">parts/</span><br><span class="line">sdist/</span><br><span class="line">var/</span><br><span class="line">wheels/</span><br><span class="line">*.egg-info/</span><br><span class="line">.installed.cfg</span><br><span class="line">*.egg</span><br><span class="line">MANIFEST</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> PyInstaller</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  Usually these files are written by a python script from a template</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  before PyInstaller builds the exe, so as to inject date/other infos into it.</span></span><br><span class="line">*.manifest</span><br><span class="line">*.spec</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Installer logs</span></span><br><span class="line">pip-log.txt</span><br><span class="line">pip-delete-this-directory.txt</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Unit <span class="built_in">test</span> / coverage reports</span></span><br><span class="line">htmlcov/</span><br><span class="line">.tox/</span><br><span class="line">.coverage</span><br><span class="line">.coverage.*</span><br><span class="line">.cache</span><br><span class="line">nosetests.xml</span><br><span class="line">coverage.xml</span><br><span class="line">*.cover</span><br><span class="line">.hypothesis/</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Translations</span></span><br><span class="line">*.mo</span><br><span class="line">*.pot</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Django stuff:</span></span><br><span class="line">*.log</span><br><span class="line">.static_storage/</span><br><span class="line">.media/</span><br><span class="line">local_settings.py</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Flask stuff:</span></span><br><span class="line">instance/</span><br><span class="line">.webassets-cache</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Scrapy stuff:</span></span><br><span class="line">.scrapy</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Sphinx documentation</span></span><br><span class="line">docs/_build/</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> PyBuilder</span></span><br><span class="line">target/</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Jupyter Notebook</span></span><br><span class="line">.ipynb_checkpoints</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> pyenv</span></span><br><span class="line">.python-version</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> celery beat schedule file</span></span><br><span class="line">celerybeat-schedule</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> SageMath parsed files</span></span><br><span class="line">*.sage.py</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Environments</span></span><br><span class="line">.env</span><br><span class="line">.venv</span><br><span class="line">env/</span><br><span class="line">venv/</span><br><span class="line">ENV/</span><br><span class="line">env.bak/</span><br><span class="line">venv.bak/</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Spyder project settings</span></span><br><span class="line">.spyderproject</span><br><span class="line">.spyproject</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Rope project settings</span></span><br><span class="line">.ropeproject</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> mkdocs documentation</span></span><br><span class="line">/site</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> mypy</span></span><br><span class="line">.mypy_cache/</span><br></pre></td></tr></table></figure>
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-.static_storage/
-.media/
-local_settings.py
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# pyenv
-.python-version
-
-# celery beat schedule file
-celerybeat-schedule
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/20/tools/git/gitignore/" data-id="ckomwlrtz004qrhn951ygha6t" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/11/20/tools/git/gitignore/" data-id="ckonrt7w5004rc8n96dpfbhu0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
@@ -822,64 +627,26 @@ venv.bak/
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="basic"><a href="#basic" class="headerlink" title="basic"></a>basic</h1><p>生成公钥</p>
-<pre><code class="shell">$ ssh-keygen -t rsa -C &quot;&lt;your email&gt;&quot;              # id_rsa
-$ ssh-keygen -t rsa -C &quot;&lt;your another email&gt;&quot;      # id_rsa_work
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ssh-keygen -t rsa -C <span class="string">&quot;&lt;your email&gt;&quot;</span>              <span class="comment"># id_rsa</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ssh-keygen -t rsa -C <span class="string">&quot;&lt;your another email&gt;&quot;</span>      <span class="comment"># id_rsa_work</span></span></span><br></pre></td></tr></table></figure>
+
 <p>配置全局信息</p>
-<pre><code class="shell">$ git config --global user.name &quot;sunzhenkai&quot;
-$ git config --global user.email &quot;zhenkai.sun@qq.com&quot;
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git config --global user.name <span class="string">&quot;sunzhenkai&quot;</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git config --global user.email <span class="string">&quot;zhenkai.sun@qq.com&quot;</span></span></span><br></pre></td></tr></table></figure>
+
 <h1 id="多公钥"><a href="#多公钥" class="headerlink" title="多公钥"></a>多公钥</h1><p><strong>适用</strong></p>
 <ul>
 <li>一台机器，同一Git仓库，多账号</li>
 <li>一台机器，多Git仓库，多账号</li>
 </ul>
-<pre><code class="shell"># 生成公钥
-$ ssh-keygen -t rsa -C &quot;&lt;your email&gt;&quot;              # id_rsa
-$ ssh-keygen -t rsa -C &quot;&lt;your another email&gt;&quot;      # id_rsa_work
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 生成公钥</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ssh-keygen -t rsa -C <span class="string">&quot;&lt;your email&gt;&quot;</span>              <span class="comment"># id_rsa</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ssh-keygen -t rsa -C <span class="string">&quot;&lt;your another email&gt;&quot;</span>      <span class="comment"># id_rsa_work</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 配置 config</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.ssh/config</span></span><br><span class="line">Host github.com</span><br><span class="line">    HostName github.com</span><br><span class="line">    User git</span><br><span class="line">    IdentityFile ~/.ssh/id_rsa</span><br><span class="line"></span><br><span class="line">Host github.com-work</span><br><span class="line">    HostName github.com</span><br><span class="line">    User git</span><br><span class="line">    IdentityFile ~/.ssh/id_rsa_work</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定账号添加对应公钥</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用, 克隆或添加remote时使用config定义的Host别名(github.com / github.com-work / 其他)</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> git@github.com:&lt;user-name&gt;/&lt;repo-name&gt;.git</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git remote add origin git@github.com:&lt;user-name&gt;/&lt;repo-name&gt;.git</span></span><br></pre></td></tr></table></figure>
 
-# 配置 config
-$ vim ~/.ssh/config
-Host github.com
-    HostName github.com
-    User git
-    IdentityFile ~/.ssh/id_rsa
-
-Host github.com-work
-    HostName github.com
-    User git
-    IdentityFile ~/.ssh/id_rsa_work
-    
-# 指定账号添加对应公钥
-    
-# 使用, 克隆或添加remote时使用config定义的Host别名(github.com / github.com-work / 其他)
-$ git clone git@github.com:&lt;user-name&gt;/&lt;repo-name&gt;.git
-$ git remote add origin git@github.com:&lt;user-name&gt;/&lt;repo-name&gt;.git
-</code></pre>
 <h1 id="stash"><a href="#stash" class="headerlink" title="stash"></a>stash</h1><p>用于暂存代码。</p>
-<pre><code class="shell"># 暂存
-$ git stash save &#39;message&#39;
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 暂存</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git stash save <span class="string">&#x27;message&#x27;</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看暂存</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git stash list</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 恢复并删除暂存</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git stash pop stash@&#123;?&#125;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 只恢复，不删除暂存</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git stash apply stash@&#123;?&#125;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除暂存</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git stash drop stash@&#123;?&#125;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除所有暂存</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git stash clear</span></span><br></pre></td></tr></table></figure>
 
-# 查看暂存
-$ git stash list
-
-# 恢复并删除暂存
-$ git stash pop stash@&#123;?&#125;
-
-# 只恢复，不删除暂存
-$ git stash apply stash@&#123;?&#125;
-
-# 删除暂存
-$ git stash drop stash@&#123;?&#125;
-
-# 删除所有暂存
-$ git stash clear
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/20/tools/git/usage/" data-id="ckomwlrtz004urhn92jzudxuw" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/11/20/tools/git/usage/" data-id="ckonrt7w6004vc8n9gc0a22dh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
@@ -1247,7 +1014,7 @@ $ git stash clear
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/20/architecture/framework/spring/anntations/" data-id="ckomwlrud006crhn9aw4e09dj" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/11/20/architecture/framework/spring/anntations/" data-id="ckonrt7wt006cc8n9fwhoa4q7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a></li></ul>
@@ -1317,7 +1084,7 @@ $ git stash clear
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/17/computer%20science/machine%20learning/kaggle/startup/" data-id="ckomwlrv4008qrhn9gwqr29jq" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/11/17/computer%20science/machine%20learning/kaggle/startup/" data-id="ckonrt7xr008qc8n9dx1p3288" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kaggle/" rel="tag">kaggle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
@@ -1386,7 +1153,7 @@ $ git stash clear
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -1394,7 +1161,7 @@ $ git stash clear
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

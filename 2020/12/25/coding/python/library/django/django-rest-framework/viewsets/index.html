@@ -7,12 +7,12 @@
   
   <title>django viewset | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="自定义 Actionfrom rest_framework.decorators import action   class SnippetViewSet(viewsets.ModelViewSet):     ...      @action(detail&#x3D;False, methods&#x3D;[&#39;GET&#39;], name&#x3D;&#39;Get Highlight&#39;)     def">
+  <meta name="description" content="自定义 Action123456789101112from rest_framework.decorators import actionclass SnippetViewSet(viewsets.ModelViewSet):    ...    @action(detail&#x3D;False, methods&#x3D;[&amp;#x27;GET&amp;#x27;], name&#x3D;&amp;#x27;Get Highlight&amp;#x">
 <meta property="og:type" content="article">
 <meta property="og:title" content="django viewset">
 <meta property="og:url" content="http://wii.pub/2020/12/25/coding/python/library/django/django-rest-framework/viewsets/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="自定义 Actionfrom rest_framework.decorators import action   class SnippetViewSet(viewsets.ModelViewSet):     ...      @action(detail&#x3D;False, methods&#x3D;[&#39;GET&#39;], name&#x3D;&#39;Get Highlight&#39;)     def">
+<meta property="og:description" content="自定义 Action123456789101112from rest_framework.decorators import actionclass SnippetViewSet(viewsets.ModelViewSet):    ...    @action(detail&#x3D;False, methods&#x3D;[&amp;#x27;GET&amp;#x27;], name&#x3D;&amp;#x27;Get Highlight&amp;#x">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-12-25T11:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.580Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,24 +92,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="自定义-Action"><a href="#自定义-Action" class="headerlink" title="自定义 Action"></a>自定义 Action</h1><pre><code class="python">from rest_framework.decorators import action
+        <h1 id="自定义-Action"><a href="#自定义-Action" class="headerlink" title="自定义 Action"></a>自定义 Action</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.decorators <span class="keyword">import</span> action</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SnippetViewSet</span>(<span class="params">viewsets.ModelViewSet</span>):</span></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"><span class="meta">    @action(<span class="params">detail=<span class="literal">False</span>, methods=[<span class="string">&#x27;GET&#x27;</span>], name=<span class="string">&#x27;Get Highlight&#x27;</span></span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">highlight</span>(<span class="params">self, request, *args, **kwargs</span>):</span></span><br><span class="line">        queryset = models.Highlight.objects.<span class="built_in">all</span>()</span><br><span class="line"></span><br><span class="line">        serializer = self.get_serializer(queryset, many=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br></pre></td></tr></table></figure>
 
-
-class SnippetViewSet(viewsets.ModelViewSet):
-    ...
-
-    @action(detail=False, methods=[&#39;GET&#39;], name=&#39;Get Highlight&#39;)
-    def highlight(self, request, *args, **kwargs):
-        queryset = models.Highlight.objects.all()
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/25/coding/python/library/django/django-rest-framework/viewsets/" data-id="ckomwlrvk00a7rhn948i6czaj" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/25/coding/python/library/django/django-rest-framework/viewsets/" data-id="ckonrt7yb00a6c8n99je56ky5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/django-rest-framework/" rel="tag">django rest framework</a></li></ul>
@@ -188,7 +179,7 @@ class SnippetViewSet(viewsets.ModelViewSet):
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -196,7 +187,7 @@ class SnippetViewSet(viewsets.ModelViewSet):
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

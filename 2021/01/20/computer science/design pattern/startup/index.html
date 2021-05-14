@@ -7,12 +7,12 @@
   
   <title>设计模式（一）之策略模式 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="目录 引言 观察者模式  引言设计模式系列，主要参考 《Head First 设计模式》 一书。 模拟鸭子有这样一个需求，需要设计模拟鸭子游戏，游戏中有多种鸭子，鸭子都会叫和游泳，但是有不同的外观。简单的，我们采用 继承 来实现。首先，定义抽象类 Duck。 public abstract class Duck &amp;#123;     public void quack() &amp;#123;">
+  <meta name="description" content="目录 引言 观察者模式  引言设计模式系列，主要参考 《Head First 设计模式》 一书。 模拟鸭子有这样一个需求，需要设计模拟鸭子游戏，游戏中有多种鸭子，鸭子都会叫和游泳，但是有不同的外观。简单的，我们采用 继承 来实现。首先，定义抽象类 Duck。 1234567891011public abstract class Duck &amp;#123;    public void quack()">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式（一）之策略模式">
 <meta property="og:url" content="http://wii.pub/2021/01/20/computer%20science/design%20pattern/startup/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="目录 引言 观察者模式  引言设计模式系列，主要参考 《Head First 设计模式》 一书。 模拟鸭子有这样一个需求，需要设计模拟鸭子游戏，游戏中有多种鸭子，鸭子都会叫和游泳，但是有不同的外观。简单的，我们采用 继承 来实现。首先，定义抽象类 Duck。 public abstract class Duck &amp;#123;     public void quack() &amp;#123;">
+<meta property="og:description" content="目录 引言 观察者模式  引言设计模式系列，主要参考 《Head First 设计模式》 一书。 模拟鸭子有这样一个需求，需要设计模拟鸭子游戏，游戏中有多种鸭子，鸭子都会叫和游泳，但是有不同的外观。简单的，我们采用 继承 来实现。首先，定义抽象类 Duck。 1234567891011public abstract class Duck &amp;#123;    public void quack()">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://wii.pub/2021/01/20/computer%20science/design%20pattern/startup/001.png">
 <meta property="og:image" content="http://wii.pub/2021/01/20/computer%20science/design%20pattern/startup/002.png">
@@ -30,6 +30,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -102,66 +104,17 @@
 </ul>
 <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>设计模式系列，主要参考 《Head First 设计模式》 一书。</p>
 <h1 id="模拟鸭子"><a href="#模拟鸭子" class="headerlink" title="模拟鸭子"></a>模拟鸭子</h1><p>有这样一个需求，需要设计模拟鸭子游戏，游戏中有多种鸭子，鸭子都会叫和游泳，但是有不同的外观。简单的，我们采用 <strong>继承</strong> 来实现。首先，定义抽象类 Duck。</p>
-<pre><code class="java">public abstract class Duck &#123;
-    public void quack() &#123;
-        System.out.println(&quot;quack quack!&quot;);
-    &#125;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Duck</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">quack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;quack quack!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">swim</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;I am swimming!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public void swim() &#123;
-        System.out.println(&quot;I am swimming!&quot;);
-    &#125;
-
-    abstract void display();
-&#125;
-</code></pre>
 <p>基于基类Duck，我们创造绿头鸭和红头鸭。</p>
-<pre><code class="java">// 绿头鸭
-public class MallardDuck extends Duck &#123;
-    @Override
-    void display() &#123;
-        System.out.println(&quot;green head&quot;);
-    &#125;
-&#125;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 绿头鸭</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MallardDuck</span> <span class="keyword">extends</span> <span class="title">Duck</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;green head&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 红头鸭</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedHeadDuck</span> <span class="keyword">extends</span> <span class="title">Duck</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;red head&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// 红头鸭
-public class RedHeadDuck extends Duck &#123;
-    @Override
-    void display() &#123;
-        System.out.println(&quot;red head&quot;);
-    &#125;
-&#125;
-</code></pre>
 <h1 id="会飞的鸭子"><a href="#会飞的鸭子" class="headerlink" title="会飞的鸭子"></a>会飞的鸭子</h1><p>基于上面的鸭子，我们还需要添加会飞的技能。借助继承，我们在基类中添加飞行方法。</p>
-<pre><code class="java">public abstract class Duck &#123;
-    public void quack() &#123;
-        System.out.println(&quot;quack quack!&quot;);
-    &#125;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Duck</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">quack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;quack quack!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">swim</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;I am swimming!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fly</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;I am flying!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public void swim() &#123;
-        System.out.println(&quot;I am swimming!&quot;);
-    &#125;
-
-    public void fly() &#123;
-        System.out.println(&quot;I am flying!&quot;);
-    &#125;
-
-    abstract void display();
-&#125;
-</code></pre>
 <p>但是，可怕的事情发生了。在添加橡皮鸭的时候，竟然会飞！因为疏于设计，导致局部的修改，影响到了所有的鸭子对象。该怎么办呢？试下 <strong>覆盖</strong> 吧，在橡皮鸭中，实现飞行方法，覆盖父类行为，但是什么都不做。</p>
-<pre><code class="java">public class RubberDuck extends Duck &#123;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RubberDuck</span> <span class="keyword">extends</span> <span class="title">Duck</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fly</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// do nothing</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;I am rubber duck&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    @Override
-    public void fly() &#123;
-        // do nothing
-    &#125;
-
-    @Override
-    void display() &#123;
-        System.out.println(&quot;I am rubber duck&quot;);
-    &#125;
-&#125;
-</code></pre>
 <p>似乎，解决了问题。是不是可以使用接口呢，只有会飞的鸭子才实现此接口。</p>
 <p><img src="/2021/01/20/computer%20science/design%20pattern/startup/001.png"></p>
 <p>但是如此，重复代码会增加，因为对同样的行为需要重复实现，比如需要对所有呱呱叫的鸭子，需要在 <code>quack</code> 方法中实现呱呱叫的行为。</p>
@@ -171,18 +124,8 @@ public class RedHeadDuck extends Duck &#123;
 <p>我们希望设计具有弹性，可以指定行为到鸭子实例。可以把鸭子的行为放在分开的类中，专门提供某行为接口的实现。<strong>针对接口编程，而不是针对实现编程。</strong>利用接口代表每个行为，比如 <code>FlyBehavior</code> 和 <code>QuackBehavior</code> ，行为的每个实现都将实现其中的一个接口。这次，鸭子类不负责实现 Flying 和 Quacking 接口，由我们制造一组其他类专门实现 <code>FlyBehavior</code> 和 <code>QuackBehavior</code>，这称为行为类。</p>
 <p><img src="/2021/01/20/computer%20science/design%20pattern/startup/003.png"></p>
 <p><strong>针对接口编程</strong>真正的意思是<strong>针对超类型 (supertype)编程</strong>。利用<strong>多态</strong>，程序可以针对超类型编程，执行时会根据 实际状况执行到真正的行为。</p>
-<pre><code class="java">// 针对实现编程
-Dog d = new Dog( ); 
-d.bark( );
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 针对实现编程</span></span><br><span class="line">Dog d = <span class="keyword">new</span> Dog( ); </span><br><span class="line">d.bark( );</span><br><span class="line"></span><br><span class="line"><span class="comment">// 针对接口/超类型编程</span></span><br><span class="line">Animal animal = <span class="keyword">new</span> Dog( ); </span><br><span class="line">animal.makeSound( ); </span><br><span class="line"></span><br><span class="line"><span class="comment">// 行时指定具体实现</span></span><br><span class="line">Animal a = getAnimal( );</span><br><span class="line">a.makeSound( );</span><br></pre></td></tr></table></figure>
 
-// 针对接口/超类型编程
-Animal animal = new Dog( ); 
-animal.makeSound( ); 
-
-// 行时指定具体实现
-Animal a = getAnimal( );
-a.makeSound( );
-</code></pre>
 <p>最终的实现如下。</p>
 <p><img src="/2021/01/20/computer%20science/design%20pattern/startup/004.png"></p>
 <p>至此。</p>
@@ -194,7 +137,7 @@ a.makeSound( );
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/20/computer%20science/design%20pattern/startup/" data-id="ckomwlrt30020rhn9h8xdakz7" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/01/20/computer%20science/design%20pattern/startup/" data-id="ckonrt7uv0020c8n9aa6yaove" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
@@ -275,7 +218,7 @@ a.makeSound( );
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -283,7 +226,7 @@ a.makeSound( );
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

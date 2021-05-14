@@ -20,6 +20,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -107,27 +109,19 @@
 <h1 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h1><h2 id="whatevergreen-failed-to-route-IsTypeCOnlySystem"><a href="#whatevergreen-failed-to-route-IsTypeCOnlySystem" class="headerlink" title="whatevergreen: failed to route IsTypeCOnlySystem"></a><code>whatevergreen: failed to route IsTypeCOnlySystem</code></h2><p><code>whatevergreen</code> 报 <code>failed to route IsTypeCOnlySystem</code> 异常，如果是使用集显，需要调整 device-properties。</p>
 <h2 id="DSDT-HPET-aml"><a href="#DSDT-HPET-aml" class="headerlink" title="DSDT_HPET.aml"></a>DSDT_HPET.aml</h2><p>Dell Optiplex 7050 使用 OpenCore 0.6.5 安装 Big Sur (11.1) 后，板载声卡无法识别，Lilu.kext + AppleALC.kext 换各种 layout-id 无解。后参考这篇<a target="_blank" rel="noopener" href="https://www.tonymacx86.com/threads/help-mojave-alc-255-dell.274856/">帖子</a>，需要 fix Comment-IRQ，如果使用 Clover 的话，在 ACPI 勾选 <code>FixHPET</code>、<code>FixIPIC</code> 、 <code>FixRTC</code> 、<code>FixTMR</code> 即可，使用 OpenCore 的话，略微麻烦。</p>
 <p><strong>首先，获取机器的 DSDT.aml</strong> ，参考<a target="_blank" rel="noopener" href="https://dortania.github.io/Getting-Started-With-ACPI/Manual/dump.html#from-opencore">这篇文章</a> ，我使用 UEFI Shell 方式，需要下载 <a target="_blank" rel="noopener" href="https://github.com/dortania/OpenCore-Install-Guide/tree/master/extra-files/acpidump.efi.zip">acpidump.efi</a> ，和 OpenShell.efi（在下载的 OpenCore 中） 一并放入 <code>/EFI/OC/Tools</code> 下面，并在 config.plist 的 <code>Misc -&gt; Tools</code> 下面启用，具体参考文章。重启，在引导界面进入 Open Shell，输入如下命令。</p>
-<pre><code class="shell">shell&gt; fs0: // 替换为实际分区，进入OpenShell后会有分区提示
-fs0:\&gt; dir  // 查看分区文件，确认选的分区是否正确
-   Directory of fs0:\
-   01/01/01 3:30p EFI
-fs0:\&gt; cd EFI\OC\Tools   
-fs0:\EFI\OC\Tools&gt; acpidump.efi -b -n DSDT -z  
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">shell&gt;</span><span class="bash"> fs0: // 替换为实际分区，进入OpenShell后会有分区提示</span></span><br><span class="line">fs0:\&gt; dir  // 查看分区文件，确认选的分区是否正确</span><br><span class="line">   Directory of fs0:\</span><br><span class="line">   01/01/01 3:30p EFI</span><br><span class="line">fs0:\&gt; cd EFI\OC\Tools   </span><br><span class="line">fs0:\EFI\OC\Tools&gt; acpidump.efi -b -n DSDT -z  </span><br></pre></td></tr></table></figure>
+
 <p>运行完上面命令后，会在EFI分区生成多个 <code>*.dat</code> 文件，我们把 <code>dsdt.dat</code> 拿出来，重命名为 <code>DSDT.aml</code>。</p>
 <p><strong>然后，使用工具生成 <code>SSDT-HPET.aml</code> 文件</strong>。下载工具 <a target="_blank" rel="noopener" href="https://github.com/corpnewt/SSDTTime">SSDTTime</a>，双击 <a target="_blank" rel="noopener" href="https://github.com/corpnewt/SSDTTime/blob/master/SSDTTime.command">SSDTTime.command</a> 运行，选择 <code>FixHPET    - Patch Out IRQ Conflicts</code> ，把生成好的 <code>DSDT.aml</code> 拖入终端，按照提示操作，最后会生成四个文件。</p>
-<pre><code>patches_Clover.plist
-patches_OC.plist
-SSDT-HPET.aml
-SSDT-HPET.dsl
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">patches_Clover.plist</span><br><span class="line">patches_OC.plist</span><br><span class="line">SSDT-HPET.aml</span><br><span class="line">SSDT-HPET.dsl</span><br></pre></td></tr></table></figure>
+
 <p><strong>接下来，需要做的是拷贝文件和Patch</strong>，把 SSDT-HPET.aml 拷贝至 <code>EFI/OC/ACPI</code> 文件夹下，并用 OpenCore Configurator 打开 <code>patches_OC.plist</code>，把 ACPI 项内的数据复制至我们自己的 config.plist 中。</p>
 <p>至此，打工搞成。可解决 ALC255/ALC3243 声卡无法识别问题。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/25/play/os%20x/black%20apple/" data-id="ckomwlrtn003irhn98pnyek14" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/01/25/play/os%20x/black%20apple/" data-id="ckonrt7vj003ec8n93ase6oye" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/os-x/" rel="tag">os x</a></li></ul>
@@ -171,66 +165,17 @@ SSDT-HPET.dsl
 </ul>
 <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>设计模式系列，主要参考 《Head First 设计模式》 一书。</p>
 <h1 id="模拟鸭子"><a href="#模拟鸭子" class="headerlink" title="模拟鸭子"></a>模拟鸭子</h1><p>有这样一个需求，需要设计模拟鸭子游戏，游戏中有多种鸭子，鸭子都会叫和游泳，但是有不同的外观。简单的，我们采用 <strong>继承</strong> 来实现。首先，定义抽象类 Duck。</p>
-<pre><code class="java">public abstract class Duck &#123;
-    public void quack() &#123;
-        System.out.println(&quot;quack quack!&quot;);
-    &#125;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Duck</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">quack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;quack quack!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">swim</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;I am swimming!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public void swim() &#123;
-        System.out.println(&quot;I am swimming!&quot;);
-    &#125;
-
-    abstract void display();
-&#125;
-</code></pre>
 <p>基于基类Duck，我们创造绿头鸭和红头鸭。</p>
-<pre><code class="java">// 绿头鸭
-public class MallardDuck extends Duck &#123;
-    @Override
-    void display() &#123;
-        System.out.println(&quot;green head&quot;);
-    &#125;
-&#125;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 绿头鸭</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MallardDuck</span> <span class="keyword">extends</span> <span class="title">Duck</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;green head&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 红头鸭</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedHeadDuck</span> <span class="keyword">extends</span> <span class="title">Duck</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;red head&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// 红头鸭
-public class RedHeadDuck extends Duck &#123;
-    @Override
-    void display() &#123;
-        System.out.println(&quot;red head&quot;);
-    &#125;
-&#125;
-</code></pre>
 <h1 id="会飞的鸭子"><a href="#会飞的鸭子" class="headerlink" title="会飞的鸭子"></a>会飞的鸭子</h1><p>基于上面的鸭子，我们还需要添加会飞的技能。借助继承，我们在基类中添加飞行方法。</p>
-<pre><code class="java">public abstract class Duck &#123;
-    public void quack() &#123;
-        System.out.println(&quot;quack quack!&quot;);
-    &#125;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Duck</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">quack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;quack quack!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">swim</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;I am swimming!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fly</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;I am flying!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public void swim() &#123;
-        System.out.println(&quot;I am swimming!&quot;);
-    &#125;
-
-    public void fly() &#123;
-        System.out.println(&quot;I am flying!&quot;);
-    &#125;
-
-    abstract void display();
-&#125;
-</code></pre>
 <p>但是，可怕的事情发生了。在添加橡皮鸭的时候，竟然会飞！因为疏于设计，导致局部的修改，影响到了所有的鸭子对象。该怎么办呢？试下 <strong>覆盖</strong> 吧，在橡皮鸭中，实现飞行方法，覆盖父类行为，但是什么都不做。</p>
-<pre><code class="java">public class RubberDuck extends Duck &#123;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RubberDuck</span> <span class="keyword">extends</span> <span class="title">Duck</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fly</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// do nothing</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;I am rubber duck&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    @Override
-    public void fly() &#123;
-        // do nothing
-    &#125;
-
-    @Override
-    void display() &#123;
-        System.out.println(&quot;I am rubber duck&quot;);
-    &#125;
-&#125;
-</code></pre>
 <p>似乎，解决了问题。是不是可以使用接口呢，只有会飞的鸭子才实现此接口。</p>
 <p><img src="/2021/01/20/computer%20science/design%20pattern/startup/001.png"></p>
 <p>但是如此，重复代码会增加，因为对同样的行为需要重复实现，比如需要对所有呱呱叫的鸭子，需要在 <code>quack</code> 方法中实现呱呱叫的行为。</p>
@@ -240,18 +185,8 @@ public class RedHeadDuck extends Duck &#123;
 <p>我们希望设计具有弹性，可以指定行为到鸭子实例。可以把鸭子的行为放在分开的类中，专门提供某行为接口的实现。<strong>针对接口编程，而不是针对实现编程。</strong>利用接口代表每个行为，比如 <code>FlyBehavior</code> 和 <code>QuackBehavior</code> ，行为的每个实现都将实现其中的一个接口。这次，鸭子类不负责实现 Flying 和 Quacking 接口，由我们制造一组其他类专门实现 <code>FlyBehavior</code> 和 <code>QuackBehavior</code>，这称为行为类。</p>
 <p><img src="/2021/01/20/computer%20science/design%20pattern/startup/003.png"></p>
 <p><strong>针对接口编程</strong>真正的意思是<strong>针对超类型 (supertype)编程</strong>。利用<strong>多态</strong>，程序可以针对超类型编程，执行时会根据 实际状况执行到真正的行为。</p>
-<pre><code class="java">// 针对实现编程
-Dog d = new Dog( ); 
-d.bark( );
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 针对实现编程</span></span><br><span class="line">Dog d = <span class="keyword">new</span> Dog( ); </span><br><span class="line">d.bark( );</span><br><span class="line"></span><br><span class="line"><span class="comment">// 针对接口/超类型编程</span></span><br><span class="line">Animal animal = <span class="keyword">new</span> Dog( ); </span><br><span class="line">animal.makeSound( ); </span><br><span class="line"></span><br><span class="line"><span class="comment">// 行时指定具体实现</span></span><br><span class="line">Animal a = getAnimal( );</span><br><span class="line">a.makeSound( );</span><br></pre></td></tr></table></figure>
 
-// 针对接口/超类型编程
-Animal animal = new Dog( ); 
-animal.makeSound( ); 
-
-// 行时指定具体实现
-Animal a = getAnimal( );
-a.makeSound( );
-</code></pre>
 <p>最终的实现如下。</p>
 <p><img src="/2021/01/20/computer%20science/design%20pattern/startup/004.png"></p>
 <p>至此。</p>
@@ -263,7 +198,7 @@ a.makeSound( );
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/20/computer%20science/design%20pattern/startup/" data-id="ckomwlrt30020rhn9h8xdakz7" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/01/20/computer%20science/design%20pattern/startup/" data-id="ckonrt7uv0020c8n9aa6yaove" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
@@ -355,7 +290,7 @@ a.makeSound( );
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/16/data%20structure/tree/tree/" data-id="ckomwlrt9002crhn94c5z3xfp" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/01/16/data%20structure/tree/tree/" data-id="ckonrt7v2002bc8n940d53ow0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li></ul>
@@ -490,10 +425,76 @@ a.makeSound( );
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/14/computer%20science/software%20engineering/classdiagram/" data-id="ckomwlrt8002arhn91st29ylh" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/01/14/computer%20science/software%20engineering/classdiagram/" data-id="ckonrt7v10029c8n9gow8e12v" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB%E5%9B%BE/" rel="tag">类图</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-tools/plantuml/classdiagram" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/13/tools/plantuml/classdiagram/" class="article-date">
+  <time datetime="2021-01-13T11:00:00.000Z" itemprop="datePublished">2021-01-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tools/">tools</a>►<a class="article-category-link" href="/categories/tools/plantuml/">plantuml</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/13/tools/plantuml/classdiagram/">plantuml 类图</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="声明元素"><a href="#声明元素" class="headerlink" title="声明元素"></a>声明元素</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">abstract        abstract</span><br><span class="line">abstract class  &quot;abstract class&quot;</span><br><span class="line">annotation      annotation</span><br><span class="line">circle          circle</span><br><span class="line">()              circle_short_form</span><br><span class="line">class           class</span><br><span class="line">diamond         diamond</span><br><span class="line">&lt;&gt;              diamond_short_form</span><br><span class="line">entity          entity</span><br><span class="line">enum            enum</span><br><span class="line">interface       interface</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+<h1 id="定义关系"><a href="#定义关系" class="headerlink" title="定义关系"></a>定义关系</h1><table>
+<thead>
+<tr>
+<th>关系</th>
+<th>符号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>扩展（Extension）</td>
+<td>&lt;|–</td>
+</tr>
+<tr>
+<td>组合（Conposition）</td>
+<td>*–</td>
+</tr>
+<tr>
+<td>聚合（Aggregation）</td>
+<td>o–</td>
+</tr>
+</tbody></table>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">class Dummy &#123;</span><br><span class="line">  String data</span><br><span class="line">  void methods()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Flight &#123;</span><br><span class="line">   flightNumber : Integer</span><br><span class="line">   departureTime : Date</span><br><span class="line">&#125;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/01/13/tools/plantuml/classdiagram/" data-id="ckonrt7wd005cc8n920klexig" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/plantuml/" rel="tag">plantuml</a></li></ul>
 
     </footer>
   </div>
@@ -531,18 +532,17 @@ a.makeSound( );
         <h1 id="Setup"><a href="#Setup" class="headerlink" title="Setup"></a>Setup</h1><p><strong>下载</strong></p>
 <p><a target="_blank" rel="noopener" href="http://plantuml.com/zh/download">http://plantuml.com/zh/download</a></p>
 <p><strong>启动</strong></p>
-<pre><code class="shell">$ java -jar /path/to/plantuml.jar
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> java -jar /path/to/plantuml.jar</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>Deps</strong></p>
-<pre><code class="shell"># mac
-$ brew install graphviz
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> mac</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew install graphviz</span></span><br></pre></td></tr></table></figure>
+
 <h1 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h1><p>plantuml 扩展名一般为 <code>.puml</code>，如 <code>hi.puml</code>。</p>
 <h1 id="画布大小"><a href="#画布大小" class="headerlink" title="画布大小"></a>画布大小</h1>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/13/tools/plantuml/setup/" data-id="ckomwlru6005grhn92ls68zwr" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/01/13/tools/plantuml/setup/" data-id="ckonrt7we005gc8n9d7f7fjqp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/plantuml/" rel="tag">plantuml</a></li></ul>
@@ -554,102 +554,14 @@ $ brew install graphviz
 
 
   
-    <article id="post-tools/plantuml/classdiagram" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-architecture/storage/sql" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/01/13/tools/plantuml/classdiagram/" class="article-date">
-  <time datetime="2021-01-13T11:00:00.000Z" itemprop="datePublished">2021-01-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/tools/">tools</a>►<a class="article-category-link" href="/categories/tools/plantuml/">plantuml</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/13/tools/plantuml/classdiagram/">plantuml 类图</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="声明元素"><a href="#声明元素" class="headerlink" title="声明元素"></a>声明元素</h1><pre><code class="puml">@startuml
-abstract        abstract
-abstract class  &quot;abstract class&quot;
-annotation      annotation
-circle          circle
-()              circle_short_form
-class           class
-diamond         diamond
-&lt;&gt;              diamond_short_form
-entity          entity
-enum            enum
-interface       interface
-@enduml
-</code></pre>
-<h1 id="定义关系"><a href="#定义关系" class="headerlink" title="定义关系"></a>定义关系</h1><table>
-<thead>
-<tr>
-<th>关系</th>
-<th>符号</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>扩展（Extension）</td>
-<td>&lt;|–</td>
-</tr>
-<tr>
-<td>组合（Conposition）</td>
-<td>*–</td>
-</tr>
-<tr>
-<td>聚合（Aggregation）</td>
-<td>o–</td>
-</tr>
-</tbody></table>
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><pre><code class="puml">@startuml
-class Dummy &#123;
-  String data
-  void methods()
-&#125;
-
-class Flight &#123;
-   flightNumber : Integer
-   departureTime : Date
-&#125;
-@enduml
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/13/tools/plantuml/classdiagram/" data-id="ckomwlru5005crhn91if7hxqp" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/plantuml/" rel="tag">plantuml</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-life/learn/english/common" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/01/12/life/learn/english/common/" class="article-date">
+    <a href="/2021/01/12/architecture/storage/sql/" class="article-date">
   <time datetime="2021-01-11T16:00:00.000Z" itemprop="datePublished">2021-01-12</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/life/">life</a>►<a class="article-category-link" href="/categories/life/learn/">learn</a>
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/">存储</a>
   </div>
 
   </div>
@@ -660,7 +572,7 @@ class Flight &#123;
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/12/life/learn/english/common/">英语常识</a>
+      <a class="article-title" href="/2021/01/12/architecture/storage/sql/">SQL</a>
     </h1>
   
 
@@ -668,175 +580,26 @@ class Flight &#123;
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="地址"><a href="#地址" class="headerlink" title="地址"></a>地址</h1><p><strong>格式</strong></p>
-<table>
-<thead>
-<tr>
-<th>级别</th>
-<th>英文</th>
-<th>示例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>室</td>
-<td>Room</td>
-<td>Room 602</td>
-</tr>
-<tr>
-<td>村</td>
-<td>Vallage</td>
-<td>Huaxi Vallage</td>
-</tr>
-<tr>
-<td>号</td>
-<td>No.*</td>
-<td>No.12</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<pre><code>Ｘ室 Room Ｘ
-X 村 *** Vallage,如华西村 Huaxi Vallage.
-Ｘ号 No. X
-Ｘ单元 Unit Ｘ
-Ｘ号楼 Building No. Ｘ
-Ｘ街 Ｘ Street
-Ｘ路 Ｘ Road
-Ｘ区 Ｘ District
-Ｘ县 Ｘ County
-Ｘ镇 Ｘ Town
-Ｘ市 Ｘ City
-Ｘ省 Ｘ Province
-</code></pre>
+        <h1 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h1><p><strong>语法</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> 表名称 (</span><br><span class="line">    列名称<span class="number">1</span> 数据类型,</span><br><span class="line">    列名称<span class="number">2</span> 数据类型,</span><br><span class="line">    列名称<span class="number">3</span> 数据类型,</span><br><span class="line">    ....</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
 <p><strong>示例</strong></p>
-<pre><code>宝山区良港村37号403室
-Room 403, No. 37, Lianggang Residential Quarter, BaoShan District
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `syscontroldb`.`sys_user` (</span><br><span class="line">  `id` <span class="type">INT</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;用户DI，系统唯一标识&#x27;</span>,</span><br><span class="line">  `userName` <span class="type">VARCHAR</span>(<span class="number">45</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;用户名，系统唯一&#x27;</span>,</span><br><span class="line">  `password` <span class="type">VARCHAR</span>(<span class="number">45</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;用户密码，加密&#x27;</span>,</span><br><span class="line">  `customerID` <span class="type">INT</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;所属用户代码&#x27;</span>,</span><br><span class="line">  `tel` <span class="type">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;电话号码&#x27;</span>,</span><br><span class="line">  `status` <span class="type">INT</span>(<span class="number">3</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;用户状态，0正常，1注销，2暂停&#x27;</span> <span class="keyword">DEFAULT</span> <span class="number">1</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`id`))</span><br><span class="line">COMMENT <span class="operator">=</span> <span class="string">&#x27;系统用户表&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-虹口区西康南路125弄34号201室
-Room 201, No. 34, Lane 125, XiKang Road(South), HongKou District
+<h1 id="Select"><a href="#Select" class="headerlink" title="Select"></a>Select</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="operator">&lt;</span><span class="keyword">table</span><span class="operator">&gt;</span> <span class="keyword">WHERE</span> <span class="operator">&lt;</span>field<span class="operator">&gt;=</span><span class="operator">&lt;</span><span class="keyword">value</span><span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
 
-四川省成都市花都大道100号世纪光花小区3023号
-No.3023，Shijiguanghua Residential Quater,Huadu Avenue，Chengdu City, Sichuan Province
+<h1 id="Add"><a href="#Add" class="headerlink" title="Add"></a>Add</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="operator">&lt;</span><span class="keyword">table</span><span class="operator">&gt;</span> (<span class="operator">&lt;</span>field<span class="operator">&gt;</span>, <span class="operator">&lt;</span>field<span class="operator">&gt;</span>, ...) <span class="keyword">VALUES</span> (<span class="operator">&lt;</span><span class="keyword">value</span><span class="operator">&gt;</span>, <span class="operator">&lt;</span><span class="keyword">value</span><span class="operator">&gt;</span>, ...)</span><br></pre></td></tr></table></figure>
 
-河南省南阳市中州路42号 李有财 473004
-Li Youcai
-Room 42
-Zhongzhou Road, Nanyang City
-Henan Prov. China 473004
+<h1 id="Updata"><a href="#Updata" class="headerlink" title="Updata"></a>Updata</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE <span class="operator">&lt;</span><span class="keyword">table</span><span class="operator">&gt;</span> <span class="keyword">SET</span> <span class="operator">&lt;</span>field<span class="operator">&gt;=</span><span class="operator">&lt;</span><span class="keyword">value</span><span class="operator">&gt;</span>,<span class="operator">&lt;</span>field<span class="operator">&gt;=</span><span class="operator">&lt;</span><span class="keyword">value</span><span class="operator">&gt;</span> <span class="keyword">WHERE</span> <span class="operator">&lt;</span>field<span class="operator">&gt;=</span><span class="operator">&lt;</span><span class="keyword">value</span><span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
 
-473000河南南阳市八一路272号特钢公司 李有财
-Li Youcai
-Special Steel Corp.
-No. 272, Bayi Road, Nanyang City
-Henan Prov. China 473000
-</code></pre>
-
+<h1 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h1><h2 id="left"><a href="#left" class="headerlink" title="left"></a>left</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 别名</span><br><span class="line"><span class="keyword">SELECT</span> a.id, b.id <span class="keyword">FROM</span> zj_classify a <span class="keyword">left</span> <span class="keyword">join</span> zj_classify b <span class="keyword">on</span> b.parent <span class="operator">=</span> a.id ;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/12/life/learn/english/common/" data-id="ckomwlrv90096rhn9cbetcc0r" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/01/12/architecture/storage/sql/" data-id="ckonrt7u5000uc8n90e5geayl" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/life/" rel="tag">life</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-coding/c++/library/list" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/01/12/coding/c++/library/list/" class="article-date">
-  <time datetime="2021-01-11T16:00:00.000Z" itemprop="datePublished">2021-01-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/c/">c++</a>►<a class="article-category-link" href="/categories/coding/c/library/">library</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/12/coding/c++/library/list/">c++ 库</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="服务治理"><a href="#服务治理" class="headerlink" title="服务治理"></a>服务治理</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/oliora/ppconsul">ppconsul</a> : consul 客户端</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/12/coding/c++/library/list/" data-id="ckomwlrup007erhn9f3gr39cl" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-architecture/monitor/prometheus/query" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/01/12/architecture/monitor/prometheus/query/" class="article-date">
-  <time datetime="2021-01-11T16:00:00.000Z" itemprop="datePublished">2021-01-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/">监控</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/prometheus/">prometheus</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/12/architecture/monitor/prometheus/query/">prometheus 查询语句</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="分组求和"><a href="#分组求和" class="headerlink" title="分组求和"></a>分组求和</h1><pre><code class="sql"># 语法
-sum by(cluster)(rate(...))
-
-# 对应用 &lt;app&gt; 最进一分钟的counter标签值为 &lt;search&gt; 的数据，以 cluster 为分组进行求和
-sum by(cluster)(rate(&lt;app&gt;_timer_count&#123;counter=&quot;search&quot;&#125;[1m]))
-</code></pre>
-<h1 id="一段时间内总量"><a href="#一段时间内总量" class="headerlink" title="一段时间内总量"></a>一段时间内总量</h1><pre><code class="sql"> # 3天内请求总量
-sum(increase(requst_count&#123;counter=&quot;...&quot;,...&#125;&#125;[3d]))
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/12/architecture/monitor/prometheus/query/" data-id="ckomwlruj006wrhn9bgvkgmrp" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/prometheus/" rel="tag">prometheus</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li></ul>
 
     </footer>
   </div>
@@ -911,10 +674,101 @@ sum(increase(requst_count&#123;counter=&quot;...&quot;,...&#125;&#125;[3d]))
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/12/life/travel/WLCB/" data-id="ckomwlrtf002trhn9c4p207kr" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/01/12/life/travel/WLCB/" data-id="ckonrt7v9002uc8n94ozh9f7u" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" rel="tag">自驾游</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-architecture/monitor/prometheus/query" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/12/architecture/monitor/prometheus/query/" class="article-date">
+  <time datetime="2021-01-11T16:00:00.000Z" itemprop="datePublished">2021-01-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/">监控</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/prometheus/">prometheus</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/12/architecture/monitor/prometheus/query/">prometheus 查询语句</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="分组求和"><a href="#分组求和" class="headerlink" title="分组求和"></a>分组求和</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 语法</span><br><span class="line">sum <span class="keyword">by</span>(cluster)(rate(...))</span><br><span class="line"></span><br><span class="line"># 对应用 <span class="operator">&lt;</span>app<span class="operator">&gt;</span> 最进一分钟的counter标签值为 <span class="operator">&lt;</span><span class="keyword">search</span><span class="operator">&gt;</span> 的数据，以 cluster 为分组进行求和</span><br><span class="line">sum <span class="keyword">by</span>(cluster)(rate(<span class="operator">&lt;</span>app<span class="operator">&gt;</span>_timer_count&#123;counter<span class="operator">=</span>&quot;search&quot;&#125;[<span class="number">1</span>m]))</span><br></pre></td></tr></table></figure>
+
+<h1 id="一段时间内总量"><a href="#一段时间内总量" class="headerlink" title="一段时间内总量"></a>一段时间内总量</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> # <span class="number">3</span>天内请求总量</span><br><span class="line"><span class="built_in">sum</span>(increase(requst_count&#123;counter<span class="operator">=</span>&quot;...&quot;,...&#125;&#125;[<span class="number">3</span>d]))</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/01/12/architecture/monitor/prometheus/query/" data-id="ckonrt7x1006wc8n901wbfe1z" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/prometheus/" rel="tag">prometheus</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/c++/library/list" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/12/coding/c++/library/list/" class="article-date">
+  <time datetime="2021-01-11T16:00:00.000Z" itemprop="datePublished">2021-01-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/c/">c++</a>►<a class="article-category-link" href="/categories/coding/c/library/">library</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/12/coding/c++/library/list/">c++ 库</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="服务治理"><a href="#服务治理" class="headerlink" title="服务治理"></a>服务治理</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/oliora/ppconsul">ppconsul</a> : consul 客户端</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/01/12/coding/c++/library/list/" data-id="ckonrt7x9007ec8n9dypzbhb8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
 
     </footer>
   </div>
@@ -980,7 +834,7 @@ sum(increase(requst_count&#123;counter=&quot;...&quot;,...&#125;&#125;[3d]))
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -988,7 +842,7 @@ sum(increase(requst_count&#123;counter=&quot;...&quot;,...&#125;&#125;[3d]))
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

@@ -27,6 +27,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -132,21 +134,8 @@
 <h2 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h2><p><strong>自旋锁（spinlock）：是指当一个线程在获取锁的时候，如果锁已经被其它线程获取，那么该线程将循环等待，然后不断的判断锁是否能够被成功获取，直到获取到锁才会退出循环</strong>。</p>
 <p>它是为实现保护共享资源而提出一种锁机制。其实，自旋锁与互斥锁比较类似，它们都是为了解决对某项资源的互斥使用。<strong>无论是互斥锁，还是自旋锁，在任何时刻，最多只能有一个保持者，也就说，在任何时刻最多只能有一个执行单元获得锁</strong>。但是两者在调度机制上略有不同。对于互斥锁，如果资源已经被占用，资源申请者只能进入睡眠状态。但是自旋锁不会引起调用者睡眠，如果自旋锁已经被别的执行单元保持，调用者就一直循环在那里看是否该自旋锁的保持者已经释放了锁，”自旋”一词就是因此而得名。</p>
 <p><strong>实现示例</strong></p>
-<pre><code class="java">public class SpinLock &#123;
-   private AtomicReference&lt;Thread&gt; cas = new AtomicReference&lt;Thread&gt;();
-   public void lock() &#123;
-       Thread current = Thread.currentThread();
-       // 利用CAS
-       while (!cas.compareAndSet(null, current)) &#123;
-           // DO nothing
-       &#125;
-   &#125;
-   public void unlock() &#123;
-       Thread current = Thread.currentThread();
-       cas.compareAndSet(current, null);
-   &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpinLock</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> AtomicReference&lt;Thread&gt; cas = <span class="keyword">new</span> AtomicReference&lt;Thread&gt;();</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       Thread current = Thread.currentThread();</span><br><span class="line">       <span class="comment">// 利用CAS</span></span><br><span class="line">       <span class="keyword">while</span> (!cas.compareAndSet(<span class="keyword">null</span>, current)) &#123;</span><br><span class="line">           <span class="comment">// DO nothing</span></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       Thread current = Thread.currentThread();</span><br><span class="line">       cas.compareAndSet(current, <span class="keyword">null</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>lock() 方法利用的CAS，当第一个线程A获取锁的时候，能够成功获取到，不会进入while循环，如果此时线程A没有释放锁，另一个线程B又来获取锁，此时由于不满足CAS，所以就会进入while循环，不断判断是否满足CAS，直到A线程调用unlock方法释放了该锁。</p>
 <p><strong>问题</strong></p>
 <p>1、如果某个线程持有锁的时间过长，就会导致其它等待获取锁的线程进入循环等待，消耗CPU。使用不当会造成CPU使用率极高。<br>2、上面Java实现的自旋锁不是公平的，即无法满足等待时间最长的线程优先获取锁。不公平的锁就会存在“线程饥饿”问题。</p>
@@ -221,62 +210,8 @@
 <td>关键词括号内的对象</td>
 </tr>
 </tbody></table>
-<pre><code class="java">public class TestLock &#123;
-    private static final ExecutorService es = Executors.newFixedThreadPool(16);
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestLock</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ExecutorService es = Executors.newFixedThreadPool(<span class="number">16</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sleep</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">fe</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fe: &quot;</span> + LocalDateTime.now());</span><br><span class="line">        sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fd: &quot;</span> + LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fc: &quot;</span> + LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fb</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fb: &quot;</span> + LocalDateTime.now());</span><br><span class="line">        fc();</span><br><span class="line">        es.submit(<span class="keyword">this</span>::fd);</span><br><span class="line">        sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fa</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fa: &quot;</span> + LocalDateTime.now());</span><br><span class="line">        sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        TestLock tl = <span class="keyword">new</span> TestLock();</span><br><span class="line">        es.submit(tl::fa);</span><br><span class="line">        es.submit(tl::fb);</span><br><span class="line">        es.submit(tl::fe);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// output</span></span><br><span class="line">fe: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">10.698877</span></span><br><span class="line">fa: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">10.698912</span></span><br><span class="line">fb: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">15.703141</span></span><br><span class="line">fc: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">15.703565</span></span><br><span class="line">fd: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">20.708362</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// description</span></span><br><span class="line"><span class="number">1.</span> 普通同步方法，锁粒度为当前实例对象</span><br><span class="line"><span class="number">2.</span> <span class="keyword">synchronized</span> 为可重入锁，在 fb 中调用 fc 需要重复为当前实例对象上锁</span><br><span class="line"><span class="number">3.</span> 重入锁不适用于子线程</span><br></pre></td></tr></table></figure>
 
-    void sleep() &#123;
-        try &#123;
-            Thread.sleep(5000);
-        &#125; catch (Exception e) &#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-
-    void fe() &#123;
-        System.out.println(&quot;fe: &quot; + LocalDateTime.now());
-        sleep();
-    &#125;
-
-    synchronized void fd() &#123;
-        System.out.println(&quot;fd: &quot; + LocalDateTime.now());
-    &#125;
-
-    synchronized void fc() &#123;
-        System.out.println(&quot;fc: &quot; + LocalDateTime.now());
-    &#125;
-
-    synchronized void fb() &#123;
-        System.out.println(&quot;fb: &quot; + LocalDateTime.now());
-        fc();
-        es.submit(this::fd);
-        sleep();
-    &#125;
-
-    synchronized void fa() &#123;
-        System.out.println(&quot;fa: &quot; + LocalDateTime.now());
-        sleep();
-    &#125;
-
-    public static void main(String[] args) &#123;
-        TestLock tl = new TestLock();
-        es.submit(tl::fa);
-        es.submit(tl::fb);
-        es.submit(tl::fe);
-    &#125;
-&#125;
-
-// output
-fe: 2021-03-11T19:57:10.698877
-fa: 2021-03-11T19:57:10.698912
-fb: 2021-03-11T19:57:15.703141
-fc: 2021-03-11T19:57:15.703565
-fd: 2021-03-11T19:57:20.708362
-  
-// description
-1. 普通同步方法，锁粒度为当前实例对象
-2. synchronized 为可重入锁，在 fb 中调用 fc 需要重复为当前实例对象上锁
-3. 重入锁不适用于子线程
-</code></pre>
 <h2 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h2><p>AQS：AbstractQuenedSynchronizer抽象的队列式同步器。是除了java自带的synchronized关键字之外的锁机制。</p>
 <p>核心思想，如果被请求的共享资源空闲，那么将当前请求资源的线程设置为有效的工作线程，将共享资源设置为锁定状态；如果共享资源被占用，就需要一定的阻塞等待机制来保证锁分配。这个机制主要用的是CLH队列的变体实现的，将暂时获取不到锁的线程加入到队列中。</p>
 <p><img src="/2021/03/10/coding/java/notes/lock/001.png"></p>
@@ -342,25 +277,18 @@ fd: 2021-03-11T19:57:20.708362
 </ul>
 <h2 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h2><p><strong>JDK 1.7</strong></p>
 <p>Jdk 1.7 中，HashMap 底层为数组+链表实现，ConcurrentHashMap与其不同的是，添加了 Segment 作为数组+链表的上层结构，Concurrent 继承 ReentrantLock，对 Segment 加锁，实现不同 Segment 可以同时读写。在写入获取key所在Segment是需要保证可见性，ConcurrentHashMap使用如下方法保证可见性，取得最新的Segment。</p>
-<pre><code class="java">Segment&lt;K,V&gt; s = (Segment&lt;K,V&gt;)UNSAFE.getObjectVolatile(segments, u)
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Segment&lt;K,V&gt; s = (Segment&lt;K,V&gt;)UNSAFE.getObjectVolatile(segments, u)</span><br></pre></td></tr></table></figure>
+
 <p>写入 Segment 时，需要获取锁，先使用自旋锁，超过重试次数后，通过 lock 获取锁（会被阻塞，切换至内核态等待）。</p>
 <p><strong>JDK 1.8</strong></p>
 <p>Jdk 1.8 中的 ConcurrentHashMap 刨除了 Segment 的设计，直接 &lt;大数组+[链表|红黑树]&gt; 的方式，如果数组对应的链表超过一定阈值后，转换为红黑树。大数组使用 volatile 关键字修饰。</p>
 <p>对于写操作，key对应的数组元素，使用 synchronized 关键字申请锁（当然，如果为null，则不需要加锁），然后进行操作。</p>
 <p>对于读操作，数组使用 volatile 保证可见性，数组的每个元素为Node实例（jdk 1.7 为 HashEntry），他的 key 和 hash 值都使用 final 修饰，无需担心可见性。value 和下一个元素的引用由 volatile 修饰，保证可见性。</p>
-<pre><code class="java">static class Node&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; &#123;
-  final int hash;
-  final K key;
-  volatile V val;
-  volatile Node&lt;K,V&gt; next;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">  <span class="keyword">final</span> K key;</span><br><span class="line">  <span class="keyword">volatile</span> V val;</span><br><span class="line">  <span class="keyword">volatile</span> Node&lt;K,V&gt; next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>对于 key 对应的数组元素的可见性，使用 Unsafe 的 getObjectVolatile 方法保证。</p>
-<pre><code class="java">static final &lt;K,V&gt; Node&lt;K,V&gt; tabAt(Node&lt;K,V&gt;[] tab, int i) &#123;
-  return (Node&lt;K,V&gt;)U.getObjectVolatile(tab, ((long)i &lt;&lt; ASHIFT) + ABASE);
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> &lt;K,V&gt; <span class="function">Node&lt;K,V&gt; <span class="title">tabAt</span><span class="params">(Node&lt;K,V&gt;[] tab, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (Node&lt;K,V&gt;)U.getObjectVolatile(tab, ((<span class="keyword">long</span>)i &lt;&lt; ASHIFT) + ABASE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="mutex-lock"><a href="#mutex-lock" class="headerlink" title="mutex lock"></a>mutex lock</h2><p>所谓锁，在计算机中，本质是内存中的一块空间，其值被赋予了加锁/未加锁的含义，其底层实现，是基于计算机系统中的原子操作。</p>
 <p>mutex lock 核心包含两点。</p>
 <ul>
@@ -392,7 +320,7 @@ fd: 2021-03-11T19:57:20.708362
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/lock/" data-id="ckomwlryb00pvrhn945yj90qb" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/lock/" data-id="ckonrt82i00pvc8n92s5mfhie" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -473,7 +401,7 @@ fd: 2021-03-11T19:57:20.708362
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -481,7 +409,7 @@ fd: 2021-03-11T19:57:20.708362
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

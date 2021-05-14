@@ -7,12 +7,12 @@
   
   <title>makefile 使用 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="格式target ... : prerequisites ...     command     ...     ...  这里 target 无实际意义，类似于定义 scrope &#x2F; function。 使用PHONY定义虚假文件，避免和时间文件冲突，同时可以解决 make: Nothing to be done for *** 的异常。 ➜  mf touch test       # 创建空">
+  <meta name="description" content="格式1234target ... : prerequisites ...	command	...	...  这里 target 无实际意义，类似于定义 scrope &#x2F; function。 使用PHONY定义虚假文件，避免和时间文件冲突，同时可以解决 make: Nothing to be done for *** 的异常。 1234567891011121314➜  mf touch test">
 <meta property="og:type" content="article">
 <meta property="og:title" content="makefile 使用">
 <meta property="og:url" content="http://wii.pub/2021/02/03/tools/makefile/usage/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="格式target ... : prerequisites ...     command     ...     ...  这里 target 无实际意义，类似于定义 scrope &#x2F; function。 使用PHONY定义虚假文件，避免和时间文件冲突，同时可以解决 make: Nothing to be done for *** 的异常。 ➜  mf touch test       # 创建空">
+<meta property="og:description" content="格式1234target ... : prerequisites ...	command	...	...  这里 target 无实际意义，类似于定义 scrope &#x2F; function。 使用PHONY定义虚假文件，避免和时间文件冲突，同时可以解决 make: Nothing to be done for *** 的异常。 1234567891011121314➜  mf touch test">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-02T16:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.652Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,128 +92,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h1><pre><code class="makefile">target ... : prerequisites ...
-    command
-    ...
-    ...
-</code></pre>
+        <h1 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h1><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">target ... : prerequisites ...</span><br><span class="line">	command</span><br><span class="line">	...</span><br><span class="line">	...</span><br></pre></td></tr></table></figure>
+
 <p>这里 target 无实际意义，类似于定义 scrope / function。</p>
 <h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="PHONY"><a href="#PHONY" class="headerlink" title="PHONY"></a>PHONY</h2><p>定义虚假文件，避免和时间文件冲突，同时可以解决 <code>make: Nothing to be done for ***</code> 的异常。</p>
-<pre><code class="shell">➜  mf touch test       # 创建空白文件 test
-➜  mf cat Makefile     # 打印 Makefile
-test:
-    ls
-➜  mf make test         # 执行 test 目标
-make: &#39;test&#39; is up to date.            # Makefile 的 target 默认为文件，无法对应 Makefile 中定义的 test target
-➜  mf vim Makefile      # 添加 .PHONY: test
-➜  mf cat Makefile      # 打印 Makefile
-.PHONY: test
-test:
-    ls
-➜  mf make test         # 重新执行 target test
-ls
-Makefile    test
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">➜  mf touch test       # 创建空白文件 test</span><br><span class="line">➜  mf cat Makefile     # 打印 Makefile</span><br><span class="line">test:</span><br><span class="line">	ls</span><br><span class="line">➜  mf make test         # 执行 test 目标</span><br><span class="line">make: &#x27;test&#x27; is up to date.			# Makefile 的 target 默认为文件，无法对应 Makefile 中定义的 test target</span><br><span class="line">➜  mf vim Makefile      # 添加 .PHONY: test</span><br><span class="line">➜  mf cat Makefile      # 打印 Makefile</span><br><span class="line">.PHONY: test</span><br><span class="line">test:</span><br><span class="line">	ls</span><br><span class="line">➜  mf make test         # 重新执行 target test</span><br><span class="line">ls</span><br><span class="line">Makefile	test</span><br></pre></td></tr></table></figure>
+
 <h2 id="定义变量"><a href="#定义变量" class="headerlink" title="定义变量"></a>定义变量</h2><p><code>Makefile</code></p>
-<pre><code class="makefile">VA := &quot;I&#39;m VA&quot;        # 简单赋值
-VB = &quot;I&#39;m VB&quot;         # 递归赋值
-VC ?= &quot;I&#39;m VC&quot;        # 条件赋值，如果已定义则忽略
-VC ?= &quot;I,m VC Again&quot;  # 测试条件赋值
-VA += &quot;I&#39;m VA&#39;s Tail&quot; # 追加赋值，以空格
-VD := &quot;I&#39;m VD&quot;
-VE =  &quot;I&#39;m VE AND &quot;$(VD) # 测试递归赋值
-VD = &quot;I&#39;m VDD&quot;
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">VA := <span class="string">&quot;I&#x27;m VA&quot;</span>        <span class="comment"># 简单赋值</span></span><br><span class="line">VB = <span class="string">&quot;I&#x27;m VB&quot;</span>         <span class="comment"># 递归赋值</span></span><br><span class="line">VC ?= <span class="string">&quot;I&#x27;m VC&quot;</span>        <span class="comment"># 条件赋值，如果已定义则忽略</span></span><br><span class="line">VC ?= <span class="string">&quot;I,m VC Again&quot;</span>  <span class="comment"># 测试条件赋值</span></span><br><span class="line">VA += <span class="string">&quot;I&#x27;m VA&#x27;s Tail&quot;</span> <span class="comment"># 追加赋值，以空格</span></span><br><span class="line">VD := <span class="string">&quot;I&#x27;m VD&quot;</span></span><br><span class="line">VE =  <span class="string">&quot;I&#x27;m VE AND &quot;</span><span class="variable">$(VD)</span> <span class="comment"># 测试递归赋值</span></span><br><span class="line">VD = <span class="string">&quot;I&#x27;m VDD&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="meta-keyword">.PHONY</span>: test</span></span><br><span class="line"></span><br><span class="line"><span class="section">test:</span></span><br><span class="line">	<span class="variable">$(<span class="built_in">eval</span> VF=&quot;I&#x27;m VF&quot;)</span>  <span class="comment"># 在 target 里面，这样定义变量</span></span><br><span class="line">	@echo <span class="variable">$(VA)</span></span><br><span class="line">	@echo <span class="variable">$(VB)</span></span><br><span class="line">	@echo <span class="variable">$(VC)</span></span><br><span class="line">	@echo <span class="variable">$(VD)</span></span><br><span class="line">	@echo <span class="variable">$(VE)</span></span><br><span class="line">	@echo <span class="variable">$(VF)</span></span><br></pre></td></tr></table></figure>
 
-.PHONY: test
-
-test:
-    $(eval VF=&quot;I&#39;m VF&quot;)  # 在 target 里面，这样定义变量
-    @echo $(VA)
-    @echo $(VB)
-    @echo $(VC)
-    @echo $(VD)
-    @echo $(VE)
-    @echo $(VF)
-</code></pre>
 <p><strong>执行</strong></p>
-<pre><code class="shell">$ make
-I&#39;m VA I&#39;m VA&#39;s Tail
-I&#39;m VB
-I&#39;m VC
-I&#39;m VDD
-I&#39;m VE AND I&#39;m VDD
-I&#39;m VF
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> make</span></span><br><span class="line">I&#x27;m VA I&#x27;m VA&#x27;s Tail</span><br><span class="line">I&#x27;m VB</span><br><span class="line">I&#x27;m VC</span><br><span class="line">I&#x27;m VDD</span><br><span class="line">I&#x27;m VE AND I&#x27;m VDD</span><br><span class="line">I&#x27;m VF</span><br></pre></td></tr></table></figure>
+
 <h2 id="不打印执行命令"><a href="#不打印执行命令" class="headerlink" title="不打印执行命令"></a>不打印执行命令</h2><p><code>Makefile</code></p>
-<pre><code class="makefile"># 以 @ 开头
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以 @ 开头</span></span><br><span class="line"></span><br><span class="line"><span class="section">tgt:</span></span><br><span class="line">	@echo <span class="string">&quot;HELLO&quot;</span></span><br></pre></td></tr></table></figure>
 
-tgt:
-    @echo &quot;HELLO&quot;
-</code></pre>
 <p><strong>输出</strong></p>
-<pre><code class="shell">$ make
-HELLO
-</code></pre>
-<h1 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h1><pre><code class="makefile">DEPS_DIR:=../../../../deps
-LIB_DIR:=$(DEPS_DIR)/lib
-BIN_DIR:=$(DEPS_DIR)/bin
-INCLUDE_DIR:=$(DEPS_DIR)/include
-PATH:=$(DEPS_DIR)/bin:$(PATH)
-LD_LIBRARY_PATH=$(LIB_DIR)
-LIBRARY_PATH=$(LIB_DIR)
-DYLD_LIBRARY_PATH=$(LIB_DIR)
-CXXFLAGS=-std=c++11 -L $(LIB_DIR) -I $(INCLUDE_DIR) -Wno-unused-command-line-argument
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> make</span></span><br><span class="line">HELLO</span><br></pre></td></tr></table></figure>
 
-FBF=parser lexer       # bison &amp; flex source files
-PJF=driver main        # for main programs
-FILES=$(addsuffix .cpp, $(PJF))        # source files
-OPF=$(addsuffix .o, $(PJF))        # main programs output
-FBO=$(addsuffix .o, $(FBF))        # parser &amp; lexer output file
-EXE=wc
+<h1 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h1><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">DEPS_DIR:=../../../../deps</span><br><span class="line">LIB_DIR:=<span class="variable">$(DEPS_DIR)</span>/lib</span><br><span class="line">BIN_DIR:=<span class="variable">$(DEPS_DIR)</span>/bin</span><br><span class="line">INCLUDE_DIR:=<span class="variable">$(DEPS_DIR)</span>/<span class="keyword">include</span></span><br><span class="line">PATH:=<span class="variable">$(DEPS_DIR)</span>/bin:<span class="variable">$(PATH)</span></span><br><span class="line">LD_LIBRARY_PATH=<span class="variable">$(LIB_DIR)</span></span><br><span class="line">LIBRARY_PATH=<span class="variable">$(LIB_DIR)</span></span><br><span class="line">DYLD_LIBRARY_PATH=<span class="variable">$(LIB_DIR)</span></span><br><span class="line">CXXFLAGS=-std=c++11 -L <span class="variable">$(LIB_DIR)</span> -I <span class="variable">$(INCLUDE_DIR)</span> -Wno-unused-command-line-argument</span><br><span class="line"></span><br><span class="line">FBF=parser lexer   	<span class="comment"># bison &amp; flex source files</span></span><br><span class="line">PJF=driver main		<span class="comment"># for main programs</span></span><br><span class="line">FILES=<span class="variable">$(<span class="built_in">addsuffix</span> .cpp, <span class="variable">$(PJF)</span>)</span>		<span class="comment"># source files</span></span><br><span class="line">OPF=<span class="variable">$(<span class="built_in">addsuffix</span> .o, <span class="variable">$(PJF)</span>)</span>		<span class="comment"># main programs output</span></span><br><span class="line">FBO=<span class="variable">$(<span class="built_in">addsuffix</span> .o, <span class="variable">$(FBF)</span>)</span>		<span class="comment"># parser &amp; lexer output file</span></span><br><span class="line">EXE=wc</span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="meta-keyword">.PHONY</span>: wc</span></span><br><span class="line"></span><br><span class="line"><span class="section">all: wc</span></span><br><span class="line"></span><br><span class="line"><span class="section">wc: <span class="variable">$(FILES)</span></span></span><br><span class="line">	@<span class="keyword">export</span> PATH=<span class="variable">$(PATH)</span> &amp;&amp; \</span><br><span class="line">		<span class="keyword">export</span> DYLD_LIBRARY_PATH=<span class="variable">$(DYLD_LIBRARY_PATH)</span> &amp;&amp; \</span><br><span class="line">		<span class="keyword">export</span> LIBRARY_PATH=<span class="variable">$(LIBRARY_PATH)</span> &amp;&amp; \</span><br><span class="line">		<span class="variable">$(MAKE)</span> <span class="variable">$(FBF)</span> &amp;&amp; \</span><br><span class="line">		<span class="variable">$(MAKE)</span> <span class="variable">$(OPF)</span>  &amp;&amp; \</span><br><span class="line">		<span class="variable">$(CXX)</span> <span class="variable">$(CXXFLAGS)</span> -o <span class="variable">$(EXE)</span> <span class="variable">$(OPF)</span> <span class="variable">$(FBO)</span> &amp;&amp; \</span><br><span class="line">		echo <span class="string">&quot;[PROCESS] compile wc done&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">parser: parser.yy</span></span><br><span class="line">	@<span class="keyword">export</span> PATH=<span class="variable">$(PATH)</span> &amp;&amp; \</span><br><span class="line">		<span class="keyword">export</span> DYLD_LIBRARY_PATH=<span class="variable">$(DYLD_LIBRARY_PATH)</span> &amp;&amp; \</span><br><span class="line">		<span class="keyword">export</span> LIBRARY_PATH=<span class="variable">$(LIBRARY_PATH)</span> &amp;&amp; \</span><br><span class="line">		bison -v -d <span class="variable">$&lt;</span> &amp;&amp; \</span><br><span class="line">		<span class="variable">$(CXX)</span> <span class="variable">$(CXXFLAGS)</span> -c -o parser.o parser.tab.cc &amp;&amp; \</span><br><span class="line">		echo <span class="string">&quot;[PROCESS] compile parser done&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">lexer: lexer.l</span></span><br><span class="line">	@<span class="keyword">export</span> PATH=<span class="variable">$(PATH)</span> &amp;&amp; \</span><br><span class="line">		<span class="keyword">export</span> DYLD_LIBRARY_PATH=<span class="variable">$(DYLD_LIBRARY_PATH)</span> &amp;&amp; \</span><br><span class="line">		<span class="keyword">export</span> LIBRARY_PATH=<span class="variable">$(LIBRARY_PATH)</span> &amp;&amp; \</span><br><span class="line">		flex -V &amp;&amp; \</span><br><span class="line">		flex --outfile=lexer.yy.cc <span class="variable">$&lt;</span> &amp;&amp; \</span><br><span class="line">		<span class="variable">$(CXX)</span> <span class="variable">$(CXXFLAGS)</span> -c -o lexer.o lexer.yy.cc &amp;&amp; \</span><br><span class="line">      	echo <span class="string">&quot;[PROCESS] compile lexer done&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	@rm parser.tab.* parser.output location.hh position.hh stack.hh lexer.yy.cc \</span><br><span class="line">		<span class="variable">$(FBO)</span> <span class="variable">$(OPF)</span> <span class="variable">$(EXE)</span></span><br><span class="line"></span><br><span class="line"><span class="section">test:</span></span><br><span class="line">	@wc wc.in%</span><br></pre></td></tr></table></figure>
 
-.PHONY: wc
-
-all: wc
-
-wc: $(FILES)
-    @export PATH=$(PATH) &amp;&amp; \
-        export DYLD_LIBRARY_PATH=$(DYLD_LIBRARY_PATH) &amp;&amp; \
-        export LIBRARY_PATH=$(LIBRARY_PATH) &amp;&amp; \
-        $(MAKE) $(FBF) &amp;&amp; \
-        $(MAKE) $(OPF)  &amp;&amp; \
-        $(CXX) $(CXXFLAGS) -o $(EXE) $(OPF) $(FBO) &amp;&amp; \
-        echo &quot;[PROCESS] compile wc done&quot;
-
-
-parser: parser.yy
-    @export PATH=$(PATH) &amp;&amp; \
-        export DYLD_LIBRARY_PATH=$(DYLD_LIBRARY_PATH) &amp;&amp; \
-        export LIBRARY_PATH=$(LIBRARY_PATH) &amp;&amp; \
-        bison -v -d $&lt; &amp;&amp; \
-        $(CXX) $(CXXFLAGS) -c -o parser.o parser.tab.cc &amp;&amp; \
-        echo &quot;[PROCESS] compile parser done&quot;
-
-lexer: lexer.l
-    @export PATH=$(PATH) &amp;&amp; \
-        export DYLD_LIBRARY_PATH=$(DYLD_LIBRARY_PATH) &amp;&amp; \
-        export LIBRARY_PATH=$(LIBRARY_PATH) &amp;&amp; \
-        flex -V &amp;&amp; \
-        flex --outfile=lexer.yy.cc $&lt; &amp;&amp; \
-        $(CXX) $(CXXFLAGS) -c -o lexer.o lexer.yy.cc &amp;&amp; \
-          echo &quot;[PROCESS] compile lexer done&quot;
-
-clean:
-    @rm parser.tab.* parser.output location.hh position.hh stack.hh lexer.yy.cc \
-        $(FBO) $(OPF) $(EXE)
-
-test:
-    @wc wc.in%
-</code></pre>
 <p><strong>使用</strong></p>
-<pre><code class="shell">$ make       # make all
-$ make test  # test
-$ make clean # clean
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> make       <span class="comment"># make all</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make <span class="built_in">test</span>  <span class="comment"># test</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make clean <span class="comment"># clean</span></span></span><br></pre></td></tr></table></figure>
+
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://wiki.ubuntu.org.cn/%E8%B7%9F%E6%88%91%E4%B8%80%E8%B5%B7%E5%86%99Makefile:MakeFile%E4%BB%8B%E7%BB%8D">Ubuntu Wiki</a></li>
 </ul>
@@ -219,7 +122,7 @@ $ make clean # clean
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/02/03/tools/makefile/usage/" data-id="ckomwlru30053rhn98v4mf27j" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/02/03/tools/makefile/usage/" data-id="ckonrt7wb0057c8n996vh7nke" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/makefile/" rel="tag">makefile</a></li></ul>
@@ -300,7 +203,7 @@ $ make clean # clean
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -308,7 +211,7 @@ $ make clean # clean
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

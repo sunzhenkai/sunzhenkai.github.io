@@ -7,12 +7,12 @@
   
   <title>on my zsh - install | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Install$ sh -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.github.com&#x2F;robbyrussell&#x2F;oh-my-zsh&#x2F;master&#x2F;tools&#x2F;install.sh)&quot;  Config$ chsh -s &#x2F;bin&#x2F;zsh $ chsh -s &#x2F;bin&#x2F;bash  Plugins$ pip install powerline-status --us">
+  <meta name="description" content="Install1$ sh -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.github.com&#x2F;robbyrussell&#x2F;oh-my-zsh&#x2F;master&#x2F;tools&#x2F;install.sh)&quot;  Config12$ chsh -s &#x2F;bin&#x2F;zsh$ chsh -s &#x2F;bin&#x2F;bash  Plugins1$ pip install powerline-status -">
 <meta property="og:type" content="article">
 <meta property="og:title" content="on my zsh - install">
 <meta property="og:url" content="http://wii.pub/2021/05/10/tools/zsh/install/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="Install$ sh -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.github.com&#x2F;robbyrussell&#x2F;oh-my-zsh&#x2F;master&#x2F;tools&#x2F;install.sh)&quot;  Config$ chsh -s &#x2F;bin&#x2F;zsh $ chsh -s &#x2F;bin&#x2F;bash  Plugins$ pip install powerline-status --us">
+<meta property="og:description" content="Install1$ sh -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.github.com&#x2F;robbyrussell&#x2F;oh-my-zsh&#x2F;master&#x2F;tools&#x2F;install.sh)&quot;  Config12$ chsh -s &#x2F;bin&#x2F;zsh$ chsh -s &#x2F;bin&#x2F;bash  Plugins1$ pip install powerline-status -">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-05-09T16:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.654Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,39 +92,26 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><pre><code class="shell">$ sh -c &quot;$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
-</code></pre>
-<h1 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h1><pre><code class="shell">$ chsh -s /bin/zsh
-$ chsh -s /bin/bash
-</code></pre>
-<h1 id="Plugins"><a href="#Plugins" class="headerlink" title="Plugins"></a>Plugins</h1><pre><code class="shell">$ pip install powerline-status --user
-</code></pre>
-<p><strong>Install</strong></p>
-<pre><code class="shell">$ cd ~/.oh-my-zsh/custom/plugins/
-$ git clone &lt;plugin-repo&gt;
-$ vim ~/.zshrc
-</code></pre>
-<p><strong>高亮</strong></p>
-<pre><code class="shell">$ cd ~/.oh-my-zsh/custom/plugins/
-$ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
-$ vim ~/.zshrc
-</code></pre>
-<p><strong>补全</strong></p>
-<pre><code class="shell">$ cd ~/.oh-my-zsh/custom/plugins/
-$ git clone https://github.com/zsh-users/zsh-autosuggestions
-$ vim ~/.zshrc
+        <h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sh -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>&quot;</span></span></span><br></pre></td></tr></table></figure>
 
-plugins=(
-    git
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-    )
-</code></pre>
+<h1 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> chsh -s /bin/zsh</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> chsh -s /bin/bash</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Plugins"><a href="#Plugins" class="headerlink" title="Plugins"></a>Plugins</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip install powerline-status --user</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Install</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/.oh-my-zsh/custom/plugins/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> &lt;plugin-repo&gt;</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.zshrc</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>高亮</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/.oh-my-zsh/custom/plugins/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.zshrc</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>补全</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/.oh-my-zsh/custom/plugins/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.zshrc</span></span><br><span class="line"></span><br><span class="line">plugins=(</span><br><span class="line">    git</span><br><span class="line">    zsh-autosuggestions</span><br><span class="line">    zsh-syntax-highlighting</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/10/tools/zsh/install/" data-id="ckomwlru9005trhn930qf5g3b" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/05/10/tools/zsh/install/" data-id="ckonrt7wl005tc8n93aje8waj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li></ul>
@@ -143,9 +132,9 @@ plugins=(
     </a>
   
   
-    <a href="/2021/05/10/architecture/framework/spring%20boot/user-register-password/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/05/10/architecture/framework/spring%20boot/spring-boot-mysql/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">用户密码加密</div>
+      <div class="article-nav-title">spring boot 常见问题</div>
     </a>
   
 </nav>
@@ -203,7 +192,7 @@ plugins=(
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -211,7 +200,7 @@ plugins=(
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

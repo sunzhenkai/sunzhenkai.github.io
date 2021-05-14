@@ -7,12 +7,12 @@
   
   <title>go startup | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="安装# mac $ brew install go  编译$ go build main.go $ go build -o output-file-name main.go  示例代码 package main  import &quot;fmt&quot;  func main() &amp;#123;   fmt.Println(&quot;Hello World!&quot;) &amp;#125;  运行">
+  <meta name="description" content="安装12# mac$ brew install go  编译12$ go build main.go$ go build -o output-file-name main.go  示例代码 1234567package mainimport &quot;fmt&quot;func main() &amp;#123;  fmt.Println(&quot;Hello World!&quot;)&amp;#125;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="go startup">
 <meta property="og:url" content="http://wii.pub/2020/12/30/coding/go/startup/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="安装# mac $ brew install go  编译$ go build main.go $ go build -o output-file-name main.go  示例代码 package main  import &quot;fmt&quot;  func main() &amp;#123;   fmt.Println(&quot;Hello World!&quot;) &amp;#125;  运行">
+<meta property="og:description" content="安装12# mac$ brew install go  编译12$ go build main.go$ go build -o output-file-name main.go  示例代码 1234567package mainimport &quot;fmt&quot;func main() &amp;#123;  fmt.Println(&quot;Hello World!&quot;)&amp;#125;">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-12-30T04:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.576Z">
@@ -24,6 +24,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -90,28 +92,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code class="shell"># mac
-$ brew install go
-</code></pre>
-<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><pre><code class="shell">$ go build main.go
-$ go build -o output-file-name main.go
-</code></pre>
+        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> mac</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew install go</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go build main.go</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go build -o output-file-name main.go</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p><strong>代码</strong></p>
-<pre><code class="go">package main
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  fmt.Println(<span class="string">&quot;Hello World!&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-import &quot;fmt&quot;
-
-func main() &#123;
-  fmt.Println(&quot;Hello World!&quot;)
-&#125;
-</code></pre>
 <p><strong>运行</strong></p>
-<pre><code class="shell">$ go run hello.go
-Hello World!
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go run hello.go</span></span><br><span class="line">Hello World!</span><br></pre></td></tr></table></figure>
+
 <p><strong>编译</strong></p>
-<pre><code class="shell">$ go build hello.go
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go build hello.go</span></span><br></pre></td></tr></table></figure>
+
 <h1 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h1><p>使用 <code>go get</code> 下载公开库，该命令会把依赖下载至第一个 <code>GOPATH</code> 下的 <code>src</code> 目录下。</p>
 <table>
 <thead>
@@ -134,12 +127,11 @@ Hello World!
 </tr>
 </tbody></table>
 <p><strong>示例</strong></p>
-<pre><code class="shell">$ go get [dep-name]                # 安装单个依赖
-$ go get -d -v ./...             # 递归地下载当前目录下所有文件的依赖
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get [dep-name]				<span class="comment"># 安装单个依赖</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get -d -v ./... 			<span class="comment"># 递归地下载当前目录下所有文件的依赖</span></span></span><br></pre></td></tr></table></figure>
+
 <h1 id="Package"><a href="#Package" class="headerlink" title="Package"></a>Package</h1><p>报名尽量使用单个词。</p>
-<pre><code class="go">package http;
-</code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> http;</span><br></pre></td></tr></table></figure>
+
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://golang.org/doc/effective_go.html#package-names">Effective Go</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/golang/go/wiki/CodeReviewComments">Code Review Comments</a></li>
@@ -149,7 +141,7 @@ $ go get -d -v ./...             # 递归地下载当前目录下所有文件的
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/30/coding/go/startup/" data-id="ckomwlrsw001lrhn94uqkgt0b" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/30/coding/go/startup/" data-id="ckonrt7un001lc8n9fkopcncj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
@@ -160,11 +152,11 @@ $ go get -d -v ./...             # 递归地下载当前目录下所有文件的
     
 <nav id="article-nav">
   
-    <a href="/2020/12/30/tools/vim/usage/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/12/30/coding/go/project/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          vim usage
+          go 工程
         
       </div>
     </a>
@@ -230,7 +222,7 @@ $ go get -d -v ./...             # 递归地下载当前目录下所有文件的
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -238,7 +230,7 @@ $ go get -d -v ./...             # 递归地下载当前目录下所有文件的
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

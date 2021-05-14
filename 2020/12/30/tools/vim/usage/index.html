@@ -25,6 +25,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -290,14 +292,10 @@
 <td>Search <em>something</em> in all the open buffers and replace it with<em>somethingelse</em></td>
 </tr>
 </tbody></table>
-<h2 id="剪切-删除"><a href="#剪切-删除" class="headerlink" title="剪切(删除)"></a>剪切(删除)</h2><pre><code class="shell">#### 删除某行至文件结尾
-G        # 转到文件结尾
-:10,.d    # 删除第10行至当前行(文件结尾)
+<h2 id="剪切-删除"><a href="#剪切-删除" class="headerlink" title="剪切(删除)"></a>剪切(删除)</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 删除某行至文件结尾</span></span></span><br><span class="line">G		# 转到文件结尾</span><br><span class="line">:10,.d	# 删除第10行至当前行(文件结尾)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 删除10行至20行</span></span></span><br><span class="line">20G		# 跳转至第20行</span><br><span class="line">:10,.d	# 删除第10行至当前行</span><br></pre></td></tr></table></figure>
 
-#### 删除10行至20行
-20G        # 跳转至第20行
-:10,.d    # 删除第10行至当前行
-</code></pre>
+
+
 <table>
 <thead>
 <tr>
@@ -468,16 +466,8 @@ G        # 转到文件结尾
 <li><p>i(ignorecase): 不区分大小写</p>
 </li>
 </ul>
-<pre><code class="shell">:1,$ s/Professor/Teacher/gc    # 显示将要做改动的文本并要求确认
-replace with Teacher (y/n/a/q/l/^E/^Y)?    # 提示
-# y Yes：执行这个替换
-# n No：取消这个替换
-# a All：执行所有替换而不要再询问
-# q Quit：退出而不做任何改动
-# l Last：替换完当前匹配点后退出
-# CTRL-E 向上翻滚一行
-# CTRL-Y 向下翻滚一行
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">:1,$ s/Professor/Teacher/gc	# 显示将要做改动的文本并要求确认</span><br><span class="line">replace with Teacher (y/n/a/q/l/^E/^Y)?	# 提示</span><br><span class="line"><span class="meta">#</span><span class="bash"> y Yes：执行这个替换</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> n No：取消这个替换</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> a All：执行所有替换而不要再询问</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> q Quit：退出而不做任何改动</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> l Last：替换完当前匹配点后退出</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> CTRL-E 向上翻滚一行</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> CTRL-Y 向下翻滚一行</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="指定范围"><a href="#指定范围" class="headerlink" title="指定范围"></a>指定范围</h2><ul>
 <li>默认当前行</li>
 <li>$ : 至文档结尾</li>
@@ -624,11 +614,10 @@ replace with Teacher (y/n/a/q/l/^E/^Y)?    # 提示
 </tr>
 </tbody></table>
 <p><strong>示例</strong></p>
-<pre><code class="shell">:s/Linux/RHEL5        # 指将当前行中的第一个linux换为RHEL5
-:s/Linux/RHEL5/g    # 指将当前行中所有的linux换为RHEL5
-:%s/Linux/RHEL5        # 指将文件中每一行的第一个linux换为RHEL5
-:%s/Linux/RHEL5/g    # 整个文档范围内的linux换为RHEL5
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">:s/Linux/RHEL5		# 指将当前行中的第一个linux换为RHEL5</span><br><span class="line">:s/Linux/RHEL5/g	# 指将当前行中所有的linux换为RHEL5</span><br><span class="line">:%s/Linux/RHEL5		# 指将文件中每一行的第一个linux换为RHEL5</span><br><span class="line">:%s/Linux/RHEL5/g	# 整个文档范围内的linux换为RHEL5</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="大小写"><a href="#大小写" class="headerlink" title="大小写"></a>大小写</h2><table>
 <thead>
 <tr>
@@ -845,8 +834,8 @@ replace with Teacher (y/n/a/q/l/^E/^Y)?    # 提示
 <td>Edit <em>abc.txt</em> in new window</td>
 </tr>
 </tbody></table>
-<h2 id="多文件"><a href="#多文件" class="headerlink" title="多文件"></a>多文件</h2><pre><code class="shell">
-</code></pre>
+<h2 id="多文件"><a href="#多文件" class="headerlink" title="多文件"></a>多文件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
 <h2 id="分屏显示"><a href="#分屏显示" class="headerlink" title="分屏显示"></a>分屏显示</h2><table>
 <thead>
 <tr>
@@ -907,24 +896,8 @@ replace with Teacher (y/n/a/q/l/^E/^Y)?    # 提示
 <td>Open #2 in this window</td>
 </tr>
 </tbody></table>
-<h3 id="调整窗口大小"><a href="#调整窗口大小" class="headerlink" title="调整窗口大小"></a>调整窗口大小</h3><pre><code class="shell">## 高度
-:resize 60
-:res 60
-:res +5
-:res -5
+<h3 id="调整窗口大小"><a href="#调整窗口大小" class="headerlink" title="调整窗口大小"></a>调整窗口大小</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 高度</span></span></span><br><span class="line">:resize 60</span><br><span class="line">:res 60</span><br><span class="line">:res +5</span><br><span class="line">:res -5</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 宽度</span></span></span><br><span class="line">:vertical resize 80</span><br><span class="line">:vertical resize +5</span><br><span class="line">:vertical resize -5</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># hot key</span></span></span><br><span class="line">nnoremap &lt;silent&gt; &lt;Leader&gt;+ :exe &quot;resize &quot; . (winheight(0) * 3/2)&lt;CR&gt;</span><br><span class="line">nnoremap &lt;silent&gt; &lt;Leader&gt;- :exe &quot;resize &quot; . (winheight(0) * 2/3)&lt;CR&gt;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># ps</span></span></span><br><span class="line">default &lt;Leader&gt; is \</span><br></pre></td></tr></table></figure>
 
-## 宽度
-:vertical resize 80
-:vertical resize +5
-:vertical resize -5
-
-## hot key
-nnoremap &lt;silent&gt; &lt;Leader&gt;+ :exe &quot;resize &quot; . (winheight(0) * 3/2)&lt;CR&gt;
-nnoremap &lt;silent&gt; &lt;Leader&gt;- :exe &quot;resize &quot; . (winheight(0) * 2/3)&lt;CR&gt;
-
-## ps
-default &lt;Leader&gt; is \
-</code></pre>
 <h2 id="自动完成"><a href="#自动完成" class="headerlink" title="自动完成"></a>自动完成</h2><table>
 <thead>
 <tr>
@@ -978,7 +951,7 @@ default &lt;Leader&gt; is \
 </thead>
 <tbody><tr>
 <td><code>:ab mail mail@provider.org</code></td>
-<td>Define <em>mail</em> as abbreviation of <em><a href="mailto:&#109;&#x61;&#x69;&#108;&#x40;&#x70;&#114;&#111;&#118;&#105;&#100;&#101;&#x72;&#x2e;&#x6f;&#x72;&#x67;">&#109;&#x61;&#x69;&#108;&#x40;&#x70;&#114;&#111;&#118;&#105;&#100;&#101;&#x72;&#x2e;&#x6f;&#x72;&#x67;</a></em></td>
+<td>Define <em>mail</em> as abbreviation of <em><a href="mailto:&#x6d;&#x61;&#x69;&#x6c;&#x40;&#x70;&#x72;&#x6f;&#x76;&#105;&#x64;&#101;&#114;&#46;&#111;&#114;&#103;">&#x6d;&#x61;&#x69;&#x6c;&#x40;&#x70;&#x72;&#x6f;&#x76;&#105;&#x64;&#101;&#114;&#46;&#111;&#114;&#103;</a></em></td>
 </tr>
 </tbody></table>
 <h2 id="文本缩进"><a href="#文本缩进" class="headerlink" title="文本缩进"></a>文本缩进</h2><p><strong>缩进多行</strong></p>
@@ -1025,16 +998,8 @@ default &lt;Leader&gt; is \
 <td>Indent the whole file</td>
 </tr>
 </tbody></table>
-<pre><code class="shell"># 缩进指定行
-# In command mode
-5&gt;&gt;
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 缩进指定行</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> In <span class="built_in">command</span> mode</span></span><br><span class="line"><span class="meta">5&gt;</span><span class="bash">&gt;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> In Visual Mode</span></span><br><span class="line">j	# 下一行</span><br><span class="line">j	# 下一行</span><br><span class="line">j	# 下一行</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">	<span class="comment"># 缩进</span></span></span><br></pre></td></tr></table></figure>
 
-# In Visual Mode
-j    # 下一行
-j    # 下一行
-j    # 下一行
-&gt;    # 缩进
-</code></pre>
 <h2 id="语法高亮"><a href="#语法高亮" class="headerlink" title="语法高亮"></a>语法高亮</h2><table>
 <thead>
 <tr>
@@ -1063,142 +1028,11 @@ j    # 下一行
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/maowang1991/p/3572299.html">参考一</a></li>
 </ul>
-<h2 id="示例配置"><a href="#示例配置" class="headerlink" title="示例配置"></a>示例配置</h2><h3 id="一"><a href="#一" class="headerlink" title="一"></a>一</h3><pre><code class="shell">&quot;设置语言为英文
-let $LANG = &#39;en&#39;  &quot;set message language  
-set langmenu=en   &quot;set menu&#39;s language of gvim. no spaces beside &#39;=&#39; 
-
-&quot;兼容性设置
-set nocompatible
-set backspace=indent,eol,start
-
-&quot;if has(&quot;win32&quot;)
-&quot;    set encoding=gbk
-&quot;    set fileencoding=ansi
-&quot;    set termencoding=gbk
-&quot;else
-&quot;    set encoding=utf-8
-&quot;    set fileencoding=ansi
-&quot;    set termencoding=utf-8
-&quot;endif
-
-:filetype plugin indent on        &quot;打开文件类型检测
-set showcmd                        &quot;在Vim窗口的右下角显示一个完整的命令已经完成的部分
-set completeopt=longest,menu    &quot;打开文件类型检测, 加了这句才可以用智能补全
-set mouse=a                        &quot;使用鼠标
-set selection=exclusive
-set selectmode=mouse,key
-set tabstop=4                    &quot;设置tab
-set softtabstop=4
-set shiftwidth=4
-syntax on                        &quot;语法高亮
-set showcmd                        &quot;显示输入的命令
-set autoindent                    &quot;自动缩进
-set    cindent
-set smartindent
-set showmatch                    &quot;高亮显示匹配的括号
-set number                         &quot;显示行号
-colorscheme desert                &quot;设置配色方案
-set guifont=consolas            &quot;设置字体
-&quot;set guifont=Courier_New:h12:b  &quot;设置字体示例
-set history=1000                &quot;设置历史
-&quot;设置状态栏
-set laststatus=2
-set statusline=%F%m%r%h%w\ [FORMAT=%&#123;&amp;ff&#125;]\ [TYPE=%Y]\[POS=%l,%v][%p%%]\ %&#123;strftime(\&quot;%d/%m/%y\ -\ %H:%M\&quot;)&#125; 
-
-autocmd GUIEnter * simalt ~x     &quot;窗口最大化
-
-
-
-&quot;自定义函数 - 新建文件时自动添加头部信息或者按F10添加头信息
-&quot;新建.c,.h,.sh,.java文件，自动插入文件头 
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec &quot;:call AppendHeadInfo()&quot; 
-map&lt;F10&gt; :call AppendHeadInfo()&lt;CR&gt;
-&quot;定义函数AppendHeadInfo，自动插入文件头 
-func AppendHeadInfo() 
-    &quot;如果文件类型为.sh文件 
-    let filename=expand(&quot;%&quot;)
-    let len=strlen(filename)
-    let posPoint=strridx(filename,&#39;.&#39;)
-    let fileformat=strpart(filename,posPoint+1,len)
-    if fileformat == &#39;sh&#39; 
-        call setline(1,&quot;\#########################################################################&quot;) 
-        call append(line(&quot;.&quot;), &quot;\# File Name: &quot;.expand(&quot;%&quot;)) 
-        call append(line(&quot;.&quot;)+1, &quot;\# Author: bovenson&quot;) 
-        call append(line(&quot;.&quot;)+2, &quot;\# Email:  szhkai@126.com&quot;) 
-        call append(line(&quot;.&quot;)+3, &quot;\# Created Time: &quot;.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)) 
-        call append(line(&quot;.&quot;)+4, &quot;\#########################################################################&quot;) 
-        call append(line(&quot;.&quot;)+5, &quot;\#!/bin/bash&quot;) 
-        call append(line(&quot;.&quot;)+6, &quot;&quot;) 
-    else 
-        call setline(1, &quot;\/*************************************************************************&quot;) 
-        call append(line(&quot;.&quot;), &quot;    &gt; File Name: &quot;.expand(&quot;%&quot;)) 
-        call append(line(&quot;.&quot;)+1, &quot;    &gt; Author: bovenson&quot;) 
-        call append(line(&quot;.&quot;)+2, &quot;    &gt; Email:  szhkai@126.com&quot;) 
-        call append(line(&quot;.&quot;)+3, &quot;    &gt; Created Time: &quot;.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)) 
-        call append(line(&quot;.&quot;)+4, &quot; ************************************************************************/&quot;) 
-        call append(line(&quot;.&quot;)+5, &quot;&quot;)
-    endif
-    if fileformat == &#39;cpp&#39;
-        call append(line(&quot;.&quot;)+6, &quot;#include &lt;iostream&gt;&quot;)
-        call append(line(&quot;.&quot;)+7, &quot;using namespace std;&quot;)
-        call append(line(&quot;.&quot;)+8, &quot;&quot;)
-        call append(line(&quot;.&quot;)+9, &quot;int main()&quot;)
-        call append(line(&quot;.&quot;)+10, &quot;&#123;&quot;)
-        call append(line(&quot;.&quot;)+11, &quot;    return 0;&quot;)
-        call append(line(&quot;.&quot;)+12, &quot;&#125;&quot;)
-        call append(line(&quot;.&quot;)+13, &quot;&quot;)
-    endif
-    if fileformat == &#39;c&#39;
-        call append(line(&quot;.&quot;)+6, &quot;#include &lt;stdio.h&gt;&quot;)
-        call append(line(&quot;.&quot;)+7, &quot;&quot;)
-        call append(line(&quot;.&quot;)+8, &quot;int main()&quot;)
-        call append(line(&quot;.&quot;)+9, &quot;&#123;&quot;)
-        call append(line(&quot;.&quot;)+10, &quot;    return 0;&quot;)
-        call append(line(&quot;.&quot;)+11, &quot;&#125;&quot;)
-        call append(line(&quot;.&quot;)+12, &quot;&quot;)
-    endif
-    &quot;if &amp;filetype == &#39;java&#39;
-    &quot;    call append(line(&quot;.&quot;)+6,&quot;public class &quot;.expand(&quot;%&quot;).&quot; &#123;&quot;)
-    &quot;    call append(line(&quot;.&quot;)+7,&quot;&#125;&quot;)
-    &quot;endif
-    &quot;新建文件后，自动定位到文件末尾
-    autocmd BufNewFile * normal G
-endfunc 
-
-&quot;自定义函数 - 程序的一键运行与调试
-&quot;按F5编译运行
-map &lt;F5&gt; :call CompileRunGcc()&lt;CR&gt;
-func! CompileRunGcc()
-    exec &quot;w&quot;
-    if &amp;filetype == &#39;c&#39;
-        exec &quot;!g++ % -o %&lt;&quot;
-        exec &quot;! ./%&lt;&quot;
-    elseif &amp;filetype == &#39;cpp&#39;
-        exec &quot;!g++ % -o %&lt;&quot;
-        exec &quot;! ./%&lt;&quot;
-    elseif &amp;filetype == &#39;java&#39; 
-        exec &quot;!javac %&quot; 
-        exec &quot;!java %&lt;&quot;
-    elseif &amp;filetype == &#39;sh&#39;
-        :!./%
-    elseif &amp;filetype == &#39;py&#39;
-        exec &quot;!python %&quot;
-        exec &quot;!python %&lt;&quot;
-    endif
-endfunc
-&quot;C,C++的调试
-map &lt;F8&gt; :call Rungdb()&lt;CR&gt;
-func! Rungdb()
-    exec &quot;w&quot;
-    exec &quot;!g++ % -g -o %&lt;&quot;
-    exec &quot;!gdb ./%&lt;&quot;
-endfunc
-</code></pre>
-
+<h2 id="示例配置"><a href="#示例配置" class="headerlink" title="示例配置"></a>示例配置</h2><h3 id="一"><a href="#一" class="headerlink" title="一"></a>一</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line">&quot;设置语言为英文</span><br><span class="line">let $LANG = &#x27;en&#x27;  &quot;set message language  </span><br><span class="line">set langmenu=en   &quot;set menu&#x27;s language of gvim. no spaces beside &#x27;=&#x27; </span><br><span class="line"></span><br><span class="line">&quot;兼容性设置</span><br><span class="line">set nocompatible</span><br><span class="line">set backspace=indent,eol,start</span><br><span class="line"></span><br><span class="line">&quot;if has(&quot;win32&quot;)</span><br><span class="line">&quot;	set encoding=gbk</span><br><span class="line">&quot;	set fileencoding=ansi</span><br><span class="line">&quot;	set termencoding=gbk</span><br><span class="line">&quot;else</span><br><span class="line">&quot;	set encoding=utf-8</span><br><span class="line">&quot;	set fileencoding=ansi</span><br><span class="line">&quot;	set termencoding=utf-8</span><br><span class="line">&quot;endif</span><br><span class="line"></span><br><span class="line">:filetype plugin indent on		&quot;打开文件类型检测</span><br><span class="line">set showcmd						&quot;在Vim窗口的右下角显示一个完整的命令已经完成的部分</span><br><span class="line">set completeopt=longest,menu	&quot;打开文件类型检测, 加了这句才可以用智能补全</span><br><span class="line">set mouse=a						&quot;使用鼠标</span><br><span class="line">set selection=exclusive</span><br><span class="line">set selectmode=mouse,key</span><br><span class="line">set tabstop=4					&quot;设置tab</span><br><span class="line">set softtabstop=4</span><br><span class="line">set shiftwidth=4</span><br><span class="line">syntax on						&quot;语法高亮</span><br><span class="line">set showcmd						&quot;显示输入的命令</span><br><span class="line">set autoindent					&quot;自动缩进</span><br><span class="line">set	cindent</span><br><span class="line">set smartindent</span><br><span class="line">set showmatch					&quot;高亮显示匹配的括号</span><br><span class="line">set number 						&quot;显示行号</span><br><span class="line">colorscheme desert				&quot;设置配色方案</span><br><span class="line">set guifont=consolas			&quot;设置字体</span><br><span class="line">&quot;set guifont=Courier_New:h12:b  &quot;设置字体示例</span><br><span class="line">set history=1000				&quot;设置历史</span><br><span class="line">&quot;设置状态栏</span><br><span class="line">set laststatus=2</span><br><span class="line">set statusline=%F%m%r%h%w\ [FORMAT=%&#123;&amp;ff&#125;]\ [TYPE=%Y]\[POS=%l,%v][%p%%]\ %&#123;strftime(\&quot;%d/%m/%y\ -\ %H:%M\&quot;)&#125; </span><br><span class="line"></span><br><span class="line">autocmd GUIEnter * simalt ~x 	&quot;窗口最大化</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&quot;自定义函数 - 新建文件时自动添加头部信息或者按F10添加头信息</span><br><span class="line">&quot;新建.c,.h,.sh,.java文件，自动插入文件头 </span><br><span class="line">autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec &quot;:call AppendHeadInfo()&quot; </span><br><span class="line">map&lt;F10&gt; :call AppendHeadInfo()&lt;CR&gt;</span><br><span class="line">&quot;定义函数AppendHeadInfo，自动插入文件头 </span><br><span class="line">func AppendHeadInfo() </span><br><span class="line">	&quot;如果文件类型为.sh文件 </span><br><span class="line">	let filename=expand(&quot;%&quot;)</span><br><span class="line">	let len=strlen(filename)</span><br><span class="line">	let posPoint=strridx(filename,&#x27;.&#x27;)</span><br><span class="line">	let fileformat=strpart(filename,posPoint+1,len)</span><br><span class="line">	if fileformat == &#x27;sh&#x27; </span><br><span class="line">		call setline(1,&quot;\#########################################################################&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;), &quot;\# File Name: &quot;.expand(&quot;%&quot;)) </span><br><span class="line">		call append(line(&quot;.&quot;)+1, &quot;\# Author: bovenson&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+2, &quot;\# Email:  szhkai@126.com&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+3, &quot;\# Created Time: &quot;.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)) </span><br><span class="line">		call append(line(&quot;.&quot;)+4, &quot;\#########################################################################&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+5, &quot;\#!/bin/bash&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+6, &quot;&quot;) </span><br><span class="line">	else </span><br><span class="line">		call setline(1, &quot;\/*************************************************************************&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;), &quot;	&gt; File Name: &quot;.expand(&quot;%&quot;)) </span><br><span class="line">		call append(line(&quot;.&quot;)+1, &quot;	&gt; Author: bovenson&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+2, &quot;	&gt; Email:  szhkai@126.com&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+3, &quot;	&gt; Created Time: &quot;.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)) </span><br><span class="line">		call append(line(&quot;.&quot;)+4, &quot; ************************************************************************/&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+5, &quot;&quot;)</span><br><span class="line">	endif</span><br><span class="line">	if fileformat == &#x27;cpp&#x27;</span><br><span class="line">		call append(line(&quot;.&quot;)+6, &quot;#include &lt;iostream&gt;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+7, &quot;using namespace std;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+8, &quot;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+9, &quot;int main()&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+10, &quot;&#123;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+11, &quot;	return 0;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+12, &quot;&#125;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+13, &quot;&quot;)</span><br><span class="line">	endif</span><br><span class="line">	if fileformat == &#x27;c&#x27;</span><br><span class="line">		call append(line(&quot;.&quot;)+6, &quot;#include &lt;stdio.h&gt;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+7, &quot;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+8, &quot;int main()&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+9, &quot;&#123;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+10, &quot;	return 0;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+11, &quot;&#125;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+12, &quot;&quot;)</span><br><span class="line">	endif</span><br><span class="line">	&quot;if &amp;filetype == &#x27;java&#x27;</span><br><span class="line">	&quot;	call append(line(&quot;.&quot;)+6,&quot;public class &quot;.expand(&quot;%&quot;).&quot; &#123;&quot;)</span><br><span class="line">	&quot;	call append(line(&quot;.&quot;)+7,&quot;&#125;&quot;)</span><br><span class="line">	&quot;endif</span><br><span class="line">	&quot;新建文件后，自动定位到文件末尾</span><br><span class="line">	autocmd BufNewFile * normal G</span><br><span class="line">endfunc </span><br><span class="line"></span><br><span class="line">&quot;自定义函数 - 程序的一键运行与调试</span><br><span class="line">&quot;按F5编译运行</span><br><span class="line">map &lt;F5&gt; :call CompileRunGcc()&lt;CR&gt;</span><br><span class="line">func! CompileRunGcc()</span><br><span class="line">	exec &quot;w&quot;</span><br><span class="line">	if &amp;filetype == &#x27;c&#x27;</span><br><span class="line">		exec &quot;!g++ % -o %&lt;&quot;</span><br><span class="line">		exec &quot;! ./%&lt;&quot;</span><br><span class="line">	elseif &amp;filetype == &#x27;cpp&#x27;</span><br><span class="line">		exec &quot;!g++ % -o %&lt;&quot;</span><br><span class="line">		exec &quot;! ./%&lt;&quot;</span><br><span class="line">	elseif &amp;filetype == &#x27;java&#x27; </span><br><span class="line">		exec &quot;!javac %&quot; </span><br><span class="line">		exec &quot;!java %&lt;&quot;</span><br><span class="line">	elseif &amp;filetype == &#x27;sh&#x27;</span><br><span class="line">		:!./%</span><br><span class="line">	elseif &amp;filetype == &#x27;py&#x27;</span><br><span class="line">		exec &quot;!python %&quot;</span><br><span class="line">		exec &quot;!python %&lt;&quot;</span><br><span class="line">	endif</span><br><span class="line">endfunc</span><br><span class="line">&quot;C,C++的调试</span><br><span class="line">map &lt;F8&gt; :call Rungdb()&lt;CR&gt;</span><br><span class="line">func! Rungdb()</span><br><span class="line">	exec &quot;w&quot;</span><br><span class="line">	exec &quot;!g++ % -g -o %&lt;&quot;</span><br><span class="line">	exec &quot;!gdb ./%&lt;&quot;</span><br><span class="line">endfunc</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/30/tools/vim/usage/" data-id="ckomwlrya00ptrhn914fz65q3" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/30/tools/vim/usage/" data-id="ckonrt82g00ptc8n98r5daig0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/" rel="tag">vim</a></li></ul>
@@ -1219,9 +1053,9 @@ endfunc
     </a>
   
   
-    <a href="/2020/12/30/coding/go/startup/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/12/30/coding/go/govendor/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">go startup</div>
+      <div class="article-nav-title">govendor</div>
     </a>
   
 </nav>
@@ -1279,7 +1113,7 @@ endfunc
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -1287,7 +1121,7 @@ endfunc
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

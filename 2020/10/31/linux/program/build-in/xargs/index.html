@@ -7,12 +7,12 @@
   
   <title>linux xargs | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="描述功能  配合管道使用，为命令传递参数  使用$ find &#x2F;sbin -perm +700 | ls -l         # NO; 这个命令是错误的 $ find &#x2F;sbin -perm +700 | xargs ll      # NO; 无法配合alias使用 $ find &#x2F;sbin -perm +700 | xargs ls -l   # OK; 这样才是正确的  注意 xargs">
+  <meta name="description" content="描述功能  配合管道使用，为命令传递参数  使用123$ find &#x2F;sbin -perm +700 | ls -l         # NO; 这个命令是错误的$ find &#x2F;sbin -perm +700 | xargs ll      # NO; 无法配合alias使用$ find &#x2F;sbin -perm +700 | xargs ls -l   # OK; 这样才是正确的  注意 xarg">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux xargs">
 <meta property="og:url" content="http://wii.pub/2020/10/31/linux/program/build-in/xargs/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="描述功能  配合管道使用，为命令传递参数  使用$ find &#x2F;sbin -perm +700 | ls -l         # NO; 这个命令是错误的 $ find &#x2F;sbin -perm +700 | xargs ll      # NO; 无法配合alias使用 $ find &#x2F;sbin -perm +700 | xargs ls -l   # OK; 这样才是正确的  注意 xargs">
+<meta property="og:description" content="描述功能  配合管道使用，为命令传递参数  使用123$ find &#x2F;sbin -perm +700 | ls -l         # NO; 这个命令是错误的$ find &#x2F;sbin -perm +700 | xargs ll      # NO; 无法配合alias使用$ find &#x2F;sbin -perm +700 | xargs ls -l   # OK; 这样才是正确的  注意 xarg">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-10-30T16:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.647Z">
@@ -25,6 +25,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -95,10 +97,8 @@
 <ul>
 <li>配合管道使用，为命令传递参数</li>
 </ul>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><pre><code class="shell">$ find /sbin -perm +700 | ls -l         # NO; 这个命令是错误的
-$ find /sbin -perm +700 | xargs ll      # NO; 无法配合alias使用
-$ find /sbin -perm +700 | xargs ls -l   # OK; 这样才是正确的
-</code></pre>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> find /sbin -perm +700 | ls -l         <span class="comment"># NO; 这个命令是错误的</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> find /sbin -perm +700 | xargs ll      <span class="comment"># NO; 无法配合alias使用</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> find /sbin -perm +700 | xargs ls -l   <span class="comment"># OK; 这样才是正确的</span></span></span><br></pre></td></tr></table></figure>
+
 <h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><ul>
 <li>xargs 无法获取当前shell的alias，所有无法配合alias使用</li>
 </ul>
@@ -109,7 +109,7 @@ $ find /sbin -perm +700 | xargs ls -l   # OK; 这样才是正确的
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/10/31/linux/program/build-in/xargs/" data-id="ckomwlrvd009grhn99yjycebt" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/10/31/linux/program/build-in/xargs/" data-id="ckonrt7y1009gc8n995vd8tqo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/xargs/" rel="tag">xargs</a></li></ul>
@@ -190,7 +190,7 @@ $ find /sbin -perm +700 | xargs ls -l   # OK; 这样才是正确的
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -198,7 +198,7 @@ $ find /sbin -perm +700 | xargs ls -l   # OK; 这样才是正确的
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>

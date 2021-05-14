@@ -7,12 +7,12 @@
   
   <title>Java Socket 传输文件 | Wii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="描述基于Java Socket传输文件&#x2F;文件夹，包括客户端、服务端，具备以下特点。  一次连接，传输多文件，在传输大量小文件场景下，可节约大量连接创建时间及资源消耗 支持传输文件夹，但会跳过空文件夹 服务端支持多线程 支持结果回显  实现依赖程序集成在Maven工程内，lombok非必需，仅用于提升代码整洁度，如剔除需少量改动代码。 &lt;dependency&gt;     &lt;group">
+  <meta name="description" content="描述基于Java Socket传输文件&#x2F;文件夹，包括客户端、服务端，具备以下特点。  一次连接，传输多文件，在传输大量小文件场景下，可节约大量连接创建时间及资源消耗 支持传输文件夹，但会跳过空文件夹 服务端支持多线程 支持结果回显  实现依赖程序集成在Maven工程内，lombok非必需，仅用于提升代码整洁度，如剔除需少量改动代码。 123456789101112131415&lt;depende">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java Socket 传输文件">
 <meta property="og:url" content="http://wii.pub/2020/10/29/coding/java/socket-send-file/index.html">
 <meta property="og:site_name" content="Wii">
-<meta property="og:description" content="描述基于Java Socket传输文件&#x2F;文件夹，包括客户端、服务端，具备以下特点。  一次连接，传输多文件，在传输大量小文件场景下，可节约大量连接创建时间及资源消耗 支持传输文件夹，但会跳过空文件夹 服务端支持多线程 支持结果回显  实现依赖程序集成在Maven工程内，lombok非必需，仅用于提升代码整洁度，如剔除需少量改动代码。 &lt;dependency&gt;     &lt;group">
+<meta property="og:description" content="描述基于Java Socket传输文件&#x2F;文件夹，包括客户端、服务端，具备以下特点。  一次连接，传输多文件，在传输大量小文件场景下，可节约大量连接创建时间及资源消耗 支持传输文件夹，但会跳过空文件夹 服务端支持多线程 支持结果回显  实现依赖程序集成在Maven工程内，lombok非必需，仅用于提升代码整洁度，如剔除需少量改动代码。 123456789101112131415&lt;depende">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-10-29T12:00:00.000Z">
 <meta property="article:modified_time" content="2021-05-13T13:04:12.580Z">
@@ -26,6 +26,8 @@
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -100,233 +102,20 @@
 <li>支持结果回显</li>
 </ul>
 <h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><p>程序集成在Maven工程内，lombok非必需，仅用于提升代码整洁度，如剔除需少量改动代码。</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
-    &lt;artifactId&gt;lombok&lt;/artifactId&gt;
-    &lt;version&gt;1.18.16&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;com.google.code.gson&lt;/groupId&gt;
-    &lt;artifactId&gt;gson&lt;/artifactId&gt;
-    &lt;version&gt;2.8.6&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;commons-io&lt;/groupId&gt;
-    &lt;artifactId&gt;commons-io&lt;/artifactId&gt;
-    &lt;version&gt;2.6&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.18.16<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.code.gson<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>gson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.8.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>commons-io<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-io<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="基础信息"><a href="#基础信息" class="headerlink" title="基础信息"></a>基础信息</h2><p>用于传送每次请求附带参数。</p>
-<pre><code class="java">import lombok.Data;
-import lombok.experimental.Accessors;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> lombok.experimental.Accessors;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Accessors(fluent = true)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileTransferInfo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TYPE_DELETE = <span class="string">&quot;delete&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TYPE_WRITE = <span class="string">&quot;write&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TYPE_CLOSE = <span class="string">&quot;close&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String MSG_DONE = <span class="string">&quot;done&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String MSG_ERROR = <span class="string">&quot;error&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String path;</span><br><span class="line">    <span class="keyword">private</span> String type;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-@Data
-@Accessors(fluent = true)
-public class FileTransferInfo &#123;
-    public static final String TYPE_DELETE = &quot;delete&quot;;
-    public static final String TYPE_WRITE = &quot;write&quot;;
-    public static final String TYPE_CLOSE = &quot;close&quot;;
-    public static final String MSG_DONE = &quot;done&quot;;
-    public static final String MSG_ERROR = &quot;error&quot;;
-
-    private String name;
-    private String path;
-    private String type;
-&#125;
-</code></pre>
 <h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><p>服务端包含<code>FileTransferServer.java</code> 和 <code>FileTransferServerThread.java</code> 两个文件，用于实现多线程支持。</p>
-<h3 id="FileTransferServer"><a href="#FileTransferServer" class="headerlink" title="FileTransferServer"></a>FileTransferServer</h3><pre><code class="java">import org.apache.commons.io.FileUtils;
+<h3 id="FileTransferServer"><a href="#FileTransferServer" class="headerlink" title="FileTransferServer"></a>FileTransferServer</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.commons.io.FileUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</span><br><span class="line"><span class="keyword">import</span> java.net.ServerSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.ServerSocketChannel;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileTransferServer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> ServerSocket ss;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> port;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String wd;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> port network port for listening</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> wd   working directory, files will be saved into this folder</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FileTransferServer</span><span class="params">(<span class="keyword">int</span> port, String wd)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.port = port;</span><br><span class="line">        <span class="keyword">this</span>.wd = wd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        FileUtils.forceMkdir(<span class="keyword">new</span> File(wd));</span><br><span class="line"></span><br><span class="line">        InetSocketAddress listenAddr = <span class="keyword">new</span> InetSocketAddress(port);</span><br><span class="line">        ServerSocketChannel listener = ServerSocketChannel.open();</span><br><span class="line">        ss = listener.socket();</span><br><span class="line">        ss.setReuseAddress(<span class="keyword">true</span>);</span><br><span class="line">        ss.bind(listenAddr);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            Socket socket = ss.accept();</span><br><span class="line">            System.out.println(<span class="string">&quot;Received request: &quot;</span> + socket);</span><br><span class="line">            FileTransferServerThread thread = <span class="keyword">new</span> FileTransferServerThread(socket, wd);</span><br><span class="line">            thread.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (ss != <span class="keyword">null</span> &amp;&amp; !ss.isClosed()) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                ss.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception ignored) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-import java.io.File;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.nio.channels.ServerSocketChannel;
+<h3 id="FileTransferServerThread"><a href="#FileTransferServerThread" class="headerlink" title="FileTransferServerThread"></a>FileTransferServerThread</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.commons.io.FileUtils;</span><br><span class="line"><span class="keyword">import</span> com.google.gson.Gson;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Path;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileTransferServerThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Gson GSON = <span class="keyword">new</span> Gson();</span><br><span class="line">    Socket socket;</span><br><span class="line">    String wd;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FileTransferServerThread</span><span class="params">(Socket socket, String wd)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.socket = socket;</span><br><span class="line">        <span class="keyword">this</span>.wd = wd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">boolean</span> loopFlag = <span class="keyword">true</span>;</span><br><span class="line">            FileTransferInfo info;</span><br><span class="line">            DataOutputStream dot = <span class="keyword">new</span> DataOutputStream(socket.getOutputStream());</span><br><span class="line">            BufferedInputStream bis = <span class="keyword">new</span> BufferedInputStream(socket.getInputStream());</span><br><span class="line">            DataInputStream dis = <span class="keyword">new</span> DataInputStream(bis);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (loopFlag) &#123;</span><br><span class="line">                String msg = dis.readUTF();</span><br><span class="line">                info = GSON.fromJson(msg, FileTransferInfo.class);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (FileTransferInfo.TYPE_CLOSE.equals(info.type())) &#123;</span><br><span class="line">                    loopFlag = <span class="keyword">false</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (FileTransferInfo.TYPE_DELETE.equals(info.type())) &#123;</span><br><span class="line">                    Path fnl = Paths.get(wd, info.path());</span><br><span class="line">                    FileUtils.deleteQuietly(fnl.toFile());</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">long</span> length = dis.readLong();</span><br><span class="line"></span><br><span class="line">                    Path fnl = Paths.get(wd, info.path(), info.name());</span><br><span class="line">                    System.out.println(<span class="string">&quot;Receiving file: &quot;</span> + fnl.toAbsolutePath() + <span class="string">&quot;, length: &quot;</span> + length);</span><br><span class="line">                    FileUtils.forceMkdir(Paths.get(wd, info.path()).toFile());</span><br><span class="line">                    FileUtils.touch(fnl.toFile());</span><br><span class="line"></span><br><span class="line">                    FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(fnl.toFile());</span><br><span class="line">                    BufferedOutputStream bos = <span class="keyword">new</span> BufferedOutputStream(fos);</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">long</span> j = <span class="number">0</span>; j &lt; length; j++) &#123;</span><br><span class="line">                        bos.write(bis.read());</span><br><span class="line">                    &#125;</span><br><span class="line">                    bos.close();</span><br><span class="line">                    System.out.println(<span class="string">&quot;Saved file: &quot;</span> + fnl.toAbsolutePath());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                dot.writeUTF(FileTransferInfo.MSG_DONE);</span><br><span class="line">                dot.flush();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            System.out.println(<span class="string">&quot;Closing socket...&quot;</span>);</span><br><span class="line">            dis.close();</span><br><span class="line">            dot.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (socket != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    socket.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public class FileTransferServer &#123;
-    private ServerSocket ss;
-    private final int port;
-    private final String wd;
+<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.gson.Gson;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileTransferClient</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Gson GSON = <span class="keyword">new</span> Gson();</span><br><span class="line">    Socket socket;</span><br><span class="line">    DataOutputStream dos;</span><br><span class="line">    DataInputStream dis;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FileTransferClient</span><span class="params">(Socket socket)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        BufferedOutputStream bos = <span class="keyword">new</span> BufferedOutputStream(socket.getOutputStream());</span><br><span class="line">        <span class="keyword">this</span>.socket = socket;</span><br><span class="line">        <span class="keyword">this</span>.dos = <span class="keyword">new</span> DataOutputStream(bos);</span><br><span class="line">        <span class="keyword">this</span>.dis = <span class="keyword">new</span> DataInputStream(socket.getInputStream());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">send</span><span class="params">(String path, File file)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (file.isDirectory()) &#123;</span><br><span class="line">            File[] files = file.listFiles();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; files != <span class="keyword">null</span> &amp;&amp; i &lt; files.length; ++i) &#123;</span><br><span class="line">                File f = files[i];</span><br><span class="line">                send(Paths.get(path, file.getName()).toString(), f);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Sending file: &quot;</span> + file.getAbsolutePath() + <span class="string">&quot;, length: &quot;</span> + file.length());</span><br><span class="line">            dos.writeUTF(GSON.toJson(<span class="keyword">new</span> FileTransferInfo().name(file.getName()).path(path)));</span><br><span class="line">            dos.writeLong(file.length());</span><br><span class="line">            Files.copy(file.toPath(), dos);</span><br><span class="line">            dos.flush();</span><br><span class="line">            System.out.println(dis.readUTF());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        FileTransferInfo info = <span class="keyword">new</span> FileTransferInfo().type(FileTransferInfo.TYPE_CLOSE);</span><br><span class="line">        dos.writeUTF(GSON.toJson(info));</span><br><span class="line">        dos.flush();</span><br><span class="line">        System.out.println(dis.readUTF());</span><br><span class="line">        dis.close();</span><br><span class="line">        dos.close();</span><br><span class="line">        socket.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(String path)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        FileTransferInfo info = <span class="keyword">new</span> FileTransferInfo().path(path).type(FileTransferInfo.TYPE_DELETE);</span><br><span class="line">        dos.writeUTF(GSON.toJson(info));</span><br><span class="line">        dos.flush();</span><br><span class="line">        System.out.println(dis.readUTF());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    /**
-     * @param port network port for listening
-     * @param wd   working directory, files will be saved into this folder
-     */
-    public FileTransferServer(int port, String wd) &#123;
-        this.port = port;
-        this.wd = wd;
-    &#125;
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 启动服务端</span></span><br><span class="line">FileTransferServer server = <span class="keyword">new</span> FileTransferServer(<span class="number">2221</span>, <span class="string">&quot;/tmp&quot;</span>);</span><br><span class="line">server.start();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 客户端传送文件</span></span><br><span class="line">String host = <span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line"><span class="keyword">int</span> port = <span class="number">2221</span>;</span><br><span class="line">String path = <span class="string">&quot;receiver&quot;</span>;</span><br><span class="line">Socket socket = <span class="keyword">new</span> Socket(host, port);</span><br><span class="line">FileTransferClient client = <span class="keyword">new</span> FileTransferClient(socket);</span><br><span class="line">client.delete(path);</span><br><span class="line">client.send(path, <span class="keyword">new</span> File(<span class="string">&quot;/Users/wii/Downloads/cat.jpg&quot;</span>));</span><br><span class="line">client.close();</span><br></pre></td></tr></table></figure>
 
-    public void start() throws Exception &#123;
-        FileUtils.forceMkdir(new File(wd));
-
-        InetSocketAddress listenAddr = new InetSocketAddress(port);
-        ServerSocketChannel listener = ServerSocketChannel.open();
-        ss = listener.socket();
-        ss.setReuseAddress(true);
-        ss.bind(listenAddr);
-
-        while (true) &#123;
-            Socket socket = ss.accept();
-            System.out.println(&quot;Received request: &quot; + socket);
-            FileTransferServerThread thread = new FileTransferServerThread(socket, wd);
-            thread.start();
-        &#125;
-    &#125;
-
-    public void close() &#123;
-        if (ss != null &amp;&amp; !ss.isClosed()) &#123;
-            try &#123;
-                ss.close();
-            &#125; catch (Exception ignored) &#123;
-            &#125;
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-<h3 id="FileTransferServerThread"><a href="#FileTransferServerThread" class="headerlink" title="FileTransferServerThread"></a>FileTransferServerThread</h3><pre><code class="java">import org.apache.commons.io.FileUtils;
-import com.google.gson.Gson;
-
-import java.io.*;
-import java.net.Socket;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-public class FileTransferServerThread extends Thread &#123;
-    private static final Gson GSON = new Gson();
-    Socket socket;
-    String wd;
-
-    public FileTransferServerThread(Socket socket, String wd) &#123;
-        this.socket = socket;
-        this.wd = wd;
-    &#125;
-
-    @Override
-    public void run() &#123;
-        try &#123;
-            boolean loopFlag = true;
-            FileTransferInfo info;
-            DataOutputStream dot = new DataOutputStream(socket.getOutputStream());
-            BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
-            DataInputStream dis = new DataInputStream(bis);
-
-            while (loopFlag) &#123;
-                String msg = dis.readUTF();
-                info = GSON.fromJson(msg, FileTransferInfo.class);
-
-                if (FileTransferInfo.TYPE_CLOSE.equals(info.type())) &#123;
-                    loopFlag = false;
-                &#125; else if (FileTransferInfo.TYPE_DELETE.equals(info.type())) &#123;
-                    Path fnl = Paths.get(wd, info.path());
-                    FileUtils.deleteQuietly(fnl.toFile());
-                &#125; else &#123;
-                    long length = dis.readLong();
-
-                    Path fnl = Paths.get(wd, info.path(), info.name());
-                    System.out.println(&quot;Receiving file: &quot; + fnl.toAbsolutePath() + &quot;, length: &quot; + length);
-                    FileUtils.forceMkdir(Paths.get(wd, info.path()).toFile());
-                    FileUtils.touch(fnl.toFile());
-
-                    FileOutputStream fos = new FileOutputStream(fnl.toFile());
-                    BufferedOutputStream bos = new BufferedOutputStream(fos);
-                    for (long j = 0; j &lt; length; j++) &#123;
-                        bos.write(bis.read());
-                    &#125;
-                    bos.close();
-                    System.out.println(&quot;Saved file: &quot; + fnl.toAbsolutePath());
-                &#125;
-
-                dot.writeUTF(FileTransferInfo.MSG_DONE);
-                dot.flush();
-            &#125;
-
-            System.out.println(&quot;Closing socket...&quot;);
-            dis.close();
-            dot.close();
-        &#125; catch (Exception e) &#123;
-            e.printStackTrace();
-        &#125; finally &#123;
-            if (socket != null) &#123;
-                try &#123;
-                    socket.close();
-                &#125; catch (Exception e) &#123;
-                    e.printStackTrace();
-                &#125;
-            &#125;
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><pre><code class="java">import java.io.*;
-import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import com.google.gson.Gson;
-
-public class FileTransferClient &#123;
-      private static final Gson GSON = new Gson();
-    Socket socket;
-    DataOutputStream dos;
-    DataInputStream dis;
-
-    public FileTransferClient(Socket socket) throws IOException &#123;
-        BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());
-        this.socket = socket;
-        this.dos = new DataOutputStream(bos);
-        this.dis = new DataInputStream(socket.getInputStream());
-    &#125;
-
-    public void send(String path, File file) throws IOException &#123;
-        if (file.isDirectory()) &#123;
-            File[] files = file.listFiles();
-            for (int i = 0; files != null &amp;&amp; i &lt; files.length; ++i) &#123;
-                File f = files[i];
-                send(Paths.get(path, file.getName()).toString(), f);
-            &#125;
-        &#125; else &#123;
-            System.out.println(&quot;Sending file: &quot; + file.getAbsolutePath() + &quot;, length: &quot; + file.length());
-            dos.writeUTF(GSON.toJson(new FileTransferInfo().name(file.getName()).path(path)));
-            dos.writeLong(file.length());
-            Files.copy(file.toPath(), dos);
-            dos.flush();
-            System.out.println(dis.readUTF());
-        &#125;
-    &#125;
-
-    public void close() throws IOException &#123;
-        FileTransferInfo info = new FileTransferInfo().type(FileTransferInfo.TYPE_CLOSE);
-        dos.writeUTF(GSON.toJson(info));
-        dos.flush();
-        System.out.println(dis.readUTF());
-        dis.close();
-        dos.close();
-        socket.close();
-    &#125;
-
-    public void delete(String path) throws IOException &#123;
-        FileTransferInfo info = new FileTransferInfo().path(path).type(FileTransferInfo.TYPE_DELETE);
-        dos.writeUTF(GSON.toJson(info));
-        dos.flush();
-        System.out.println(dis.readUTF());
-    &#125;
-&#125;
-</code></pre>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><pre><code class="java">// 启动服务端
-FileTransferServer server = new FileTransferServer(2221, &quot;/tmp&quot;);
-server.start();
-
-// 客户端传送文件
-String host = &quot;127.0.0.1&quot;;
-int port = 2221;
-String path = &quot;receiver&quot;;
-Socket socket = new Socket(host, port);
-FileTransferClient client = new FileTransferClient(socket);
-client.delete(path);
-client.send(path, new File(&quot;/Users/wii/Downloads/cat.jpg&quot;));
-client.close();
-</code></pre>
 <h1 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h1><ul>
 <li>优化<ul>
 <li>零拷贝</li>
@@ -341,7 +130,7 @@ client.close();
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/10/29/coding/java/socket-send-file/" data-id="ckomwlrt1001urhn94d82bes8" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/10/29/coding/java/socket-send-file/" data-id="ckonrt7us001uc8n93azfdcdk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" rel="tag">传输文件</a></li></ul>
@@ -362,9 +151,9 @@ client.close();
     </a>
   
   
-    <a href="/2020/10/27/architecture/storage/mysql/usage/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/10/27/terms/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">mysql usage</div>
+      <div class="article-nav-title">术语</div>
     </a>
   
 </nav>
@@ -422,7 +211,7 @@ client.close();
       <ul>
         
           <li>
-            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
+            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
           </li>
         
           <li>
@@ -430,7 +219,7 @@ client.close();
           </li>
         
           <li>
-            <a href="/2021/05/13/architecture/notes/distributed%20lock/">架构 - 分布式锁</a>
+            <a href="/2021/05/13/frontend/node/npm/">node - npm</a>
           </li>
         
           <li>
