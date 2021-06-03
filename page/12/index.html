@@ -97,7 +97,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/05/play/rpi/librarys/" data-id="ckpglau8i00496hfyhf5y8vpe" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/05/play/rpi/librarys/" data-id="ckpgleu6b0047fqfy7z0v23si" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
@@ -139,7 +139,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/04/coding/python/notes/entwork/" data-id="ckpglau9w009c6hfy3q1g9n0e" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/04/coding/python/notes/entwork/" data-id="ckpgleu7r009cfqfy5wha64g0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
@@ -193,7 +193,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/04/coding/python/library/panda/usage/" data-id="ckpglauad00as6hfy26ga5ip0" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/04/coding/python/library/panda/usage/" data-id="ckpgleu8800asfqfy0c7y3pad" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/panda/" rel="tag">panda</a></li></ul>
@@ -444,10 +444,56 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/12/04/coding/java/jvm/args/" data-id="ckpglau9p008m6hfy540rhr64" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/12/04/coding/java/jvm/args/" data-id="ckpgleu7k008mfqfybnik2nyx" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gc/" rel="tag">gc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/c++/notes/sizeof" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/21/coding/c++/notes/sizeof/" class="article-date">
+  <time datetime="2020-11-21T04:00:00.000Z" itemprop="datePublished">2020-11-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/c/">c++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/21/coding/c++/notes/sizeof/">memset &amp; fill</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in"><span class="keyword">sizeof</span></span>(type/object)</span><br><span class="line"></span><br><span class="line">查询对象/类型实际大小</span><br></pre></td></tr></table></figure>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义结构</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Empty</span> &#123;</span>&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Base</span> &#123;</span> <span class="keyword">int</span> a; &#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Derived</span> :</span> Base &#123; <span class="keyword">int</span> b; &#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Bit</span> &#123;</span> <span class="keyword">unsigned</span> bit: <span class="number">1</span>; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例化</span></span><br><span class="line">Empty e;</span><br><span class="line">Derived d;</span><br><span class="line">Base&amp; b = d;</span><br><span class="line">[[maybe_unused]] Bit bit;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">10</span>];</span><br><span class="line">      </span><br><span class="line"><span class="comment">// 查询大小</span></span><br><span class="line"><span class="keyword">sizeof</span> e        <span class="comment">// 1  Empty类大小</span></span><br><span class="line"><span class="keyword">sizeof</span> &amp;e       <span class="comment">// 8  类指针大小</span></span><br><span class="line"><span class="built_in"><span class="keyword">sizeof</span></span>(Bit)     <span class="comment">// 4  Bit类大小</span></span><br><span class="line"><span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>[<span class="number">10</span>]) <span class="comment">// 40 </span></span><br><span class="line"><span class="built_in"><span class="keyword">sizeof</span></span>(a)       <span class="comment">// 40</span></span><br><span class="line">((<span class="keyword">sizeof</span> a) / (<span class="keyword">sizeof</span> *a))    <span class="comment">// 计算数组a的长度</span></span><br><span class="line">((<span class="keyword">sizeof</span> a) / (<span class="keyword">sizeof</span> a[<span class="number">0</span>]))  <span class="comment">// 计算数组a的长度</span></span><br><span class="line"><span class="keyword">sizeof</span> d        <span class="comment">// Derived对象大小</span></span><br><span class="line"><span class="keyword">sizeof</span> b        <span class="comment">// Base对象大小</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2020/11/21/coding/c++/notes/sizeof/" data-id="ckpgleu7h008ifqfy9fno3yk7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
 
     </footer>
   </div>
@@ -496,53 +542,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/21/coding/c++/notes/memset-fill/" data-id="ckpglau9n008g6hfybfv63nvn" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-coding/c++/notes/sizeof" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/11/21/coding/c++/notes/sizeof/" class="article-date">
-  <time datetime="2020-11-21T04:00:00.000Z" itemprop="datePublished">2020-11-21</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/c/">c++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/21/coding/c++/notes/sizeof/">memset &amp; fill</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in"><span class="keyword">sizeof</span></span>(type/object)</span><br><span class="line"></span><br><span class="line">查询对象/类型实际大小</span><br></pre></td></tr></table></figure>
-
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义结构</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Empty</span> &#123;</span>&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Base</span> &#123;</span> <span class="keyword">int</span> a; &#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Derived</span> :</span> Base &#123; <span class="keyword">int</span> b; &#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Bit</span> &#123;</span> <span class="keyword">unsigned</span> bit: <span class="number">1</span>; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例化</span></span><br><span class="line">Empty e;</span><br><span class="line">Derived d;</span><br><span class="line">Base&amp; b = d;</span><br><span class="line">[[maybe_unused]] Bit bit;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">10</span>];</span><br><span class="line">      </span><br><span class="line"><span class="comment">// 查询大小</span></span><br><span class="line"><span class="keyword">sizeof</span> e        <span class="comment">// 1  Empty类大小</span></span><br><span class="line"><span class="keyword">sizeof</span> &amp;e       <span class="comment">// 8  类指针大小</span></span><br><span class="line"><span class="built_in"><span class="keyword">sizeof</span></span>(Bit)     <span class="comment">// 4  Bit类大小</span></span><br><span class="line"><span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>[<span class="number">10</span>]) <span class="comment">// 40 </span></span><br><span class="line"><span class="built_in"><span class="keyword">sizeof</span></span>(a)       <span class="comment">// 40</span></span><br><span class="line">((<span class="keyword">sizeof</span> a) / (<span class="keyword">sizeof</span> *a))    <span class="comment">// 计算数组a的长度</span></span><br><span class="line">((<span class="keyword">sizeof</span> a) / (<span class="keyword">sizeof</span> a[<span class="number">0</span>]))  <span class="comment">// 计算数组a的长度</span></span><br><span class="line"><span class="keyword">sizeof</span> d        <span class="comment">// Derived对象大小</span></span><br><span class="line"><span class="keyword">sizeof</span> b        <span class="comment">// Base对象大小</span></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/21/coding/c++/notes/sizeof/" data-id="ckpglau9o008j6hfy44q179e6" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/11/21/coding/c++/notes/memset-fill/" data-id="ckpgleu7i008kfqfy7sqn2vpi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
@@ -588,7 +588,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/20/tools/git/gitignore/" data-id="ckpglau8r00536hfyfuod4kqu" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/11/20/tools/git/gitignore/" data-id="ckpgleu6l0053fqfyeroo3hl3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
@@ -648,7 +648,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/20/tools/git/usage/" data-id="ckpglau8r00566hfybpgn308d" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/11/20/tools/git/usage/" data-id="ckpgleu6l0056fqfy85o4fn71" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
@@ -1016,7 +1016,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/20/architecture/framework/spring/anntations/" data-id="ckpglau96006w6hfy2tbqh57n" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/11/20/architecture/framework/spring/anntations/" data-id="ckpgleu6z006sfqfyb53s1hyo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a></li></ul>
@@ -1086,7 +1086,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2020/11/17/computer%20science/machine%20learning/kaggle/startup/" data-id="ckpglau9y009i6hfy7qxj47el" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2020/11/17/computer%20science/machine%20learning/kaggle/startup/" data-id="ckpgleu7u009ifqfy9x2911tw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kaggle/" rel="tag">kaggle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
