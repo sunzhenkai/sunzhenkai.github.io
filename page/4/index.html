@@ -63,6 +63,754 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-computer science/deep learning/notes/startup" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/19/computer%20science/deep%20learning/notes/startup/" class="article-date">
+  <time datetime="2021-03-18T16:00:00.000Z" itemprop="datePublished">2021-03-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/">计算机科学</a>►<a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/19/computer%20science/deep%20learning/notes/startup/">深度学习入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="深度神经网络"><a href="#深度神经网络" class="headerlink" title="深度神经网络"></a>深度神经网络</h1><h2 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h2><h3 id="ReLU"><a href="#ReLU" class="headerlink" title="ReLU"></a>ReLU</h3><p>ReLU（Rectified linear unit），线性整流函数。</p>
+<p><code>ReLU(a) = max(0, a)</code></p>
+<h3 id="sigmoid"><a href="#sigmoid" class="headerlink" title="sigmoid"></a>sigmoid</h3><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><h2 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_23269761/article/details/81366939">https://blog.csdn.net/qq_23269761/article/details/81366939</a></li>
+</ul>
+<h2 id="视频"><a href="#视频" class="headerlink" title="视频"></a>视频</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1bx411M7Zx?from=search&amp;seid=1096352243175795652">https://www.bilibili.com/video/BV1bx411M7Zx?from=search&amp;seid=1096352243175795652</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/19/computer%20science/deep%20learning/notes/startup/" data-id="ckqgnfckn008i65fy6jfz8ep3" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-architecture/discovery/consul/trouble-shooting" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/15/architecture/discovery/consul/trouble-shooting/" class="article-date">
+  <time datetime="2021-03-14T16:00:00.000Z" itemprop="datePublished">2021-03-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/">注册发现</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/consul/">consul</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/15/architecture/discovery/consul/trouble-shooting/">consul trouble shooting</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一次服务无法注册的故障"><a href="#一次服务无法注册的故障" class="headerlink" title="一次服务无法注册的故障"></a>一次服务无法注册的故障</h1><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>我们的 consul dashboard（基于 consul ui 源码，新增了权限控制，独立部署）突然出现 504 异常。</p>
+<p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315222804326.png" alt="image-20210315222804326"></p>
+<p>打开浏览器调试器的 network，查看异常的请求。</p>
+<p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315223014936.png" alt="image-20210315223014936"></p>
+<p><code>/v1/*</code> 接口，向部署的node应用发送请求，node 应用再将请求通过插件（ <code>express-http-proxy</code> ）代理转发至 consul server。</p>
+<p>很奇怪，其他所有机房都没有问题。而且，多刷几次，偶尔可以正常响应。</p>
+<h3 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h3><p>这一台机器的 Java 服务报了奇怪的 <code>\n not found: limit=0 content=�~@�</code> 异常。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[ERROR 2021-03-15 20:21:39.114] com...init(ConsulBase.java:58) [[consul] init consul base failed, e=[com.orbitz.consul.ConsulException: Error connecting to Consul</span><br><span class="line">        at com.orbitz.consul.AgentClient.ping(AgentClient.java:69)</span><br><span class="line">        at com.orbitz.consul.Consul$Builder.build(Consul.java:708)</span><br><span class="line">        ...</span><br><span class="line">Caused by: java.io.IOException: unexpected end of stream on http://127.0.0.1:8500/...</span><br><span class="line">        at okhttp3.internal.http1.Http1ExchangeCodec.readResponseHeaders(Http1ExchangeCodec.kt:205)</span><br><span class="line">        at okhttp3.internal.connection.Exchange.readResponseHeaders(Exchange.kt:105)</span><br><span class="line">        ...</span><br><span class="line">        at okhttp3.RealCall.getResponseWithInterceptorChain(RealCall.kt:184)</span><br><span class="line">        at okhttp3.RealCall.execute(RealCall.kt:66)</span><br><span class="line">        at retrofit2.OkHttpCall.execute(OkHttpCall.java:186)</span><br><span class="line">        at com.orbitz.consul.AgentClient.ping(AgentClient.java:62)</span><br><span class="line">        ... 14 more</span><br><span class="line">Caused by: java.io.EOFException: \n not found: limit=0 content=�~@�</span><br><span class="line">        at okio.RealBufferedSource.readUtf8LineStrict(RealBufferedSource.kt:231)</span><br><span class="line">        at okhttp3.internal.http1.Http1ExchangeCodec.readHeaderLine(Http1ExchangeCodec.kt:210)</span><br><span class="line">        at okhttp3.internal.http1.Http1ExchangeCodec.readResponseHeaders(Http1ExchangeCodec.kt:181)</span><br><span class="line">        ... 35 more</span><br></pre></td></tr></table></figure>
+
+<p>看样子，是无法连接consul，接口异常？此外，由于无法连接consol，报了一堆无法找到服务端的RPC异常，这也正常，注册中心连不上，肯定也就拿不到服务列表。</p>
+<p>我们的 C++ 服务（ 使用库<code>ppconsul</code> ），直接报了无法注册的异常。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E0315 19:28:54.129444 11661 ...cpp:456] [consul] register local consul agent failed!</span><br></pre></td></tr></table></figure>
+
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>首先，尝试重启 consul server。不重启还好，一重启，这台机器之前注册的服务全没了，怎么重启服务都注册不上。</p>
+<p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315224053342.png" alt="image-20210315224053342"></p>
+<p>随后，查看consul日志，伴随着不太明了的异常。</p>
+<p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315224235590.png" alt="image-20210315224235590"></p>
+<p>于是，想通过consul程序，看下members，确认加入了集群，但是…. </p>
+<p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315224420906.png" alt="image-20210315224420906"></p>
+<p>他，出错了，很奇怪的错。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error retrieving members: Get &quot;http://127.0.0.1:8500/v1/agent/members?segment=_all&quot;: EOF</span><br></pre></td></tr></table></figure>
+
+<p>到这里，可以想到的是，是consul接口出问题。开始的时候前端请求异常，应该也是因为代理请求consul接口，出错导致的。凡事都有个但是，排查端口发现，有正常的连接建立啊。</p>
+<p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315225135881.png" alt="image-20210315225135881"></p>
+<p>而且呢，还很多。</p>
+<p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315225258268.png" alt="image-20210315225258268"></p>
+<p>等等… 难道… 是因为… 太多了？赶紧搜下。</p>
+<p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315225438513.png" alt="image-20210315225438513"></p>
+<p>好吧，找到了这里。</p>
+<p><img src="/2021/03/15/architecture/discovery/consul/trouble-shooting/image-20210315225530866.png" alt="image-20210315225530866"></p>
+<p>单个 IP 限制的最大连接数，是 200。行吧。改大试试吧。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;client_addr&quot;</span>: <span class="string">&quot;0.0.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;datacenter&quot;</span>: <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;data_dir&quot;</span>: <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;domain&quot;</span>: <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;dns_config&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;enable_truncate&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">&quot;only_passing&quot;</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;limits&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;http_max_conns_per_client&quot;</span>: <span class="number">500</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;enable_syslog&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;encrypt&quot;</span>: <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;leave_on_terminate&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;log_level&quot;</span>: <span class="string">&quot;INFO&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;rejoin_after_leave&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;server&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;bootstrap&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;bootstrap_expect&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;retry_join&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">        <span class="string">&quot;...&quot;</span>,</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;ui&quot;</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至此，好了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/15/architecture/discovery/consul/trouble-shooting/" data-id="ckqgnfck6006o65fygdtpcx31" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/consul/" rel="tag">consul</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-architecture/framework/netty/netty" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/13/architecture/framework/netty/netty/" class="article-date">
+  <time datetime="2021-03-12T16:00:00.000Z" itemprop="datePublished">2021-03-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/java/">java</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/">框架</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/netty/">netty</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/13/architecture/framework/netty/netty/">netty</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>简单的说，netty 提供了一个NIO（异步非阻塞IO）网络框架，基于此可以轻松地开发高性能的网络应用。</p>
+<h1 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h1><ul>
+<li>支持多种协议，且有统一的API</li>
+<li>强大的线程模型</li>
+<li>高性能</li>
+</ul>
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="reactor"><a href="#reactor" class="headerlink" title="reactor"></a>reactor</h2><p>reactor 模式是事件驱动的一种实现，将服务端接受请求和事件处理分离，从而提升系统处理并发的能力，java的NIO的reactor模式是基于系统内核的多路复用技术实现的。</p>
+<p>reactor模式有三个组件，Handler、Demultiplexer、Reactor，核心是 IO复用 + 非阻塞编程 + bind/function。</p>
+<p><img src="/2021/03/13/architecture/framework/netty/netty/002.png"></p>
+<h2 id="reactor-和-I-O多路复用"><a href="#reactor-和-I-O多路复用" class="headerlink" title="reactor 和 I/O多路复用"></a>reactor 和 I/O多路复用</h2><p>reactor 是一种网络编程模式，其底层多使用系统实现的I/O多路复用能力。</p>
+<h2 id="高性能原因"><a href="#高性能原因" class="headerlink" title="高性能原因"></a>高性能原因</h2><ul>
+<li>基于Reactor模式实现的 <strong>NIO</strong>（异步阻塞IO），IO多路复用</li>
+<li>TCP接受和发送缓冲区使用<strong>直接内存</strong>代替堆内存，避免了内存复制</li>
+<li>使用内存池的方式，<strong>循环利用 ByteBuf</strong></li>
+<li><strong>环形数组缓冲区</strong>实现无锁化并发编程</li>
+<li>关键资源的处理使用单线程串行化，避免使用锁</li>
+</ul>
+<h2 id="线程模型"><a href="#线程模型" class="headerlink" title="线程模型"></a>线程模型</h2><p>在 Netty 主要靠 NioEventLoopGroup 线程池来实现具体的线程模型的 。我们实现服务端的时候，一般会初始化两个线程组，Boss Group 和 Worker Group，前者用于接收连接，后者负责具体的处理，交由对应的 Handler 处理。</p>
+<p>Netty 可以实现多种线程模型，单线程、多线程、主从多线程模型。</p>
+<h2 id="启动流程"><a href="#启动流程" class="headerlink" title="启动流程"></a>启动流程</h2><ul>
+<li>创建两组线程组，Boss 和 Worker</li>
+<li>创建服务端启动引导/辅助类 ServerBootstrap</li>
+<li>为引导类设置线程组</li>
+<li>绑定端口，得到 ChannelFuture 对象</li>
+<li>阻塞等待 Future 对象，知道服务器 Channel 关闭</li>
+<li>关闭线程组</li>
+</ul>
+<h2 id="默认线程数量"><a href="#默认线程数量" class="headerlink" title="默认线程数量"></a>默认线程数量</h2><p>CPU核心数 * 2。</p>
+<h2 id="处理流程"><a href="#处理流程" class="headerlink" title="处理流程"></a>处理流程</h2><p><img src="/2021/03/13/architecture/framework/netty/netty/000.png"></p>
+<p><img src="/2021/03/13/architecture/framework/netty/netty/001.png"></p>
+<h2 id="BIO-NIO-AIO"><a href="#BIO-NIO-AIO" class="headerlink" title="BIO / NIO / AIO"></a>BIO / NIO / AIO</h2><ul>
+<li>BIO：阻塞IO</li>
+<li>NIO：非阻塞IO</li>
+<li>AIO：异步非阻塞IO</li>
+</ul>
+<h2 id="netty-中的-selector"><a href="#netty-中的-selector" class="headerlink" title="netty 中的 selector"></a>netty 中的 selector</h2><p>Selector 能够检测多个注册的通道上是否有事件发生（多个Channel以事件的方式可以注册到同一个Selector），如果有事件发生，便获取事件然后针对每个事件进行相应的处理。这样就可以只用一个单线程去管理多个通道，也就是管理多个连接和请求。</p>
+<h2 id="netty-的核心组件"><a href="#netty-的核心组件" class="headerlink" title="netty 的核心组件"></a>netty 的核心组件</h2><ul>
+<li>Channel<ul>
+<li>Netty 的网络操作抽象类，包含了基本的I/O操作，bind、connect、read、write 等，降低了直接使用 Socket 的复杂度</li>
+<li>与 EventLoop 一起处理I / O</li>
+</ul>
+</li>
+<li>ChannelHandler<ul>
+<li>用于处理各种事件，以支持各种协议和处理数据的方式</li>
+<li>比如，连接、数据接收、异常、数据转换等</li>
+</ul>
+</li>
+<li>ChannelPipeline<ul>
+<li>提供了 ChannelHandler 链的容器</li>
+</ul>
+</li>
+<li>EventLoop<ul>
+<li>EventLoop 定义了Netty的核心抽象，用于处理连接的生命周期中所发生的事件</li>
+<li>负责监听网络事件，并调用事件处理器进行相关的 I/O 操作的处理</li>
+</ul>
+</li>
+</ul>
+<h2 id="Channel-和-EventLoop-联系"><a href="#Channel-和-EventLoop-联系" class="headerlink" title="Channel 和 EventLoop 联系"></a>Channel 和 EventLoop 联系</h2><p>Channel 是为 Netty 网络操作的抽象类，EventLoop 负责处理注册到其上的Channel，处理I/O操作，两者配合完成I/O操作</p>
+<h2 id="EventloopGroup-和-EventLoop-关系"><a href="#EventloopGroup-和-EventLoop-关系" class="headerlink" title="EventloopGroup 和 EventLoop 关系"></a>EventloopGroup 和 EventLoop 关系</h2><p>EventLoopGroup 是一组 EventLoop 的抽象，提供了 next 接口，从一组 EventLoop 中按规则选择一个 EventLoop 来处理任务。</p>
+<h2 id="BootStrap-和-ServerBootStrap"><a href="#BootStrap-和-ServerBootStrap" class="headerlink" title="BootStrap 和 ServerBootStrap"></a>BootStrap 和 ServerBootStrap</h2><p>BootStrap 通过 connect 方法连接远程主机，作为TCP协议的客户端，或通过bind方法绑定本地端口，作为UDP协议的一端。只需配置一组 EventLoopGroup。</p>
+<p>ServerBootStrap 通过 bind 方法绑定本地端口，等待客户端连接。需配置两组 EventLoopGroup ，一个用于接收，一个用于处理，即 Boss EventLoopGroup 和 Worker EventLoopGroup。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<li>RPC框架的网络通讯工具</li>
+<li>搭建网络应用，http 或其他</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lihonglin2016/p/9774957.html">https://www.cnblogs.com/lihonglin2016/p/9774957.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148726453">https://zhuanlan.zhihu.com/p/148726453</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/eef7ebe28673">https://www.jianshu.com/p/eef7ebe28673</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/320829696">https://www.zhihu.com/question/320829696</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.blogjava.net/DLevin/archive/2015/09/02/427045.html">http://www.blogjava.net/DLevin/archive/2015/09/02/427045.html</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/13/architecture/framework/netty/netty/" data-id="ckqgnfck9007165fy0cizbx1h" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/netty/" rel="tag">netty</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-computer science/networking/networking" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/13/computer%20science/networking/networking/" class="article-date">
+  <time datetime="2021-03-12T16:00:00.000Z" itemprop="datePublished">2021-03-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/">计算机科学</a>►<a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/13/computer%20science/networking/networking/">计算机网络</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="TCP-IP"><a href="#TCP-IP" class="headerlink" title="TCP/IP"></a>TCP/IP</h1><h2 id="建立-断开连接"><a href="#建立-断开连接" class="headerlink" title="建立/断开连接"></a>建立/断开连接</h2><h3 id="TCP状态转换图"><a href="#TCP状态转换图" class="headerlink" title="TCP状态转换图"></a>TCP状态转换图</h3><p><img src="/2021/03/13/computer%20science/networking/networking/tcp-ip-02.jpg"></p>
+<p><img src="/2021/03/13/computer%20science/networking/networking/tcp-ip-04.png"></p>
+<h3 id="建立连接-三次握手"><a href="#建立连接-三次握手" class="headerlink" title="建立连接(三次握手)"></a>建立连接(三次握手)</h3><ul>
+<li>客户端发送一个带SYN标志的TCP报文到服务器(报文1)</li>
+<li>服务器端回应客户端(报文2), 这个报文同时带ACK标志和SYN标志. 因此, 它表示对刚才客户端SYN报文的回应, 同时又发送标志SYN给客户端, 询问客户端是否准备好进行数据通讯</li>
+<li>客户端必须再次回应服务端一个ACK报文(报文3)</li>
+</ul>
+<p><img src="/2021/03/13/computer%20science/networking/networking/tcp-ip-03.jpg"></p>
+<table>
+<thead>
+<tr>
+<th>FLAGS</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SYN</td>
+<td>建立连接</td>
+</tr>
+<tr>
+<td>FIN</td>
+<td>关闭连接</td>
+</tr>
+<tr>
+<td>ACK</td>
+<td>响应</td>
+</tr>
+<tr>
+<td>PSH</td>
+<td>有数据传输</td>
+</tr>
+<tr>
+<td>RST</td>
+<td>重置连接</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>首部字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>seq</td>
+<td>序列号</td>
+</tr>
+<tr>
+<td>ack</td>
+<td>对方需要发送的下一个报文序号</td>
+</tr>
+</tbody></table>
+<p>再述三次握手。</p>
+<ul>
+<li>客户端想要建立连接，<strong>SYN 标志置为 1</strong>，序列号每次都有，所以将首部的 <strong>seq 设置为一个随机值 i</strong></li>
+<li>服务端确认建立连接，<strong>SYN 标志置为 1</strong>，作为响应报文，<strong>ACK 标志置为 1</strong>，同样<strong>设置首部的 seq 为一个随机值 j</strong>，同时<strong>设置 ack 指明对方下一次需要发送的报文序列为 i+1</strong></li>
+<li>客户端接收到服务端的连接请求，发送确认消息，作为响应报文，<strong>ACK 标志置为 1</strong>，同时将报文序列<strong>seq置为 i+1</strong>，请求对方下一次发送序列号为 j+1 的报文，<strong>ack 置为 j+1</strong></li>
+</ul>
+<h3 id="终止连接-四次握手"><a href="#终止连接-四次握手" class="headerlink" title="终止连接(四次握手)"></a>终止连接(四次握手)</h3><p>由于TCP连接是全双工的，因此每个方向都必须单独进行关闭。当一方完成它的数据发送后发送一个FIN来终止这个方向的连接，另一端收到FIN后，仍可以发送数据。首先进行关闭的一方执行主动关闭，另一方执行被动关闭。</p>
+<ul>
+<li>TCP客户端发送一个FIN, 用来关闭客户端到服务端的数据传送</li>
+<li>服务端收到FIN, 发回一个ACK, 确认序号为收到的序号加一. 和SYN一样, 一个FIN占用一个序号</li>
+<li>服务端关闭客户端的连接, 发送一个FIN给客户端</li>
+<li>客户端发回ACK报文确认, 并将确认序号设置为收到的序号加一</li>
+</ul>
+<p><img src="/2021/03/13/computer%20science/networking/networking/tcp-ip-09.jpg"></p>
+<p>再述四次握手，终止连接。</p>
+<p>终止连接，需要双方都发送终止请求，并回复对方。</p>
+<ul>
+<li>客户端主动关闭，<strong>置 FIN 为 1</strong>，序列号<strong>seq置为u</strong></li>
+<li>服务端被动关闭，回复客户端的关闭请求，因为是响应报文，<strong>置ACK为 1</strong>，指明对方下一个报文序列，<strong>ack 置为 u+1</strong></li>
+<li>服务端开始主动关闭，<strong>置 FIN 为 1</strong>，序列号 <strong>seq 置为 w</strong>，指明对方下一个报文序列，<strong>ack 置为 u + 1</strong></li>
+<li>客户端被动关闭，恢复服务端的关闭请求，因为是响应报文，<strong>置ACK为1</strong>，返回对方想要的报文序列，置 <strong>seq 为 u+1</strong>，指明对方下一个报文序列，<strong>ack 置为 w+1</strong></li>
+</ul>
+<h3 id="状态"><a href="#状态" class="headerlink" title="状态"></a>状态</h3><table>
+<thead>
+<tr>
+<th>状态</th>
+<th>说明</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CLOSED</code></td>
+<td>初始状态</td>
+<td></td>
+</tr>
+<tr>
+<td><code>LISTEN</code></td>
+<td>监听状态, 可以接受连接</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SYN_RCVD</code></td>
+<td>接受到<code>SYN</code>报文</td>
+<td>正常情况下, 这个状态是服务端的SOCKET在建立TCP连接时的三次握手会话过程中的一个中间状态. 在这种状态时, 当收到客户端的ACK报文后, 会进入ESTABLISHED状态</td>
+</tr>
+<tr>
+<td><code>SYN_SEND</code></td>
+<td>客户端已发送SYN报文</td>
+<td>与<code>SYN_RCVD</code>呼应, 当客户端SOCKET执行CONNECT连接时, 首先发送SYN报文, 随即进入SYN_SEND状态, 并等待服务端发送三次握手中的第二个报文</td>
+</tr>
+<tr>
+<td><code>ESTABLISHED</code></td>
+<td>连接已建立</td>
+<td></td>
+</tr>
+<tr>
+<td><code>FIN_WAIT_1</code></td>
+<td>等待对方FIN报文</td>
+<td>FIN_WAIT_1和FIN_WAIT_2都表示等待FIN报文. FIN_WAIT_1状态实际上是当SOCKET在ESTABLISHED状态时，它想主动关闭连接，向对方发送了FIN报文，此时该SOCKET进入到FIN_WAIT_1状态, 而当对方回应ACK报文后，则进入到FIN_WAIT_2状态.</td>
+</tr>
+<tr>
+<td><code>FIN_WAIT_2</code></td>
+<td>等待对方FIN报文</td>
+<td>FIN_WAIT_2状态下的SOCKET，表示半连接，也即有一方要求close连接，但另外还告诉对方，我暂时还有点数据需要传送给你，稍后再关闭连接</td>
+</tr>
+<tr>
+<td><code>TIME_WAIT</code></td>
+<td>收到对方FIN报文, 并发送了ACK报文</td>
+<td>等2MSL后即可回到CLOSED可用状态了。如果FIN_WAIT_1状态下，收到了对方同时带 FIN标志和ACK标志的报文时，可以直接进入到TIME_WAIT状态，而无须经过FIN_WAIT_2状态</td>
+</tr>
+<tr>
+<td><code>CLOSING</code></td>
+<td>表示发送FIN报文后, 没有收到对方的ACK报文, 却收到了对方FIN报文</td>
+<td>如果双方几乎在同时close一个SOCKET的话，那么就出现了双方同时发送FIN报 文的情况，也即会出现CLOSING状态，表示双方都正在关闭SOCKET连接</td>
+</tr>
+<tr>
+<td><code>CLOSE_WAIT</code></td>
+<td>等待关闭</td>
+<td>收到对方FIN报文, 并回应了ACK报文, 进入到CLOSE_WAIT状态.  在CLOSE_WAIT状态下，需要完成的事情是等待关闭连接.</td>
+</tr>
+<tr>
+<td><code>LAST_ACK</code></td>
+<td>被动关闭一方在发送FIN报文后, 等待对方的ACK报文</td>
+<td>当收到ACK报文后, 进入CLOSED状态</td>
+</tr>
+</tbody></table>
+<h3 id="同时关闭-打开连接"><a href="#同时关闭-打开连接" class="headerlink" title="同时关闭/打开连接"></a>同时关闭/打开连接</h3><p><img src="/2021/03/13/computer%20science/networking/networking/tcp-ip-06.png"></p>
+<p><img src="/2021/03/13/computer%20science/networking/networking/tcp-ip-07.png"></p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="为什么建立连接是三次握手-关闭连接是四次握手"><a href="#为什么建立连接是三次握手-关闭连接是四次握手" class="headerlink" title="为什么建立连接是三次握手, 关闭连接是四次握手?"></a><strong>为什么建立连接是三次握手, 关闭连接是四次握手?</strong></h4><p>这是因为，服务端的LISTEN状态下的SOCKET当收到SYN报文的连接请求后，它可以把ACK和SYN（ACK起应答作用，而SYN起同步作用）放在一个报文里来发送。但关闭连接时，当收到对方的FIN报文通知时，它仅仅表示对方没有数据发送给你了；但未必你所有的数据都全部发送给对方了，所以你可以未必会马上会关闭SOCKET，也即你可能还需要发送一些数据给对方之后，再发送FIN报文给对方来表示你同意现在可以关闭连接了，所以它这里的ACK报文和FIN报文多数情况下都是分开发送的。</p>
+<h4 id="TIME-WAIT后还需要SMSL"><a href="#TIME-WAIT后还需要SMSL" class="headerlink" title="TIME_WAIT后还需要SMSL"></a><strong>TIME_WAIT后还需要SMSL</strong></h4><ul>
+<li><p>TCP协议在关闭连接的四次握手过程中，最终的ACK是由主动关闭连接的一端（后面统称A端）发出的，如果这个ACK丢失，对方（后面统称B端）将重发出最终的FIN，因此A端必须维护状态信息（TIME_WAIT）允许它重发最终的ACK。如果A端不维持TIME_WAIT状态，而是处于CLOSED 状态，那么A端将响应RST分节，B端收到后将此分节解释成一个错误（在java中会抛出connection reset的SocketException)。</p>
+<p>因而，要实现TCP全双工连接的正常终止，必须处理终止过程中四个分节任何一个分节的丢失情况，主动关闭连接的A端必须维持TIME_WAIT状态 。</p>
+</li>
+<li><p>允许老的重复分节在网络中消逝（实际也就是避免同一端口对应多个套接字）. TCP分节可能由于路由器异常而“迷途”，在迷途期间，TCP发送端可能因确认超时而重发这个分节，迷途的分节在路由器修复后也会被送到最终目的地，这个迟到的迷途分节到达时可能会引起问题。在关闭“前一个连接”之后，马上又重新建立起一个相同的IP和端口之间的“新连接”，“前一个连接”的迷途重复分组在“前一个连接”终止后到达，而被“新连接”收到了。为了避免这个情况，TCP协议不允许处于TIME_WAIT状态的连接启动一个新的可用连接，因为TIME_WAIT状态持续2MSL，就可以保证当成功建立一个新TCP连接的时候，来自旧连接重复分组已经在网络中消逝。</p>
+</li>
+</ul>
+<h4 id="关闭TCP连接一定需要四次握手吗"><a href="#关闭TCP连接一定需要四次握手吗" class="headerlink" title="关闭TCP连接一定需要四次握手吗"></a><strong>关闭TCP连接一定需要四次握手吗</strong></h4><p>不一定，4次挥手关闭TCP连接是最安全的做法。但在有些时候，我们不喜欢TIME_WAIT状态（如当MSL数值设置过大导致服务器端有太多TIME_WAIT状态的TCP连接，减少这些条目数可以更快地关闭连接，为新连接释放更多资源），这时我们可以通过设置SOCKET变量的SO_LINGER标志来避免SOCKET在close()之后进入TIME_WAIT状态，这时将通过发送RST强制终止TCP连接（取代正常的TCP四次握手的终止方式）。但这并不是一个很好的主意，TIME_WAIT 对于我们来说往往是有利的。</p>
+<h4 id="TCP如何保证可靠传输"><a href="#TCP如何保证可靠传输" class="headerlink" title="TCP如何保证可靠传输"></a>TCP如何保证可靠传输</h4><ul>
+<li>序列号、确认和重传：每条报文指定一个序列号，接收方收到报文会发送确认，如果发送方迟迟未收到确认，就重传</li>
+<li>数据校验</li>
+<li>连接管理</li>
+<li>窗口控制</li>
+<li>流量控制</li>
+<li>拥塞控制</li>
+</ul>
+<p><strong>参考</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaokang01/p/10033267.html">https://www.cnblogs.com/xiaokang01/p/10033267.html</a></li>
+</ul>
+<h2 id="Nagle算法"><a href="#Nagle算法" class="headerlink" title="Nagle算法"></a>Nagle算法</h2><h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><ul>
+<li>如果包长度达到MSS, 则允许发送</li>
+<li>如果包还有FIN, 则允许发送</li>
+<li>设置了TCP_NODELAY选项, 则允许发送</li>
+<li>未设置TCP_CORK选项时, 若所有发出去的小数据包(包长度小于MSS)均被确认, 则允许发送;</li>
+<li>上述条件都未满足, 但发生了超时(一般为200ms), 则立即发送</li>
+</ul>
+<h3 id="其他说明"><a href="#其他说明" class="headerlink" title="其他说明"></a>其他说明</h3><ul>
+<li>Nagle算法只允许一个未被ACK的包存在于网络，它并不管包的大小，因此它事实上就是一个扩展的停-等协议，只不过它是基于包停-等的，而不是基于字节停-等的</li>
+<li>Nagle算法完全由TCP协议的ACK机制决定，这会带来一些问题，比如如果对端ACK回复很快的话，Nagle事实上不会拼接太多的数据包，虽然避免了网络拥塞，网络总体的利用率依然很低</li>
+<li>Nagle算法是silly window syndrome(SWS)预防算法的一个半集。SWS算法预防发送少量的数据，Nagle算法是其在发送方的实现，而接收方要做的是不要通告缓冲空间的很小增长，不通知小窗口，除非缓冲区空间有显著的增长。这里显著的增长定义为完全大小的段（MSS）或增长到大于最大窗口的一半。</li>
+<li>注意：BSD的实现是允许在空闲链接上发送大的写操作剩下的最后的小段，也就是说，当超过1个MSS数据发送时，内核先依次发送完n个MSS的数据包，然后再发送尾部的小数据包，其间不再延时等待。（假设网络不阻塞且接收窗口足够大）</li>
+<li>当有一个TCP数据段不足MSS，比如要发送700Byte数据，MSS为1460Byte的情况。nagle算法会延迟这个数据段的发送，等待，直到有足够的数据填充成一个完整数据段</li>
+<li>为了解决大量的小报文对通信造成的影响，提高传输效率</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://www.nowcoder.com/test/question/done?tid=10931850&qid=25643#summary">参考一</a></li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>ACK: 应答作用</li>
+<li>SYN: 同步作用</li>
+</ul>
+<h1 id="I-O"><a href="#I-O" class="headerlink" title="I/O"></a>I/O</h1><h2 id="阻塞-I-O"><a href="#阻塞-I-O" class="headerlink" title="阻塞 I/O"></a>阻塞 I/O</h2><p>通常I/O操作都是 <strong>阻塞I/O</strong>，以一次读操作为例，数据先被拷贝到操作系统内核的缓冲区中，然后才会从操作系统内核的缓冲区拷贝到应用程序的地址空间，对应数据准备、数据拷贝两个阶段。在数据准备阶段，线程/进程会被挂起，当数据拷贝至应用程序内存空间后，线程/进程被唤醒。</p>
+<p><img src="/2021/03/13/computer%20science/networking/networking/002.png"></p>
+<h2 id="非阻塞-I-O"><a href="#非阻塞-I-O" class="headerlink" title="非阻塞 I/O"></a>非阻塞 I/O</h2><p>如果使用阻塞I/O，同时处理1000个请求，则需要1000个线程，虽然大多数线程可能被挂起，但不可避免的是频繁的线程上下文切换，非常占用系统资源，每个线程的时间槽也会非常短，导致系统整体有效负载降低，此外每个线程还会占用 512KB / 1MB 的内存。</p>
+<p>此时，引入了 <strong>非阻塞I/O</strong> 的概念，通过调用 fcntl（POSIX）/ ioctl（Unix）设为非阻塞模式。在此模式下，如果有数据收到，就会返回数据，否则立即返回一个错误。这样虽然不会阻塞线程，但需要线程不断轮询来读取或写入。</p>
+<p><img src="/2021/03/13/computer%20science/networking/networking/003.png"></p>
+<h2 id="I-O-多路复用"><a href="#I-O-多路复用" class="headerlink" title="I/O 多路复用"></a>I/O 多路复用</h2><p>为了解决单线程轮询单个文件描述符效率低下的问题，有了 <strong>I/O多路复用</strong> 的概念，多路是指多个文件描述符（socket连接），复用指的是复用一个线程。</p>
+<p>所以，I/O多路复用是指，使用一个线程来检查多个文件描述符的就绪状态，如调用 select / poll 函数，传入多个文件描述符，如果有一个就绪，则返回，否则阻塞至超时。</p>
+<p><img src="/2021/03/13/computer%20science/networking/networking/004.png"></p>
+<p>这样在处理1000个连接时，只需要1个线程监控就绪状态，对就绪的每个连接开一个线程处理就可以了，这样需要的线程数大大减少，减少了内存开销和上下文切换的CPU开销。</p>
+<p>I/O多路复用（多路是指多个文件描述符（fd，file descriptor，socket 是fd的一种），复用指的是复用一个线程），主要技术有 select、poll、epoll。</p>
+<table>
+<thead>
+<tr>
+<th>-</th>
+<th>select</th>
+<th>poll</th>
+<th>epoll</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>时间处理复杂度</td>
+<td>O(n)</td>
+<td>O(n)</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>连接数</td>
+<td>需要通过 FD_SETSIZE 设置最大连接数</td>
+<td></td>
+<td>无限制</td>
+</tr>
+<tr>
+<td>事件触发机制</td>
+<td>轮询</td>
+<td>轮询</td>
+<td>回调</td>
+</tr>
+<tr>
+<td>工作模式</td>
+<td>LT</td>
+<td>LT</td>
+<td>LT / ET</td>
+</tr>
+<tr>
+<td>fd 拷贝</td>
+<td>每次调用，每次拷贝</td>
+<td>每次调用，每次拷贝</td>
+<td>通过 mmap 内存映射，避免内存拷贝</td>
+</tr>
+</tbody></table>
+<h3 id="select"><a href="#select" class="headerlink" title="select"></a>select</h3><p>select 会将全量<code>fd_set</code>从用户空间拷贝到内核空间，并注册回调函数， 在内核态空间来判断每个请求是否准备好数据 。select在没有查询到有文件描述符就绪的情况下，将一直阻塞（select是一个阻塞函数）。如果有一个或者多个描述符就绪，那么select将就绪的文件描述符置位，然后select返回。返回后，由程序遍历查看哪个请求有数据。</p>
+<p><strong>缺陷</strong></p>
+<ul>
+<li>牵扯到两次内存拷贝，第一次将 fd_set 从用户空间拷贝至内核空间；第二次是将 fd_set 从内核空间拷贝至用户空间</li>
+<li>牵扯到两次集合遍历，都是对 fd_set 遍历，第一次发生在内核态，第二次发生在用户态</li>
+<li>select 文件描述符有上限，及 fd_set 的容量，虽然可以通过宏 FD_SETSIZE 来设置</li>
+</ul>
+<p><img src="/2021/03/13/computer%20science/networking/networking/005.png"></p>
+<p><img src="/2021/03/13/computer%20science/networking/networking/006.png"></p>
+<h3 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h3><p>poll的实现和select非常相似，只是描述fd集合的方式不同，poll使用<code>pollfd</code>结构代替select的<code>fd_set</code>（网上讲：类似于位图）结构，其他的本质上都差不多。所以<strong>Poll机制突破了Select机制中的文件描述符数量最大为1024的限制</strong>。</p>
+<p><strong>缺陷</strong></p>
+<ul>
+<li>同样会有两次遍历和内存拷贝</li>
+</ul>
+<h3 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h3><p>epoll 对 select 的三个缺陷进行了修复。</p>
+<p>解决内存拷贝：epoll 方式下，fd 是通过mmap共享内存的方式，避免在用户空间和内核空间的拷贝。</p>
+<p>解决多次遍历：epoll不像select或poll一样每次都把当前线程轮流加入fd对应的设备等待队列中，而只在epoll_ctl时把当前线程挂一遍（这一遍必不可少），并为每个fd指定一个回调函数。当设备就绪，唤醒等待队列上的等待者时，就会调用这个回调函数，而<strong>这个回调函数会把就绪的fd加入一个就绪链表。那么当我们调用epoll_wait时，epoll_wait只需要检查链表中是否有存在就绪的fd即可，效率非常可观</strong>。</p>
+<p>解决fd 数量限制：pollfd 结构代替 fd_set 解决数量限制， 使用双向链表保存就绪状态的fd。</p>
+<p><strong>工作模式</strong></p>
+<p>epoll 分为两种工作模式，LT（level trigger，水平触发） 和 ET（edge trigger，边缘触发），两种模式的区别是在于对就绪fd的处理。</p>
+<ul>
+<li><strong>LT模式：</strong> 默认的工作模式，即当epoll_wait检测到某描述符事件就绪并通知应用程序时，应用程序<strong>可以不立即处理</strong>该事件；事件会被放回到就绪链表中，下次调用epoll_wait时，会再次通知此事件。</li>
+<li><strong>ET模式：</strong> 当epoll_wait检测到某描述符事件就绪并通知应用程序时，应用程序<strong>必须立即处理</strong>该事件。如果不处理，下次调用epoll_wait时，不会再次响应并通知此事件。</li>
+</ul>
+<h2 id="异步-I-O"><a href="#异步-I-O" class="headerlink" title="异步 I/O"></a>异步 I/O</h2><p>进程 / 线程在发起IO操作之后，内核会立刻返回，不会阻塞用户线程/进程。当内核把数据准备完毕后，向用户进程发送一个signal通知。</p>
+<p><img src="/2021/03/13/computer%20science/networking/networking/007.png"></p>
+<h1 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/28594409">https://www.zhihu.com/question/28594409</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ibm.com/support/knowledgecenter/ssw_ibm_i_72/rzab6/xnonblock.htm">https://www.ibm.com/support/knowledgecenter/ssw_ibm_i_72/rzab6/xnonblock.htm</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/95872805">https://zhuanlan.zhihu.com/p/95872805</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1005481">https://cloud.tencent.com/developer/article/1005481</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/13/computer%20science/networking/networking/" data-id="ckqgnfcoo00t965fydbdq2et8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-architecture/storage/redis/redis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/12/architecture/storage/redis/redis/" class="article-date">
+  <time datetime="2021-03-11T16:00:00.000Z" itemprop="datePublished">2021-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/">存储</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/redis/">redis</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/12/architecture/storage/redis/redis/">redis</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>redis的部署模式分为集群模式和哨兵模式，哨兵模式下的角色有主 + 从 + sentinel。无论哪种模式，主从模式都是存在的，起到读写分离、数据备份的作用。</p>
+<h3 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h3><p>哨兵是一个独立与数据节点的进程，具备集群监控、消息通知、故障自动转移、配置中心的功能，用于解决高可用的问题。</p>
+<p>这里了解两个概念，主观下线和客观下线。单个哨兵判断一个主节点下线，为主观下线；该哨兵向其他哨兵确认主节点是否下线，当一半以上哨兵确定主节点下线，则判定该主节点为客观下线。主节点被判定为客观下线后，哨兵会启动Raft选主程序，最终被投为领导者的哨兵节点完成主从自动切换的过程。</p>
+<h3 id="集群模式"><a href="#集群模式" class="headerlink" title="集群模式"></a>集群模式</h3><p>官方提供的分布式方案，包含槽指派、重新分片、故障转移。</p>
+<h3 id="哨兵模式和集群模式的区别"><a href="#哨兵模式和集群模式的区别" class="headerlink" title="哨兵模式和集群模式的区别"></a>哨兵模式和集群模式的区别</h3><ul>
+<li>监控：哨兵模式下，监控权交给了哨兵系统；集群模式下，工作节点自己监控</li>
+<li>故障转移：哨兵模式下，哨兵发起选举，得到一个leader来处理故障转移；集群模式下，是在从节点中选举一个新的主节点，来处理故障的转移</li>
+</ul>
+<h1 id="数据安全"><a href="#数据安全" class="headerlink" title="数据安全"></a>数据安全</h1><h2 id="数据丢失"><a href="#数据丢失" class="headerlink" title="数据丢失"></a>数据丢失</h2><ul>
+<li>主从复制<ul>
+<li>由于复制是异步的，如果在未复制前主节点宕机，数据丢失</li>
+</ul>
+</li>
+<li>脑裂<ul>
+<li>网络分区间不可访问导致某个master节点和集群失联，但是客户端依然在写入数据，这部分数据会丢失</li>
+</ul>
+</li>
+</ul>
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="string"><a href="#string" class="headerlink" title="string"></a>string</h2><p>string 类型是二进制安全的，一个键最大能存储512MB数据。存储结构分位整数、EmbeddingString、SDS，整数存储字符串长度小于21且能转化为整数的字符串；EmbeddingString 存储字符串长度小于 39 的字符串；SDS 存储不满足上述条件的字符串。</p>
+<ul>
+<li><p>只对长度小于或等于 21 字节，并且可以被解释为整数的字符串进行编码，<strong>使用整数存储</strong></p>
+</li>
+<li><p>尝试将 RAW 编码的字符串编码为 EMBSTR 编码，<strong>使用EMBSTR 编码</strong></p>
+</li>
+<li><p>这个对象没办法进行编码，尝试从 SDS 中移除所有空余空间，<strong>使用SDS编码</strong></p>
+</li>
+</ul>
+<p><strong>SDS</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 保存字符串对象的结构</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// buf 中已占用空间的长度</span></span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// buf 中剩余可用空间的长度</span></span><br><span class="line">    <span class="keyword">int</span> free;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 数据空间</span></span><br><span class="line">    <span class="keyword">char</span> buf[];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 返回 sds 实际保存的字符串的长度</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * T = O(1)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">size_t</span> <span class="title">sdslen</span><span class="params">(<span class="keyword">const</span> sds s)</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> *<span class="title">sh</span> =</span> (<span class="keyword">void</span>*)(s-(<span class="built_in"><span class="keyword">sizeof</span></span>(struct sdshdr)));</span><br><span class="line">    <span class="keyword">return</span> sh-&gt;len;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 返回 sds 可用空间的长度</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * T = O(1)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">size_t</span> <span class="title">sdsavail</span><span class="params">(<span class="keyword">const</span> sds s)</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> *<span class="title">sh</span> =</span> (<span class="keyword">void</span>*)(s-(<span class="built_in"><span class="keyword">sizeof</span></span>(struct sdshdr)));</span><br><span class="line">    <span class="keyword">return</span> sh-&gt;free;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>SDS扩容</strong></p>
+<p>当字符串长度小于SDS_MAX_PREALLOC (1024*1024)，那么就以2倍的速度扩容，当字符串长度大于SDS_MAX_PREALLOC，那么就以+SDS_MAX_PREALLOC的速度扩容。</p>
+<p><strong>SDS缩容</strong></p>
+<p>释放内存的过程中修改len和free字段，并不释放实际占用内存。</p>
+<h2 id="hash-字典"><a href="#hash-字典" class="headerlink" title="hash / 字典"></a>hash / 字典</h2><p>底层使用哈希表实现，结构为数组+链表。redis 字典包含两个哈希表，用于在 redis 扩缩容时的渐进式rehash。</p>
+<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><p>redis 4.0 之后，新增了后台线程处理重操作，比如清理脏数据、无用连接的释放、大 key 的删除，但是工作线程仍然是单线程。基于内存的redis，性能瓶颈不在处理器，主要受限于内存和网络。redis 6.0 新增 I/O 线程，用于处理处理 I/O 的读写，使多个socket的读写可以并行，为工作线程减压。</p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h2><p>在集群模式下，一个 redis 实例对应一个 RedisDB，一个RedisDB对应一个Dict，一个Dict对应两个Dictht（dict hash table），正常情况下只用到 ht[0]；ht[1] 在 rehash 时使用。</p>
+<p>rehash 是redis在字典扩缩容时进行的操作，rehash 过程中，字典同时持有两个哈希表，删除、查找、更新等操作都会在两个哈希表上进行，新增操作只在新的哈希表进行，原有的数据的搬迁通过后续的客户端指令（hset、hdel）及定时任务完成。</p>
+<p><strong>触发条件</strong></p>
+<p>扩容条件：数据量大于哈希表数组长度时触发，如果数据量大于数组长度5倍，则进行强制扩容；缩容条件：数据量小于数组长度的10%。</p>
+<p><strong>问题</strong></p>
+<ul>
+<li>满容驱逐，由于 rehash 过程中会为新的哈希表申请空间，导致满容状态下大范围淘汰key</li>
+</ul>
+<h2 id="lpush"><a href="#lpush" class="headerlink" title="lpush"></a>lpush</h2><h2 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h2><p>redis中使用IO多路复用（多路是指多个socket连接，复用指的是复用一个线程）的epoll方式。</p>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="为什么吞吐量高？"><a href="#为什么吞吐量高？" class="headerlink" title="为什么吞吐量高？"></a>为什么吞吐量高？</h2><ul>
+<li>IO多路复用</li>
+<li>基于内存的数据操作</li>
+</ul>
+<h2 id="过期机制？"><a href="#过期机制？" class="headerlink" title="过期机制？"></a>过期机制？</h2><p>可从过期策略和淘汰策略来分析。过期策略分位被动删除和主动删除两类，被动删除主要是读取过期key，惰性删除；主动删除，包括定期清理和内存超过阈值触发主动清理。</p>
+<p>淘汰策略有多种。</p>
+<table>
+<thead>
+<tr>
+<th>淘汰策略</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>volatile-lru</td>
+<td>仅对设置了过期时间的key采取lru淘汰</td>
+</tr>
+<tr>
+<td>volatile-lfu</td>
+<td>对设置了过期时间的key执行最近最少使用淘汰，redis 4.0开始支持</td>
+</tr>
+<tr>
+<td>volatile-ttl</td>
+<td>仅对设置了过期时间的key生效，淘汰最早写入的key</td>
+</tr>
+<tr>
+<td>volatile-random</td>
+<td>随机回收设置过期时间的key</td>
+</tr>
+<tr>
+<td>allkeys-lru</td>
+<td>对所有key都采用lru淘汰</td>
+</tr>
+<tr>
+<td>allkeys-random</td>
+<td>随机回收所有key</td>
+</tr>
+<tr>
+<td>allkeys-lfu</td>
+<td>对所有key执行最近最少使用淘汰，redis 4.0开始支持</td>
+</tr>
+<tr>
+<td>no-enviction</td>
+<td>默认策略，向客户端返回错误响应</td>
+</tr>
+</tbody></table>
+<p><strong>注：</strong></p>
+<ul>
+<li>LRU：Least Recently Used，即最近最久未使用。如果一个数据在最近一段时间没有被访问到，那么在将来它被访问的可能性也很小。通常使用map+链表的方式实现，map判断key是否存在，链表保存顺序。</li>
+<li>LFU：Least Frequently Used，最近最少使用算法。与LRU算法的不同之处，LRU的淘汰规则是基于访问时间，而LFU是基于访问次数的。</li>
+<li>FIFO：First in First out，先进先出。</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/madashu/p/12832766.html">https://www.cnblogs.com/madashu/p/12832766.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/aspirant/p/9166944.html">https://www.cnblogs.com/aspirant/p/9166944.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://i6448038.github.io/2019/12/01/redis-data-struct/">https://i6448038.github.io/2019/12/01/redis-data-struct/</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/12/architecture/storage/redis/redis/" data-id="ckqgnfckm008f65fycluz3mnu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%98%E5%82%A8/" rel="tag">存储</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-computer science/operation system/lock" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/11/computer%20science/operation%20system/lock/" class="article-date">
+  <time datetime="2021-03-10T16:00:00.000Z" itemprop="datePublished">2021-03-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/">计算机科学</a>►<a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/11/computer%20science/operation%20system/lock/">操作系统 - 锁</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="mutex-lock"><a href="#mutex-lock" class="headerlink" title="mutex lock"></a>mutex lock</h2><p>所谓锁，在计算机中，本质是内存中的一块空间，其值被赋予了加锁/未加锁的含义，其底层实现，是基于计算机系统中的原子操作。</p>
+<p>mutex lock 核心包含两点。</p>
+<ul>
+<li>Compare And Set（CAS）<ul>
+<li>互斥锁是对临界区的保护，能否进入临界区即能否获取到锁，思路都是判断并置位一个标志位，这个标志位本身可以是一个普通的内存变量，关键在于，对于这个变量的”判断并置位”操作需要是原子的。</li>
+<li>计算机实现原子操作，对于单核机器，关中断防止调度即可；多核理论上可使用 spinlock 保护，实际一般通过原子汇编语言实现，比如x86的tsl指令（test and set），可以用一条“无法继续分割的”汇编指令实现判断变量值并根据是否为0进行置位，具体这个指令实现原子性一般通过锁总线实现，也就是我执行这条指令时，其它核都不能访问这个地址了。</li>
+</ul>
+</li>
+<li>根据所是否获得，决定执行策略<ul>
+<li>如果锁持有，则继续运行</li>
+<li>如果所没有获取到，常规做法是将当前任务挂起，并附在 mutex 变量对应的链表上，一旦锁被释放，查找锁上挂起的任务并唤醒</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/11/computer%20science/operation%20system/lock/" data-id="ckqgnfcic001f65fy2m7jee61" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-computer science/operation system/process-thread" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/03/11/computer%20science/operation%20system/process-thread/" class="article-date">
@@ -108,7 +856,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/11/computer%20science/operation%20system/process-thread/" data-id="ckpgleu5q002dfqfy9ueh4csy" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/11/computer%20science/operation%20system/process-thread/" data-id="ckqgnfcid001i65fybhnl3i3h" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li></ul>
@@ -165,7 +913,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/11/coding/c++/notes/datastruct/" data-id="ckpgleu7f008cfqfyd4i7as8d" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/11/coding/c++/notes/datastruct/" data-id="ckqgnfcku009865fyhuuobxvn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
@@ -213,7 +961,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/function/" data-id="ckpgleu7k008pfqfy1xep5zb7" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/function/" data-id="ckqgnfcky009j65fyau9l8dyb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -266,674 +1014,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/thread/" data-id="ckpgleu7o0092fqfy1fxx94ui" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/thread/" data-id="ckqgnfcl4009y65fycuh9dblj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-coding/java/notes/lock" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/03/10/coding/java/notes/lock/" class="article-date">
-  <time datetime="2021-03-09T16:00:00.000Z" itemprop="datePublished">2021-03-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/java/">java</a>►<a class="article-category-link" href="/categories/coding/java/notes/">notes</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/10/coding/java/notes/lock/">java 锁</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="锁分类"><a href="#锁分类" class="headerlink" title="锁分类"></a>锁分类</h1><ul>
-<li>公平锁 / 非公平锁</li>
-<li>可重入锁 / 不可重入锁</li>
-<li>独享锁 / 共享锁</li>
-<li>互斥锁 / 读写锁</li>
-<li>乐观锁 / 悲观锁</li>
-<li>分段锁</li>
-<li>偏向锁 / 轻量级锁 / 重量级锁</li>
-<li>自旋锁</li>
-</ul>
-<h2 id="公平锁-amp-非公平锁"><a href="#公平锁-amp-非公平锁" class="headerlink" title="公平锁 &amp; 非公平锁"></a>公平锁 &amp; 非公平锁</h2><p>以多线程申请及获取锁的顺序区分，先申请先得则为公平锁。非公平锁容易造成饥饿现象，但吞吐量优于公平锁（公平锁实现会先判断是否有前驱线程在等待）。</p>
-<p><code>ReentrantLock</code>  可通过构造参数指定为公平锁，默认非公平锁，基于AQS实现线程调度。</p>
-<p><code>synchronized</code> 没有线程调度机制，所以为非公平锁。</p>
-<h2 id="可重入锁-amp-不可重入锁"><a href="#可重入锁-amp-不可重入锁" class="headerlink" title="可重入锁 &amp; 不可重入锁"></a>可重入锁 &amp; 不可重入锁</h2><p>可重入锁可重复可递归调用的锁，行为为一个线程可以对同一对象多次加锁。</p>
-<h2 id="独享锁-amp-共享锁"><a href="#独享锁-amp-共享锁" class="headerlink" title="独享锁 &amp; 共享锁"></a>独享锁 &amp; 共享锁</h2><p>独享锁一次只能被一个线程加锁，共享锁可被多个线程加锁。</p>
-<h2 id="互斥锁-amp-读写锁"><a href="#互斥锁-amp-读写锁" class="headerlink" title="互斥锁 &amp; 读写锁"></a>互斥锁 &amp; 读写锁</h2><p><strong>互斥锁</strong></p>
-<p>访问临界资源前加锁，访问后解锁。加锁后，再次加锁会被阻塞，直到当前进程解锁。同一时间，只有一个线程，能够访问被互斥锁保护的资源。</p>
-<p><strong>读写锁</strong></p>
-<p>读写锁由read模式的共享锁和write模式的互斥锁组成，读写锁有三种状态，读加锁状态、写加锁状态、不加锁状态。</p>
-<h2 id="乐观锁-amp-悲观锁"><a href="#乐观锁-amp-悲观锁" class="headerlink" title="乐观锁 &amp; 悲观锁"></a>乐观锁 &amp; 悲观锁</h2><p><strong>悲观锁</strong></p>
-<p>总是假设最坏情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会阻塞直到它拿到锁（<strong>共享资源每次只给一个线程使用，其它线程阻塞，用完后再把资源转让给其它线程</strong>）。传统的关系型数据库里边就用到了很多这种锁机制，比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁。<code>Java</code>中<code>synchronized</code>和<code>ReentrantLock</code>等独占锁就是悲观锁思想的实现。</p>
-<p><strong>乐观锁</strong></p>
-<p>总是假设最好的情况，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号机制和CAS算法实现。乐<strong>观锁适用于多读的应用类型，这样可以提高吞吐量</strong>，像数据库提供的类似于<code>write_condition</code>机制，其实都是提供的乐观锁。在<code>Java</code>中<code>java.util.concurrent.atomic</code>包下面的<strong>原子变量类就是使用了乐观锁的一种实现方式CAS实现的</strong>。</p>
-<h2 id="分段锁"><a href="#分段锁" class="headerlink" title="分段锁"></a>分段锁</h2><p>分段锁是一种锁的设计，通过减小锁的粒度，提升多并发程序性能。</p>
-<h2 id="偏向锁-amp-轻量级锁-amp-重量级锁"><a href="#偏向锁-amp-轻量级锁-amp-重量级锁" class="headerlink" title="偏向锁 &amp; 轻量级锁 &amp; 重量级锁"></a>偏向锁 &amp; 轻量级锁 &amp; 重量级锁</h2><p>JVM为了提高锁的获取与释放效率，在对象头中添加字段，使得对象监视器可获取其锁的状态，锁的状态如下。</p>
-<ul>
-<li>无锁状态</li>
-<li>偏向锁状态</li>
-<li>轻量级锁状态</li>
-<li>重量级锁状态</li>
-</ul>
-<p><strong>偏向锁</strong></p>
-<p>偏向锁是指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁。降低获取锁的代价。</p>
-<p><strong>轻量级</strong></p>
-<p>轻量级锁是指当锁是偏向锁的时候，被另一个线程所访问，偏向锁就会升级为轻量级锁，其他线程会通过自旋的形式尝试获取锁，不会阻塞，提高性能。</p>
-<p><strong>重量级锁</strong></p>
-<p>重量级锁是指当锁为轻量级锁的时候，另一个线程虽然是自旋，但自旋不会一直持续下去，当自旋一定次数的时候，还没有获取到锁，就会进入阻塞，该锁膨胀为重量级锁。重量级锁会让其他申请的线程进入阻塞，性能降低。</p>
-<h2 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h2><p><strong>自旋锁（spinlock）：是指当一个线程在获取锁的时候，如果锁已经被其它线程获取，那么该线程将循环等待，然后不断的判断锁是否能够被成功获取，直到获取到锁才会退出循环</strong>。</p>
-<p>它是为实现保护共享资源而提出一种锁机制。其实，自旋锁与互斥锁比较类似，它们都是为了解决对某项资源的互斥使用。<strong>无论是互斥锁，还是自旋锁，在任何时刻，最多只能有一个保持者，也就说，在任何时刻最多只能有一个执行单元获得锁</strong>。但是两者在调度机制上略有不同。对于互斥锁，如果资源已经被占用，资源申请者只能进入睡眠状态。但是自旋锁不会引起调用者睡眠，如果自旋锁已经被别的执行单元保持，调用者就一直循环在那里看是否该自旋锁的保持者已经释放了锁，”自旋”一词就是因此而得名。</p>
-<p><strong>实现示例</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpinLock</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> AtomicReference&lt;Thread&gt; cas = <span class="keyword">new</span> AtomicReference&lt;Thread&gt;();</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       Thread current = Thread.currentThread();</span><br><span class="line">       <span class="comment">// 利用CAS</span></span><br><span class="line">       <span class="keyword">while</span> (!cas.compareAndSet(<span class="keyword">null</span>, current)) &#123;</span><br><span class="line">           <span class="comment">// DO nothing</span></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       Thread current = Thread.currentThread();</span><br><span class="line">       cas.compareAndSet(current, <span class="keyword">null</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>lock() 方法利用的CAS，当第一个线程A获取锁的时候，能够成功获取到，不会进入while循环，如果此时线程A没有释放锁，另一个线程B又来获取锁，此时由于不满足CAS，所以就会进入while循环，不断判断是否满足CAS，直到A线程调用unlock方法释放了该锁。</p>
-<p><strong>问题</strong></p>
-<p>1、如果某个线程持有锁的时间过长，就会导致其它等待获取锁的线程进入循环等待，消耗CPU。使用不当会造成CPU使用率极高。<br>2、上面Java实现的自旋锁不是公平的，即无法满足等待时间最长的线程优先获取锁。不公平的锁就会存在“线程饥饿”问题。</p>
-<p><strong>优点</strong></p>
-<ol>
-<li>自旋锁不会使线程状态发生切换，一直处于用户态，即线程一直都是active的；不会使线程进入阻塞状态，减少了不必要的上下文切换，执行速度快</li>
-<li>非自旋锁在获取不到锁的时候会进入阻塞状态，从而进入内核态，当获取到锁的时候需要从内核态恢复，需要线程上下文切换。（线程被阻塞后便进入内核（Linux）调度状态，这个会导致系统在用户态与内核态之间来回切换，严重影响锁的性能）</li>
-</ol>
-<p><strong>总结</strong></p>
-<ol>
-<li>自旋锁：线程获取锁的时候，如果锁被其他线程持有，则当前线程将循环等待，直到获取到锁。</li>
-<li>自旋锁等待期间，线程的状态不会改变，线程一直是用户态并且是活动的(active)。</li>
-<li>自旋锁如果持有锁的时间太长，则会导致其它等待获取锁的线程耗尽CPU。</li>
-<li>自旋锁本身无法保证公平性，同时也无法保证可重入性。</li>
-<li>基于自旋锁，可以实现具备公平性和可重入性质的锁。</li>
-</ol>
-<h1 id="关键词"><a href="#关键词" class="headerlink" title="关键词"></a>关键词</h1><ul>
-<li>CAS<ul>
-<li>Compare And Swap（比较并交换）</li>
-<li>AQS 中使用 CAS 设置 State</li>
-</ul>
-</li>
-<li>AQS<ul>
-<li><code>AbstractQueuedSynchronizer</code> 的简称</li>
-<li>提供了原子式管理同步状态、阻塞和唤醒线程功能以及队列模型的简单框架</li>
-</ul>
-</li>
-<li>CLH<ul>
-<li>CLH（Craig, Landin, and Hagersten locks）：是一个自旋锁，能确保无饥饿性，提供先来先服务的公平性。</li>
-</ul>
-</li>
-<li>ReentrantLock<ul>
-<li>可重入锁，线程可对一个临界资源重复加锁</li>
-</ul>
-</li>
-<li>synchronized<ul>
-<li>可重入独享锁</li>
-</ul>
-</li>
-<li>volatile</li>
-<li>ReeReentrantLock<ul>
-<li>可重入独享锁，AQS</li>
-</ul>
-</li>
-<li>ReentrantReadWriteLock<ul>
-<li>可重入共享锁，AQS</li>
-</ul>
-</li>
-</ul>
-<h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><p>jdk 1.5 之前，<code>synchronized</code> 是一种独占式的重量级锁，底层使用系统的 mutex lock 实现。jdk 1.6 之后，做了大量优化，加入了CAS，轻量级锁和偏向锁的功能，性能上已经跟ReentrantLock相差无几。</p>
-<p><strong>同步代码块</strong></p>
-<p>monitorenter指令插入到同步代码块的开始位置，monitorexit指令插入到同步代码块的结束位置，JVM需要保证每一个monitorenter都有一个monitorexit与之相对应。任何对象都有一个monitor与之相关联，当且一个monitor被持有之后，他将处于锁定状态。线程执行到monitorenter指令时，将会尝试获取对象所对应的monitor所有权，即尝试获取对象的锁。</p>
-<p><strong>同步方法</strong></p>
-<p>synchronized方法则会被翻译成普通的方法调用和返回指令如:invokevirtual、areturn指令，有一个ACC_SYNCHRONIZED标志，JVM就是通过该标志来判断是否需要实现同步的，具体过程为：当线程执行该方法时，会先检查该方法是否标志了ACC_SYNCHRONIZED，如果标志了，线程需要先获取monitor，获取成功后才能调用方法，方法执行完后再释放monitor，在该线程调用方法期间，其他线程无法获取同一个monitor对象。其实本质上和synchronized块相同，只是同步方法是用一种隐式的方式来实现，而不是显式地通过字节码指令。</p>
-<table>
-<thead>
-<tr>
-<th>锁对象</th>
-<th>粒度</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>普通同步方法</td>
-<td><strong>当前实例对象</strong></td>
-</tr>
-<tr>
-<td>静态同步方法</td>
-<td><strong>当前类的class对象</strong></td>
-</tr>
-<tr>
-<td>同步方法块</td>
-<td>关键词括号内的对象</td>
-</tr>
-</tbody></table>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestLock</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ExecutorService es = Executors.newFixedThreadPool(<span class="number">16</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sleep</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">fe</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fe: &quot;</span> + LocalDateTime.now());</span><br><span class="line">        sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fd: &quot;</span> + LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fc: &quot;</span> + LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fb</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fb: &quot;</span> + LocalDateTime.now());</span><br><span class="line">        fc();</span><br><span class="line">        es.submit(<span class="keyword">this</span>::fd);</span><br><span class="line">        sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fa</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fa: &quot;</span> + LocalDateTime.now());</span><br><span class="line">        sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        TestLock tl = <span class="keyword">new</span> TestLock();</span><br><span class="line">        es.submit(tl::fa);</span><br><span class="line">        es.submit(tl::fb);</span><br><span class="line">        es.submit(tl::fe);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// output</span></span><br><span class="line">fe: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">10.698877</span></span><br><span class="line">fa: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">10.698912</span></span><br><span class="line">fb: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">15.703141</span></span><br><span class="line">fc: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">15.703565</span></span><br><span class="line">fd: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">20.708362</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// description</span></span><br><span class="line"><span class="number">1.</span> 普通同步方法，锁粒度为当前实例对象</span><br><span class="line"><span class="number">2.</span> <span class="keyword">synchronized</span> 为可重入锁，在 fb 中调用 fc 需要重复为当前实例对象上锁</span><br><span class="line"><span class="number">3.</span> 重入锁不适用于子线程</span><br></pre></td></tr></table></figure>
-
-<h2 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h2><p>AQS：AbstractQuenedSynchronizer抽象的队列式同步器。是除了java自带的synchronized关键字之外的锁机制。</p>
-<p>核心思想，如果被请求的共享资源空闲，那么将当前请求资源的线程设置为有效的工作线程，将共享资源设置为锁定状态；如果共享资源被占用，就需要一定的阻塞等待机制来保证锁分配。这个机制主要用的是CLH队列的变体实现的，将暂时获取不到锁的线程加入到队列中。</p>
-<p><img src="/2021/03/10/coding/java/notes/lock/001.png"></p>
-<p><strong>AQS是将每一条请求共享资源的线程封装成一个CLH锁队列的一个结点（Node），来实现锁的分配。</strong></p>
-<p>CLH：Craig、Landin and Hagersten队列，是单向链表，AQS中的队列是CLH变体的虚拟双向队列（FIFO），AQS是通过将每条请求共享资源的线程封装成一个节点来实现锁的分配。</p>
-<p>AQS使用一个volatile的int类型的成员变量来表示同步状态，通过内置的FIFO队列来完成资源获取的排队工作，通过CAS完成对State值的修改。</p>
-<h2 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h2><p><code>CAS</code>是英文单词<code>Compare and Swap</code>（比较并交换），是一种有名的无锁算法。无锁编程，即不使用锁的情况下实现多线程之间的变量同步，也就是在没有线程被阻塞的情况下实现变量的同步，所以也叫非阻塞同步（<code>Non-blocking Synchronization</code>）。CAS算法涉及到三个操作数</p>
-<ol>
-<li><p>需要读写的内存值 V</p>
-</li>
-<li><p>进行比较的值 A</p>
-</li>
-<li><p>拟写入的新值 B</p>
-</li>
-</ol>
-<p>更新一个变量的时候，只有当变量的预期值A和内存地址V当中的实际值相同时，才会将内存地址V对应的值修改为B，否则不会执行任何操作。一般情况下是一个自旋操作，即不断的重试。</p>
-<h2 id="指令重排"><a href="#指令重排" class="headerlink" title="指令重排"></a>指令重排</h2><p>为了提高程序执行的性能，编译器和执行器（处理器）通常会对指令做一些优化（重排序）。</p>
-<h2 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h2><p>并发编程的三大特性，原子性、可见性、有序性。synchronized可保证三大特性（保护的代码块通知只能有一个线程执行，单线程没有指令重排的问题），volatile 可以保证可见性（把工作内存中的最新变量强制刷新至主存）和有序性（编译器在生成字节码时，在指令序列中添加“<strong>内存屏障</strong>”来禁止指令重排序）。</p>
-<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1><h2 id="ReentrantLock-VS-Synchronized"><a href="#ReentrantLock-VS-Synchronized" class="headerlink" title="ReentrantLock VS Synchronized"></a>ReentrantLock VS Synchronized</h2><table>
-<thead>
-<tr>
-<th>-</th>
-<th>ReentrantLock</th>
-<th>Synchronized</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>锁实现机制</td>
-<td>AQS</td>
-<td>监视器模式</td>
-</tr>
-<tr>
-<td>灵活性</td>
-<td>支持响应中断、超时、尝试获取锁</td>
-<td>不灵活</td>
-</tr>
-<tr>
-<td>释放形式</td>
-<td>必须显式调用 unlock 释放锁</td>
-<td>自动释放监视器</td>
-</tr>
-<tr>
-<td>锁类型</td>
-<td>公平锁 &amp; 非公平锁</td>
-<td>非公平锁</td>
-</tr>
-<tr>
-<td>条件队列</td>
-<td>可关联多个条件队列</td>
-<td>关联一个条件队列</td>
-</tr>
-<tr>
-<td>可重入性</td>
-<td>可重入</td>
-<td>可重入</td>
-</tr>
-</tbody></table>
-<h1 id="关联"><a href="#关联" class="headerlink" title="关联"></a>关联</h1><ul>
-<li>ConcurrentHashMap<ul>
-<li>Jdk 1.7 VS Jdk 1.8</li>
-</ul>
-</li>
-</ul>
-<h2 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h2><p><strong>JDK 1.7</strong></p>
-<p>Jdk 1.7 中，HashMap 底层为数组+链表实现，ConcurrentHashMap与其不同的是，添加了 Segment 作为数组+链表的上层结构，Concurrent 继承 ReentrantLock，对 Segment 加锁，实现不同 Segment 可以同时读写。在写入获取key所在Segment是需要保证可见性，ConcurrentHashMap使用如下方法保证可见性，取得最新的Segment。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Segment&lt;K,V&gt; s = (Segment&lt;K,V&gt;)UNSAFE.getObjectVolatile(segments, u)</span><br></pre></td></tr></table></figure>
-
-<p>写入 Segment 时，需要获取锁，先使用自旋锁，超过重试次数后，通过 lock 获取锁（会被阻塞，切换至内核态等待）。</p>
-<p><strong>JDK 1.8</strong></p>
-<p>Jdk 1.8 中的 ConcurrentHashMap 刨除了 Segment 的设计，直接 &lt;大数组+[链表|红黑树]&gt; 的方式，如果数组对应的链表超过一定阈值后，转换为红黑树。大数组使用 volatile 关键字修饰。</p>
-<p>对于写操作，key对应的数组元素，使用 synchronized 关键字申请锁（当然，如果为null，则不需要加锁），然后进行操作。</p>
-<p>对于读操作，数组使用 volatile 保证可见性，数组的每个元素为Node实例（jdk 1.7 为 HashEntry），他的 key 和 hash 值都使用 final 修饰，无需担心可见性。value 和下一个元素的引用由 volatile 修饰，保证可见性。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">  <span class="keyword">final</span> K key;</span><br><span class="line">  <span class="keyword">volatile</span> V val;</span><br><span class="line">  <span class="keyword">volatile</span> Node&lt;K,V&gt; next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>对于 key 对应的数组元素的可见性，使用 Unsafe 的 getObjectVolatile 方法保证。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> &lt;K,V&gt; <span class="function">Node&lt;K,V&gt; <span class="title">tabAt</span><span class="params">(Node&lt;K,V&gt;[] tab, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (Node&lt;K,V&gt;)U.getObjectVolatile(tab, ((<span class="keyword">long</span>)i &lt;&lt; ASHIFT) + ABASE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="mutex-lock"><a href="#mutex-lock" class="headerlink" title="mutex lock"></a>mutex lock</h2><p>所谓锁，在计算机中，本质是内存中的一块空间，其值被赋予了加锁/未加锁的含义，其底层实现，是基于计算机系统中的原子操作。</p>
-<p>mutex lock 核心包含两点。</p>
-<ul>
-<li>Compare And Set<ul>
-<li>互斥锁是对临界区的保护，能否进入临界区即能否获取到锁，思路都是判断并置位一个标志位，这个标志位本身可以是一个普通的内存变量，关键在于，对于这个变量的”判断并置位”操作需要是原子的。</li>
-<li>计算机实现原子操作，对于单核机器，关中断防止调度即可；多核理论上可使用 spinlock 保护，实际一般通过原子汇编语言实现，比如x86的tsl指令（test and set），可以用一条“无法继续分割的”汇编指令实现判断变量值并根据是否为0进行置位，具体这个指令实现原子性一般通过锁总线实现，也就是我执行这条指令时，其它核都不能访问这个地址了。</li>
-</ul>
-</li>
-<li>根据所是否获得，决定执行策略<ul>
-<li>如果锁持有，则继续运行</li>
-<li>如果所没有获取到，常规做法是将当前任务挂起，并附在 mutex 变量对应的链表上，一旦锁被释放，查找锁上挂起的任务并唤醒</li>
-</ul>
-</li>
-</ul>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jyroy/p/11365935.html">https://www.cnblogs.com/jyroy/p/11365935.html</a></li>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/KxYZlBu0ctB50XtkbfB4iQ">https://mp.weixin.qq.com/s/KxYZlBu0ctB50XtkbfB4iQ</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hustzzl/p/9343797.html">https://www.cnblogs.com/hustzzl/p/9343797.html</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/barrywxx/p/8678698.html">https://www.cnblogs.com/barrywxx/p/8678698.html</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xckxue/p/8685675.html">https://www.cnblogs.com/xckxue/p/8685675.html</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/liao0801_123/article/details/85888657">https://blog.csdn.net/liao0801_123/article/details/85888657</a></li>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7855700/why-is-volatile-used-in-double-checked-locking">https://stackoverflow.com/questions/7855700/why-is-volatile-used-in-double-checked-locking</a></li>
-<li><a target="_blank" rel="noopener" href="https://tech.meituan.com/2019/12/05/aqs-theory-and-apply.html">https://tech.meituan.com/2019/12/05/aqs-theory-and-apply.html</a></li>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&amp;mid=2651749434&amp;idx=3&amp;sn=5ffa63ad47fe166f2f1a9f604ed10091">https://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&amp;mid=2651749434&amp;idx=3&amp;sn=5ffa63ad47fe166f2f1a9f604ed10091</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.jasongj.com/java/concurrenthashmap/">http://www.jasongj.com/java/concurrenthashmap/</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/332113890/answer/762392859">https://www.zhihu.com/question/332113890/answer/762392859</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/lock/" data-id="ckpgleub000rufqfydylvakbh" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-architecture/rpc/thrift/thrift" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/03/05/architecture/rpc/thrift/thrift/" class="article-date">
-  <time datetime="2021-03-04T16:00:00.000Z" itemprop="datePublished">2021-03-05</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/">rpc</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dsl/">dsl</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/05/architecture/rpc/thrift/thrift/">Thrift</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TSerializer serializer = <span class="keyword">new</span> TSerializer(<span class="keyword">new</span> TBinaryProtocol.Factory());</span><br><span class="line"><span class="keyword">byte</span>[] serialized = serializer.serialize(obj);</span><br></pre></td></tr></table></figure>
-
-<h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TDeserializer deserializer = <span class="keyword">new</span> TDeserializer(<span class="keyword">new</span> TBinaryProtocol.Factory());</span><br><span class="line">deserializer.deserialize(obj, bytes);</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/05/architecture/rpc/thrift/thrift/" data-id="ckpgleu7d0087fqfycvuv0hks" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thrift/" rel="tag">Thrift</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-tools/jebtrains/ides" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/03/03/tools/jebtrains/ides/" class="article-date">
-  <time datetime="2021-03-02T16:00:00.000Z" itemprop="datePublished">2021-03-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/tools/">tools</a>►<a class="article-category-link" href="/categories/tools/jetbrains/">jetbrains</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/03/tools/jebtrains/ides/">Jetbrains</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h1><p><strong>正则</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将 :***.*** 替换为 $&#123;***.***&#125;</span></span><br><span class="line">:([\w.]+*)  <span class="comment">// 匹配</span></span><br><span class="line">#&#123;$<span class="number">1</span>&#125;				<span class="comment">// 替换，选取分组</span></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/03/tools/jebtrains/ides/" data-id="ckpgleu6m005afqfy3x8l7sbj" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-coding/go/go" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/03/01/coding/go/go/" class="article-date">
-  <time datetime="2021-02-28T16:00:00.000Z" itemprop="datePublished">2021-03-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/go/">go</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/01/coding/go/go/">Go 语言基础</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[toc]</p>
-<h1 id="组织"><a href="#组织" class="headerlink" title="组织"></a>组织</h1><h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">package</span> config</span><br></pre></td></tr></table></figure>
-
-<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><h3 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h3><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>uint8</td>
-<td>-</td>
-</tr>
-<tr>
-<td>uint16</td>
-<td>-</td>
-</tr>
-<tr>
-<td>uint32</td>
-<td>-</td>
-</tr>
-<tr>
-<td>uint64</td>
-<td>-</td>
-</tr>
-<tr>
-<td>int8</td>
-<td>-</td>
-</tr>
-<tr>
-<td>int16</td>
-<td>-</td>
-</tr>
-<tr>
-<td>int32</td>
-<td>-</td>
-</tr>
-<tr>
-<td>int64</td>
-<td>-</td>
-</tr>
-<tr>
-<td>float32</td>
-<td>-</td>
-</tr>
-<tr>
-<td>float64</td>
-<td>-</td>
-</tr>
-<tr>
-<td>complex64</td>
-<td>复数</td>
-</tr>
-<tr>
-<td>complex128</td>
-<td>复数</td>
-</tr>
-<tr>
-<td>byte</td>
-<td>类似 uint8</td>
-</tr>
-<tr>
-<td>rune</td>
-<td>类似 int32</td>
-</tr>
-<tr>
-<td>uint</td>
-<td>硬件架构相关，32位或64位无符号整型</td>
-</tr>
-<tr>
-<td>int</td>
-<td>硬件架构相关，32位或64位有符号整型</td>
-</tr>
-<tr>
-<td>uintptr</td>
-<td>无符号整型，存放指针</td>
-</tr>
-</tbody></table>
-<p><strong>示例</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i <span class="keyword">int</span> = <span class="number">1</span></span><br><span class="line"><span class="keyword">var</span> f32 <span class="keyword">float32</span> = <span class="number">1.0</span></span><br><span class="line"><span class="keyword">var</span> f64 <span class="keyword">float64</span> = <span class="number">1.0</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p><strong>定义</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name <span class="keyword">string</span> = <span class="string">&quot;wii&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>操作</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 拼接</span></span><br><span class="line"><span class="keyword">var</span> name <span class="keyword">string</span> = <span class="string">&quot;name&quot;</span> + <span class="string">&quot; : &quot;</span> + <span class="string">&quot;wii&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 取长度</span></span><br><span class="line"><span class="built_in">len</span>(<span class="string">&quot;wii&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 截断</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="布尔"><a href="#布尔" class="headerlink" title="布尔"></a>布尔</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val b <span class="keyword">bool</span> = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="限定"><a href="#限定" class="headerlink" title="限定"></a>限定</h2><h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><p><strong>字面常量</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i, s, b = <span class="number">1</span>, <span class="string">&quot;wii&quot;</span>, <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>itoa</strong></p>
-<p>特殊常量，可以被编译器修改的常量。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (</span><br><span class="line">  a = <span class="literal">iota</span>   <span class="comment">//0</span></span><br><span class="line">  b          <span class="comment">//1</span></span><br><span class="line">  c          <span class="comment">//2</span></span><br><span class="line">  d = <span class="string">&quot;ha&quot;</span>   <span class="comment">//独立值，iota += 1</span></span><br><span class="line">  e          <span class="comment">//&quot;ha&quot;   iota += 1</span></span><br><span class="line">  f = <span class="number">100</span>    <span class="comment">//iota +=1</span></span><br><span class="line">  g          <span class="comment">//100  iota +=1</span></span><br><span class="line">  h = <span class="literal">iota</span>   <span class="comment">//7,恢复计数</span></span><br><span class="line">  i          <span class="comment">//8</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    i=<span class="number">1</span>&lt;&lt;<span class="literal">iota</span>	<span class="comment">// 1</span></span><br><span class="line">    j=<span class="number">3</span>&lt;&lt;<span class="literal">iota</span> <span class="comment">// 6</span></span><br><span class="line">    k         <span class="comment">// 12</span></span><br><span class="line">    l         <span class="comment">// 24</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p><strong>声明</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> identifier [<span class="keyword">type</span>] = v</span><br><span class="line"><span class="keyword">var</span> id1, id2 [<span class="keyword">type</span>] = v1, v2  <span class="comment">// 如果只声明，不初始化值，必须制定类型；制定初始化值，编译器可自行推断</span></span><br><span class="line">id3 := value                  <span class="comment">// OK := 左侧需要有未被声明过的标识符，有即可</span></span><br><span class="line">id1 := value                  <span class="comment">// ERROR id1 已被声明</span></span><br><span class="line">id1, id4 := v1, v2            <span class="comment">// OK id4 未被声明</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (                         <span class="comment">// 因式分解式，一般用于声明全局变量</span></span><br><span class="line">  id5 <span class="keyword">type</span></span><br><span class="line">  id6 <span class="keyword">type</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">string</span> = <span class="string">&quot;wii&quot;</span></span><br><span class="line"><span class="keyword">var</span> b, c <span class="keyword">int</span> = <span class="number">1</span>, <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> e, f = <span class="number">123</span>, <span class="string">&quot;hello&quot;</span></span><br><span class="line">g, h := <span class="number">123</span>, <span class="string">&quot;hello&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p><strong>声明</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> variable_name [SIZE] variable_type</span><br><span class="line"><span class="keyword">var</span> variable_name [SIZE1][SIZE2]...[SIZEN] variable_type  <span class="comment">// 多维数组</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>初始化</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> balance = [<span class="number">5</span>]<span class="keyword">float32</span>&#123;<span class="number">1000.0</span>, <span class="number">2.0</span>, <span class="number">3.4</span>, <span class="number">7.0</span>, <span class="number">50.0</span>&#125;</span><br><span class="line">balance := [<span class="number">5</span>]<span class="keyword">float32</span>&#123;<span class="number">1000.0</span>, <span class="number">2.0</span>, <span class="number">3.4</span>, <span class="number">7.0</span>, <span class="number">50.0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ... 代替长度</span></span><br><span class="line"><span class="keyword">var</span> balance = [...]<span class="keyword">float32</span>&#123;<span class="number">1000.0</span>, <span class="number">2.0</span>, <span class="number">3.4</span>, <span class="number">7.0</span>, <span class="number">50.0</span>&#125;</span><br><span class="line">balance := [...]<span class="keyword">float32</span>&#123;<span class="number">1000.0</span>, <span class="number">2.0</span>, <span class="number">3.4</span>, <span class="number">7.0</span>, <span class="number">50.0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过下表初始化</span></span><br><span class="line">balance := [<span class="number">5</span>]<span class="keyword">float32</span>&#123;<span class="number">1</span>:<span class="number">2.0</span>,<span class="number">3</span>:<span class="number">7.0</span>&#125;   <span class="comment">// 将索引为 1 和 3 的元素初始化</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化二维数组</span></span><br><span class="line">a := [<span class="number">3</span>][<span class="number">4</span>]<span class="keyword">int</span>&#123;  </span><br><span class="line"> &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125; ,   <span class="comment">/*  第一行索引为 0 */</span></span><br><span class="line"> &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125; ,   <span class="comment">/*  第二行索引为 1 */</span></span><br><span class="line"> &#123;<span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>&#125;,   <span class="comment">/* 第三行索引为 2 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>多维数组示例</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先声明后赋值</span></span><br><span class="line">values := [][]<span class="keyword">int</span>&#123;&#125;            <span class="comment">// 创建数组</span></span><br><span class="line">row1 := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">row2 := []<span class="keyword">int</span>&#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;</span><br><span class="line">values = <span class="built_in">append</span>(values, row1)  <span class="comment">// 使用 appped() 函数向空的二维数组添加两行一维数组</span></span><br><span class="line">values = <span class="built_in">append</span>(values, row2)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 维度不一致数组</span></span><br><span class="line">animals := [][]<span class="keyword">string</span>&#123;&#125;</span><br><span class="line">row1 := []<span class="keyword">string</span>&#123;<span class="string">&quot;fish&quot;</span>, <span class="string">&quot;shark&quot;</span>, <span class="string">&quot;eel&quot;</span>&#125;</span><br><span class="line">row2 := []<span class="keyword">string</span>&#123;<span class="string">&quot;bird&quot;</span>&#125;</span><br><span class="line">row3 := []<span class="keyword">string</span>&#123;<span class="string">&quot;lizard&quot;</span>, <span class="string">&quot;salamander&quot;</span>&#125;</span><br><span class="line">animals = <span class="built_in">append</span>(animals, row1)</span><br><span class="line">animals = <span class="built_in">append</span>(animals, row2)</span><br><span class="line">animals = <span class="built_in">append</span>(animals, row3)</span><br></pre></td></tr></table></figure>
-
-<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> m <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span> = <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;<span class="string">&quot;France&quot;</span>: <span class="string">&quot;Paris&quot;</span>, <span class="string">&quot;Italy&quot;</span>: <span class="string">&quot;Rome&quot;</span>, <span class="string">&quot;Japan&quot;</span>: <span class="string">&quot;Tokyo&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="程序结构"><a href="#程序结构" class="headerlink" title="程序结构"></a>程序结构</h2><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单行注释</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 多行注释</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><h2 id="条件控制"><a href="#条件控制" class="headerlink" title="条件控制"></a>条件控制</h2><h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 类似于 for(...; ...; ...)</span></span><br><span class="line"><span class="keyword">for</span> init; condition; post &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 类似于 while</span></span><br><span class="line"><span class="keyword">for</span> condition &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 类似于 for (;;)</span></span><br><span class="line"><span class="keyword">for</span> &#123; &#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>range</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// map</span></span><br><span class="line"><span class="keyword">for</span> key, value := <span class="keyword">range</span> oldMap &#123;</span><br><span class="line">    newMap[key] = value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">strings := []<span class="keyword">string</span>&#123;<span class="string">&quot;google&quot;</span>, <span class="string">&quot;runoob&quot;</span>&#125;</span><br><span class="line"><span class="keyword">for</span> i, s := <span class="keyword">range</span> strings &#123;</span><br><span class="line">    fmt.Println(i, s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p><strong>格式</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">function_name</span><span class="params">( [parameter list] )</span> [<span class="title">return_types</span>]</span> &#123;</span><br><span class="line">   <span class="comment">// 函数体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">swap</span><span class="params">(x, y <span class="keyword">string</span>)</span> <span class="params">(<span class="keyword">string</span>, <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">   <span class="keyword">return</span> y, x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>参数</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 值传递</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">swap</span><span class="params">(x, y <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">   <span class="keyword">var</span> temp <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">   temp = x <span class="comment">/* 保存 x 的值 */</span></span><br><span class="line">   x = y    <span class="comment">/* 将 y 值赋给 x */</span></span><br><span class="line">   y = temp <span class="comment">/* 将 temp 值赋给 y*/</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br><span class="line">swap(a, b)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 引用传递</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">swap</span><span class="params">(x *<span class="keyword">int</span>, y *<span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">   <span class="keyword">var</span> temp <span class="keyword">int</span></span><br><span class="line">   temp = *x    <span class="comment">/* 保持 x 地址上的值 */</span></span><br><span class="line">   *x = *y      <span class="comment">/* 将 y 值赋给 x */</span></span><br><span class="line">   *y = temp    <span class="comment">/* 将 temp 值赋给 y */</span></span><br><span class="line">&#125;</span><br><span class="line">swap(&amp;a, &amp;b)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数参数</span></span><br><span class="line">getSquareRoot := <span class="function"><span class="keyword">func</span><span class="params">(x <span class="keyword">float64</span>)</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">  <span class="keyword">return</span> math.Sqrt(x)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(getSquareRoot(<span class="number">9</span>))</span><br></pre></td></tr></table></figure>
-
-<p><strong>函数参数</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明一个函数类型</span></span><br><span class="line"><span class="keyword">type</span> cb <span class="function"><span class="keyword">func</span><span class="params">(<span class="keyword">int</span>)</span> <span class="title">int</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    testCallBack(<span class="number">1</span>, callBack)</span><br><span class="line">    testCallBack(<span class="number">2</span>, <span class="function"><span class="keyword">func</span><span class="params">(x <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">        fmt.Printf(<span class="string">&quot;我是回调，x：%d\n&quot;</span>, x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testCallBack</span><span class="params">(x <span class="keyword">int</span>, f cb)</span></span> &#123;</span><br><span class="line">    f(x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">callBack</span><span class="params">(x <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;我是回调，x：%d\n&quot;</span>, x)</span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>匿名函数</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getSequence</span><span class="params">()</span> <span class="title">func</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">   i:=<span class="number">0</span></span><br><span class="line">   <span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">      i+=<span class="number">1</span></span><br><span class="line">     <span class="keyword">return</span> i  </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>方法</strong></p>
-<p>Go 同时有函数和方法，一个方法就是一个包含了接受者的函数，接受者可以是命名类型或者结构体类型的一个值或者是一个指针。所有给定类型的方法属于该类型的方法集，格式如下。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(variable_name variable_data_type)</span> <span class="title">function_name</span><span class="params">()</span> [<span class="title">return_type</span>]</span>&#123;</span><br><span class="line">   <span class="comment">/* 方法体 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>下面定义一个结构体，及该类型的一个方法。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">&quot;fmt&quot;</span>  </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 定义结构体 */</span></span><br><span class="line"><span class="keyword">type</span> Circle <span class="keyword">struct</span> &#123;</span><br><span class="line">  radius <span class="keyword">float64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">var</span> c1 Circle</span><br><span class="line">  c1.radius = <span class="number">10.00</span></span><br><span class="line">  fmt.Println(<span class="string">&quot;圆的面积 = &quot;</span>, c1.getArea())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//该 method 属于 Circle 类型对象中的方法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c Circle)</span> <span class="title">getArea</span><span class="params">()</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">  <span class="comment">//c.radius 即为 Circle 类型对象中的属性</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">3.14</span> * c.radius * c.radius</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义</span></span><br><span class="line"><span class="keyword">type</span> struct_variable_type <span class="keyword">struct</span> &#123;</span><br><span class="line">   member definition</span><br><span class="line">   member definition</span><br><span class="line">   ...</span><br><span class="line">   member definition</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明</span></span><br><span class="line">variable_name := structure_variable_type &#123;value1, value2...valuen&#125;</span><br><span class="line">variable_name := structure_variable_type &#123; key1: value1, key2: value2..., keyn: valuen&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Data <span class="keyword">struct</span> &#123;</span><br><span class="line">  s    <span class="keyword">string</span></span><br><span class="line">	sl   []<span class="keyword">string</span></span><br><span class="line">	ll   [][]<span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">data := Data &#123;s: <span class="string">&quot;yes&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><h2 id="语法糖"><a href="#语法糖" class="headerlink" title="语法糖"></a>语法糖</h2><h2 id="空指针处理"><a href="#空指针处理" class="headerlink" title="空指针处理"></a>空指针处理</h2><h2 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h2><h2 id="泛型编程"><a href="#泛型编程" class="headerlink" title="泛型编程"></a>泛型编程</h2><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://draveness.me/golang/">Go 语言设计与实现</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/01/coding/go/go/" data-id="ckpgleu5e001hfqfyeyvn5d2d" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-coding/go/packages" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/03/01/coding/go/packages/" class="article-date">
-  <time datetime="2021-02-28T16:00:00.000Z" itemprop="datePublished">2021-03-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/go/">go</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/01/coding/go/packages/">Go 依赖包</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/spf13/viper">viper</a><ul>
-<li>设置默认配置</li>
-<li>支持 json、yaml、toml、hcl、envfile、java properties config file</li>
-</ul>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/01/coding/go/packages/" data-id="ckpgleu5g001mfqfycqu52pzr" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-coding/go/styleguide" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/03/01/coding/go/styleguide/" class="article-date">
-  <time datetime="2021-02-28T16:00:00.000Z" itemprop="datePublished">2021-03-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/go/">go</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/01/coding/go/styleguide/">Go 代码规范</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h1><p>命名中的首字母大小写，大写指明可被外部访问，小写指明私有。对于 bool 类型，首字母应该为 <code>Has</code> 、<code>Is</code> 、<code>Can</code>、<code>Allow</code>。</p>
-<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><ul>
-<li>驼峰，首字母根据访问控制选择大写、小写</li>
-</ul>
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><ul>
-<li>变量名尽量短<ul>
-<li>局部变量，<code>c</code> 好于 <code>lineCount</code>，<code>i</code> 好于 <code>slliceIndex</code> </li>
-<li>方法参数，一两个字母即可</li>
-<li>全局变量，需要更多的描述信息</li>
-</ul>
-</li>
-<li>如果使用长单词<ul>
-<li>驼峰，首字母根据访问控制选择大写、小写</li>
-</ul>
-</li>
-</ul>
-<h2 id="包名"><a href="#包名" class="headerlink" title="包名"></a>包名</h2><ul>
-<li>包中所有名称引用都会使用包名，所以可以简化引用的名称，如使用 <code>chubby.File</code> 代替 <code>chubby.ChubbyFile</code> </li>
-</ul>
-<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><ul>
-<li>小写单词</li>
-<li>下划线 <code>_</code> 分隔</li>
-</ul>
-<h1 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h1><h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Package math provides basic constants and mathematical functions.</span></span><br><span class="line"><span class="keyword">package</span> math</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Package template implements data-driven templates for generating textual</span></span><br><span class="line"><span class="comment">output such as HTML.</span></span><br><span class="line"><span class="comment">....</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">package</span> template</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/03/01/coding/go/styleguide/" data-id="ckpgleu5j001wfqfy6r5scwhj" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
 
     </footer>
   </div>
@@ -957,7 +1041,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/c/">c++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/c/library/">library</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/java/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/kotlin/">kotlin</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/kotlin/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/life/learn/">learn</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/travel/">travel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/%E7%90%86%E8%B4%A2/">理财</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/notes/">notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/software/">software</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/%E7%A8%8B%E5%BA%8F/">程序</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/">play</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/play/os-x/">os x</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/unraid/">unraid</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/">library</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/django/">django</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/django/django-rest-framework/">django rest framework</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/todo/">todo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tools/jetbrains/">jetbrains</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/plantuml/">plantuml</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/publish/">publish</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/rsync/">rsync</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/element-ui/">element ui</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/vue/">vue</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E5%AE%89%E5%8D%93/">安卓</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E6%A6%82%E5%BF%B5/">概念</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/bazel/">bazel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/cmake/">cmake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/git/">git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/mac/">mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/makefile/">makefile</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/markdown/">markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/tmux/">tmux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/yEd/">yEd</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/zsh/">zsh</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/">树</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%AF%E8%AF%AD/">术语</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/kaggle/">kaggle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/Jupyter/">Jupyter</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E7%AC%94%E8%AE%B0/">笔记</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/spring/">spring</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/curator-x-discovery/">curator x discovery</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/netty/">netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/notes/">notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/">rpc</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dsl/">dsl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dubbo/">dubbo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/gRPC/">gRPC</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/">存储</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/hdfs/">hdfs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/redis/">redis</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">推荐系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/brpc/">brpc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A6%82%E5%BF%B5/">概念</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/">注册发现</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/consul/">consul</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/">监控</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/prometheus/">prometheus</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/">计算机科学</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%99%9A%E6%8B%9F%E5%8C%96/">虚拟化</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%99%9A%E6%8B%9F%E5%8C%96/docker/">docker</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/c/">c++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/c/library/">library</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/java/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/kotlin/">kotlin</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/kotlin/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/life/learn/">learn</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/travel/">travel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/%E7%90%86%E8%B4%A2/">理财</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/notes/">notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/software/">software</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/%E7%A8%8B%E5%BA%8F/">程序</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/">play</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/play/os-x/">os x</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/unraid/">unraid</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/">library</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/django/">django</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/django/django-rest-framework/">django rest framework</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/todo/">todo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tools/jetbrains/">jetbrains</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/plantuml/">plantuml</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/publish/">publish</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/rsync/">rsync</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/element-ui/">element ui</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/vue/">vue</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E5%AE%89%E5%8D%93/">安卓</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E6%A6%82%E5%BF%B5/">概念</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/bazel/">bazel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/cmake/">cmake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/git/">git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/mac/">mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/makefile/">makefile</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/markdown/">markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/tmux/">tmux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/yEd/">yEd</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/zsh/">zsh</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/">树</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%AF%E8%AF%AD/">术语</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/kaggle/">kaggle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/Jupyter/">Jupyter</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E7%AC%94%E8%AE%B0/">笔记</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/spring/">spring</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/curator-x-discovery/">curator x discovery</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/netty/">netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/notes/">notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/">rpc</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dsl/">dsl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dubbo/">dubbo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/gRPC/">gRPC</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8E%8B%E6%B5%8B/">压测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8E%8B%E6%B5%8B/jmeter/">jmeter</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/">存储</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/hdfs/">hdfs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/redis/">redis</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">推荐系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/brpc/">brpc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A6%82%E5%BF%B5/">概念</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/">注册发现</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/consul/">consul</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/">监控</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/prometheus/">prometheus</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/">计算机科学</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%99%9A%E6%8B%9F%E5%8C%96/">虚拟化</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%99%9A%E6%8B%9F%E5%8C%96/docker/">docker</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -967,7 +1051,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker%E5%BA%94%E7%94%A8/" rel="tag">Docker应用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jupyter/" rel="tag">Jupyter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thrift/" rel="tag">Thrift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bazel/" rel="tag">bazel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/brpc/" rel="tag">brpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmake/" rel="tag">cmake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/" rel="tag">coding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/consul/" rel="tag">consul</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/curator-x-discovery/" rel="tag">curator x discovery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django-rest-framework/" rel="tag">django rest framework</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/element-ui/" rel="tag">element ui</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gRPC/" rel="tag">gRPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gapis/" rel="tag">gapis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gc/" rel="tag">gc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gflags/" rel="tag">gflags</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grep/" rel="tag">grep</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdfs/" rel="tag">hdfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kaggle/" rel="tag">kaggle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin/" rel="tag">kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log4j-spring-boot/" rel="tag">log4j - spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/makefile/" rel="tag">makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netty/" rel="tag">netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/os-x/" rel="tag">os x</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/panda/" rel="tag">panda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plantuml/" rel="tag">plantuml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prometheus/" rel="tag">prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/protobuf/" rel="tag">protobuf</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rsync/" rel="tag">rsync</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sed/" rel="tag">sed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/" rel="tag">spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/" rel="tag">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/" rel="tag">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/todo/" rel="tag">todo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unriad/" rel="tag">unriad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/usage/" rel="tag">usage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualenv/" rel="tag">virtualenv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vsftpd/" rel="tag">vsftpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xargs/" rel="tag">xargs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yEd/" rel="tag">yEd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/" rel="tag">云原生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" rel="tag">传输文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E/" rel="tag">关于</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" rel="tag">分布式锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" rel="tag">召回服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8/" rel="tag">存储</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%8D%93/" rel="tag">安卓</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="tag">推荐系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" rel="tag">数据平台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%AF%E8%AF%AD/" rel="tag">术语</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" rel="tag">机器学习平台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E9%A1%B9/" rel="tag">杂项</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E5%9B%BE/" rel="tag">类图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%82%A1%E7%A5%A8/" rel="tag">股票</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" rel="tag">自驾游</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">观察者模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" rel="tag">语法解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker%E5%BA%94%E7%94%A8/" rel="tag">Docker应用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jupyter/" rel="tag">Jupyter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thrift/" rel="tag">Thrift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bazel/" rel="tag">bazel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/brpc/" rel="tag">brpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmake/" rel="tag">cmake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/" rel="tag">coding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/consul/" rel="tag">consul</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/curator-x-discovery/" rel="tag">curator x discovery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django-rest-framework/" rel="tag">django rest framework</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/element-ui/" rel="tag">element ui</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gRPC/" rel="tag">gRPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gapis/" rel="tag">gapis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gc/" rel="tag">gc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gflags/" rel="tag">gflags</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grep/" rel="tag">grep</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdfs/" rel="tag">hdfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter/" rel="tag">jmeter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kaggle/" rel="tag">kaggle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin/" rel="tag">kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log4j-spring-boot/" rel="tag">log4j - spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/makefile/" rel="tag">makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netty/" rel="tag">netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/os-x/" rel="tag">os x</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/panda/" rel="tag">panda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plantuml/" rel="tag">plantuml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prometheus/" rel="tag">prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/protobuf/" rel="tag">protobuf</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rsync/" rel="tag">rsync</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sed/" rel="tag">sed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/" rel="tag">spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/" rel="tag">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/" rel="tag">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/todo/" rel="tag">todo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unriad/" rel="tag">unriad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/usage/" rel="tag">usage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualenv/" rel="tag">virtualenv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vsftpd/" rel="tag">vsftpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xargs/" rel="tag">xargs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yEd/" rel="tag">yEd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/" rel="tag">云原生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" rel="tag">传输文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E/" rel="tag">关于</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" rel="tag">分布式锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" rel="tag">召回服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8/" rel="tag">存储</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%8D%93/" rel="tag">安卓</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="tag">推荐系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" rel="tag">数据平台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%AF%E8%AF%AD/" rel="tag">术语</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" rel="tag">机器学习平台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E9%A1%B9/" rel="tag">杂项</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E5%9B%BE/" rel="tag">类图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%82%A1%E7%A5%A8/" rel="tag">股票</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" rel="tag">自驾游</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">观察者模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" rel="tag">语法解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
     </div>
   </div>
 
@@ -977,7 +1061,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Docker%E5%BA%94%E7%94%A8/" style="font-size: 10px;">Docker应用</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Jupyter/" style="font-size: 10px;">Jupyter</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Thrift/" style="font-size: 10px;">Thrift</a> <a href="/tags/bazel/" style="font-size: 11.67px;">bazel</a> <a href="/tags/brpc/" style="font-size: 11.67px;">brpc</a> <a href="/tags/c/" style="font-size: 18.33px;">c++</a> <a href="/tags/cmake/" style="font-size: 15px;">cmake</a> <a href="/tags/coding/" style="font-size: 10px;">coding</a> <a href="/tags/consul/" style="font-size: 11.67px;">consul</a> <a href="/tags/curator-x-discovery/" style="font-size: 10px;">curator x discovery</a> <a href="/tags/django/" style="font-size: 11.67px;">django</a> <a href="/tags/django-rest-framework/" style="font-size: 10px;">django rest framework</a> <a href="/tags/docker/" style="font-size: 13.33px;">docker</a> <a href="/tags/dubbo/" style="font-size: 10px;">dubbo</a> <a href="/tags/element-ui/" style="font-size: 10px;">element ui</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/gRPC/" style="font-size: 11.67px;">gRPC</a> <a href="/tags/gapis/" style="font-size: 10px;">gapis</a> <a href="/tags/gc/" style="font-size: 10px;">gc</a> <a href="/tags/gflags/" style="font-size: 10px;">gflags</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/hdfs/" style="font-size: 10px;">hdfs</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 18.33px;">java</a> <a href="/tags/jetbrains/" style="font-size: 10px;">jetbrains</a> <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/kaggle/" style="font-size: 10px;">kaggle</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/log4j-spring-boot/" style="font-size: 10px;">log4j - spring boot</a> <a href="/tags/mac/" style="font-size: 10px;">mac</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/netty/" style="font-size: 10px;">netty</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/os-x/" style="font-size: 11.67px;">os x</a> <a href="/tags/panda/" style="font-size: 10px;">panda</a> <a href="/tags/plantuml/" style="font-size: 11.67px;">plantuml</a> <a href="/tags/prometheus/" style="font-size: 10px;">prometheus</a> <a href="/tags/protobuf/" style="font-size: 10px;">protobuf</a> <a href="/tags/python/" style="font-size: 11.67px;">python</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sed/" style="font-size: 10px;">sed</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/spring-boot/" style="font-size: 13.33px;">spring boot</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/todo/" style="font-size: 11.67px;">todo</a> <a href="/tags/unriad/" style="font-size: 11.67px;">unriad</a> <a href="/tags/usage/" style="font-size: 11.67px;">usage</a> <a href="/tags/vim/" style="font-size: 13.33px;">vim</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftpd/" style="font-size: 10px;">vsftpd</a> <a href="/tags/vue/" style="font-size: 11.67px;">vue</a> <a href="/tags/xargs/" style="font-size: 10px;">xargs</a> <a href="/tags/yEd/" style="font-size: 10px;">yEd</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/" style="font-size: 10px;">云原生</a> <a href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" style="font-size: 10px;">传输文件</a> <a href="/tags/%E5%85%B3%E4%BA%8E/" style="font-size: 11.67px;">关于</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" style="font-size: 10px;">分布式锁</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 11.67px;">前端</a> <a href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">召回服务</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%AD%98%E5%82%A8/" style="font-size: 15px;">存储</a> <a href="/tags/%E5%AE%89%E5%8D%93/" style="font-size: 10px;">安卓</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 11.67px;">工具</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">推荐系统</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" style="font-size: 10px;">数据平台</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%AF%E8%AF%AD/" style="font-size: 10px;">术语</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">机器学习</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" style="font-size: 10px;">机器学习平台</a> <a href="/tags/%E6%9D%82%E9%A1%B9/" style="font-size: 10px;">杂项</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 15px;">架构</a> <a href="/tags/%E6%A0%91/" style="font-size: 10px;">树</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 16.67px;">树莓派</a> <a href="/tags/%E6%B3%A8%E8%A7%A3/" style="font-size: 10px;">注解</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">深度学习</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">算法</a> <a href="/tags/%E7%B1%BB%E5%9B%BE/" style="font-size: 10px;">类图</a> <a href="/tags/%E8%82%A1%E7%A5%A8/" style="font-size: 10px;">股票</a> <a href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" style="font-size: 10px;">自驾游</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13.33px;">设计模式</a> <a href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" style="font-size: 10px;">语法解析</a> <a href="/tags/%E9%94%81/" style="font-size: 10px;">锁</a>
+      <a href="/tags/Docker%E5%BA%94%E7%94%A8/" style="font-size: 10px;">Docker应用</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Jupyter/" style="font-size: 10px;">Jupyter</a> <a href="/tags/Linux/" style="font-size: 14.29px;">Linux</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Thrift/" style="font-size: 10px;">Thrift</a> <a href="/tags/bazel/" style="font-size: 11.43px;">bazel</a> <a href="/tags/brpc/" style="font-size: 11.43px;">brpc</a> <a href="/tags/c/" style="font-size: 17.14px;">c++</a> <a href="/tags/cmake/" style="font-size: 14.29px;">cmake</a> <a href="/tags/coding/" style="font-size: 10px;">coding</a> <a href="/tags/consul/" style="font-size: 11.43px;">consul</a> <a href="/tags/curator-x-discovery/" style="font-size: 10px;">curator x discovery</a> <a href="/tags/django/" style="font-size: 11.43px;">django</a> <a href="/tags/django-rest-framework/" style="font-size: 10px;">django rest framework</a> <a href="/tags/docker/" style="font-size: 12.86px;">docker</a> <a href="/tags/dubbo/" style="font-size: 10px;">dubbo</a> <a href="/tags/element-ui/" style="font-size: 10px;">element ui</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/gRPC/" style="font-size: 12.86px;">gRPC</a> <a href="/tags/gapis/" style="font-size: 10px;">gapis</a> <a href="/tags/gc/" style="font-size: 10px;">gc</a> <a href="/tags/gflags/" style="font-size: 10px;">gflags</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/hdfs/" style="font-size: 10px;">hdfs</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 18.57px;">java</a> <a href="/tags/jetbrains/" style="font-size: 10px;">jetbrains</a> <a href="/tags/jmeter/" style="font-size: 10px;">jmeter</a> <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/kaggle/" style="font-size: 10px;">kaggle</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/linux/" style="font-size: 15.71px;">linux</a> <a href="/tags/log4j-spring-boot/" style="font-size: 10px;">log4j - spring boot</a> <a href="/tags/mac/" style="font-size: 10px;">mac</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/netty/" style="font-size: 10px;">netty</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/os-x/" style="font-size: 11.43px;">os x</a> <a href="/tags/panda/" style="font-size: 10px;">panda</a> <a href="/tags/plantuml/" style="font-size: 11.43px;">plantuml</a> <a href="/tags/prometheus/" style="font-size: 10px;">prometheus</a> <a href="/tags/protobuf/" style="font-size: 10px;">protobuf</a> <a href="/tags/python/" style="font-size: 11.43px;">python</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sed/" style="font-size: 10px;">sed</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/spring-boot/" style="font-size: 12.86px;">spring boot</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/todo/" style="font-size: 11.43px;">todo</a> <a href="/tags/unriad/" style="font-size: 11.43px;">unriad</a> <a href="/tags/usage/" style="font-size: 11.43px;">usage</a> <a href="/tags/vim/" style="font-size: 12.86px;">vim</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftpd/" style="font-size: 10px;">vsftpd</a> <a href="/tags/vue/" style="font-size: 11.43px;">vue</a> <a href="/tags/xargs/" style="font-size: 10px;">xargs</a> <a href="/tags/yEd/" style="font-size: 10px;">yEd</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/" style="font-size: 10px;">云原生</a> <a href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" style="font-size: 10px;">传输文件</a> <a href="/tags/%E5%85%B3%E4%BA%8E/" style="font-size: 11.43px;">关于</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" style="font-size: 10px;">分布式锁</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 11.43px;">前端</a> <a href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">召回服务</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%AD%98%E5%82%A8/" style="font-size: 14.29px;">存储</a> <a href="/tags/%E5%AE%89%E5%8D%93/" style="font-size: 10px;">安卓</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 11.43px;">工具</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">推荐系统</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" style="font-size: 10px;">数据平台</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%AF%E8%AF%AD/" style="font-size: 10px;">术语</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 14.29px;">机器学习</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" style="font-size: 10px;">机器学习平台</a> <a href="/tags/%E6%9D%82%E9%A1%B9/" style="font-size: 11.43px;">杂项</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14.29px;">架构</a> <a href="/tags/%E6%A0%91/" style="font-size: 10px;">树</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 15.71px;">树莓派</a> <a href="/tags/%E6%B3%A8%E8%A7%A3/" style="font-size: 10px;">注解</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">深度学习</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 12.86px;">算法</a> <a href="/tags/%E7%B1%BB%E5%9B%BE/" style="font-size: 10px;">类图</a> <a href="/tags/%E8%82%A1%E7%A5%A8/" style="font-size: 10px;">股票</a> <a href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" style="font-size: 10px;">自驾游</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.86px;">设计模式</a> <a href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" style="font-size: 10px;">语法解析</a> <a href="/tags/%E9%94%81/" style="font-size: 10px;">锁</a>
     </div>
   </div>
 
@@ -999,23 +1083,23 @@
       <ul>
         
           <li>
-            <a href="/2021/06/03/architecture/framework/curator-x-discovery/curator-x-discovery/">curator x discovery</a>
+            <a href="/2021/06/28/misc/how-to-get-start/">如何快速融入团队 &amp; 上手新项目</a>
           </li>
         
           <li>
-            <a href="/2021/06/02/tools/yed/yed/">yEd</a>
+            <a href="/2021/06/28/linux/program/misc/">linux commands misc</a>
           </li>
         
           <li>
-            <a href="/2021/06/01/tools/rsync/rsync/">rsync</a>
+            <a href="/2021/06/16/coding/java/notes/cmd/">java function</a>
           </li>
         
           <li>
-            <a href="/2021/05/27/architecture/rpc/dubbo/dubbo/">dubbo</a>
+            <a href="/2021/06/07/architecture/benchmark/jmeter/jmeter/">jmeter</a>
           </li>
         
           <li>
-            <a href="/2021/05/24/tools/bazel/usage/">bazel - usage</a>
+            <a href="/2021/06/05/coding/python/notes/coroutines/">python - coroutines</a>
           </li>
         
       </ul>

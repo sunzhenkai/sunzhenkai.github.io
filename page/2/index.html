@@ -63,6 +63,516 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-tools/bazel/usage" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/05/24/tools/bazel/usage/" class="article-date">
+  <time datetime="2021-05-23T16:00:00.000Z" itemprop="datePublished">2021-05-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>►<a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/bazel/">bazel</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/24/tools/bazel/usage/">bazel - usage</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="查看所有-Targets"><a href="#查看所有-Targets" class="headerlink" title="查看所有 Targets"></a>查看所有 Targets</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> bazel query //... --output label_kind</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="修改输出路径"><a href="#修改输出路径" class="headerlink" title="修改输出路径"></a>修改输出路径</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 仍会在项目创建 bazel-* 软链, 一般无需修改</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> bazel --output_base=output build //...       <span class="comment"># 修改输出路径</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> bazel --output_user_root=output build //...  <span class="comment"># 修改输出 &amp; 安装路径</span></span></span><br></pre></td></tr></table></figure>
+
+<h1 id="使用-github-依赖"><a href="#使用-github-依赖" class="headerlink" title="使用 github 依赖"></a>使用 github 依赖</h1><p><strong>在 WORKSPACE 中指定</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http_archive(</span><br><span class="line">    name = &quot;com_google_googleapis&quot;,</span><br><span class="line">    strip_prefix = &quot;googleapis-8b976f7c6187f7f68956207b9a154bc278e11d7e&quot;,</span><br><span class="line">    urls = [&quot;https://github.com/googleapis/googleapis/archive/8b976f7c6187f7f68956207b9a154bc278e11d7e.tar.gz&quot;],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里的 8b976f7c6187f7f68956207b9a154bc278e11d7e 为 commit id，下载 url 为 <a target="_blank" rel="noopener" href="https://github.com/%7Buser%7D/%7Brepo%7D/archive/%7Bcommit%7D.tar.gz">https://github.com/{user}/{repo}/archive/{commit}.tar.gz</a></p>
+</blockquote>
+<p><strong>BUILD 文件中引用</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">proto_library(</span><br><span class="line">    name = &quot;person_proto&quot;,</span><br><span class="line">    srcs = [&quot;person.proto&quot;],</span><br><span class="line">    deps = [</span><br><span class="line">        &quot;@com_google_googleapis//google/api:annotations_proto&quot;,  # 这里引用</span><br><span class="line">        &quot;@com_google_googleapis//google/api:client_proto&quot;,</span><br><span class="line">        &quot;@com_google_googleapis//google/api:field_behavior_proto&quot;,</span><br><span class="line">        &quot;@com_google_googleapis//google/api:resource_proto&quot;,</span><br><span class="line">        &quot;@com_google_protobuf//:empty_proto&quot;,</span><br><span class="line">        &quot;@com_google_protobuf//:field_mask_proto&quot;,</span><br><span class="line">        &quot;@com_google_protobuf//:any_proto&quot;,</span><br><span class="line">    ],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><strong>proto 中引用</strong></p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;google/api/annotations.proto&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;google/api/client.proto&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;google/api/field_behavior.proto&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;google/api/resource.proto&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="部署-jar-包"><a href="#部署-jar-包" class="headerlink" title="部署 jar 包"></a>部署 jar 包</h1><p><strong>WORKSPACE 中添加依赖</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">RULES_JVM_EXTERNAL_TAG = &quot;4.0&quot;</span><br><span class="line">RULES_JVM_EXTERNAL_SHA = &quot;31701ad93dbfe544d597dbe62c9a1fdd76d81d8a9150c2bf1ecf928ecdf97169&quot;</span><br><span class="line"></span><br><span class="line">http_archive(</span><br><span class="line">    name = &quot;rules_jvm_external&quot;,</span><br><span class="line">    strip_prefix = &quot;rules_jvm_external-%s&quot; % RULES_JVM_EXTERNAL_TAG,</span><br><span class="line">    sha256 = RULES_JVM_EXTERNAL_SHA,</span><br><span class="line">    url = &quot;https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip&quot; % RULES_JVM_EXTERNAL_TAG,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">load(&quot;@rules_jvm_external//:defs.bzl&quot;, &quot;maven_install&quot;)</span><br><span class="line"></span><br><span class="line">maven_install(</span><br><span class="line">    artifacts = [</span><br><span class="line">        &quot;junit:junit:4.12&quot;,</span><br><span class="line">        &quot;androidx.test.espresso:espresso-core:3.1.1&quot;,</span><br><span class="line">        &quot;org.hamcrest:hamcrest-library:1.3&quot;,</span><br><span class="line">    ],</span><br><span class="line">    repositories = [</span><br><span class="line">        # Private repositories are supported through HTTP Basic auth</span><br><span class="line">        # &quot;http://test:Test1234@localhost:8081/artifactory/maven-repo-demo&quot;,</span><br><span class="line">        &quot;https://maven.google.com&quot;,</span><br><span class="line">        &quot;https://repo1.maven.org/maven2&quot;,</span><br><span class="line">    ],</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">load(&quot;@rules_jvm_external//:repositories.bzl&quot;, &quot;rules_jvm_external_deps&quot;)</span><br><span class="line">rules_jvm_external_deps()</span><br><span class="line">load(&quot;@rules_jvm_external//:setup.bzl&quot;, &quot;rules_jvm_external_setup&quot;)</span><br><span class="line">rules_jvm_external_setup()</span><br></pre></td></tr></table></figure>
+
+<p><strong>BUILD 文件添加 exporter</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">java_gapic_library(</span><br><span class="line">    name = &quot;java_cook_gapic&quot;,</span><br><span class="line">    srcs = [&quot;:cook_proto&quot;],</span><br><span class="line">    gapic_yaml = &quot;cook_gapic.yaml&quot;,</span><br><span class="line">    grpc_service_config = &quot;cook_gapic_service_config.json&quot;,</span><br><span class="line">    deps = [</span><br><span class="line">        &quot;:java_cook_proto&quot;,</span><br><span class="line">    ],</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 定义 exporter</span><br><span class="line">java_export(</span><br><span class="line">    name = &quot;java_cook_gapic_export&quot;,</span><br><span class="line">    maven_coordinates = &quot;pub.wii.cook:cook-v1:0.0.1&quot;,</span><br><span class="line">    # pom_template = &quot;pom.tmpl&quot;,  # You can omit this</span><br><span class="line">    # srcs = glob([&quot;*.java&quot;]),    # 如果是 java 项目, 这里部署的是 gapic 生成的 jar 包, 先注释掉</span><br><span class="line">    runtime_deps = [</span><br><span class="line">        &quot;:java_cook_gapic&quot;</span><br><span class="line">    ],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><strong>执行 exporter</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 部署到本地</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> bazel run --define <span class="string">&quot;maven_repo=file://<span class="variable">$HOME</span>/.m2/repository&quot;</span> //cook/v1:java_cook_gapic_export.publish</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 部署到 maven 仓库, 注意这里要用 https 协议, 不支持 http</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> bazel run --define <span class="string">&quot;maven_repo=https://127.0.0.1:8081/artifactory/maven-repo-demo&quot;</span> --define <span class="string">&quot;maven_user=test&quot;</span> --define <span class="string">&quot;maven_password=Test1234&quot;</span> //cook/v1:java_cook_gapic_export.publish</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/05/24/tools/bazel/usage/" data-id="ckqgnfcji004k65fyd060ailp" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bazel/" rel="tag">bazel</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-architecture/rpc/grpc/gapis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/05/24/architecture/rpc/grpc/gapis/" class="article-date">
+  <time datetime="2021-05-23T16:00:00.000Z" itemprop="datePublished">2021-05-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/">rpc</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/gRPC/">gRPC</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/24/architecture/rpc/grpc/gapis/">gapis</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><p>使用 gRPC + protocol buffers 时，会面临三种打包方式，<code>proto library</code>、<code>grpc library</code>、<code>gapic library</code> 。不同的打包方式需要使用不同的工具/插件，以如下定义为例。</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">service</span> <span class="title">Greeter</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">rpc</span> SayHello (HelloRequest) <span class="keyword">returns</span> (HelloReply) </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">message</span> <span class="title">HelloRequest</span> </span>&#123;</span><br><span class="line">  <span class="built_in">string</span> name = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">message</span> <span class="title">HelloReply</span> </span>&#123;</span><br><span class="line">  <span class="built_in">string</span> <span class="class"><span class="keyword">message</span> = 1;</span></span><br><span class="line"><span class="class">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="proto-library"><a href="#proto-library" class="headerlink" title="proto library"></a>proto library</h3><p>首先是打包 proto library，需要下载 protoc 程序（在 <a target="_blank" rel="noopener" href="https://github.com/protocolbuffers/protobuf">protobuf</a> 的 release 页面下载）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> protoc --java_out=jv greeter.proto</span></span><br></pre></td></tr></table></figure>
+
+<p>这个命令只会生成数据结构，会忽略 service 定义。</p>
+<h3 id="gRPC-library"><a href="#gRPC-library" class="headerlink" title="gRPC library"></a>gRPC library</h3><p>然后，是打包 gRPC library，需要下载对应的 generator，工具下载 / 本地编译步骤参考<a target="_blank" rel="noopener" href="https://github.com/grpc/grpc-java/tree/master/compiler">这里</a>，另外 gRPC 相关的库及代码在<a target="_blank" rel="noopener" href="https://github.com/grpc">这里</a>，命令参考如下。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> protoc --plugin=protoc-gen-grpc-java=/Users/wii/Downloads/protoc-gen-grpc-java-1.38.0-osx-x86_64.exe --grpc-java_out=jv --java_out=jv greeter.proto</span></span><br></pre></td></tr></table></figure>
+
+<p>gRPC library 和 proto library 的区别是，会生成用于服务调用的 client 和 server 端代码。</p>
+<h3 id="gapic-library"><a href="#gapic-library" class="headerlink" title="gapic library"></a>gapic library</h3><p>最后，是打包 gapic library，同样需要下载对应的 generator，以 Java 为例，工具参考<a target="_blank" rel="noopener" href="https://github.com/googleapis/gapic-generator-java">gapic-generator-java</a>和<a target="_blank" rel="noopener" href="https://github.com/googleapis/gapic-generator">gapic-generator</a>。顺便，<a target="_blank" rel="noopener" href="https://github.com/googleapis/artman">artman</a> 作为一个可选的生成工具，已经停止维护。要打包 java 的 gapic library ，首先需要编译插件，从<a target="_blank" rel="noopener" href="https://github.com/googleapis/gapic-generator">gapic-generator</a> 下载  release 包，运行命令 <code>./gradlew fatjar</code> 进行编译。</p>
+<p>首先，生成 description 文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> protoc --include_imports --include_source_info -o greeter.description greeter.proto</span></span><br></pre></td></tr></table></figure>
+
+<p>接着，生成 proto message classes。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir java-proto-lib-out</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> protoc --java_out=java-proto-lib-out greeter.proto</span></span><br></pre></td></tr></table></figure>
+
+<p>然后，生成 gRPC stub 。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir java-grpc-lib-out</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> protoc --plugin=protoc-gen-grpc=/Users/wii/Downloads/protoc-gen-grpc-java-1.38.0-osx-x86_64.exe --grpc_out=java-grpc-lib-out greeter.proto</span></span><br></pre></td></tr></table></figure>
+
+<p>进一步，新建服务描述文件。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">type:</span> <span class="string">google.api.Service</span></span><br><span class="line"><span class="attr">config_version:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">greeter.gapic.cook.pub.wii</span></span><br><span class="line"></span><br><span class="line"><span class="attr">title:</span> <span class="string">Example</span> <span class="string">Library</span> <span class="string">API</span></span><br></pre></td></tr></table></figure>
+
+<p>接着，生成客户端配置文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java -XX:-OmitStackTraceInFastThrow -cp /Users/wii/Downloads/gapic-generator-2.11.1/build/libs/gapic-generator-2.11.1-fatjar.jar \</span><br><span class="line">    com.google.api.codegen.GeneratorMain GAPIC_CONFIG \</span><br><span class="line">    --descriptor_set=greeter.proto.pb \</span><br><span class="line">    --service_yaml=greeter-service.yaml \</span><br><span class="line">    -o=/Users/wii/Data/tmp/grpc/greeter-gapic-config.yaml</span><br><span class="line"><span class="meta">#</span><span class="bash"> 输出文件使用绝对路径</span></span><br></pre></td></tr></table></figure>
+
+<p>然后，创建 package 的 metadata 配置文件。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">artifact_type:</span> <span class="string">GAPIC</span></span><br><span class="line"><span class="attr">proto_deps:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">google-common-protos</span></span><br><span class="line"><span class="attr">api_name:</span> <span class="string">greeter</span></span><br><span class="line"><span class="attr">api_version:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">organization_name:</span> <span class="string">solo-kingdom</span></span><br><span class="line"><span class="attr">proto_path:</span> <span class="string">wii/cook/gapic/greeter/v1</span></span><br></pre></td></tr></table></figure>
+
+<p>最后，生成代码。</p>
+<p><strong>java</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">java -cp /Users/wii/Downloads/gapic-generator-2.11.1/build/libs/gapic-generator-2.11.1-fatjar.jar \</span><br><span class="line">    com.google.api.codegen.GeneratorMain LEGACY_GAPIC_AND_PACKAGE \</span><br><span class="line">    --descriptor_set=greeter.proto.pb \</span><br><span class="line">    --service_yaml=greeter-service.yaml \</span><br><span class="line">    --gapic_yaml=greeter-gapic-config.yaml \</span><br><span class="line">    --package_yaml2=greeter-meta-config.yaml \</span><br><span class="line">    --language=java \</span><br><span class="line">    --o=java-code-gen</span><br></pre></td></tr></table></figure>
+
+<p><strong>python</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">java -cp /Users/wii/Downloads/gapic-generator-2.11.1/build/libs/gapic-generator-2.11.1-fatjar.jar \</span><br><span class="line">    com.google.api.codegen.GeneratorMain LEGACY_GAPIC_AND_PACKAGE \</span><br><span class="line">    --descriptor_set=greeter.proto.pb \</span><br><span class="line">    --service_yaml=greeter-service.yaml \</span><br><span class="line">    --gapic_yaml=greeter-gapic-config.yaml \</span><br><span class="line">    --language=python \</span><br><span class="line">    --package_yaml2=greeter-meta-config.yaml \</span><br><span class="line">    --o=python-code-gen</span><br></pre></td></tr></table></figure>
+
+<p>顺便，<a target="_blank" rel="noopener" href="https://github.com/sunzhenkai/cook-grpc/tree/master/cook-gapic-playground">这里</a>提供了一个示例。</p>
+<p>最后，在使用 gapic 时，可能需要引用一些 google 的 proto 文件，比如 <code>google/api/annotation.proto</code> ，这些文件定义在<a target="_blank" rel="noopener" href="https://github.com/googleapis/api-common-protos/tree/master/google">这里</a>。</p>
+<h1 id="Bazel"><a href="#Bazel" class="headerlink" title="Bazel"></a>Bazel</h1><h2 id="rules-proto"><a href="#rules-proto" class="headerlink" title="rules_proto"></a>rules_proto</h2><h2 id="获取-sha256"><a href="#获取-sha256" class="headerlink" title="获取 sha256"></a>获取 sha256</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> COMMIT_ID=734b8d41d39a903c70132828616f26cb2c7f908c</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> wget https://github.com/stackb/rules_proto/archive/<span class="variable">$&#123;COMMIT_ID&#125;</span>.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> shasum -a 256 <span class="variable">$&#123;COMMIT_ID&#125;</span>.tar.gz</span></span><br><span class="line">c89348b73f4bc59c0add4074cc0c620a5a2a08338eb4ef207d57eaa8453b82e8</span><br></pre></td></tr></table></figure>
+
+<h1 id="Artman"><a href="#Artman" class="headerlink" title="Artman"></a>Artman</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> install</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip3 install googleapis-artman</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/stackb/rules_proto">rules_proto</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/bazelbuild/rules_proto">rules_proto</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/05/24/architecture/rpc/grpc/gapis/" data-id="ckqgnfckg007t65fycxi71udr" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gRPC/" rel="tag">gRPC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gapis/" rel="tag">gapis</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-architecture/rpc/grpc/grpc" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/05/24/architecture/rpc/grpc/grpc/" class="article-date">
+  <time datetime="2021-05-23T16:00:00.000Z" itemprop="datePublished">2021-05-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/">rpc</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/gRPC/">gRPC</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/24/architecture/rpc/grpc/grpc/">gRPC</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>gRPC 是谷歌开源的一款 RPC 框架，protocal buffers 作为它的 IDL（Interface Definition Language，接口定义语言），也可以作为其底层数据交换格式。</p>
+<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>在 gRPC，一个客户端应用可以直接调用不同机器上服务端的方法。在一些 RPC 系统中，gRPC 是基于以下思路，定义一个服务接口，指定可以远程调用的方法，机器参数和返回类型；在服务端，实现这个接口，并且运行一个 gRPC 服务，来处理客户端的请求；在客户端，保存一个存根（stub，在一些语言中简称为客户端）提供和服务端相同的方法。</p>
+<p><img src="/2021/05/24/architecture/rpc/grpc/grpc/landing-2.svg" alt="Concept Diagram"></p>
+<h1 id="Protocol-Buffers"><a href="#Protocol-Buffers" class="headerlink" title="Protocol Buffers"></a>Protocol Buffers</h1><p>默认情况下，gRPC 使用 <a target="_blank" rel="noopener" href="https://developers.google.com/protocol-buffers/docs/overview">Protocol Buffers</a> （Protobuffer，PB，谷歌开源的且成熟的序列化结构化数据的机制/工具）。使用 PB ，首先需要在 proto 文件中定义一个需要序列化的结构。</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">message</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  <span class="built_in">string</span> name = <span class="number">1</span>;</span><br><span class="line">  <span class="built_in">int32</span> id = <span class="number">2</span>;</span><br><span class="line">  <span class="built_in">bool</span> has_ponycopter = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果需要定义一个 Service。</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// file: greeter.proto</span></span><br><span class="line"></span><br><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"><span class="comment">// The greeter service definition.</span></span><br><span class="line"><span class="class"><span class="keyword">service</span> <span class="title">Greeter</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Sends a greeting</span></span><br><span class="line">  <span class="function"><span class="keyword">rpc</span> SayHello (HelloRequest) <span class="keyword">returns</span> (HelloReply) </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// The request message containing the user&#x27;s name.</span></span><br><span class="line"><span class="class"><span class="keyword">message</span> <span class="title">HelloRequest</span> </span>&#123;</span><br><span class="line">  <span class="built_in">string</span> name = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// The response message containing the greetings</span></span><br><span class="line"><span class="class"><span class="keyword">message</span> <span class="title">HelloReply</span> </span>&#123;</span><br><span class="line">  <span class="built_in">string</span> <span class="class"><span class="keyword">message</span> = 1;</span></span><br><span class="line"><span class="class">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>如下命令。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> protoc --java_out=jv greeter.proto</span></span><br></pre></td></tr></table></figure>
+
+<p>并不会生成用于 RPC 的 client 和 server，需要使用如下命令。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> protoc --java_out=jv --grpc-java_out=jv greeter.proto</span></span><br></pre></td></tr></table></figure>
+
+<p>在使用之前，需要安装工具 <code>protoc-gen-grpc-java</code>，工具下载 / 本地编译步骤参考<a target="_blank" rel="noopener" href="https://github.com/grpc/grpc-java/tree/master/compiler">这里</a>。至于下载，可以移步 <a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/io.grpc/protoc-gen-grpc-java">这里</a>，选择一个版本并点击链接，在介绍表格部分有 Files 字段，点击 <code>View all</code> ，现在指定平台的可执行文件即可，然后运行如下命令。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> protoc --plugin=protoc-gen-grpc-java=/Users/wii/Downloads/protoc-gen-grpc-java-1.38.0-osx-x86_64.exe --grpc-java_out=jv --java_out=jv greeter.proto</span> </span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong> 指定 plugin 时，使用决定路径。</p>
+<p>查看生成结果。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ls jv</span></span><br><span class="line">GreeterGrpc.java       GreeterOuterClass.java</span><br></pre></td></tr></table></figure>
+
+<h1 id="Core-Concepts"><a href="#Core-Concepts" class="headerlink" title="Core Concepts"></a>Core Concepts</h1><h2 id="服务定义"><a href="#服务定义" class="headerlink" title="服务定义"></a>服务定义</h2><p>gRPC 默认使用 Protocol Buffers 作为服务定义语言，如果需要也可以使用其他可选项。</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">service</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">rpc</span> SayHello (HelloRequest) <span class="keyword">returns</span> (HelloResponse)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">message</span> <span class="title">HelloRequest</span> </span>&#123;</span><br><span class="line">  <span class="built_in">string</span> greeting = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">message</span> <span class="title">HelloResponse</span> </span>&#123;</span><br><span class="line">  <span class="built_in">string</span> reply = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>gRPC 允许定义多种类型的服务方法。</p>
+<ul>
+<li><p>一元 RPCs（Unary RPCs），客户端发送一次请求，得到一次响应，和通常的方法调用类似</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">rpc</span> SayHello(HelloRequest) <span class="keyword">returns</span> (HelloResponse)</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>服务端流 RPCs（Server streaming RPCs），客户端向服务端发送一次请求，得到一个流来读取一系列的消息。客户端从返回的流中读取数据，直到没有更多信息。gRPC 保证一次独立调用中消息的顺序</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">rpc</span> LotsOfReplies(HelloRequest) <span class="keyword">returns</span> (stream HelloResponse)</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>客户端流 RPCs（Client streaming RPCs ），客户端使用流，向服务端发送一系列的消息。客户端结束写入后，等待服务端读取并返回一个响应。同样，gRPC 保证一次独立调用中消息的顺序</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">rpc</span> LotsOfGreetings(stream HelloRequest) <span class="keyword">returns</span> (HelloResponse)</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>双向流 RPCs（Bidirectional streaming RPCs），客户端和服务端通过读写流发送消息序列，两个流操作独立，所以客户端和服务端可以以任意顺序读写。比如，服务端可以等待接受到所有消息后返回响应消息序列；也可以每接受一个消息，返回一个响应消息。</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">rpc</span> BidiHello(stream HelloRequest) <span class="keyword">returns</span> (stream HelloResponse)</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="使用-API"><a href="#使用-API" class="headerlink" title="使用 API"></a>使用 API</h2><p>首先，在 <code>.proto</code> 文件中定义服务（service），gRPC 提供 PB（protocol buffer）编译插件，来生成客户端和服务端代码。gRPC 用户通常在客户端调用这些API，在服务端实现这些 API。</p>
+<ul>
+<li>在服务端，实现服务接口定义的方法，并且运行一个 gRPC 服务来处理客户端的请求。gRPC 基础设施解码进来的请求，执行服务方法，并编码服务响应</li>
+<li>在客户端，有一个本地对象，称作 stub（对于一些语言，术语为 client），其实现和服务端相同的方法。client 可以在本地对象上调用这些方法，使用合适的 pb 消息类型包装调用的参数，gRPC接着传送请求给服务端，并且返回服务端的 pb 格式消息响应。</li>
+</ul>
+<h2 id="同步-vs-异步"><a href="#同步-vs-异步" class="headerlink" title="同步 vs 异步"></a>同步 vs 异步</h2><p>gRPC 在大部分语言中，具备异步和同步风格的接口。</p>
+<h2 id="RPC-声明周期"><a href="#RPC-声明周期" class="headerlink" title="RPC 声明周期"></a>RPC 声明周期</h2><h3 id="Unary-RPC"><a href="#Unary-RPC" class="headerlink" title="Unary RPC"></a>Unary RPC</h3><ul>
+<li>当客户端调用 stub 的方法时，服务端会被告知这次调用的 <a target="_blank" rel="noopener" href="https://grpc.io/docs/what-is-grpc/core-concepts/#metadata">metadata</a>，包括方法的名称，请求的超时时间等</li>
+<li>服务端可以马上返回自己的初始 metadata（在响应前必须传送），也可以等待客户端的请求消息，具体的行为由应用程序指定</li>
+<li>一但服务器得到了完整的客户端请求消息，会做对应的工作并构造一个响应消息。接着返回响应，及详细的状态（status）和可选的尾部 metadata。</li>
+<li>如果返回状态是 OK，客户端会得到这个响应，这就完成了客户端的调用。</li>
+</ul>
+<h3 id="Server-streaming-RPC"><a href="#Server-streaming-RPC" class="headerlink" title="Server streaming RPC"></a>Server streaming RPC</h3><p>server streaming RPC 和 unary RPC 类似，不同的是服务端在响应中返回一个消息流（a stream of message）。在所有的消息发送完后，详细的状态码和可选的尾部 metadata 会被传送给客户端。</p>
+<h3 id="Client-streaming-RPC"><a href="#Client-streaming-RPC" class="headerlink" title="Client streaming RPC"></a>Client streaming RPC</h3><p>服务端返回单个消息的实际，通常是接受到所有消息后，但并非必须如此。</p>
+<h3 id="Bidirectional-streaming-RPC"><a href="#Bidirectional-streaming-RPC" class="headerlink" title="Bidirectional streaming RPC"></a>Bidirectional streaming RPC</h3><p>双向流RPC，服务端接受到的客户端的 metadata、请求方法、deadline。</p>
+<h2 id="Deadlines-Timeouts"><a href="#Deadlines-Timeouts" class="headerlink" title="Deadlines / Timeouts"></a>Deadlines / Timeouts</h2><p>gRPC 允许客户端指定超时时间。服务端可以知道一个指定 RPC 调用是否超时，或者剩余处理时间。</p>
+<h2 id="终止-RPC"><a href="#终止-RPC" class="headerlink" title="终止 RPC"></a>终止 RPC</h2><p>可能存在服务端成功返回，但是客户端请求超时的情况。也有可能，服务端在客户端还在发送请求时来结束本次RPC。</p>
+<h2 id="取消-RPC"><a href="#取消-RPC" class="headerlink" title="取消 RPC"></a>取消 RPC</h2><p>服务端和客户端都可以在任意时间取消一次 RPC 请求。</p>
+<h2 id="Metadata"><a href="#Metadata" class="headerlink" title="Metadata"></a>Metadata</h2><p>Metadata 包含一次特定 RPC 请求的信息，数据格式是 k-v 对的形式，key为string，value可以是string，也有可能是二进制数据。</p>
+<h2 id="Channels"><a href="#Channels" class="headerlink" title="Channels"></a>Channels</h2><p>一个 gRPC 通道提供一个和指定host和port的 gRPC 服务器的连接，当创建一个客户端 stub 时会用到。客户端可以指定通道参数，来修改 gPRC 的默认行为，比如控制消息压缩开关。一个 channel 包含状态，包括 <code>connected</code> 和 <code>idle</code>。</p>
+<p>gRPC 怎么处理关闭 channel 的流程，语言间有所不同。</p>
+<h1 id="Appendix"><a href="#Appendix" class="headerlink" title="Appendix"></a>Appendix</h1><h2 id="thrift-VS-protocol-buffer"><a href="#thrift-VS-protocol-buffer" class="headerlink" title="thrift VS protocol buffer"></a>thrift VS protocol buffer</h2><ul>
+<li>pb 生成 service 的 client 和 server 代码，需要额外的插件</li>
+</ul>
+<h1 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h1><p>关于 gRPC 的负载均衡，<a target="_blank" rel="noopener" href="https://grpc.io/blog/grpc-load-balancing/">这里</a> 列举了主要的几种方式，胖客户端、Lookaside LB、Proxy。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><p><a target="_blank" rel="noopener" href="https://grpc.io/blog/grpc-load-balancing/">https://grpc.io/blog/grpc-load-balancing/</a> </p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://sultanov.dev/blog/grpc-client-side-load-balancing/">https://sultanov.dev/blog/grpc-client-side-load-balancing/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013360850/article/details/115278408">https://blog.csdn.net/u013360850/article/details/115278408</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://skyao.gitbooks.io/learning-grpc/content/channel/channel/impl/name_resolver.html">https://skyao.gitbooks.io/learning-grpc/content/channel/channel/impl/name_resolver.html</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://mykidong.medium.com/howto-grpc-java-client-side-load-balancing-using-consul-8f729668d3f8">https://mykidong.medium.com/howto-grpc-java-client-side-load-balancing-using-consul-8f729668d3f8</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/05/24/architecture/rpc/grpc/grpc/" data-id="ckqgnfckh007y65fy9r3451c7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gRPC/" rel="tag">gRPC</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-tools/bazel/bazel" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/05/22/tools/bazel/bazel/" class="article-date">
+  <time datetime="2021-05-21T16:00:00.000Z" itemprop="datePublished">2021-05-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>►<a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/bazel/">bazel</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/22/tools/bazel/bazel/">bazel</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h1><p>Bazel 是一个开源的构建、测试工具，类似于 Make、Maven和Gradle。</p>
+<h1 id="Conception"><a href="#Conception" class="headerlink" title="Conception"></a>Conception</h1><h2 id="Workspace"><a href="#Workspace" class="headerlink" title="Workspace"></a>Workspace</h2><p><a target="_blank" rel="noopener" href="https://docs.bazel.build/versions/4.1.0/build-ref.html#workspace">workspace</a> 是一个目录，包含需要构建的源文件；该目录应该包含一个名为 <code>WORKSPACE</code> / <code>WORKSPACE.bzl</code>  的文本文件（同时则<code>WORKSPACE.bzl</code> 优先，可能为空或者包含<a target="_blank" rel="noopener" href="https://docs.bazel.build/versions/4.1.0/external.html">外部依赖</a>）。</p>
+<h2 id="Repositories"><a href="#Repositories" class="headerlink" title="Repositories"></a>Repositories</h2><p>代码组织在 repositories 内，包含 <code>WORKSPACE</code> 文件的文件加被称为主 repositories，亦称为 <code>@</code> 。其他的外部 repositories 在 WORKSPACE 文件使用 <a target="_blank" rel="noopener" href="https://docs.bazel.build/versions/4.1.0/be/workspace.html">workspace 规则</a>中定义。</p>
+<h2 id="Packages"><a href="#Packages" class="headerlink" title="Packages"></a>Packages</h2><p>一个 repository 中，组织代码的主要单元是 package。一个 package 是一个相关文件及其之间相互依赖关系的集合。一个 package 定义为包含 <code>BUILD</code> 或者 <code>BUILD.bazel</code>  的文件夹，该文件位于 resposity 的顶级目录下。一个 package 包含目录下所有的文件及子文件夹下的文件，但不包括包含 BUILD 文件的文件夹下的文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">src/my/app/BUILD</span><br><span class="line">src/my/app/app.cc</span><br><span class="line">src/my/app/data/input.txt</span><br><span class="line">src/my/app/tests/BUILD</span><br><span class="line">src/my/app/tests/test.cc</span><br></pre></td></tr></table></figure>
+
+<p>上面目录包含两个 package，<code>my/app</code> 、<code>my/app/tests</code>，<code>my/app/data</code> 不是 package，只是 package <code>my/app</code> 下的一个文件夹。</p>
+<h2 id="Targets"><a href="#Targets" class="headerlink" title="Targets"></a>Targets</h2><p>package 是一个容器。package 内的元素称为 targets。大多数 targets 是两个主要类型（files、rules）中的一个。此外，还有另外一种很少用的类型的 target，<a target="_blank" rel="noopener" href="https://docs.bazel.build/versions/4.1.0/be/functions.html#package_group">package groups</a>。</p>
+<p>文件又被分为源文件（source files）和生成文件（generated files），生成文件是根据特定规则由源文件生成。</p>
+<p>第二种 target 是规则。一个规则指定一系列输入和输出文件之间的关系，包括必要的步骤来驱动从源文件到生成文件的转换。一个规则的输出总是生成文件（generated files）。规则的输入，可以是源文件，也可以是生成的文件。所以，一条规则的输出可能是另一个规则的输出，从而构造较长的规则链。</p>
+<p>Package groups 是一系列的 packages，主要目的是用来限制特定规则的访问。package group 使用 <code>package_group</code> 方法定义，包含两个参数：包含的package列表和名称。</p>
+<h2 id="Labels"><a href="#Labels" class="headerlink" title="Labels"></a>Labels</h2><p>每个 targets 只属于一个package。target 的名称被称作它的 label，典型的 label 示例如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@myrepo//my/app/main:app_binary</span><br></pre></td></tr></table></figure>
+
+<p>指向相同 repository 的 label，repository 名称可以省略。所以，<code>@myrepo</code> 内部，label 通常如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//my/app/main:app_binary</span><br></pre></td></tr></table></figure>
+
+<p>每个 label 包含两部分，package 名称（<code>my/app/main</code>） 和一个 target 名称（ <code>app_binray</code>）。每个 label 唯一标示一个 target。label 有时以其他样式展示，当省略冒号时，target 名称被认为和package name 的最后一个组件相同，比如，以下两个 label 含义相同。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//my/app</span><br><span class="line">//my/app:app </span><br></pre></td></tr></table></figure>
+
+<p>label 以 <code>//</code> 开始，package 则从不以此开头，所以 <code>my/app</code> 是包含 target <code>//my/app</code> 的 package。</p>
+<p>在 BUILD 文件内部，label 的 package name 部分可以省略，冒号也可以作为可选项省略。所以，在 package <code>my/app</code> 下的 BUILD 文件（比如，<code>//my/app:BUILD</code>）内，下面的 labels 含义是相同的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//my/app:app</span><br><span class="line">//my/app</span><br><span class="line">:app</span><br><span class="line">app</span><br></pre></td></tr></table></figure>
+
+<p>相似的，在 BUILD 文件内，属于 package 的文件，可以使用相对于 package 文件夹的相对路径来表示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">generate.cc</span><br><span class="line">testdata/input.txt</span><br></pre></td></tr></table></figure>
+
+<p>但是，在其他 package 内或命令行，这些文件 target 必须使用完整的label来引用，比如 <code>//my/app:generate.cc</code>。</p>
+<p>以 <code>@//</code> 开头的 label 指向 main reposity，即使在外部库中依然可以使用。因此在外部reposity 中使用时， <code>@//a/b/c</code> 和 <code>//a/b/c</code> 不同，前面的形式返回 main repository，后面的形式只在外部 reposity 中查找。</p>
+<h3 id="label-的词法规范"><a href="#label-的词法规范" class="headerlink" title="label 的词法规范"></a>label 的词法规范</h3><h4 id="Target-name"><a href="#Target-name" class="headerlink" title="Target name"></a>Target name</h4><p>target-name 是 package 内 target 的 name。BUILD 文件中 rule 的 name 是其定义中 name 属性的值；文件的 name 是相对于包含 BUILD 文件夹路径的相对路径。不用使用 <code>.. </code> 在其他 package 中引用文件，使用 <code>//packagename:filename</code> 代替。文件的相对路径不可以有前置和后置的 <code>/</code> （<code>/foo</code> 和 <code>foo/</code> 是禁止的）和连续的 <code>/</code> （<code>foo//bar</code> 也是禁止的），<code>..</code> 和 <code>./</code> 也是禁止的。</p>
+<p>在文件名中使用 <code>/</code> 很常见，所以不建议在 rule 名称中使用 <code>/</code>。</p>
+<h4 id="Package-name"><a href="#Package-name" class="headerlink" title="Package name"></a>Package name</h4><p>Package name 是包含 BUILD 文件的文件夹相对于顶层目录的相对路径，比如 <code>my/app</code>。package name 不应该包含 <code>//</code> ，或以 <code>/</code> 结尾。</p>
+<h2 id="Rules"><a href="#Rules" class="headerlink" title="Rules"></a>Rules</h2><p>rule 指定了输入和输出之间的关系，以及构建和输出的步骤。rules 可以是一个或多个不同类型的 classes（生成编译的可执行文件、测试程序及其它<a target="_blank" rel="noopener" href="https://docs.bazel.build/versions/4.1.0/be/overview.html">支持的输出类型</a>）。</p>
+<p>Rule 的 name 在以定义的 name 属性指定，虽然名称可以随意定义，但对于<code>*_binary</code> 和 <code>*_test</code> 规则来说，rule 名称决定输出文件名称。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cc_binary(</span><br><span class="line">    name = &quot;my_app&quot;,</span><br><span class="line">    srcs = [&quot;my_app.cc&quot;],</span><br><span class="line">    deps = [</span><br><span class="line">        &quot;//absl/base&quot;,</span><br><span class="line">        &quot;//absl/strings&quot;,</span><br><span class="line">    ],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="BUILD-files"><a href="#BUILD-files" class="headerlink" title="BUILD files"></a>BUILD files</h2><p>BUILD 文件使用命令式语言 starlark 处理。值得注意的是，starlark 程序不能随意执行 I/O 操作，这使得 BUILD 文件的解释过程是幂等的，只依赖一系列已知的输入，这保证了构建过程的可复制性。</p>
+<p>通常，顺序很重要，变量必须在使用前定义。但是，大多数时候 BUILD 文件仅有一系列规则组成，他们的相对顺序不重要。</p>
+<p>为了鼓励代码和数据分离，BUILD 文件不允许包含函数定义、for语句、if语句，他们应该定义在 <code>bzl</code> 文件中。此外，<code>*args</code> 和 <code>**kwargs</code> 也不被允许，应该准确的列出所有的参数。</p>
+<p>BUILD 文件应该仅适用 ASCII 字符编写。</p>
+<h3 id="加载扩展"><a href="#加载扩展" class="headerlink" title="加载扩展"></a>加载扩展</h3><p>bazel 扩展文件以 <code>.bzl</code> 结尾，使用 <code>load</code> 命令从扩展中加载一个符号。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">load(&quot;//foo/bar:file.bzl&quot;, &quot;some_library&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>上面命令会加载文件 <code>foo/var/file.bzl</code> 并添加 <code>some_library</code> 到环境变量，该命令可以加载 rules、functions、常量。可以通过添加额外的参数，来加载多个标识。参数必须是字符串常量，不能使用变量。load 命令必须在文件的顶层，比如，不能放在 function 里面。可以重命名标识。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">load(&quot;//foo/bar:file.bzl&quot;, some_library_alias = &quot;some_library&quot;)</span><br><span class="line">load(&quot;:my_rules.bzl&quot;, &quot;some_rule&quot;, nice_alias = &quot;some_other_rule&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>.bzl</code> 文件中以 <code>_</code> 开头的标识，不能被导出，也即不能再其他文件中被load。</p>
+<h2 id="Types-of-build-rule"><a href="#Types-of-build-rule" class="headerlink" title="Types of build rule"></a>Types of build rule</h2><p>主要的构建规则成簇出现，根据语言进行分组。</p>
+<ul>
+<li><code>*_binary</code> </li>
+<li><code>*_test</code></li>
+<li><code>*_library</code> </li>
+</ul>
+<h2 id="Dependencies"><a href="#Dependencies" class="headerlink" title="Dependencies"></a>Dependencies</h2><p>基于关系的依赖在 targets 之间组成 DAG 图。</p>
+<h3 id="依赖类型"><a href="#依赖类型" class="headerlink" title="依赖类型"></a>依赖类型</h3><h4 id="srcs-依赖"><a href="#srcs-依赖" class="headerlink" title="srcs 依赖"></a>srcs 依赖</h4><p>被规则直接使用的文件。</p>
+<h4 id="deps-依赖"><a href="#deps-依赖" class="headerlink" title="deps 依赖"></a>deps 依赖</h4><p>规则指向独立编译的模块，提供头文件、标识、库、数据等。</p>
+<h4 id="data-依赖"><a href="#data-依赖" class="headerlink" title="data 依赖"></a>data 依赖</h4><p>构造系统只在隔离的文件夹运行测试，只有在配置的 data 列表中配置的文件可用。因此，如果一个可执行文件、库、测试程序的执行需要一些文件，需要在data字段中指定，比如。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># I need a config file from a directory named env:</span><br><span class="line">java_binary(</span><br><span class="line">    name = &quot;setenv&quot;,</span><br><span class="line">    ...</span><br><span class="line">    data = [&quot;:env/default_env.txt&quot;],</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># I need test data from another directory</span><br><span class="line">sh_test(</span><br><span class="line">    name = &quot;regtest&quot;,</span><br><span class="line">    srcs = [&quot;regtest.sh&quot;],</span><br><span class="line">    data = [</span><br><span class="line">        &quot;//data:file1.txt&quot;,</span><br><span class="line">        &quot;//data:file2.txt&quot;,</span><br><span class="line">        ...</span><br><span class="line">    ],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>这些文件，可以使用相对路径 <code>/path/to/data/file</code> 访问。测试程序中，可以通过拼接测试源目录和相对workspace的路径进行拼接来访问，比如 <code>$&#123;TEST_SRCDIR&#125;/workspace/path/to/data/file</code>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/05/22/tools/bazel/bazel/" data-id="ckqgnfcjg004i65fydkr3caa1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bazel/" rel="tag">bazel</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-architecture/rpc/protobuf/misc" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/05/21/architecture/rpc/protobuf/misc/" class="article-date">
+  <time datetime="2021-05-20T16:00:00.000Z" itemprop="datePublished">2021-05-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/">rpc</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dsl/">dsl</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/21/architecture/rpc/protobuf/misc/">protobuf - misc</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h1><p><strong>打包插件</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.xolstice.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>protobuf-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">executions</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">goal</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">goal</span>&gt;</span>compile-custom<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">goal</span>&gt;</span>test-compile<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">goal</span>&gt;</span>test-compile-custom<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="IDEA"><a href="#IDEA" class="headerlink" title="IDEA"></a>IDEA</h1><p><strong>引用飘红</strong></p>
+<p>把 proto 所在文件夹标记为 source root。</p>
+<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1><h2 id="StringValue-amp-string"><a href="#StringValue-amp-string" class="headerlink" title="StringValue &amp; string"></a>StringValue &amp; string</h2><p>类似的还有 <code>int32 &amp; Int32Value</code> 等。</p>
+<p><code>StringValue</code> 和 <code>string</code> 相比：</p>
+<ul>
+<li>StringValue 可以为 null，在部分语言中，string 类型数据不能为 null，那么对于 string 类型，无法区分 <code>&quot;&quot;</code> 是代表 null 还是空字符串</li>
+<li>gRPC 调用过程的的参数和返回值不能为基本类型，也就是不能为 string、int32 这种</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/05/21/architecture/rpc/protobuf/misc/" data-id="ckqgnfcki008065fy79hb8mff" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/protobuf/" rel="tag">protobuf</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-life/finance/stock" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/05/14/life/finance/stock/" class="article-date">
+  <time datetime="2021-05-13T16:00:00.000Z" itemprop="datePublished">2021-05-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/life/">life</a>►<a class="article-category-link" href="/categories/life/%E7%90%86%E8%B4%A2/">理财</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/14/life/finance/stock/">理财 - 股票</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="A-股"><a href="#A-股" class="headerlink" title="A 股"></a>A 股</h1><p>首先说下A股，即<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/A%E8%82%A1/86002?fr=aladdin">人民币普通股票</a>，由中国境内公司注册的公司发行（B股：中国证券交易所的外资股，H股：中国境内注册，香港上市的股票），T+1割接，10%涨跌幅，<strong>一手为固定的100股</strong>，正常交易时间为交易日的 9:30~11:30、13:00－15:00。</p>
+<p>A股股票又区分板块，不同板块的开户条件不同。</p>
+<table>
+<thead>
+<tr>
+<th>板块</th>
+<th>股票代码开头</th>
+<th>开户条件</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主板</td>
+<td>60（上交所）、000（深交所）</td>
+<td>低</td>
+<td>成熟企业</td>
+</tr>
+<tr>
+<td>中小板</td>
+<td>002</td>
+<td>低</td>
+<td>成长性强企业/商业龙头</td>
+</tr>
+<tr>
+<td>创业板 / 二板</td>
+<td>300</td>
+<td>20交易日日均资产&gt;=10w；首次证券交易满2年</td>
+<td>成长性高的创新企业</td>
+</tr>
+<tr>
+<td>科创板</td>
+<td>688</td>
+<td>20交易日日均资产&gt;=50w；首次证券交易满2年</td>
+<td>高科技企业，20%涨跌幅</td>
+</tr>
+<tr>
+<td>新三板</td>
+<td>400 / 430 / 830</td>
+<td>10交易日日均资产&gt;=100w；首次证券交易满2年</td>
+<td>股份转让</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/05/14/life/finance/stock/" data-id="ckqgnfciy002z65fy5b2k34uv" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%82%A1%E7%A5%A8/" rel="tag">股票</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-architecture/notes/distributed lock" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/05/13/architecture/notes/distributed%20lock/" class="article-date">
@@ -103,7 +613,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/13/architecture/notes/distributed%20lock/" data-id="ckpgleu57000qfqfy7kfsg5rn" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/05/13/architecture/notes/distributed%20lock/" data-id="ckqgnfci6000v65fygjv3fqjc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" rel="tag">分布式锁</a></li></ul>
@@ -193,7 +703,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/13/coding/go/strange/" data-id="ckpgleu5j001ufqfycbe4g4ny" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/05/13/coding/go/strange/" data-id="ckqgnfcim002a65fy2obohcf4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
@@ -242,7 +752,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/13/frontend/node/npm/" data-id="ckpgleu5v002mfqfy6vrdg8xw" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/05/13/frontend/node/npm/" data-id="ckqgnfciu002q65fydesfcgzm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/" rel="tag">npm</a></li></ul>
@@ -288,387 +798,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/12/architecture/framework/spring%20boot/log4j/" data-id="ckpgleu71006wfqfyhzhp3mfw" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/05/12/architecture/framework/spring%20boot/log4j/" data-id="ckqgnfckb007965fydn4q7tgy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/log4j-spring-boot/" rel="tag">log4j - spring boot</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-coding/java/notes/regex" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/05/11/coding/java/notes/regex/" class="article-date">
-  <time datetime="2021-05-10T16:00:00.000Z" itemprop="datePublished">2021-05-11</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/java/">java</a>►<a class="article-category-link" href="/categories/coding/java/notes/">notes</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/11/coding/java/notes/regex/">java - 正则</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="match"><a href="#match" class="headerlink" title="match"></a>match</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// string.match: yes OR no</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String REGEX = <span class="string">&quot;^@encrypt\\&#123;(.*)&#125;$&quot;</span>;</span><br><span class="line"><span class="string">&quot;@encrypt&#123;file:mysql.username&#125;&quot;</span>.match(REGEX); <span class="comment">// return true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Pattern</span></span><br><span class="line">String REGEX = <span class="string">&quot;^@encrypt\\&#123;(.*)&#125;$&quot;</span>;</span><br><span class="line">Pattern PT = Pattern.compile(REGEX);</span><br><span class="line">Matcher m = PT.matcher(value);</span><br><span class="line"></span><br><span class="line">m.find();  <span class="comment">// find matched subsequence one by one; yes OR no</span></span><br><span class="line">m.match(); <span class="comment">// match entire string; yes OR no</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// group</span></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/11/coding/java/notes/regex/" data-id="ckpgleu7m008vfqfye74k52wf" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-tools/zsh/install" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/05/10/tools/zsh/install/" class="article-date">
-  <time datetime="2021-05-09T16:00:00.000Z" itemprop="datePublished">2021-05-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>►<a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/zsh/">zsh</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/10/tools/zsh/install/">on my zsh - install</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sh -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>&quot;</span></span></span><br></pre></td></tr></table></figure>
-
-<h1 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> chsh -s /bin/zsh</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> chsh -s /bin/bash</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="Plugins"><a href="#Plugins" class="headerlink" title="Plugins"></a>Plugins</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip install powerline-status --user</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>Install</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/.oh-my-zsh/custom/plugins/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> &lt;plugin-repo&gt;</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.zshrc</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>高亮</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/.oh-my-zsh/custom/plugins/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.zshrc</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>补全</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/.oh-my-zsh/custom/plugins/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.zshrc</span></span><br><span class="line"></span><br><span class="line">plugins=(</span><br><span class="line">    git</span><br><span class="line">    zsh-autosuggestions</span><br><span class="line">    zsh-syntax-highlighting</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/10/tools/zsh/install/" data-id="ckpgleu6w006efqfy260zaqy9" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-architecture/framework/spring boot/spring-boot-mysql" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/05/10/architecture/framework/spring%20boot/spring-boot-mysql/" class="article-date">
-  <time datetime="2021-05-09T16:00:00.000Z" itemprop="datePublished">2021-05-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/">框架</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/10/architecture/framework/spring%20boot/spring-boot-mysql/">spring boot 常见问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/">https://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/10/architecture/framework/spring%20boot/spring-boot-mysql/" data-id="ckpgleu720072fqfycw8ngj31" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-boot/" rel="tag">spring boot</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-architecture/framework/spring boot/user-register-password" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/05/10/architecture/framework/spring%20boot/user-register-password/" class="article-date">
-  <time datetime="2021-05-09T16:00:00.000Z" itemprop="datePublished">2021-05-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/">框架</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/10/architecture/framework/spring%20boot/user-register-password/">用户密码加密</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="加密算法"><a href="#加密算法" class="headerlink" title="加密算法"></a>加密算法</h1><table>
-<thead>
-<tr>
-<th>算法</th>
-<th>长度</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>MD5</td>
-<td>128bit</td>
-</tr>
-<tr>
-<td>SHA1</td>
-<td>160bit</td>
-</tr>
-<tr>
-<td>SHA256</td>
-<td>256bit</td>
-</tr>
-</tbody></table>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/05/10/architecture/framework/spring%20boot/user-register-password/" data-id="ckpgleu730076fqfy95b5dkol" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-boot/" rel="tag">spring boot</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-algorithm/basic" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/04/17/algorithm/basic/" class="article-date">
-  <time datetime="2021-04-16T16:00:00.000Z" itemprop="datePublished">2021-04-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/17/algorithm/basic/">算法基础</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
-<li>数据结构<ul>
-<li>数组</li>
-<li>链表</li>
-<li>二叉树</li>
-</ul>
-</li>
-<li>算法<ul>
-<li>快排</li>
-<li>二分查找</li>
-<li>递归</li>
-</ul>
-</li>
-</ul>
-<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><ul>
-<li>排序</li>
-<li>查找<ul>
-<li>二分查找</li>
-<li><em>包含重复元素的首元素索引</em></li>
-</ul>
-</li>
-<li>技巧<ul>
-<li>最大连续和</li>
-<li>查找次数超过 n/2 的元素</li>
-</ul>
-</li>
-</ul>
-<h1 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h1><ul>
-<li>节点定义</li>
-<li>单链表 &amp; 双链表</li>
-<li>倒序</li>
-<li>合并<ul>
-<li>两个有序链表合并</li>
-<li><em>多个有序链表合并</em></li>
-</ul>
-</li>
-</ul>
-<h1 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h1><ul>
-<li><p>节点定义</p>
-</li>
-<li><p>构造</p>
-<ul>
-<li>由数组构造二叉树</li>
-<li>由遍历结果构造二叉树</li>
-</ul>
-</li>
-<li><p>遍历</p>
-<ul>
-<li>深度优先遍历</li>
-<li>广度优先遍历</li>
-<li>先、中、后序遍历</li>
-</ul>
-</li>
-<li><p>应用</p>
-<ul>
-<li>两个节点的首个公共父节点</li>
-<li><em>最大连通度</em></li>
-<li><em>最大连通和</em></li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p><strong>常见解题思路</strong> 递归，根据当前节点信息、递归左子树返回数据、递归右子树返回数据，判断是否解决；有时需要额外的变量存储结果。</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/04/17/algorithm/basic/" data-id="ckpgleu4y0005fqfy82rybp57" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-coding/algorithm/sort" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/04/12/coding/algorithm/sort/" class="article-date">
-  <time datetime="2021-04-11T16:00:00.000Z" itemprop="datePublished">2021-04-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/%E7%AE%97%E6%B3%95/">算法</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/12/coding/algorithm/sort/">排序</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h1><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>图解 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sort-an-array/solution/pai-xu-shu-zu-by-leetcode-solution/">思路</a> 参考 leetcode，忽略 random 优化的思路步骤如下。</p>
-<ul>
-<li>每次排序选第一个元素作为<strong>基准元素</strong>，将基准元素保存在变量 pivot 中，此时空出一个位置（即基准元素，不必重置元素值）</li>
-<li>定义两个<strong>游标 left、right</strong> 分别从数组两端遍历，其中分别初始化为待排序子数组的左边界索引和右边界索引</li>
-<li>然后从右边找一个小于基准值的元素，放到左侧空出的位置，此时该位置空置</li>
-<li>然后从左侧找一个大于基准值的元素，放到右侧空出的位置，此时该位置空置</li>
-<li><strong>重复前两步</strong>，直到左右游标相遇（left == right），此时游标所指位置空置</li>
-<li>将基准元素放入游标位置，此时游标左侧的值都小于基准值，游标右侧的值都大于基准值</li>
-<li>递归的对游标左侧数组和右侧数组排序</li>
-<li>得到一个排序完成的数组</li>
-</ul>
-<h2 id="Javascript"><a href="#Javascript" class="headerlink" title="Javascript"></a>Javascript</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 快速排序</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>nums  数组</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>left  排序的左边界索引</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>right 排序的右边界索引</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">qsort</span>(<span class="params">nums, left, right</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (left &gt;= right) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> pivot = nums[left], i = left, j = right;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; nums[j] &gt; pivot) --j;</span><br><span class="line">        nums[i] = nums[j];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; nums[i] &lt;= pivot) ++i;</span><br><span class="line">        nums[j] = nums[i];</span><br><span class="line">    &#125;</span><br><span class="line">    nums[i] = pivot;</span><br><span class="line">    qsort(nums, left, i-<span class="number">1</span>);</span><br><span class="line">    qsort(nums, i+<span class="number">1</span>, right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>测试</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> v;</span><br><span class="line">v = [<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">0</span>];</span><br><span class="line">qsort(v, <span class="number">0</span>, v.length - <span class="number">1</span>);</span><br><span class="line"><span class="built_in">console</span>.log(v);</span><br><span class="line"></span><br><span class="line">v = [];</span><br><span class="line">qsort(v, <span class="number">0</span>, v.length - <span class="number">1</span>);</span><br><span class="line"><span class="built_in">console</span>.log(v);</span><br><span class="line"></span><br><span class="line">v = [<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>];</span><br><span class="line">qsort(v, <span class="number">0</span>, v.length - <span class="number">1</span>);</span><br><span class="line"><span class="built_in">console</span>.log(v);</span><br></pre></td></tr></table></figure>
-
-<p><strong>输出</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ -1, 0, 0, 1, 1, 2, 3, 3, 4, 8, 9 ]</span><br><span class="line">[]</span><br><span class="line">[ 1, 2, 3, 4, 5 ]</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/04/12/coding/algorithm/sort/" data-id="ckpgleu5c0016fqfygwvfacwj" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
 
     </footer>
   </div>
@@ -692,7 +825,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/c/">c++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/c/library/">library</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/java/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/kotlin/">kotlin</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/kotlin/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/life/learn/">learn</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/travel/">travel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/%E7%90%86%E8%B4%A2/">理财</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/notes/">notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/software/">software</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/%E7%A8%8B%E5%BA%8F/">程序</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/">play</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/play/os-x/">os x</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/unraid/">unraid</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/">library</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/django/">django</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/django/django-rest-framework/">django rest framework</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/todo/">todo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tools/jetbrains/">jetbrains</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/plantuml/">plantuml</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/publish/">publish</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/rsync/">rsync</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/element-ui/">element ui</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/vue/">vue</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E5%AE%89%E5%8D%93/">安卓</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E6%A6%82%E5%BF%B5/">概念</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/bazel/">bazel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/cmake/">cmake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/git/">git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/mac/">mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/makefile/">makefile</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/markdown/">markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/tmux/">tmux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/yEd/">yEd</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/zsh/">zsh</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/">树</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%AF%E8%AF%AD/">术语</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/kaggle/">kaggle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/Jupyter/">Jupyter</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E7%AC%94%E8%AE%B0/">笔记</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/spring/">spring</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/curator-x-discovery/">curator x discovery</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/netty/">netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/notes/">notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/">rpc</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dsl/">dsl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dubbo/">dubbo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/gRPC/">gRPC</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/">存储</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/hdfs/">hdfs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/redis/">redis</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">推荐系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/brpc/">brpc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A6%82%E5%BF%B5/">概念</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/">注册发现</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/consul/">consul</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/">监控</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/prometheus/">prometheus</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/">计算机科学</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%99%9A%E6%8B%9F%E5%8C%96/">虚拟化</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%99%9A%E6%8B%9F%E5%8C%96/docker/">docker</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/c/">c++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/c/library/">library</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/java/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/kotlin/">kotlin</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/kotlin/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/life/learn/">learn</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/travel/">travel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/%E7%90%86%E8%B4%A2/">理财</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/notes/">notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/software/">software</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/%E7%A8%8B%E5%BA%8F/">程序</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/">play</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/play/os-x/">os x</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/unraid/">unraid</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/">library</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/django/">django</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/django/django-rest-framework/">django rest framework</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/todo/">todo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tools/jetbrains/">jetbrains</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/plantuml/">plantuml</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/publish/">publish</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/rsync/">rsync</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/element-ui/">element ui</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/vue/">vue</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E5%AE%89%E5%8D%93/">安卓</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E6%A6%82%E5%BF%B5/">概念</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/bazel/">bazel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/cmake/">cmake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/git/">git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/mac/">mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/makefile/">makefile</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/markdown/">markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/tmux/">tmux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/yEd/">yEd</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/zsh/">zsh</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/">树</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%AF%E8%AF%AD/">术语</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/kaggle/">kaggle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/Jupyter/">Jupyter</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E7%AC%94%E8%AE%B0/">笔记</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/spring/">spring</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/curator-x-discovery/">curator x discovery</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/netty/">netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/notes/">notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/">rpc</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dsl/">dsl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dubbo/">dubbo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/gRPC/">gRPC</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8E%8B%E6%B5%8B/">压测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8E%8B%E6%B5%8B/jmeter/">jmeter</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/">存储</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/hdfs/">hdfs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/redis/">redis</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">推荐系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/brpc/">brpc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A6%82%E5%BF%B5/">概念</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/">注册发现</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/consul/">consul</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/">监控</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/prometheus/">prometheus</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/">计算机科学</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%99%9A%E6%8B%9F%E5%8C%96/">虚拟化</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%99%9A%E6%8B%9F%E5%8C%96/docker/">docker</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -702,7 +835,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker%E5%BA%94%E7%94%A8/" rel="tag">Docker应用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jupyter/" rel="tag">Jupyter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thrift/" rel="tag">Thrift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bazel/" rel="tag">bazel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/brpc/" rel="tag">brpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmake/" rel="tag">cmake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/" rel="tag">coding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/consul/" rel="tag">consul</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/curator-x-discovery/" rel="tag">curator x discovery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django-rest-framework/" rel="tag">django rest framework</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/element-ui/" rel="tag">element ui</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gRPC/" rel="tag">gRPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gapis/" rel="tag">gapis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gc/" rel="tag">gc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gflags/" rel="tag">gflags</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grep/" rel="tag">grep</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdfs/" rel="tag">hdfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kaggle/" rel="tag">kaggle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin/" rel="tag">kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log4j-spring-boot/" rel="tag">log4j - spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/makefile/" rel="tag">makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netty/" rel="tag">netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/os-x/" rel="tag">os x</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/panda/" rel="tag">panda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plantuml/" rel="tag">plantuml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prometheus/" rel="tag">prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/protobuf/" rel="tag">protobuf</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rsync/" rel="tag">rsync</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sed/" rel="tag">sed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/" rel="tag">spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/" rel="tag">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/" rel="tag">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/todo/" rel="tag">todo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unriad/" rel="tag">unriad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/usage/" rel="tag">usage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualenv/" rel="tag">virtualenv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vsftpd/" rel="tag">vsftpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xargs/" rel="tag">xargs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yEd/" rel="tag">yEd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/" rel="tag">云原生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" rel="tag">传输文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E/" rel="tag">关于</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" rel="tag">分布式锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" rel="tag">召回服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8/" rel="tag">存储</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%8D%93/" rel="tag">安卓</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="tag">推荐系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" rel="tag">数据平台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%AF%E8%AF%AD/" rel="tag">术语</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" rel="tag">机器学习平台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E9%A1%B9/" rel="tag">杂项</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E5%9B%BE/" rel="tag">类图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%82%A1%E7%A5%A8/" rel="tag">股票</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" rel="tag">自驾游</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">观察者模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" rel="tag">语法解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker%E5%BA%94%E7%94%A8/" rel="tag">Docker应用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jupyter/" rel="tag">Jupyter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thrift/" rel="tag">Thrift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bazel/" rel="tag">bazel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/brpc/" rel="tag">brpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmake/" rel="tag">cmake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/" rel="tag">coding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/consul/" rel="tag">consul</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/curator-x-discovery/" rel="tag">curator x discovery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django-rest-framework/" rel="tag">django rest framework</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/element-ui/" rel="tag">element ui</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gRPC/" rel="tag">gRPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gapis/" rel="tag">gapis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gc/" rel="tag">gc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gflags/" rel="tag">gflags</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grep/" rel="tag">grep</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdfs/" rel="tag">hdfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter/" rel="tag">jmeter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kaggle/" rel="tag">kaggle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin/" rel="tag">kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log4j-spring-boot/" rel="tag">log4j - spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/makefile/" rel="tag">makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netty/" rel="tag">netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/os-x/" rel="tag">os x</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/panda/" rel="tag">panda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plantuml/" rel="tag">plantuml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prometheus/" rel="tag">prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/protobuf/" rel="tag">protobuf</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rsync/" rel="tag">rsync</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sed/" rel="tag">sed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/" rel="tag">spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/" rel="tag">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/" rel="tag">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/todo/" rel="tag">todo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unriad/" rel="tag">unriad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/usage/" rel="tag">usage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualenv/" rel="tag">virtualenv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vsftpd/" rel="tag">vsftpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xargs/" rel="tag">xargs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yEd/" rel="tag">yEd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/" rel="tag">云原生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" rel="tag">传输文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E/" rel="tag">关于</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" rel="tag">分布式锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" rel="tag">召回服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8/" rel="tag">存储</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%8D%93/" rel="tag">安卓</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="tag">推荐系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" rel="tag">数据平台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%AF%E8%AF%AD/" rel="tag">术语</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" rel="tag">机器学习平台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E9%A1%B9/" rel="tag">杂项</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E5%9B%BE/" rel="tag">类图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%82%A1%E7%A5%A8/" rel="tag">股票</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" rel="tag">自驾游</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">观察者模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" rel="tag">语法解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
     </div>
   </div>
 
@@ -712,7 +845,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Docker%E5%BA%94%E7%94%A8/" style="font-size: 10px;">Docker应用</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Jupyter/" style="font-size: 10px;">Jupyter</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Thrift/" style="font-size: 10px;">Thrift</a> <a href="/tags/bazel/" style="font-size: 11.67px;">bazel</a> <a href="/tags/brpc/" style="font-size: 11.67px;">brpc</a> <a href="/tags/c/" style="font-size: 18.33px;">c++</a> <a href="/tags/cmake/" style="font-size: 15px;">cmake</a> <a href="/tags/coding/" style="font-size: 10px;">coding</a> <a href="/tags/consul/" style="font-size: 11.67px;">consul</a> <a href="/tags/curator-x-discovery/" style="font-size: 10px;">curator x discovery</a> <a href="/tags/django/" style="font-size: 11.67px;">django</a> <a href="/tags/django-rest-framework/" style="font-size: 10px;">django rest framework</a> <a href="/tags/docker/" style="font-size: 13.33px;">docker</a> <a href="/tags/dubbo/" style="font-size: 10px;">dubbo</a> <a href="/tags/element-ui/" style="font-size: 10px;">element ui</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/gRPC/" style="font-size: 11.67px;">gRPC</a> <a href="/tags/gapis/" style="font-size: 10px;">gapis</a> <a href="/tags/gc/" style="font-size: 10px;">gc</a> <a href="/tags/gflags/" style="font-size: 10px;">gflags</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/hdfs/" style="font-size: 10px;">hdfs</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 18.33px;">java</a> <a href="/tags/jetbrains/" style="font-size: 10px;">jetbrains</a> <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/kaggle/" style="font-size: 10px;">kaggle</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/log4j-spring-boot/" style="font-size: 10px;">log4j - spring boot</a> <a href="/tags/mac/" style="font-size: 10px;">mac</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/netty/" style="font-size: 10px;">netty</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/os-x/" style="font-size: 11.67px;">os x</a> <a href="/tags/panda/" style="font-size: 10px;">panda</a> <a href="/tags/plantuml/" style="font-size: 11.67px;">plantuml</a> <a href="/tags/prometheus/" style="font-size: 10px;">prometheus</a> <a href="/tags/protobuf/" style="font-size: 10px;">protobuf</a> <a href="/tags/python/" style="font-size: 11.67px;">python</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sed/" style="font-size: 10px;">sed</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/spring-boot/" style="font-size: 13.33px;">spring boot</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/todo/" style="font-size: 11.67px;">todo</a> <a href="/tags/unriad/" style="font-size: 11.67px;">unriad</a> <a href="/tags/usage/" style="font-size: 11.67px;">usage</a> <a href="/tags/vim/" style="font-size: 13.33px;">vim</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftpd/" style="font-size: 10px;">vsftpd</a> <a href="/tags/vue/" style="font-size: 11.67px;">vue</a> <a href="/tags/xargs/" style="font-size: 10px;">xargs</a> <a href="/tags/yEd/" style="font-size: 10px;">yEd</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/" style="font-size: 10px;">云原生</a> <a href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" style="font-size: 10px;">传输文件</a> <a href="/tags/%E5%85%B3%E4%BA%8E/" style="font-size: 11.67px;">关于</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" style="font-size: 10px;">分布式锁</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 11.67px;">前端</a> <a href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">召回服务</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%AD%98%E5%82%A8/" style="font-size: 15px;">存储</a> <a href="/tags/%E5%AE%89%E5%8D%93/" style="font-size: 10px;">安卓</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 11.67px;">工具</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">推荐系统</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" style="font-size: 10px;">数据平台</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%AF%E8%AF%AD/" style="font-size: 10px;">术语</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">机器学习</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" style="font-size: 10px;">机器学习平台</a> <a href="/tags/%E6%9D%82%E9%A1%B9/" style="font-size: 10px;">杂项</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 15px;">架构</a> <a href="/tags/%E6%A0%91/" style="font-size: 10px;">树</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 16.67px;">树莓派</a> <a href="/tags/%E6%B3%A8%E8%A7%A3/" style="font-size: 10px;">注解</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">深度学习</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">算法</a> <a href="/tags/%E7%B1%BB%E5%9B%BE/" style="font-size: 10px;">类图</a> <a href="/tags/%E8%82%A1%E7%A5%A8/" style="font-size: 10px;">股票</a> <a href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" style="font-size: 10px;">自驾游</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13.33px;">设计模式</a> <a href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" style="font-size: 10px;">语法解析</a> <a href="/tags/%E9%94%81/" style="font-size: 10px;">锁</a>
+      <a href="/tags/Docker%E5%BA%94%E7%94%A8/" style="font-size: 10px;">Docker应用</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Jupyter/" style="font-size: 10px;">Jupyter</a> <a href="/tags/Linux/" style="font-size: 14.29px;">Linux</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Thrift/" style="font-size: 10px;">Thrift</a> <a href="/tags/bazel/" style="font-size: 11.43px;">bazel</a> <a href="/tags/brpc/" style="font-size: 11.43px;">brpc</a> <a href="/tags/c/" style="font-size: 17.14px;">c++</a> <a href="/tags/cmake/" style="font-size: 14.29px;">cmake</a> <a href="/tags/coding/" style="font-size: 10px;">coding</a> <a href="/tags/consul/" style="font-size: 11.43px;">consul</a> <a href="/tags/curator-x-discovery/" style="font-size: 10px;">curator x discovery</a> <a href="/tags/django/" style="font-size: 11.43px;">django</a> <a href="/tags/django-rest-framework/" style="font-size: 10px;">django rest framework</a> <a href="/tags/docker/" style="font-size: 12.86px;">docker</a> <a href="/tags/dubbo/" style="font-size: 10px;">dubbo</a> <a href="/tags/element-ui/" style="font-size: 10px;">element ui</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/gRPC/" style="font-size: 12.86px;">gRPC</a> <a href="/tags/gapis/" style="font-size: 10px;">gapis</a> <a href="/tags/gc/" style="font-size: 10px;">gc</a> <a href="/tags/gflags/" style="font-size: 10px;">gflags</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/hdfs/" style="font-size: 10px;">hdfs</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 18.57px;">java</a> <a href="/tags/jetbrains/" style="font-size: 10px;">jetbrains</a> <a href="/tags/jmeter/" style="font-size: 10px;">jmeter</a> <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/kaggle/" style="font-size: 10px;">kaggle</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/linux/" style="font-size: 15.71px;">linux</a> <a href="/tags/log4j-spring-boot/" style="font-size: 10px;">log4j - spring boot</a> <a href="/tags/mac/" style="font-size: 10px;">mac</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/netty/" style="font-size: 10px;">netty</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/os-x/" style="font-size: 11.43px;">os x</a> <a href="/tags/panda/" style="font-size: 10px;">panda</a> <a href="/tags/plantuml/" style="font-size: 11.43px;">plantuml</a> <a href="/tags/prometheus/" style="font-size: 10px;">prometheus</a> <a href="/tags/protobuf/" style="font-size: 10px;">protobuf</a> <a href="/tags/python/" style="font-size: 11.43px;">python</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sed/" style="font-size: 10px;">sed</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/spring-boot/" style="font-size: 12.86px;">spring boot</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/todo/" style="font-size: 11.43px;">todo</a> <a href="/tags/unriad/" style="font-size: 11.43px;">unriad</a> <a href="/tags/usage/" style="font-size: 11.43px;">usage</a> <a href="/tags/vim/" style="font-size: 12.86px;">vim</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftpd/" style="font-size: 10px;">vsftpd</a> <a href="/tags/vue/" style="font-size: 11.43px;">vue</a> <a href="/tags/xargs/" style="font-size: 10px;">xargs</a> <a href="/tags/yEd/" style="font-size: 10px;">yEd</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/" style="font-size: 10px;">云原生</a> <a href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" style="font-size: 10px;">传输文件</a> <a href="/tags/%E5%85%B3%E4%BA%8E/" style="font-size: 11.43px;">关于</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" style="font-size: 10px;">分布式锁</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 11.43px;">前端</a> <a href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">召回服务</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%AD%98%E5%82%A8/" style="font-size: 14.29px;">存储</a> <a href="/tags/%E5%AE%89%E5%8D%93/" style="font-size: 10px;">安卓</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 11.43px;">工具</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">推荐系统</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" style="font-size: 10px;">数据平台</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%AF%E8%AF%AD/" style="font-size: 10px;">术语</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 14.29px;">机器学习</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" style="font-size: 10px;">机器学习平台</a> <a href="/tags/%E6%9D%82%E9%A1%B9/" style="font-size: 11.43px;">杂项</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14.29px;">架构</a> <a href="/tags/%E6%A0%91/" style="font-size: 10px;">树</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 15.71px;">树莓派</a> <a href="/tags/%E6%B3%A8%E8%A7%A3/" style="font-size: 10px;">注解</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">深度学习</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 12.86px;">算法</a> <a href="/tags/%E7%B1%BB%E5%9B%BE/" style="font-size: 10px;">类图</a> <a href="/tags/%E8%82%A1%E7%A5%A8/" style="font-size: 10px;">股票</a> <a href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" style="font-size: 10px;">自驾游</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.86px;">设计模式</a> <a href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" style="font-size: 10px;">语法解析</a> <a href="/tags/%E9%94%81/" style="font-size: 10px;">锁</a>
     </div>
   </div>
 
@@ -734,23 +867,23 @@
       <ul>
         
           <li>
-            <a href="/2021/06/03/architecture/framework/curator-x-discovery/curator-x-discovery/">curator x discovery</a>
+            <a href="/2021/06/28/misc/how-to-get-start/">如何快速融入团队 &amp; 上手新项目</a>
           </li>
         
           <li>
-            <a href="/2021/06/02/tools/yed/yed/">yEd</a>
+            <a href="/2021/06/28/linux/program/misc/">linux commands misc</a>
           </li>
         
           <li>
-            <a href="/2021/06/01/tools/rsync/rsync/">rsync</a>
+            <a href="/2021/06/16/coding/java/notes/cmd/">java function</a>
           </li>
         
           <li>
-            <a href="/2021/05/27/architecture/rpc/dubbo/dubbo/">dubbo</a>
+            <a href="/2021/06/07/architecture/benchmark/jmeter/jmeter/">jmeter</a>
           </li>
         
           <li>
-            <a href="/2021/05/24/tools/bazel/usage/">bazel - usage</a>
+            <a href="/2021/06/05/coding/python/notes/coroutines/">python - coroutines</a>
           </li>
         
       </ul>

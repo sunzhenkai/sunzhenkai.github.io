@@ -63,6 +63,670 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-coding/java/notes/lock" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/10/coding/java/notes/lock/" class="article-date">
+  <time datetime="2021-03-09T16:00:00.000Z" itemprop="datePublished">2021-03-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/java/">java</a>►<a class="article-category-link" href="/categories/coding/java/notes/">notes</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/10/coding/java/notes/lock/">java 锁</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="锁分类"><a href="#锁分类" class="headerlink" title="锁分类"></a>锁分类</h1><ul>
+<li>公平锁 / 非公平锁</li>
+<li>可重入锁 / 不可重入锁</li>
+<li>独享锁 / 共享锁</li>
+<li>互斥锁 / 读写锁</li>
+<li>乐观锁 / 悲观锁</li>
+<li>分段锁</li>
+<li>偏向锁 / 轻量级锁 / 重量级锁</li>
+<li>自旋锁</li>
+</ul>
+<h2 id="公平锁-amp-非公平锁"><a href="#公平锁-amp-非公平锁" class="headerlink" title="公平锁 &amp; 非公平锁"></a>公平锁 &amp; 非公平锁</h2><p>以多线程申请及获取锁的顺序区分，先申请先得则为公平锁。非公平锁容易造成饥饿现象，但吞吐量优于公平锁（公平锁实现会先判断是否有前驱线程在等待）。</p>
+<p><code>ReentrantLock</code>  可通过构造参数指定为公平锁，默认非公平锁，基于AQS实现线程调度。</p>
+<p><code>synchronized</code> 没有线程调度机制，所以为非公平锁。</p>
+<h2 id="可重入锁-amp-不可重入锁"><a href="#可重入锁-amp-不可重入锁" class="headerlink" title="可重入锁 &amp; 不可重入锁"></a>可重入锁 &amp; 不可重入锁</h2><p>可重入锁可重复可递归调用的锁，行为为一个线程可以对同一对象多次加锁。</p>
+<h2 id="独享锁-amp-共享锁"><a href="#独享锁-amp-共享锁" class="headerlink" title="独享锁 &amp; 共享锁"></a>独享锁 &amp; 共享锁</h2><p>独享锁一次只能被一个线程加锁，共享锁可被多个线程加锁。</p>
+<h2 id="互斥锁-amp-读写锁"><a href="#互斥锁-amp-读写锁" class="headerlink" title="互斥锁 &amp; 读写锁"></a>互斥锁 &amp; 读写锁</h2><p><strong>互斥锁</strong></p>
+<p>访问临界资源前加锁，访问后解锁。加锁后，再次加锁会被阻塞，直到当前进程解锁。同一时间，只有一个线程，能够访问被互斥锁保护的资源。</p>
+<p><strong>读写锁</strong></p>
+<p>读写锁由read模式的共享锁和write模式的互斥锁组成，读写锁有三种状态，读加锁状态、写加锁状态、不加锁状态。</p>
+<h2 id="乐观锁-amp-悲观锁"><a href="#乐观锁-amp-悲观锁" class="headerlink" title="乐观锁 &amp; 悲观锁"></a>乐观锁 &amp; 悲观锁</h2><p><strong>悲观锁</strong></p>
+<p>总是假设最坏情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会阻塞直到它拿到锁（<strong>共享资源每次只给一个线程使用，其它线程阻塞，用完后再把资源转让给其它线程</strong>）。传统的关系型数据库里边就用到了很多这种锁机制，比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁。<code>Java</code>中<code>synchronized</code>和<code>ReentrantLock</code>等独占锁就是悲观锁思想的实现。</p>
+<p><strong>乐观锁</strong></p>
+<p>总是假设最好的情况，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号机制和CAS算法实现。乐<strong>观锁适用于多读的应用类型，这样可以提高吞吐量</strong>，像数据库提供的类似于<code>write_condition</code>机制，其实都是提供的乐观锁。在<code>Java</code>中<code>java.util.concurrent.atomic</code>包下面的<strong>原子变量类就是使用了乐观锁的一种实现方式CAS实现的</strong>。</p>
+<h2 id="分段锁"><a href="#分段锁" class="headerlink" title="分段锁"></a>分段锁</h2><p>分段锁是一种锁的设计，通过减小锁的粒度，提升多并发程序性能。</p>
+<h2 id="偏向锁-amp-轻量级锁-amp-重量级锁"><a href="#偏向锁-amp-轻量级锁-amp-重量级锁" class="headerlink" title="偏向锁 &amp; 轻量级锁 &amp; 重量级锁"></a>偏向锁 &amp; 轻量级锁 &amp; 重量级锁</h2><p>JVM为了提高锁的获取与释放效率，在对象头中添加字段，使得对象监视器可获取其锁的状态，锁的状态如下。</p>
+<ul>
+<li>无锁状态</li>
+<li>偏向锁状态</li>
+<li>轻量级锁状态</li>
+<li>重量级锁状态</li>
+</ul>
+<p><strong>偏向锁</strong></p>
+<p>偏向锁是指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁。降低获取锁的代价。</p>
+<p><strong>轻量级</strong></p>
+<p>轻量级锁是指当锁是偏向锁的时候，被另一个线程所访问，偏向锁就会升级为轻量级锁，其他线程会通过自旋的形式尝试获取锁，不会阻塞，提高性能。</p>
+<p><strong>重量级锁</strong></p>
+<p>重量级锁是指当锁为轻量级锁的时候，另一个线程虽然是自旋，但自旋不会一直持续下去，当自旋一定次数的时候，还没有获取到锁，就会进入阻塞，该锁膨胀为重量级锁。重量级锁会让其他申请的线程进入阻塞，性能降低。</p>
+<h2 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h2><p><strong>自旋锁（spinlock）：是指当一个线程在获取锁的时候，如果锁已经被其它线程获取，那么该线程将循环等待，然后不断的判断锁是否能够被成功获取，直到获取到锁才会退出循环</strong>。</p>
+<p>它是为实现保护共享资源而提出一种锁机制。其实，自旋锁与互斥锁比较类似，它们都是为了解决对某项资源的互斥使用。<strong>无论是互斥锁，还是自旋锁，在任何时刻，最多只能有一个保持者，也就说，在任何时刻最多只能有一个执行单元获得锁</strong>。但是两者在调度机制上略有不同。对于互斥锁，如果资源已经被占用，资源申请者只能进入睡眠状态。但是自旋锁不会引起调用者睡眠，如果自旋锁已经被别的执行单元保持，调用者就一直循环在那里看是否该自旋锁的保持者已经释放了锁，”自旋”一词就是因此而得名。</p>
+<p><strong>实现示例</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpinLock</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> AtomicReference&lt;Thread&gt; cas = <span class="keyword">new</span> AtomicReference&lt;Thread&gt;();</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       Thread current = Thread.currentThread();</span><br><span class="line">       <span class="comment">// 利用CAS</span></span><br><span class="line">       <span class="keyword">while</span> (!cas.compareAndSet(<span class="keyword">null</span>, current)) &#123;</span><br><span class="line">           <span class="comment">// DO nothing</span></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       Thread current = Thread.currentThread();</span><br><span class="line">       cas.compareAndSet(current, <span class="keyword">null</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>lock() 方法利用的CAS，当第一个线程A获取锁的时候，能够成功获取到，不会进入while循环，如果此时线程A没有释放锁，另一个线程B又来获取锁，此时由于不满足CAS，所以就会进入while循环，不断判断是否满足CAS，直到A线程调用unlock方法释放了该锁。</p>
+<p><strong>问题</strong></p>
+<p>1、如果某个线程持有锁的时间过长，就会导致其它等待获取锁的线程进入循环等待，消耗CPU。使用不当会造成CPU使用率极高。<br>2、上面Java实现的自旋锁不是公平的，即无法满足等待时间最长的线程优先获取锁。不公平的锁就会存在“线程饥饿”问题。</p>
+<p><strong>优点</strong></p>
+<ol>
+<li>自旋锁不会使线程状态发生切换，一直处于用户态，即线程一直都是active的；不会使线程进入阻塞状态，减少了不必要的上下文切换，执行速度快</li>
+<li>非自旋锁在获取不到锁的时候会进入阻塞状态，从而进入内核态，当获取到锁的时候需要从内核态恢复，需要线程上下文切换。（线程被阻塞后便进入内核（Linux）调度状态，这个会导致系统在用户态与内核态之间来回切换，严重影响锁的性能）</li>
+</ol>
+<p><strong>总结</strong></p>
+<ol>
+<li>自旋锁：线程获取锁的时候，如果锁被其他线程持有，则当前线程将循环等待，直到获取到锁。</li>
+<li>自旋锁等待期间，线程的状态不会改变，线程一直是用户态并且是活动的(active)。</li>
+<li>自旋锁如果持有锁的时间太长，则会导致其它等待获取锁的线程耗尽CPU。</li>
+<li>自旋锁本身无法保证公平性，同时也无法保证可重入性。</li>
+<li>基于自旋锁，可以实现具备公平性和可重入性质的锁。</li>
+</ol>
+<h1 id="关键词"><a href="#关键词" class="headerlink" title="关键词"></a>关键词</h1><ul>
+<li>CAS<ul>
+<li>Compare And Swap（比较并交换）</li>
+<li>AQS 中使用 CAS 设置 State</li>
+</ul>
+</li>
+<li>AQS<ul>
+<li><code>AbstractQueuedSynchronizer</code> 的简称</li>
+<li>提供了原子式管理同步状态、阻塞和唤醒线程功能以及队列模型的简单框架</li>
+</ul>
+</li>
+<li>CLH<ul>
+<li>CLH（Craig, Landin, and Hagersten locks）：是一个自旋锁，能确保无饥饿性，提供先来先服务的公平性。</li>
+</ul>
+</li>
+<li>ReentrantLock<ul>
+<li>可重入锁，线程可对一个临界资源重复加锁</li>
+</ul>
+</li>
+<li>synchronized<ul>
+<li>可重入独享锁</li>
+</ul>
+</li>
+<li>volatile</li>
+<li>ReeReentrantLock<ul>
+<li>可重入独享锁，AQS</li>
+</ul>
+</li>
+<li>ReentrantReadWriteLock<ul>
+<li>可重入共享锁，AQS</li>
+</ul>
+</li>
+</ul>
+<h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><p>jdk 1.5 之前，<code>synchronized</code> 是一种独占式的重量级锁，底层使用系统的 mutex lock 实现。jdk 1.6 之后，做了大量优化，加入了CAS，轻量级锁和偏向锁的功能，性能上已经跟ReentrantLock相差无几。</p>
+<p><strong>同步代码块</strong></p>
+<p>monitorenter指令插入到同步代码块的开始位置，monitorexit指令插入到同步代码块的结束位置，JVM需要保证每一个monitorenter都有一个monitorexit与之相对应。任何对象都有一个monitor与之相关联，当且一个monitor被持有之后，他将处于锁定状态。线程执行到monitorenter指令时，将会尝试获取对象所对应的monitor所有权，即尝试获取对象的锁。</p>
+<p><strong>同步方法</strong></p>
+<p>synchronized方法则会被翻译成普通的方法调用和返回指令如:invokevirtual、areturn指令，有一个ACC_SYNCHRONIZED标志，JVM就是通过该标志来判断是否需要实现同步的，具体过程为：当线程执行该方法时，会先检查该方法是否标志了ACC_SYNCHRONIZED，如果标志了，线程需要先获取monitor，获取成功后才能调用方法，方法执行完后再释放monitor，在该线程调用方法期间，其他线程无法获取同一个monitor对象。其实本质上和synchronized块相同，只是同步方法是用一种隐式的方式来实现，而不是显式地通过字节码指令。</p>
+<table>
+<thead>
+<tr>
+<th>锁对象</th>
+<th>粒度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>普通同步方法</td>
+<td><strong>当前实例对象</strong></td>
+</tr>
+<tr>
+<td>静态同步方法</td>
+<td><strong>当前类的class对象</strong></td>
+</tr>
+<tr>
+<td>同步方法块</td>
+<td>关键词括号内的对象</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestLock</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ExecutorService es = Executors.newFixedThreadPool(<span class="number">16</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sleep</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">fe</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fe: &quot;</span> + LocalDateTime.now());</span><br><span class="line">        sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fd: &quot;</span> + LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fc: &quot;</span> + LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fb</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fb: &quot;</span> + LocalDateTime.now());</span><br><span class="line">        fc();</span><br><span class="line">        es.submit(<span class="keyword">this</span>::fd);</span><br><span class="line">        sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">fa</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;fa: &quot;</span> + LocalDateTime.now());</span><br><span class="line">        sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        TestLock tl = <span class="keyword">new</span> TestLock();</span><br><span class="line">        es.submit(tl::fa);</span><br><span class="line">        es.submit(tl::fb);</span><br><span class="line">        es.submit(tl::fe);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// output</span></span><br><span class="line">fe: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">10.698877</span></span><br><span class="line">fa: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">10.698912</span></span><br><span class="line">fb: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">15.703141</span></span><br><span class="line">fc: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">15.703565</span></span><br><span class="line">fd: <span class="number">2021</span>-<span class="number">03</span>-11T19:<span class="number">57</span>:<span class="number">20.708362</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// description</span></span><br><span class="line"><span class="number">1.</span> 普通同步方法，锁粒度为当前实例对象</span><br><span class="line"><span class="number">2.</span> <span class="keyword">synchronized</span> 为可重入锁，在 fb 中调用 fc 需要重复为当前实例对象上锁</span><br><span class="line"><span class="number">3.</span> 重入锁不适用于子线程</span><br></pre></td></tr></table></figure>
+
+<h2 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h2><p>AQS：AbstractQuenedSynchronizer抽象的队列式同步器。是除了java自带的synchronized关键字之外的锁机制。</p>
+<p>核心思想，如果被请求的共享资源空闲，那么将当前请求资源的线程设置为有效的工作线程，将共享资源设置为锁定状态；如果共享资源被占用，就需要一定的阻塞等待机制来保证锁分配。这个机制主要用的是CLH队列的变体实现的，将暂时获取不到锁的线程加入到队列中。</p>
+<p><img src="/2021/03/10/coding/java/notes/lock/001.png"></p>
+<p><strong>AQS是将每一条请求共享资源的线程封装成一个CLH锁队列的一个结点（Node），来实现锁的分配。</strong></p>
+<p>CLH：Craig、Landin and Hagersten队列，是单向链表，AQS中的队列是CLH变体的虚拟双向队列（FIFO），AQS是通过将每条请求共享资源的线程封装成一个节点来实现锁的分配。</p>
+<p>AQS使用一个volatile的int类型的成员变量来表示同步状态，通过内置的FIFO队列来完成资源获取的排队工作，通过CAS完成对State值的修改。</p>
+<h2 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h2><p><code>CAS</code>是英文单词<code>Compare and Swap</code>（比较并交换），是一种有名的无锁算法。无锁编程，即不使用锁的情况下实现多线程之间的变量同步，也就是在没有线程被阻塞的情况下实现变量的同步，所以也叫非阻塞同步（<code>Non-blocking Synchronization</code>）。CAS算法涉及到三个操作数</p>
+<ol>
+<li><p>需要读写的内存值 V</p>
+</li>
+<li><p>进行比较的值 A</p>
+</li>
+<li><p>拟写入的新值 B</p>
+</li>
+</ol>
+<p>更新一个变量的时候，只有当变量的预期值A和内存地址V当中的实际值相同时，才会将内存地址V对应的值修改为B，否则不会执行任何操作。一般情况下是一个自旋操作，即不断的重试。</p>
+<h2 id="指令重排"><a href="#指令重排" class="headerlink" title="指令重排"></a>指令重排</h2><p>为了提高程序执行的性能，编译器和执行器（处理器）通常会对指令做一些优化（重排序）。</p>
+<h2 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h2><p>并发编程的三大特性，原子性、可见性、有序性。synchronized可保证三大特性（保护的代码块通知只能有一个线程执行，单线程没有指令重排的问题），volatile 可以保证可见性（把工作内存中的最新变量强制刷新至主存）和有序性（编译器在生成字节码时，在指令序列中添加“<strong>内存屏障</strong>”来禁止指令重排序）。</p>
+<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1><h2 id="ReentrantLock-VS-Synchronized"><a href="#ReentrantLock-VS-Synchronized" class="headerlink" title="ReentrantLock VS Synchronized"></a>ReentrantLock VS Synchronized</h2><table>
+<thead>
+<tr>
+<th>-</th>
+<th>ReentrantLock</th>
+<th>Synchronized</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>锁实现机制</td>
+<td>AQS</td>
+<td>监视器模式</td>
+</tr>
+<tr>
+<td>灵活性</td>
+<td>支持响应中断、超时、尝试获取锁</td>
+<td>不灵活</td>
+</tr>
+<tr>
+<td>释放形式</td>
+<td>必须显式调用 unlock 释放锁</td>
+<td>自动释放监视器</td>
+</tr>
+<tr>
+<td>锁类型</td>
+<td>公平锁 &amp; 非公平锁</td>
+<td>非公平锁</td>
+</tr>
+<tr>
+<td>条件队列</td>
+<td>可关联多个条件队列</td>
+<td>关联一个条件队列</td>
+</tr>
+<tr>
+<td>可重入性</td>
+<td>可重入</td>
+<td>可重入</td>
+</tr>
+</tbody></table>
+<h1 id="关联"><a href="#关联" class="headerlink" title="关联"></a>关联</h1><ul>
+<li>ConcurrentHashMap<ul>
+<li>Jdk 1.7 VS Jdk 1.8</li>
+</ul>
+</li>
+</ul>
+<h2 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h2><p><strong>JDK 1.7</strong></p>
+<p>Jdk 1.7 中，HashMap 底层为数组+链表实现，ConcurrentHashMap与其不同的是，添加了 Segment 作为数组+链表的上层结构，Concurrent 继承 ReentrantLock，对 Segment 加锁，实现不同 Segment 可以同时读写。在写入获取key所在Segment是需要保证可见性，ConcurrentHashMap使用如下方法保证可见性，取得最新的Segment。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Segment&lt;K,V&gt; s = (Segment&lt;K,V&gt;)UNSAFE.getObjectVolatile(segments, u)</span><br></pre></td></tr></table></figure>
+
+<p>写入 Segment 时，需要获取锁，先使用自旋锁，超过重试次数后，通过 lock 获取锁（会被阻塞，切换至内核态等待）。</p>
+<p><strong>JDK 1.8</strong></p>
+<p>Jdk 1.8 中的 ConcurrentHashMap 刨除了 Segment 的设计，直接 &lt;大数组+[链表|红黑树]&gt; 的方式，如果数组对应的链表超过一定阈值后，转换为红黑树。大数组使用 volatile 关键字修饰。</p>
+<p>对于写操作，key对应的数组元素，使用 synchronized 关键字申请锁（当然，如果为null，则不需要加锁），然后进行操作。</p>
+<p>对于读操作，数组使用 volatile 保证可见性，数组的每个元素为Node实例（jdk 1.7 为 HashEntry），他的 key 和 hash 值都使用 final 修饰，无需担心可见性。value 和下一个元素的引用由 volatile 修饰，保证可见性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">  <span class="keyword">final</span> K key;</span><br><span class="line">  <span class="keyword">volatile</span> V val;</span><br><span class="line">  <span class="keyword">volatile</span> Node&lt;K,V&gt; next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于 key 对应的数组元素的可见性，使用 Unsafe 的 getObjectVolatile 方法保证。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> &lt;K,V&gt; <span class="function">Node&lt;K,V&gt; <span class="title">tabAt</span><span class="params">(Node&lt;K,V&gt;[] tab, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (Node&lt;K,V&gt;)U.getObjectVolatile(tab, ((<span class="keyword">long</span>)i &lt;&lt; ASHIFT) + ABASE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="mutex-lock"><a href="#mutex-lock" class="headerlink" title="mutex lock"></a>mutex lock</h2><p>所谓锁，在计算机中，本质是内存中的一块空间，其值被赋予了加锁/未加锁的含义，其底层实现，是基于计算机系统中的原子操作。</p>
+<p>mutex lock 核心包含两点。</p>
+<ul>
+<li>Compare And Set<ul>
+<li>互斥锁是对临界区的保护，能否进入临界区即能否获取到锁，思路都是判断并置位一个标志位，这个标志位本身可以是一个普通的内存变量，关键在于，对于这个变量的”判断并置位”操作需要是原子的。</li>
+<li>计算机实现原子操作，对于单核机器，关中断防止调度即可；多核理论上可使用 spinlock 保护，实际一般通过原子汇编语言实现，比如x86的tsl指令（test and set），可以用一条“无法继续分割的”汇编指令实现判断变量值并根据是否为0进行置位，具体这个指令实现原子性一般通过锁总线实现，也就是我执行这条指令时，其它核都不能访问这个地址了。</li>
+</ul>
+</li>
+<li>根据所是否获得，决定执行策略<ul>
+<li>如果锁持有，则继续运行</li>
+<li>如果所没有获取到，常规做法是将当前任务挂起，并附在 mutex 变量对应的链表上，一旦锁被释放，查找锁上挂起的任务并唤醒</li>
+</ul>
+</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jyroy/p/11365935.html">https://www.cnblogs.com/jyroy/p/11365935.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/KxYZlBu0ctB50XtkbfB4iQ">https://mp.weixin.qq.com/s/KxYZlBu0ctB50XtkbfB4iQ</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hustzzl/p/9343797.html">https://www.cnblogs.com/hustzzl/p/9343797.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/barrywxx/p/8678698.html">https://www.cnblogs.com/barrywxx/p/8678698.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xckxue/p/8685675.html">https://www.cnblogs.com/xckxue/p/8685675.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/liao0801_123/article/details/85888657">https://blog.csdn.net/liao0801_123/article/details/85888657</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7855700/why-is-volatile-used-in-double-checked-locking">https://stackoverflow.com/questions/7855700/why-is-volatile-used-in-double-checked-locking</a></li>
+<li><a target="_blank" rel="noopener" href="https://tech.meituan.com/2019/12/05/aqs-theory-and-apply.html">https://tech.meituan.com/2019/12/05/aqs-theory-and-apply.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&amp;mid=2651749434&amp;idx=3&amp;sn=5ffa63ad47fe166f2f1a9f604ed10091">https://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&amp;mid=2651749434&amp;idx=3&amp;sn=5ffa63ad47fe166f2f1a9f604ed10091</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.jasongj.com/java/concurrenthashmap/">http://www.jasongj.com/java/concurrenthashmap/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/332113890/answer/762392859">https://www.zhihu.com/question/332113890/answer/762392859</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/10/coding/java/notes/lock/" data-id="ckqgnfcoq00td65fy5byn4b39" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-architecture/rpc/thrift/thrift" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/05/architecture/rpc/thrift/thrift/" class="article-date">
+  <time datetime="2021-03-04T16:00:00.000Z" itemprop="datePublished">2021-03-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/">rpc</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dsl/">dsl</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/05/architecture/rpc/thrift/thrift/">Thrift</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TSerializer serializer = <span class="keyword">new</span> TSerializer(<span class="keyword">new</span> TBinaryProtocol.Factory());</span><br><span class="line"><span class="keyword">byte</span>[] serialized = serializer.serialize(obj);</span><br></pre></td></tr></table></figure>
+
+<h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TDeserializer deserializer = <span class="keyword">new</span> TDeserializer(<span class="keyword">new</span> TBinaryProtocol.Factory());</span><br><span class="line">deserializer.deserialize(obj, bytes);</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/05/architecture/rpc/thrift/thrift/" data-id="ckqgnfckj008465fy2jxnbs0u" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thrift/" rel="tag">Thrift</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-tools/jebtrains/ides" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/03/tools/jebtrains/ides/" class="article-date">
+  <time datetime="2021-03-02T16:00:00.000Z" itemprop="datePublished">2021-03-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tools/">tools</a>►<a class="article-category-link" href="/categories/tools/jetbrains/">jetbrains</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/03/tools/jebtrains/ides/">Jetbrains</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h1><p><strong>正则</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将 :***.*** 替换为 $&#123;***.***&#125;</span></span><br><span class="line">:([\w.]+*)  <span class="comment">// 匹配</span></span><br><span class="line">#&#123;$<span class="number">1</span>&#125;				<span class="comment">// 替换，选取分组</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/03/tools/jebtrains/ides/" data-id="ckqgnfcjr005965fy7xp4a3vn" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/go/go" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/01/coding/go/go/" class="article-date">
+  <time datetime="2021-02-28T16:00:00.000Z" itemprop="datePublished">2021-03-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/go/">go</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/01/coding/go/go/">Go 语言基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h1 id="组织"><a href="#组织" class="headerlink" title="组织"></a>组织</h1><h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">package</span> config</span><br></pre></td></tr></table></figure>
+
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><h3 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>uint8</td>
+<td>-</td>
+</tr>
+<tr>
+<td>uint16</td>
+<td>-</td>
+</tr>
+<tr>
+<td>uint32</td>
+<td>-</td>
+</tr>
+<tr>
+<td>uint64</td>
+<td>-</td>
+</tr>
+<tr>
+<td>int8</td>
+<td>-</td>
+</tr>
+<tr>
+<td>int16</td>
+<td>-</td>
+</tr>
+<tr>
+<td>int32</td>
+<td>-</td>
+</tr>
+<tr>
+<td>int64</td>
+<td>-</td>
+</tr>
+<tr>
+<td>float32</td>
+<td>-</td>
+</tr>
+<tr>
+<td>float64</td>
+<td>-</td>
+</tr>
+<tr>
+<td>complex64</td>
+<td>复数</td>
+</tr>
+<tr>
+<td>complex128</td>
+<td>复数</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>类似 uint8</td>
+</tr>
+<tr>
+<td>rune</td>
+<td>类似 int32</td>
+</tr>
+<tr>
+<td>uint</td>
+<td>硬件架构相关，32位或64位无符号整型</td>
+</tr>
+<tr>
+<td>int</td>
+<td>硬件架构相关，32位或64位有符号整型</td>
+</tr>
+<tr>
+<td>uintptr</td>
+<td>无符号整型，存放指针</td>
+</tr>
+</tbody></table>
+<p><strong>示例</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i <span class="keyword">int</span> = <span class="number">1</span></span><br><span class="line"><span class="keyword">var</span> f32 <span class="keyword">float32</span> = <span class="number">1.0</span></span><br><span class="line"><span class="keyword">var</span> f64 <span class="keyword">float64</span> = <span class="number">1.0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p><strong>定义</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name <span class="keyword">string</span> = <span class="string">&quot;wii&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>操作</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 拼接</span></span><br><span class="line"><span class="keyword">var</span> name <span class="keyword">string</span> = <span class="string">&quot;name&quot;</span> + <span class="string">&quot; : &quot;</span> + <span class="string">&quot;wii&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 取长度</span></span><br><span class="line"><span class="built_in">len</span>(<span class="string">&quot;wii&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 截断</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="布尔"><a href="#布尔" class="headerlink" title="布尔"></a>布尔</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val b <span class="keyword">bool</span> = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="限定"><a href="#限定" class="headerlink" title="限定"></a>限定</h2><h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><p><strong>字面常量</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i, s, b = <span class="number">1</span>, <span class="string">&quot;wii&quot;</span>, <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>itoa</strong></p>
+<p>特殊常量，可以被编译器修改的常量。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (</span><br><span class="line">  a = <span class="literal">iota</span>   <span class="comment">//0</span></span><br><span class="line">  b          <span class="comment">//1</span></span><br><span class="line">  c          <span class="comment">//2</span></span><br><span class="line">  d = <span class="string">&quot;ha&quot;</span>   <span class="comment">//独立值，iota += 1</span></span><br><span class="line">  e          <span class="comment">//&quot;ha&quot;   iota += 1</span></span><br><span class="line">  f = <span class="number">100</span>    <span class="comment">//iota +=1</span></span><br><span class="line">  g          <span class="comment">//100  iota +=1</span></span><br><span class="line">  h = <span class="literal">iota</span>   <span class="comment">//7,恢复计数</span></span><br><span class="line">  i          <span class="comment">//8</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    i=<span class="number">1</span>&lt;&lt;<span class="literal">iota</span>	<span class="comment">// 1</span></span><br><span class="line">    j=<span class="number">3</span>&lt;&lt;<span class="literal">iota</span> <span class="comment">// 6</span></span><br><span class="line">    k         <span class="comment">// 12</span></span><br><span class="line">    l         <span class="comment">// 24</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p><strong>声明</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> identifier [<span class="keyword">type</span>] = v</span><br><span class="line"><span class="keyword">var</span> id1, id2 [<span class="keyword">type</span>] = v1, v2  <span class="comment">// 如果只声明，不初始化值，必须制定类型；制定初始化值，编译器可自行推断</span></span><br><span class="line">id3 := value                  <span class="comment">// OK := 左侧需要有未被声明过的标识符，有即可</span></span><br><span class="line">id1 := value                  <span class="comment">// ERROR id1 已被声明</span></span><br><span class="line">id1, id4 := v1, v2            <span class="comment">// OK id4 未被声明</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (                         <span class="comment">// 因式分解式，一般用于声明全局变量</span></span><br><span class="line">  id5 <span class="keyword">type</span></span><br><span class="line">  id6 <span class="keyword">type</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">string</span> = <span class="string">&quot;wii&quot;</span></span><br><span class="line"><span class="keyword">var</span> b, c <span class="keyword">int</span> = <span class="number">1</span>, <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> e, f = <span class="number">123</span>, <span class="string">&quot;hello&quot;</span></span><br><span class="line">g, h := <span class="number">123</span>, <span class="string">&quot;hello&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p><strong>声明</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> variable_name [SIZE] variable_type</span><br><span class="line"><span class="keyword">var</span> variable_name [SIZE1][SIZE2]...[SIZEN] variable_type  <span class="comment">// 多维数组</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>初始化</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> balance = [<span class="number">5</span>]<span class="keyword">float32</span>&#123;<span class="number">1000.0</span>, <span class="number">2.0</span>, <span class="number">3.4</span>, <span class="number">7.0</span>, <span class="number">50.0</span>&#125;</span><br><span class="line">balance := [<span class="number">5</span>]<span class="keyword">float32</span>&#123;<span class="number">1000.0</span>, <span class="number">2.0</span>, <span class="number">3.4</span>, <span class="number">7.0</span>, <span class="number">50.0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ... 代替长度</span></span><br><span class="line"><span class="keyword">var</span> balance = [...]<span class="keyword">float32</span>&#123;<span class="number">1000.0</span>, <span class="number">2.0</span>, <span class="number">3.4</span>, <span class="number">7.0</span>, <span class="number">50.0</span>&#125;</span><br><span class="line">balance := [...]<span class="keyword">float32</span>&#123;<span class="number">1000.0</span>, <span class="number">2.0</span>, <span class="number">3.4</span>, <span class="number">7.0</span>, <span class="number">50.0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过下表初始化</span></span><br><span class="line">balance := [<span class="number">5</span>]<span class="keyword">float32</span>&#123;<span class="number">1</span>:<span class="number">2.0</span>,<span class="number">3</span>:<span class="number">7.0</span>&#125;   <span class="comment">// 将索引为 1 和 3 的元素初始化</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化二维数组</span></span><br><span class="line">a := [<span class="number">3</span>][<span class="number">4</span>]<span class="keyword">int</span>&#123;  </span><br><span class="line"> &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125; ,   <span class="comment">/*  第一行索引为 0 */</span></span><br><span class="line"> &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125; ,   <span class="comment">/*  第二行索引为 1 */</span></span><br><span class="line"> &#123;<span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>&#125;,   <span class="comment">/* 第三行索引为 2 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>多维数组示例</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先声明后赋值</span></span><br><span class="line">values := [][]<span class="keyword">int</span>&#123;&#125;            <span class="comment">// 创建数组</span></span><br><span class="line">row1 := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">row2 := []<span class="keyword">int</span>&#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;</span><br><span class="line">values = <span class="built_in">append</span>(values, row1)  <span class="comment">// 使用 appped() 函数向空的二维数组添加两行一维数组</span></span><br><span class="line">values = <span class="built_in">append</span>(values, row2)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 维度不一致数组</span></span><br><span class="line">animals := [][]<span class="keyword">string</span>&#123;&#125;</span><br><span class="line">row1 := []<span class="keyword">string</span>&#123;<span class="string">&quot;fish&quot;</span>, <span class="string">&quot;shark&quot;</span>, <span class="string">&quot;eel&quot;</span>&#125;</span><br><span class="line">row2 := []<span class="keyword">string</span>&#123;<span class="string">&quot;bird&quot;</span>&#125;</span><br><span class="line">row3 := []<span class="keyword">string</span>&#123;<span class="string">&quot;lizard&quot;</span>, <span class="string">&quot;salamander&quot;</span>&#125;</span><br><span class="line">animals = <span class="built_in">append</span>(animals, row1)</span><br><span class="line">animals = <span class="built_in">append</span>(animals, row2)</span><br><span class="line">animals = <span class="built_in">append</span>(animals, row3)</span><br></pre></td></tr></table></figure>
+
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> m <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span> = <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;<span class="string">&quot;France&quot;</span>: <span class="string">&quot;Paris&quot;</span>, <span class="string">&quot;Italy&quot;</span>: <span class="string">&quot;Rome&quot;</span>, <span class="string">&quot;Japan&quot;</span>: <span class="string">&quot;Tokyo&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="程序结构"><a href="#程序结构" class="headerlink" title="程序结构"></a>程序结构</h2><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单行注释</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 多行注释</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><h2 id="条件控制"><a href="#条件控制" class="headerlink" title="条件控制"></a>条件控制</h2><h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 类似于 for(...; ...; ...)</span></span><br><span class="line"><span class="keyword">for</span> init; condition; post &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 类似于 while</span></span><br><span class="line"><span class="keyword">for</span> condition &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 类似于 for (;;)</span></span><br><span class="line"><span class="keyword">for</span> &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>range</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// map</span></span><br><span class="line"><span class="keyword">for</span> key, value := <span class="keyword">range</span> oldMap &#123;</span><br><span class="line">    newMap[key] = value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">strings := []<span class="keyword">string</span>&#123;<span class="string">&quot;google&quot;</span>, <span class="string">&quot;runoob&quot;</span>&#125;</span><br><span class="line"><span class="keyword">for</span> i, s := <span class="keyword">range</span> strings &#123;</span><br><span class="line">    fmt.Println(i, s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p><strong>格式</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">function_name</span><span class="params">( [parameter list] )</span> [<span class="title">return_types</span>]</span> &#123;</span><br><span class="line">   <span class="comment">// 函数体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">swap</span><span class="params">(x, y <span class="keyword">string</span>)</span> <span class="params">(<span class="keyword">string</span>, <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">   <span class="keyword">return</span> y, x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>参数</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 值传递</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">swap</span><span class="params">(x, y <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">   <span class="keyword">var</span> temp <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">   temp = x <span class="comment">/* 保存 x 的值 */</span></span><br><span class="line">   x = y    <span class="comment">/* 将 y 值赋给 x */</span></span><br><span class="line">   y = temp <span class="comment">/* 将 temp 值赋给 y*/</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br><span class="line">swap(a, b)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 引用传递</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">swap</span><span class="params">(x *<span class="keyword">int</span>, y *<span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">   <span class="keyword">var</span> temp <span class="keyword">int</span></span><br><span class="line">   temp = *x    <span class="comment">/* 保持 x 地址上的值 */</span></span><br><span class="line">   *x = *y      <span class="comment">/* 将 y 值赋给 x */</span></span><br><span class="line">   *y = temp    <span class="comment">/* 将 temp 值赋给 y */</span></span><br><span class="line">&#125;</span><br><span class="line">swap(&amp;a, &amp;b)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数参数</span></span><br><span class="line">getSquareRoot := <span class="function"><span class="keyword">func</span><span class="params">(x <span class="keyword">float64</span>)</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">  <span class="keyword">return</span> math.Sqrt(x)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(getSquareRoot(<span class="number">9</span>))</span><br></pre></td></tr></table></figure>
+
+<p><strong>函数参数</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明一个函数类型</span></span><br><span class="line"><span class="keyword">type</span> cb <span class="function"><span class="keyword">func</span><span class="params">(<span class="keyword">int</span>)</span> <span class="title">int</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    testCallBack(<span class="number">1</span>, callBack)</span><br><span class="line">    testCallBack(<span class="number">2</span>, <span class="function"><span class="keyword">func</span><span class="params">(x <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">        fmt.Printf(<span class="string">&quot;我是回调，x：%d\n&quot;</span>, x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testCallBack</span><span class="params">(x <span class="keyword">int</span>, f cb)</span></span> &#123;</span><br><span class="line">    f(x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">callBack</span><span class="params">(x <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;我是回调，x：%d\n&quot;</span>, x)</span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>匿名函数</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getSequence</span><span class="params">()</span> <span class="title">func</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">   i:=<span class="number">0</span></span><br><span class="line">   <span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">      i+=<span class="number">1</span></span><br><span class="line">     <span class="keyword">return</span> i  </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>方法</strong></p>
+<p>Go 同时有函数和方法，一个方法就是一个包含了接受者的函数，接受者可以是命名类型或者结构体类型的一个值或者是一个指针。所有给定类型的方法属于该类型的方法集，格式如下。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(variable_name variable_data_type)</span> <span class="title">function_name</span><span class="params">()</span> [<span class="title">return_type</span>]</span>&#123;</span><br><span class="line">   <span class="comment">/* 方法体 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面定义一个结构体，及该类型的一个方法。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">&quot;fmt&quot;</span>  </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 定义结构体 */</span></span><br><span class="line"><span class="keyword">type</span> Circle <span class="keyword">struct</span> &#123;</span><br><span class="line">  radius <span class="keyword">float64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">var</span> c1 Circle</span><br><span class="line">  c1.radius = <span class="number">10.00</span></span><br><span class="line">  fmt.Println(<span class="string">&quot;圆的面积 = &quot;</span>, c1.getArea())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//该 method 属于 Circle 类型对象中的方法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c Circle)</span> <span class="title">getArea</span><span class="params">()</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">  <span class="comment">//c.radius 即为 Circle 类型对象中的属性</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">3.14</span> * c.radius * c.radius</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义</span></span><br><span class="line"><span class="keyword">type</span> struct_variable_type <span class="keyword">struct</span> &#123;</span><br><span class="line">   member definition</span><br><span class="line">   member definition</span><br><span class="line">   ...</span><br><span class="line">   member definition</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明</span></span><br><span class="line">variable_name := structure_variable_type &#123;value1, value2...valuen&#125;</span><br><span class="line">variable_name := structure_variable_type &#123; key1: value1, key2: value2..., keyn: valuen&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Data <span class="keyword">struct</span> &#123;</span><br><span class="line">  s    <span class="keyword">string</span></span><br><span class="line">	sl   []<span class="keyword">string</span></span><br><span class="line">	ll   [][]<span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">data := Data &#123;s: <span class="string">&quot;yes&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><h2 id="语法糖"><a href="#语法糖" class="headerlink" title="语法糖"></a>语法糖</h2><h2 id="空指针处理"><a href="#空指针处理" class="headerlink" title="空指针处理"></a>空指针处理</h2><h2 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h2><h2 id="泛型编程"><a href="#泛型编程" class="headerlink" title="泛型编程"></a>泛型编程</h2><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://draveness.me/golang/">Go 语言设计与实现</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/01/coding/go/go/" data-id="ckqgnfcih001w65fy87n9eaol" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/go/packages" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/01/coding/go/packages/" class="article-date">
+  <time datetime="2021-02-28T16:00:00.000Z" itemprop="datePublished">2021-03-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/go/">go</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/01/coding/go/packages/">Go 依赖包</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/spf13/viper">viper</a><ul>
+<li>设置默认配置</li>
+<li>支持 json、yaml、toml、hcl、envfile、java properties config file</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/01/coding/go/packages/" data-id="ckqgnfcij002165fyfe8o5ggp" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-coding/go/styleguide" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/01/coding/go/styleguide/" class="article-date">
+  <time datetime="2021-02-28T16:00:00.000Z" itemprop="datePublished">2021-03-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/go/">go</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/01/coding/go/styleguide/">Go 代码规范</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h1><p>命名中的首字母大小写，大写指明可被外部访问，小写指明私有。对于 bool 类型，首字母应该为 <code>Has</code> 、<code>Is</code> 、<code>Can</code>、<code>Allow</code>。</p>
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><ul>
+<li>驼峰，首字母根据访问控制选择大写、小写</li>
+</ul>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><ul>
+<li>变量名尽量短<ul>
+<li>局部变量，<code>c</code> 好于 <code>lineCount</code>，<code>i</code> 好于 <code>slliceIndex</code> </li>
+<li>方法参数，一两个字母即可</li>
+<li>全局变量，需要更多的描述信息</li>
+</ul>
+</li>
+<li>如果使用长单词<ul>
+<li>驼峰，首字母根据访问控制选择大写、小写</li>
+</ul>
+</li>
+</ul>
+<h2 id="包名"><a href="#包名" class="headerlink" title="包名"></a>包名</h2><ul>
+<li>包中所有名称引用都会使用包名，所以可以简化引用的名称，如使用 <code>chubby.File</code> 代替 <code>chubby.ChubbyFile</code> </li>
+</ul>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><ul>
+<li>小写单词</li>
+<li>下划线 <code>_</code> 分隔</li>
+</ul>
+<h1 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h1><h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Package math provides basic constants and mathematical functions.</span></span><br><span class="line"><span class="keyword">package</span> math</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Package template implements data-driven templates for generating textual</span></span><br><span class="line"><span class="comment">output such as HTML.</span></span><br><span class="line"><span class="comment">....</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">package</span> template</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wii.pub/2021/03/01/coding/go/styleguide/" data-id="ckqgnfcim002b65fy2klq2bu9" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-coding/algorithm/basic" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/28/coding/algorithm/basic/" class="article-date">
@@ -97,7 +761,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/02/28/coding/algorithm/basic/" data-id="ckpgleu5b0015fqfyc7ys4l1l" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/02/28/coding/algorithm/basic/" data-id="ckqgnfcif001o65fyc5n8bxwa" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
@@ -166,7 +830,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/02/23/architecture/conceptions/microservice/" data-id="ckpgleu56000nfqfyfc2r4bji" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/02/23/architecture/conceptions/microservice/" data-id="ckqgnfci6000t65fyggc86qaa" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li></ul>
@@ -216,7 +880,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/02/07/coding/java/notes/stream/" data-id="ckpgleu7n008yfqfyf7g17k3h" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/02/07/coding/java/notes/stream/" data-id="ckqgnfcl1009v65fybn3a5yx2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -284,622 +948,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/02/03/tools/makefile/usage/" data-id="ckpgleu6o005hfqfy89hz35ku" class="article-share-link">Share</a>
+      <a data-url="http://wii.pub/2021/02/03/tools/makefile/usage/" data-id="ckqgnfcju005g65fyevpihd2o" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/makefile/" rel="tag">makefile</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-misc/how-to-write" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/02/02/misc/how-to-write/" class="article-date">
-  <time datetime="2021-02-01T16:00:00.000Z" itemprop="datePublished">2021-02-02</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/02/misc/how-to-write/">如何组织一篇文章</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="解释性文章"><a href="#解释性文章" class="headerlink" title="解释性文章"></a>解释性文章</h1><ul>
-<li>意图（Intent）</li>
-<li>动机（Motivation）</li>
-<li>适用性（Applicability）</li>
-<li>结构（Structure）</li>
-<li>参与者（Participants）</li>
-<li>协作（Collaborations）</li>
-<li>结果（Consequences）</li>
-<li>实现 / 范例（Implementation / Sample）</li>
-<li>已知应用（Known Uses）</li>
-<li>相关（Related）</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/02/02/misc/how-to-write/" data-id="ckpgleu52000bfqfygyj6dilc" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%82%E9%A1%B9/" rel="tag">杂项</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-computer science/design pattern/observer" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/01/30/computer%20science/design%20pattern/observer/" class="article-date">
-  <time datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/30/computer%20science/design%20pattern/observer/">设计模式（二）之观察者模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>主题 + 订阅者 = 观察者模式。<strong>观察者模式</strong> 定义了对象之间的一对多依赖，这样一来，当一个对象改变状态时，它的所有依赖者都会收到通知并自动更新。 </p>
-<p><img src="/2021/01/30/computer%20science/design%20pattern/observer/001.png"></p>
-<h1 id="松耦合的威力"><a href="#松耦合的威力" class="headerlink" title="松耦合的威力"></a>松耦合的威力</h1><p>当两个对象之间松耦合，它们依然可以交互，但是不太清楚彼此的细节。观察者模式提供了一种对象设计，让主题和观察者之间松耦合。松耦合的设计之所以能让 OO 系统更有弹性，能够应对变化，是因为对象之间的互相依赖降到了最低。</p>
-<p><strong>为了交互对象之间的松耦合设计而努力。</strong></p>
-<h1 id="气象监测应用"><a href="#气象监测应用" class="headerlink" title="气象监测应用"></a>气象监测应用</h1><p><img src="/2021/01/30/computer%20science/design%20pattern/observer/002.png"></p>
-<p>我们需要设计一个气象监测应用，为多种布告板提供数据支持，原始数据从气象站获取。我们可以假定使用 WeatherData 类实现我们的功能，该类有三个 getter 方法，可以从气象站获取数据，这三个 getter 方法如下。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">getTemperatuer</span><span class="params">()</span></span>;		<span class="comment">// 获取温度</span></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">getHumidity</span><span class="params">()</span></span>;			<span class="comment">// 获取湿度</span></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">getPressure</span><span class="params">()</span></span>;			<span class="comment">// 获取气压</span></span><br></pre></td></tr></table></figure>
-
-<p>当气象站更新数据时，会调用 <code>measurementsChanged()</code> 方法。我们实现三个使用天气数据的，目前状况、气象统计、天气预报，一但 WeatherData 有数据更新，这些布告板必须马上更新。且，此系统必须可扩展，方便后续定制其他布告板。</p>
-<p><img src="/2021/01/30/computer%20science/design%20pattern/observer/003.png"></p>
-<p>类图设计如下。</p>
-<p><img src="/2021/01/30/computer%20science/design%20pattern/observer/004.png"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/30/computer%20science/design%20pattern/observer/" data-id="ckpgleu5l0021fqfyddgf8ij2" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">观察者模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-tools/maven/usage" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/01/29/tools/maven/usage/" class="article-date">
-  <time datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>►<a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/maven/">maven</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/29/tools/maven/usage/">maven 使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 清理</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mvn clean</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 打包</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mvn package</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 依赖树</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mvn dependency:tree</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定 pom</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mvn --settings YourOwnSettings.xml package</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> OR</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mvn -s YourOwnSettings.xml package</span></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/29/tools/maven/usage/" data-id="ckpgleu6q005ofqfyci4i3wh0" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/" rel="tag">maven</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-computer science/fundamentals of compiling/flex-bison" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/01/28/computer%20science/fundamentals%20of%20compiling/flex-bison/" class="article-date">
-  <time datetime="2021-01-28T15:00:00.000Z" itemprop="datePublished">2021-01-28</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/">计算机科学</a>►<a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/28/computer%20science/fundamentals%20of%20compiling/flex-bison/">flex + bison 实现语法解析</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>flex/lex 和 bison/yacc 是 linux 下用来生成词法分析器和语法分析器的工具。flex和lex、bison和yacc 数据同质的程序，相对于flex和lex，bison和yacc之间兼容性更好。</p>
-<h1 id="工具介绍"><a href="#工具介绍" class="headerlink" title="工具介绍"></a>工具介绍</h1><h2 id="bison"><a href="#bison" class="headerlink" title="bison"></a>bison</h2><p>Bison是一个通用解析器生成器，可以将带注释的上下文无关语法，转换为使用LALR解析表的确定性 LR 或广义LR（GLR）解析器。可熟练运用bison后，可以用它开发各种语言解析器。</p>
-<p>Bison向上兼容Yacc，所有正确编写的Yacc语法都可与Bison一起工作，无需修改。</p>
-<h2 id="yacc"><a href="#yacc" class="headerlink" title="yacc"></a>yacc</h2><p>Yacc（Yet Another Compiler Compiler）是一个用来生成编译器的编译器。yacc 生成的编译器主要是用C语言写成的语法解析器（parser），需要与词法解析器（lex）一起使用，再把两部分产生出来的C程序一并编译。</p>
-<p>Yacc的输入是巴克斯范式（BNF）表达的语法规则，以及语法规约的处理代码，输出的是基于表驱动的编译器，包含输入的语法规约的处理代码部分。</p>
-<p>Yacc是开发编译器的工具，采用LALR语法分析方法。</p>
-<h2 id="lex"><a href="#lex" class="headerlink" title="lex"></a>lex</h2><p>在计算机科学里面，lex是一个产生词法分析器的程序。Lex常与 yacc 语法分析器产生程序（parser generator）一起使用。</p>
-<h2 id="flex"><a href="#flex" class="headerlink" title="flex"></a>flex</h2><p>flex 是一个词法分析器，用于生成扫描器，识别文本中词汇模式。</p>
-<h1 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h1><p>一个语言编译器或解释器，通常分解为两个部分：</p>
-<ul>
-<li>读取源文件并发现其中的结构</li>
-<li>处理他的结构等，生成目标程序</li>
-</ul>
-<p>Lex 和 Yacc 可以生成代码片段，解决第一个任务。发现源文件结构的任务可以分解为子任务：</p>
-<ul>
-<li>分解词法源文件为 tokens（Lex）</li>
-<li>找到程序的层次结构（Yacc）</li>
-</ul>
-<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="lex-词法分析器"><a href="#lex-词法分析器" class="headerlink" title="lex 词法分析器"></a>lex 词法分析器</h2><p>lex通过扫描词法源文件，从中提取token，可看做关键词。lex工具会生成一个 <code>yylex</code> 函数，语法解析器通过调用这个函数获取信息。lex的输入文件一般会被命名为 <code>*.l</code> 文件，通过 <code>[f]lex XX.l</code> 得到文件 <code>lex.yy.c</code>。</p>
-<h3 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h3><p>Lex程序主要由一系列带有指令的正则表达式组成，这些指令确定了正则表达式匹配后相应的动作（action）。由flex生成的词法分析器可以读取输入，匹配输入与所有的正则表达式，并执行每次匹配后适当的关联动作。</p>
-<p>Flex程序包含是哪个部分，通过 <code>%%</code> 分隔。第一部分包含声明和选项设置，第二部分是一系列的模式和动作，第三部分是会被拷贝到生成的词法分析器里面的C代码，通常是与动作代码相关的程序。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Definition section</span><br><span class="line">%%</span><br><span class="line">Rules section</span><br><span class="line">%%</span><br><span class="line">C code section</span><br></pre></td></tr></table></figure>
-
-<p><strong>第一部分</strong></p>
-<p>在声明部分，<code>%&#123;</code> 和 <code>%&#125;</code> 之间的代码会被原样照抄到生成的 C 文件的开头部分。</p>
-<p><strong>第二部分</strong></p>
-<p>每个模式处在一行的开头处，接着是模式匹配时所需要执行的 C 代码，这里的 C 代码是使用 <code>&#123;&#125;</code> 括住的一行或者多行语句。模式必须在行首出现，flex会把空白开始的行当做代码复制到生成C程序中。</p>
-<h3 id="文本统计示例"><a href="#文本统计示例" class="headerlink" title="文本统计示例"></a>文本统计示例</h3><p><strong>程序</strong></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">%&#123;</span><br><span class="line"><span class="keyword">int</span> chars = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> words = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> lines = <span class="number">0</span>;</span><br><span class="line">%&#125;</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line">[a-zA-Z]+   &#123; words++; chars += <span class="built_in">strlen</span>(yytext) &#125;</span><br><span class="line">\n          &#123; chars++; lines++; &#125;</span><br><span class="line">.           &#123; chars++; &#125;</span><br><span class="line">%%</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span> </span>&#123;</span><br><span class="line">  yylex();</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%8d%8d%8d\n&quot;</span>, lines, words, chars);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在这个示例中，末尾的C代码为主程序，负责调用flex提供的词法分析程序yylex()，并输出结果。</p>
-<p><strong>编译</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> flex flex-wc.l					<span class="comment"># 运行命令后会生成文件 lex.yy.c</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cc -lfl -o wc lex.yy.c 	<span class="comment"># 编译词法解析</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./wc</span></span><br></pre></td></tr></table></figure>
-
-<p>注：对于使用命令将 flex 安装到系统，可以直接执行上述命令。如若将 flex 编译至特定目录，并使用的话，需要制定库环境变量，以使程序可正确运行。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> FLEX_BIN_PATH=<span class="string">&quot;/.../bin&quot;</span>    <span class="comment"># flex 程序路径</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> FLEX_LIB_PATH=<span class="string">&quot;/.../lib&quot;</span>    <span class="comment"># flex 库文件路径</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> LD_LIBRARY_PATH=<span class="variable">$&#123;FLEX_LIB_PATH&#125;</span>    <span class="comment"># 用于 linux 系统</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> DYLD_LIBRARY_PATH=<span class="variable">$&#123;FLEX_LIB_PATH&#125;</span>	 <span class="comment"># 用于 mac os 系统</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> PATH=<span class="string">&quot;<span class="variable">$FLEX_BIN_PATH</span>:<span class="variable">$PATH</span>&quot;</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 编译执行</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> flex flex-wc.l</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cc -L<span class="string">&quot;<span class="variable">$&#123;LIB_PATH&#125;</span>&quot;</span> -lfl -o wc lex.yy.c</span>		</span><br><span class="line"><span class="meta">$</span><span class="bash"> ./wc</span></span><br><span class="line">hello world</span><br><span class="line">^D</span><br><span class="line">       1       2      12</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例说明</strong></p>
-<p>该实例程序，仅使用 flex 实现。首先，按照 flex 的语法，定义了词法文件 <code>wc.l</code>，其中包含 3 个模式 <code>[a-zA-Z]+</code>、<code>\n</code> 、<code>.</code> ，分别用于匹配单词、换行、任意字符。这里需要注意，模式匹配具有排他性，输入被一个模式匹配，则不会重复被其他模式匹配，因此在匹配到单词后，需要使用 <code>chars += strlen(yytext)</code> 来修正字符统计值。然后，使用 flex 程序解析 <code>wc.l</code> ，生成 <code>lex.yy.c</code> 文件。最后，编译生成的文件，并执行。</p>
-<h2 id="yacc-bison-语法分析器"><a href="#yacc-bison-语法分析器" class="headerlink" title="yacc / bison 语法分析器"></a>yacc / bison 语法分析器</h2><p>语法分析器，借助 lex 生成的 token，将关键字组合成语法。语法分析器会生成一个 yyparse 函数，这个函数会不断调用词法分析器生成的 <code>yylex</code> 函数来得到 token 信息。词法分析器输入的源文件一般命名为 <code>*.y</code> ，通过命令 <code>yacc -d XX.y</code> 得到文件 <code>y.tab.h</code> 和 <code>y.tab.c</code> ，前者包含了 lex 需要的 token 类型定义，需要被 include 进 <code>*.l</code> 文件中。</p>
-<h2 id="flex-amp-bison"><a href="#flex-amp-bison" class="headerlink" title="flex &amp; bison"></a>flex &amp; bison</h2><p>单纯的 flex 程序，可以解决简单的解析问题，但对于复杂的场景，需要语法分析器的支持。flex 仅解析输入中的模式，并执行相应的动作，对于复杂的语法需要语法分析器的支持。</p>
-<p><strong>计算器示例</strong></p>
-<p>接下来，用一个计算器程序示例，展示 flex 和 bison 是如何一起工作。简单些，我们首先实现一个 flex 程序，可以复述（无需解析运算符优先级及计算）简单的表达式。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">%%</span><br><span class="line"><span class="string">&quot;+&quot;</span> &#123; <span class="built_in">printf</span>(<span class="string">&quot;PLUS\n&quot;</span>); &#125;</span><br><span class="line"><span class="string">&quot;-&quot;</span> &#123; <span class="built_in">printf</span>(<span class="string">&quot;MINUS\n&quot;</span>); &#125;</span><br><span class="line"><span class="string">&quot;*&quot;</span> &#123; <span class="built_in">printf</span>(<span class="string">&quot;TIMES\n&quot;</span>); &#125;</span><br><span class="line"><span class="string">&quot;/&quot;</span> &#123; <span class="built_in">printf</span>(<span class="string">&quot;DIVIDE\n&quot;</span>); &#125;</span><br><span class="line"><span class="string">&quot;|&quot;</span> &#123; <span class="built_in">printf</span>(<span class="string">&quot;ABS\n&quot;</span>); &#125;</span><br><span class="line">[<span class="number">0</span><span class="number">-9</span>]+ &#123; <span class="built_in">printf</span>(<span class="string">&quot;NUMBER %s\n&quot;</span>, yytext); &#125;</span><br><span class="line">\n  &#123; <span class="built_in">printf</span>(<span class="string">&quot;NEW LINE\n&quot;</span>); &#125;</span><br><span class="line">[ \t] &#123; &#125;</span><br><span class="line">.   &#123; <span class="built_in">printf</span>(<span class="string">&quot;Mystery character %s\n&quot;</span>, yytext); &#125;</span><br><span class="line">%%</span><br></pre></td></tr></table></figure>
-
-<p><strong>编译运行</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> flex cal.l</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cc -o cal lex.yy.c</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./cal</span></span><br><span class="line">12+34</span><br><span class="line">NUMBER 12</span><br><span class="line">PLUS</span><br><span class="line">NUMBER 34</span><br><span class="line">NEW LINE</span><br><span class="line">5 6 / 7q</span><br><span class="line">NUMBER 5</span><br><span class="line">NUMBER 6</span><br><span class="line">DIVIDE</span><br><span class="line">NUMBER 7</span><br><span class="line">Mystery character q</span><br><span class="line">NEW LINE</span><br></pre></td></tr></table></figure>
-
-<p>上述程序，只是简单识别了我们的意图，并执行了打印操作。为了让我们的示例更像一个计算器，我们需要支持类似于真正的计算，并支持运算符的优先级等特性。对于这种高阶解析，需要借助 bison 来完成。</p>
-<p>flex 作为词法分析器，可以生成一个 token 流，方便语法分析器处理。当程序需要一个 token 时，通过调用 <code>yylex()</code> 来读取一小部分输入，然后返回相应的记号，通过再次调用 <code>yylex()</code> 获取更多 token。</p>
-<p><strong>token 编号和 token 值</strong></p>
-<p>flex 返回 token 时，实际包含两部分，token 编号和 token 值。这里的编号是一个较小的随意整数，如果返回 0 则意味着文件的结束。当 bison 创建一个语法分析器时， bison 自动地从 258 起指派每个记号编号，并且创建一个包含这些编号定义的 .h 文件。在这里，我们在 flex 程序中，为每个 token 分配一个固定的编号。重写上面计算器的 flex 源文件。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">%&#123;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">yytokentype</span> &#123;</span></span><br><span class="line">    NUMBER = <span class="number">258</span>,</span><br><span class="line">    ADD = <span class="number">259</span>,</span><br><span class="line">    SUB = <span class="number">260</span>,</span><br><span class="line">    MUL = <span class="number">261</span>,</span><br><span class="line">    DIV = <span class="number">262</span>,</span><br><span class="line">    ABS = <span class="number">263</span>,</span><br><span class="line">    EOL = <span class="number">264</span>,</span><br><span class="line">    POW = <span class="number">265</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">int</span> yylval;</span><br><span class="line">%&#125;</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;+&quot;</span> &#123; <span class="keyword">return</span> ADD; &#125;</span><br><span class="line"><span class="string">&quot;-&quot;</span> &#123; <span class="keyword">return</span> SUB; &#125;</span><br><span class="line"><span class="string">&quot;*&quot;</span> &#123; <span class="keyword">return</span> MUL; &#125;</span><br><span class="line"><span class="string">&quot;/&quot;</span> &#123; <span class="keyword">return</span> DIV; &#125;</span><br><span class="line"><span class="string">&quot;|&quot;</span> &#123; <span class="keyword">return</span> ABS; &#125;</span><br><span class="line"><span class="string">&quot;^&quot;</span> &#123; <span class="keyword">return</span> POW; &#125;</span><br><span class="line">[<span class="number">0</span><span class="number">-9</span>]+ &#123; yylval = <span class="built_in">atoi</span>(yytext); <span class="keyword">return</span> NUMBER; &#125;</span><br><span class="line">\n  &#123; <span class="keyword">return</span> EOL; &#125;</span><br><span class="line">[ \t] &#123; &#125;</span><br><span class="line">.   &#123; <span class="built_in">printf</span>(<span class="string">&quot;Mystery character %c\n&quot;</span>, *yytext); &#125;</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line"></span><br><span class="line"><span class="comment">/*int main(int argc, char **argv)</span></span><br><span class="line"><span class="comment">&#123;</span></span><br><span class="line"><span class="comment">    int tok;</span></span><br><span class="line"><span class="comment">    while (tok = yylex()) &#123;</span></span><br><span class="line"><span class="comment">        printf(&quot;%d&quot;, tok);</span></span><br><span class="line"><span class="comment">        if (tok == NUMBER) printf(&quot; = %d\n&quot;, yylval);</span></span><br><span class="line"><span class="comment">        else printf(&quot;\n&quot;);</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">&#125;*/</span></span><br></pre></td></tr></table></figure>
-
-<p>继续编译运行。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> $ flex cal.l</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cc -o cal lex.yy.c</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./cal</span></span><br><span class="line">a / 34 + |45</span><br><span class="line">Mystery character a</span><br><span class="line">262</span><br><span class="line">258 = 34</span><br><span class="line">259</span><br><span class="line">263</span><br><span class="line">258 = 45</span><br><span class="line">264</span><br></pre></td></tr></table></figure>
-
-<p>至此，我们有了一个可以返回特定 token 编号及 token 值的词法解析器，接下来关注其如何与语法分析器一起工作。</p>
-<p><strong>语法分析器</strong></p>
-<p>语法分析器的作用是，找出输入记号之间的关系，一种常见的关系表达式就是语法分析树。</p>
-<p><strong>BNF文法</strong></p>
-<p>为了编写一个语法分析器，需要一定的方法描述语法分析器所使用的把一系列记号转化为语法分析书的规则。在计算机最常用的语言就是上下文无关文法（Content-Free Grammar，CFG），书写上下文无关文法的标准格式就是 BackusNaur范式（BackusNaur Form，BNF）。</p>
-<p>幸运的是，BNF相当简单。对于表达式 1 * 2 + 3 * 4 + 5 ，下面的 BNF 语法足以处理。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;exp&gt; ::= &lt;factor&gt;</span><br><span class="line">	| &lt;exp&gt; + &lt;factor&gt;</span><br><span class="line">&lt;factor&gt; ::= NUMBER</span><br><span class="line">	| &lt;factor&gt; * NUMBER</span><br></pre></td></tr></table></figure>
-
-<p>每一行就是一条规则，用来说明如何创建语法分析树的分支。<code>::=</code> 被解读为 <em>是</em> 或 _变成_；<code>|</code> 为 _或者_，创建同类分支的另一种方式。规则左边的名称是语法符号。大致来说，所有的记号都被认为是语法符号，但是有一些语法符号并不是记号。</p>
-<p>有效的BNF总是带有递归性的，规则会直接或者间接地指向自身。这些简单的规则被递归地使用以匹配任何极端复杂的加法和乘法序列。</p>
-<p><strong>bison 规则描述语言</strong></p>
-<p>bison 规则基本符合 BNF 文法，下面是计算器程序的 bison 代码。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">%&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">yylex</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">yyerror</span><span class="params">(<span class="keyword">char</span> *s)</span></span>;</span><br><span class="line">%&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 声明 Tokens; 在这里的声明要和 cal.l 声明的 yytokentype 顺序一致 */</span></span><br><span class="line">%token NUMBER</span><br><span class="line">%token ADD SUB MUL DIV ABS EOL</span><br><span class="line">%token POW</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line"></span><br><span class="line">calclist: <span class="comment">/* 空规则 */</span></span><br><span class="line">	| calclist <span class="built_in">exp</span> EOL &#123; <span class="built_in">printf</span>(<span class="string">&quot;= %d\n&quot;</span>, $<span class="number">2</span>); &#125;</span><br><span class="line">	;</span><br><span class="line"></span><br><span class="line"><span class="built_in">exp</span>: factor</span><br><span class="line">	| <span class="built_in">exp</span> ADD factor &#123; $$ = $<span class="number">1</span> + $<span class="number">3</span>; &#125;</span><br><span class="line">	| <span class="built_in">exp</span> SUB factor &#123; $$ = $<span class="number">1</span> - $<span class="number">3</span>; &#125;</span><br><span class="line">	;</span><br><span class="line"></span><br><span class="line">factor: term</span><br><span class="line">    | factor MUL term &#123; $$ = $<span class="number">1</span> * $<span class="number">3</span>; &#125;</span><br><span class="line">    | factor DIV term &#123; $$ = $<span class="number">1</span> / $<span class="number">3</span>; &#125;</span><br><span class="line">    | term POW term   &#123; $$ = <span class="built_in">pow</span>($<span class="number">1</span>, $<span class="number">3</span>); &#125;</span><br><span class="line">    ;</span><br><span class="line"></span><br><span class="line">term: NUMBER</span><br><span class="line">    | SUB NUMBER   &#123; $$ = -$<span class="number">2</span> &#125;</span><br><span class="line">    | ABS term ABS &#123; $$ = $<span class="number">2</span> &gt;= <span class="number">0</span> ? $<span class="number">2</span> : -$<span class="number">2</span>; &#125;</span><br><span class="line">    ;</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    yyparse();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">yyerror</span><span class="params">(<span class="keyword">char</span> *s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;error: %s\n&quot;</span>, s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>bison 程序包含了与flex程序相同的三部分结构：声明部分、规则部分和C代码部分。</p>
-<p>声明部分， <code>%&#123;</code> 和 <code>%&#125;</code> 之间内容同样会被拷贝进代码，<code>%token</code> 用于声明标记，以便让 bison 语法分析程序知晓符号。没有声明为记号的语法符号，应该出现在至少一条规则的左边。</p>
-<p>规则部分，包含了BNF定义的规则，使用分号分隔不同规则。每条规则中的每个语法符号都有一个语义值，目标符号（冒号左边符号）的值使用 <code>$$</code> 代替，右边语法符号的语义值分别用 <code>$1、$2 ... </code> 代替。</p>
-<p><strong>联合 bison &amp; flex 编译</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> bison -d cal.y</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> flex cal.l</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gcc -Wno-parentheses -o calc cal.tab.c lex.yy.c -lfl</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./calc   <span class="comment"># 执行</span></span></span><br><span class="line">1 + 2</span><br><span class="line">= 3</span><br><span class="line">3 - -2</span><br><span class="line">= 5</span><br><span class="line">1 + -2</span><br><span class="line">= -1</span><br><span class="line">1 + |-1|</span><br><span class="line">= 2</span><br></pre></td></tr></table></figure>
-
-<h1 id="高级语法"><a href="#高级语法" class="headerlink" title="高级语法"></a>高级语法</h1><h2 id="flex-1"><a href="#flex-1" class="headerlink" title="flex"></a>flex</h2><h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><table>
-<thead>
-<tr>
-<th>表达式</th>
-<th>说明</th>
-<th>实例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>[]</td>
-<td>字符类，匹配方括号内任意一个字符</td>
-<td>[a-z]、[^a-c]</td>
-</tr>
-<tr>
-<td>[a-z]{-}[jv]</td>
-<td>去除字符类中某些字符</td>
-<td>-</td>
-</tr>
-<tr>
-<td>^</td>
-<td>匹配行首</td>
-<td>-</td>
-</tr>
-<tr>
-<td>$</td>
-<td>匹配行尾</td>
-<td>-</td>
-</tr>
-<tr>
-<td>{}</td>
-<td></td>
-<td>{5}、{1,5}</td>
-</tr>
-<tr>
-<td>\</td>
-<td>转义</td>
-<td></td>
-</tr>
-<tr>
-<td>*</td>
-<td>匹配0个或多个前面的表达式</td>
-<td></td>
-</tr>
-<tr>
-<td>+</td>
-<td>匹配1个或多个前面的表达式</td>
-<td></td>
-</tr>
-<tr>
-<td>?</td>
-<td>匹配0个或1个前面的表达式</td>
-<td></td>
-</tr>
-<tr>
-<td>|</td>
-<td>选择操作符，匹配前或后的表达式</td>
-<td>foo|bar</td>
-</tr>
-<tr>
-<td>“…….”</td>
-<td>引号内解释为字面常量</td>
-<td></td>
-</tr>
-<tr>
-<td>()</td>
-<td>把一系列正则表达式组成一个新的正则表达式</td>
-<td></td>
-</tr>
-<tr>
-<td>/</td>
-<td>尾部上下文，匹配斜线前的表达式，但是要求其后紧跟着斜线后的表达式</td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="解析文件"><a href="#解析文件" class="headerlink" title="解析文件"></a>解析文件</h3><p>词法分析器总是从 <code>yyin</code> 读取输入，可以通过重新设定 <code>yyin</code> 实现从文件读取。也可以使用 <code>yyrestart</code> 指定输入源，此外，<code>yyrestart</code> 可以重置解析，并通过调用 <code>yylex</code> 重新开始。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">%option noyywrap</span><br><span class="line"></span><br><span class="line">%&#123;</span><br><span class="line"><span class="keyword">int</span> chars = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> words = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> lines = <span class="number">0</span>;</span><br><span class="line">%&#125;</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line"></span><br><span class="line">[a-zA-Z]+   &#123; ++words; chars += <span class="built_in">strlen</span>(yytext); &#125;</span><br><span class="line">\n          &#123; ++chars; ++lines; &#125;</span><br><span class="line">.           &#123; ++chars; &#125;</span><br><span class="line"></span><br><span class="line">%%</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span> </span>&#123;</span><br><span class="line">    yyin = <span class="built_in">fopen</span>(<span class="string">&quot;wc.in&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br><span class="line">    <span class="comment">// yyrestart(fopen(&quot;wc.in&quot;, &quot;r&quot;));  // 也可以使用 yyrestart 指定输入源</span></span><br><span class="line">    <span class="built_in">yylex</span>();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%8d%8d%8d\n&quot;</span>, lines, words, chars);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h3><p>flex 词法分析器支持从文件或标准输入读取数据，flex 提供将数据预读取到缓冲区的机制，提高效率，行为大致如下。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">YY_BUFFER_STATE bp;</span><br><span class="line"><span class="keyword">extern</span> FILE* yyin;</span><br><span class="line">... <span class="comment">// 第一次调用语法分析器之前所需要做的事情</span></span><br><span class="line"><span class="keyword">if</span> (!yyin) yyin = stdin;</span><br><span class="line">bp = <span class="built_in">yy_create_buffer</span>(yyin, YY_BUF_SIZE); <span class="comment">// YY_BUF_SIZE 由 flex 定义，通常 16k</span></span><br><span class="line"><span class="built_in">yy_switch_to_buffer</span>(bp);</span><br></pre></td></tr></table></figure>
-
-<p>通过如下宏定义，可重新定义用于输入到缓冲区的宏。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_INPUT(buf, result, max_size) ...</span></span><br></pre></td></tr></table></figure>
-
-<p>每当词法分析器的输入缓冲区为空时，就会调用 YY_INPUT，buf 是缓冲区，max_size 是缓冲区大小，result 则用来放置实际读取的长度。</p>
-<h3 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h3><p>默认没有匹配的输入，都会被拷贝到 yyout 中，通过默认添加如下规则实现。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">. ECHO</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ECHO fwrite(yytext, yyleng, 1, yyout)</span></span><br></pre></td></tr></table></figure>
-
-<p>上面代码，定义一个规则 <code>.</code> 用于匹配所有未被识别的输入，并执行默认的行为 <code>fwrite(yytext, yyleng, 1, yyout)</code>。</p>
-<h3 id="option"><a href="#option" class="headerlink" title="option"></a>option</h3><p>flex 在文件头部通过 <code>%option</code> 定义选项。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%option noyywrap nodefault yylineno <span class="keyword">case</span>-insensitive</span><br></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th>选项</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>noyywrap</td>
-<td></td>
-</tr>
-<tr>
-<td>nodefault</td>
-<td>屏蔽默认行为</td>
-</tr>
-<tr>
-<td>yylineno</td>
-<td>定义变量 yylineno，保存当前行号</td>
-</tr>
-<tr>
-<td>case-insensitive</td>
-<td>生成大小写无关的词法分析器</td>
-</tr>
-<tr>
-<td>yyclass</td>
-<td>指定 scanner 的类名</td>
-</tr>
-<tr>
-<td>c++</td>
-<td>生成c++代码</td>
-</tr>
-<tr>
-<td>debug</td>
-<td></td>
-</tr>
-</tbody></table>
-<h2 id="bison-1"><a href="#bison-1" class="headerlink" title="bison"></a>bison</h2><p>flex 可以识别正则表达式，bison 可以识别语法。flex 把输入流分解为若干个片段，而bison则分析这些记号并给予逻辑进行组合。</p>
-<h3 id="token"><a href="#token" class="headerlink" title="%token"></a>%token</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 规则</span></span><br><span class="line">%token &lt;type&gt; name <span class="string">&quot;string-literal&quot;</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// 示例</span></span><br><span class="line">%token NUM <span class="number">300</span>    <span class="comment">// 为 token 指定数字编码</span></span><br><span class="line">%token XNUM <span class="number">0x12d</span> <span class="comment">// a GNU extension</span></span><br><span class="line">%<span class="class"><span class="keyword">union</span> &#123;</span>              <span class="comment">/* define stack type */</span></span><br><span class="line">  <span class="keyword">double</span> val;</span><br><span class="line">  symrec *tptr;</span><br><span class="line">&#125;</span><br><span class="line">%token &lt;val&gt; NUM      <span class="comment">/* define token NUM and its type */</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// 为 token 指定字符常量</span></span><br><span class="line">%token ARROW <span class="string">&quot;=&gt;&quot;</span>     <span class="comment">/* yylex 可通过 token 名称和 字符常量来获取 toKen 类型编码 */</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="union"><a href="#union" class="headerlink" title="%union"></a>%union</h3><p><code>%union</code> 用于指定语义值的类型集合，定义语法和 c 中的 union 类似。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">%<span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">  <span class="keyword">double</span> val;</span><br><span class="line">  symrec *tptr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上述声明，声明有两个可选类型 <code>double</code> 和 <code>symrec *</code>，并给定名字 <code>val</code> 和 <code>tptr</code> ，这些名字用在 <code>%token</code> 、 <code>%nterm</code> 和 <code>%type</code> 声明中，为终结符和非终结符指定类型。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%token &lt;val&gt; expr stmt   <span class="comment">// 声明 expr、stmt 类型名称为 val，即 double</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="type"><a href="#type" class="headerlink" title="%type"></a>%type</h3><p>每个语义值（即 <code>$$</code>）都有其类型，默认为 <code>int</code>，可以通过如下方式借助 bison api 修改默认语义值类型。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%define api.value.type &#123;<span class="keyword">double</span>&#125;</span><br><span class="line">%define api.value.type &#123;<span class="class"><span class="keyword">struct</span> <span class="title">semantic_type</span>&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>也可通过定义宏 <code>YYSTYPE</code> 借助编译器修改，值得注意的是，Bison并不知道 <code>YYSTYPE</code> 的值，甚至不知道其是否定义，因此无法提供部分支持。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%define YYSTYPE <span class="keyword">double</span></span><br></pre></td></tr></table></figure>
-
-<p>当使用 <code>%union</code> 指定多值类型时，必须为每个要指定值的非终结符声明值类型。这是通过 <code>%type</code> 声明完成的，类似于如下。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%type &lt;type&gt; nonterminal...</span><br></pre></td></tr></table></figure>
-
-<p>这里的 <code>nonterminal</code> 是非终结符的名字，<code>type</code> 是 <code>%union</code> 中声明的可选类型名称。</p>
-<h3 id="code"><a href="#code" class="headerlink" title="%code"></a>%code</h3><p>在指定位置插入代码。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">%code [place] &#123;</span><br><span class="line">  ... code ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>[place]</code> 用于指定位置，可选项有 <code>top</code>、<code>provides</code> 、<code>requires</code> ，对应的位置分别为文件的顶部、在YYSTYPE与YYLTYPE定义之前和之后。</p>
-<h3 id="defines"><a href="#defines" class="headerlink" title="%defines"></a>%defines</h3><p>生成解析器头文件，包含语法中定义的标记种类名称的定义及其它一些声明。如果解析器实现文件名为 name.c ，则解析器头文件名称为 name.h ，可通过 <code>%define api.header.include</code> 重新设定文件名。</p>
-<h3 id="define"><a href="#define" class="headerlink" title="%define"></a>%define</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$define variable</span><br><span class="line">$define variable value</span><br><span class="line">$define variable &#123;value&#125;</span><br><span class="line">$define variable &quot;value&quot;</span><br></pre></td></tr></table></figure>
-
-<p><strong>variable</strong></p>
-<table>
-<thead>
-<tr>
-<th>variable</th>
-<th>说明</th>
-<th>默认</th>
-<th>示例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>api.filename.type</td>
-<td>文件名称在 location 和 position 中的类型</td>
-<td>const std::string</td>
-<td></td>
-</tr>
-<tr>
-<td>api.namespace</td>
-<td>为 parser 类指定 namespace</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>api.parser.class</td>
-<td>为 parser 类指定类名</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>api.value.type</td>
-<td>语义值类型</td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<p><strong>api.value.type</strong></p>
-<table>
-<thead>
-<tr>
-<th>取值</th>
-<th>适用语言</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>union-directive</td>
-<td>c，c++</td>
-<td>使用 %union 直接定义，无需指定 api.value.type</td>
-</tr>
-<tr>
-<td>union</td>
-<td>c，c++</td>
-<td>这种方式通过在定义token是指定，比如<code>%token &lt;int&gt; INT &quot;integer&quot;</code> ，大多数c++对象不能保存在union中，使用 variant 代替</td>
-</tr>
-<tr>
-<td>variant</td>
-<td>c++</td>
-<td>类似于 union，但是适用于允许任意类型的 c++ 对象</td>
-</tr>
-<tr>
-<td>{type}</td>
-<td>-</td>
-<td>自定义类型</td>
-</tr>
-</tbody></table>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">%code <span class="keyword">requires</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">my_value</span></span></span><br><span class="line"><span class="class">  &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">enum</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">      is_int, is_str</span><br><span class="line">    &#125; kind;</span><br><span class="line">    <span class="class"><span class="keyword">union</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">      <span class="keyword">int</span> ival;</span><br><span class="line">      <span class="keyword">char</span> *sval;</span><br><span class="line">    &#125; u;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">%define api.value.type &#123;<span class="class"><span class="keyword">struct</span> <span class="title">my_value</span>&#125;   // 使用自定义类型</span></span><br><span class="line"><span class="class">%<span class="title">token</span> &lt;</span>u.ival&gt; INT <span class="string">&quot;integer&quot;</span></span><br><span class="line">%token &lt;u.sval&gt; STR <span class="string">&quot;string&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>默认类型：</p>
-<ul>
-<li>如果定义 <code>%union</code> ，则是 union-directive</li>
-<li>如果使用类型标签（<code>%token &lt;type&gt; ...</code>），则是指定类型</li>
-<li>否则为 undefined</li>
-</ul>
-<h3 id="parse-param"><a href="#parse-param" class="headerlink" title="%parse-param"></a>%parse-param</h3><p>定义解析器参数，比如。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%parse-param &#123;<span class="keyword">int</span> *nastiness&#125; &#123;<span class="keyword">int</span> *randomness&#125;</span><br></pre></td></tr></table></figure>
-
-<p>那么像如下方式，调用解析器。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="keyword">int</span> nastiness, randomness;</span><br><span class="line">  …  <span class="comment">/* Store proper data in nastiness and randomness. */</span></span><br><span class="line">  value = <span class="built_in">yyparse</span> (&amp;nastiness, &amp;randomness);</span><br><span class="line">  …</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在语法的action中，像如下使用变量。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exp: …    &#123; …; *randomness += <span class="number">1</span>; … &#125;</span><br></pre></td></tr></table></figure>
-
-<p>下面的定义。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%parse-param &#123;<span class="keyword">int</span> *randomness&#125;</span><br></pre></td></tr></table></figure>
-
-<p>会生成如下签名。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">yyerror</span> <span class="params">(<span class="keyword">int</span> *randomness, <span class="keyword">const</span> <span class="keyword">char</span> *msg)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">yyparse</span> <span class="params">(<span class="keyword">int</span> *randomness)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>如果 <code>%define api.pure full</code> 和 <code>%locations </code> 被使用，那么签名会如下所示。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">yyerror</span> <span class="params">(YYLTYPE *llocp, <span class="keyword">int</span> *randomness, <span class="keyword">const</span> <span class="keyword">char</span> *msg)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">yyparse</span> <span class="params">(<span class="keyword">int</span> *randomness)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="locations"><a href="#locations" class="headerlink" title="%locations"></a>%locations</h3><p>使用 <code>%locations</code> 时，c++解析器支持位置追踪，具体参照<a target="_blank" rel="noopener" href="https://www.gnu.org/software/bison/manual/html_node/Tracking-Locations.html">这里</a>。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/120812270">https://zhuanlan.zhihu.com/p/120812270</a></li>
-<li><a target="_blank" rel="noopener" href="http://dinosaur.compilertools.net/">http://dinosaur.compilertools.net/</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.jonathanbeard.io/tutorials/FlexBisonC++">http://www.jonathanbeard.io/tutorials/FlexBisonC++</a></li>
-<li><a target="_blank" rel="noopener" href="https://my.oschina.net/Greedxuji/blog/4275989">https://my.oschina.net/Greedxuji/blog/4275989</a></li>
-<li>《flex 与 bison》</li>
-<li><a target="_blank" rel="noopener" href="https://www.gnu.org/software/bison/manual/html_node/_0025define-Summary.html">https://www.gnu.org/software/bison/manual/html_node/_0025define-Summary.html</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.gnu.org/software/bison/manual/html_node/Parser-Function.html">https://www.gnu.org/software/bison/manual/html_node/Parser-Function.html</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.gnu.org/software/bison/manual/html_node/Tracking-Locations.html">https://www.gnu.org/software/bison/manual/html_node/Tracking-Locations.html</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/28/computer%20science/fundamentals%20of%20compiling/flex-bison/" data-id="ckpgleuay00rpfqfy39i0f0ao" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" rel="tag">语法解析</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-computer science/design pattern/summary" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/01/28/computer%20science/design%20pattern/summary/" class="article-date">
-  <time datetime="2021-01-27T16:00:00.000Z" itemprop="datePublished">2021-01-28</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/coding/">coding</a>►<a class="article-category-link" href="/categories/coding/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/28/computer%20science/design%20pattern/summary/">设计模式（一）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>找出应用中可能需要变化之处，把它们独立出来，不要和那些不需要变化的代码混在一起。针对接口编程，而不是针对实现编程。<strong>少用继承，多用组合。</strong> 良好的OO设计必须具备 <strong>可复用、可扩充、可维护</strong> 三个特性，模式可以让我们构建出具有良好OO设计质量的系统。</p>
-<p><strong>策略模式</strong> 定义了算法族，分别封装起来，让它们之间可以互相替换，此模式让算法的变化独立于使用算法的客户。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/28/computer%20science/design%20pattern/summary/" data-id="ckpgleu5n0026fqfyg7ih4hb7" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-linux/program/build-in/grep" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/01/27/linux/program/build-in/grep/" class="article-date">
-  <time datetime="2021-01-26T16:00:00.000Z" itemprop="datePublished">2021-01-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/linux/">linux</a>►<a class="article-category-link" href="/categories/linux/%E7%A8%8B%E5%BA%8F/">程序</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/27/linux/program/build-in/grep/">grep</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h1>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wii.pub/2021/01/27/linux/program/build-in/grep/" data-id="ckpgleu7z00a0fqfy2lenckjz" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/grep/" rel="tag">grep</a></li></ul>
 
     </footer>
   </div>
@@ -923,7 +975,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/c/">c++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/c/library/">library</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/java/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/kotlin/">kotlin</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/kotlin/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/life/learn/">learn</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/travel/">travel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/%E7%90%86%E8%B4%A2/">理财</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/notes/">notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/software/">software</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/%E7%A8%8B%E5%BA%8F/">程序</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/">play</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/play/os-x/">os x</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/unraid/">unraid</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/">library</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/django/">django</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/django/django-rest-framework/">django rest framework</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/todo/">todo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tools/jetbrains/">jetbrains</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/plantuml/">plantuml</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/publish/">publish</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/rsync/">rsync</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/element-ui/">element ui</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/vue/">vue</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E5%AE%89%E5%8D%93/">安卓</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E6%A6%82%E5%BF%B5/">概念</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/bazel/">bazel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/cmake/">cmake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/git/">git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/mac/">mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/makefile/">makefile</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/markdown/">markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/tmux/">tmux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/yEd/">yEd</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/zsh/">zsh</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/">树</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%AF%E8%AF%AD/">术语</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/kaggle/">kaggle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/Jupyter/">Jupyter</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E7%AC%94%E8%AE%B0/">笔记</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/spring/">spring</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/curator-x-discovery/">curator x discovery</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/netty/">netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/notes/">notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/">rpc</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dsl/">dsl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dubbo/">dubbo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/gRPC/">gRPC</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/">存储</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/hdfs/">hdfs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/redis/">redis</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">推荐系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/brpc/">brpc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A6%82%E5%BF%B5/">概念</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/">注册发现</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/consul/">consul</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/">监控</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/prometheus/">prometheus</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/">计算机科学</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%99%9A%E6%8B%9F%E5%8C%96/">虚拟化</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%99%9A%E6%8B%9F%E5%8C%96/docker/">docker</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/c/">c++</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/c/library/">library</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/go/">go</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/java/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/kotlin/">kotlin</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/kotlin/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/coding/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/life/learn/">learn</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/travel/">travel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/%E7%90%86%E8%B4%A2/">理财</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/notes/">notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/software/">software</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/%E7%A8%8B%E5%BA%8F/">程序</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/">play</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/play/os-x/">os x</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/unraid/">unraid</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/play/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/">library</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/django/">django</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/library/django/django-rest-framework/">django rest framework</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/notes/">notes</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/todo/">todo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tools/jetbrains/">jetbrains</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/plantuml/">plantuml</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/publish/">publish</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/rsync/">rsync</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/element-ui/">element ui</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/vue/">vue</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E5%AE%89%E5%8D%93/">安卓</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E6%A6%82%E5%BF%B5/">概念</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/bazel/">bazel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/cmake/">cmake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/git/">git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/mac/">mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/makefile/">makefile</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/markdown/">markdown</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/tmux/">tmux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/yEd/">yEd</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/zsh/">zsh</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/">树</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%AF%E8%AF%AD/">术语</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/kaggle/">kaggle</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/Jupyter/">Jupyter</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E7%AC%94%E8%AE%B0/">笔记</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/Java/%E6%A1%86%E6%9E%B6/spring/">spring</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/curator-x-discovery/">curator x discovery</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/netty/">netty</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/java/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/notes/">notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/">rpc</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dsl/">dsl</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/dubbo/">dubbo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/rpc/gRPC/">gRPC</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8E%8B%E6%B5%8B/">压测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8E%8B%E6%B5%8B/jmeter/">jmeter</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/">存储</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/hdfs/">hdfs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AD%98%E5%82%A8/redis/">redis</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">推荐系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/brpc/">brpc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A1%86%E6%9E%B6/spring-boot/">spring boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%A6%82%E5%BF%B5/">概念</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/">注册发现</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B3%A8%E5%86%8C%E5%8F%91%E7%8E%B0/consul/">consul</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/">监控</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%9B%91%E6%8E%A7/prometheus/">prometheus</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/">计算机科学</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%99%9A%E6%8B%9F%E5%8C%96/">虚拟化</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%99%9A%E6%8B%9F%E5%8C%96/docker/">docker</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -933,7 +985,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker%E5%BA%94%E7%94%A8/" rel="tag">Docker应用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jupyter/" rel="tag">Jupyter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thrift/" rel="tag">Thrift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bazel/" rel="tag">bazel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/brpc/" rel="tag">brpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmake/" rel="tag">cmake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/" rel="tag">coding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/consul/" rel="tag">consul</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/curator-x-discovery/" rel="tag">curator x discovery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django-rest-framework/" rel="tag">django rest framework</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/element-ui/" rel="tag">element ui</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gRPC/" rel="tag">gRPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gapis/" rel="tag">gapis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gc/" rel="tag">gc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gflags/" rel="tag">gflags</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grep/" rel="tag">grep</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdfs/" rel="tag">hdfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kaggle/" rel="tag">kaggle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin/" rel="tag">kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log4j-spring-boot/" rel="tag">log4j - spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/makefile/" rel="tag">makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netty/" rel="tag">netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/os-x/" rel="tag">os x</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/panda/" rel="tag">panda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plantuml/" rel="tag">plantuml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prometheus/" rel="tag">prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/protobuf/" rel="tag">protobuf</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rsync/" rel="tag">rsync</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sed/" rel="tag">sed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/" rel="tag">spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/" rel="tag">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/" rel="tag">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/todo/" rel="tag">todo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unriad/" rel="tag">unriad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/usage/" rel="tag">usage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualenv/" rel="tag">virtualenv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vsftpd/" rel="tag">vsftpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xargs/" rel="tag">xargs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yEd/" rel="tag">yEd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/" rel="tag">云原生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" rel="tag">传输文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E/" rel="tag">关于</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" rel="tag">分布式锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" rel="tag">召回服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8/" rel="tag">存储</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%8D%93/" rel="tag">安卓</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="tag">推荐系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" rel="tag">数据平台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%AF%E8%AF%AD/" rel="tag">术语</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" rel="tag">机器学习平台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E9%A1%B9/" rel="tag">杂项</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E5%9B%BE/" rel="tag">类图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%82%A1%E7%A5%A8/" rel="tag">股票</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" rel="tag">自驾游</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">观察者模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" rel="tag">语法解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker%E5%BA%94%E7%94%A8/" rel="tag">Docker应用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jupyter/" rel="tag">Jupyter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thrift/" rel="tag">Thrift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bazel/" rel="tag">bazel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/brpc/" rel="tag">brpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmake/" rel="tag">cmake</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/" rel="tag">coding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/consul/" rel="tag">consul</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/curator-x-discovery/" rel="tag">curator x discovery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django-rest-framework/" rel="tag">django rest framework</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/element-ui/" rel="tag">element ui</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gRPC/" rel="tag">gRPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gapis/" rel="tag">gapis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gc/" rel="tag">gc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gflags/" rel="tag">gflags</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grep/" rel="tag">grep</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdfs/" rel="tag">hdfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jmeter/" rel="tag">jmeter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kaggle/" rel="tag">kaggle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin/" rel="tag">kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log4j-spring-boot/" rel="tag">log4j - spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/makefile/" rel="tag">makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netty/" rel="tag">netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/os-x/" rel="tag">os x</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/panda/" rel="tag">panda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plantuml/" rel="tag">plantuml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prometheus/" rel="tag">prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/protobuf/" rel="tag">protobuf</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rsync/" rel="tag">rsync</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sed/" rel="tag">sed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/" rel="tag">spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/" rel="tag">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/" rel="tag">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/todo/" rel="tag">todo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unriad/" rel="tag">unriad</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/usage/" rel="tag">usage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/" rel="tag">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualenv/" rel="tag">virtualenv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vsftpd/" rel="tag">vsftpd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xargs/" rel="tag">xargs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yEd/" rel="tag">yEd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/" rel="tag">zsh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/" rel="tag">云原生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" rel="tag">传输文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E/" rel="tag">关于</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" rel="tag">分布式锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" rel="tag">召回服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8/" rel="tag">存储</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%8D%93/" rel="tag">安卓</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="tag">推荐系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" rel="tag">数据平台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%AF%E8%AF%AD/" rel="tag">术语</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" rel="tag">机器学习平台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E9%A1%B9/" rel="tag">杂项</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E5%9B%BE/" rel="tag">类图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%82%A1%E7%A5%A8/" rel="tag">股票</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" rel="tag">自驾游</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">观察者模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" rel="tag">语法解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
     </div>
   </div>
 
@@ -943,7 +995,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Docker%E5%BA%94%E7%94%A8/" style="font-size: 10px;">Docker应用</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Jupyter/" style="font-size: 10px;">Jupyter</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Thrift/" style="font-size: 10px;">Thrift</a> <a href="/tags/bazel/" style="font-size: 11.67px;">bazel</a> <a href="/tags/brpc/" style="font-size: 11.67px;">brpc</a> <a href="/tags/c/" style="font-size: 18.33px;">c++</a> <a href="/tags/cmake/" style="font-size: 15px;">cmake</a> <a href="/tags/coding/" style="font-size: 10px;">coding</a> <a href="/tags/consul/" style="font-size: 11.67px;">consul</a> <a href="/tags/curator-x-discovery/" style="font-size: 10px;">curator x discovery</a> <a href="/tags/django/" style="font-size: 11.67px;">django</a> <a href="/tags/django-rest-framework/" style="font-size: 10px;">django rest framework</a> <a href="/tags/docker/" style="font-size: 13.33px;">docker</a> <a href="/tags/dubbo/" style="font-size: 10px;">dubbo</a> <a href="/tags/element-ui/" style="font-size: 10px;">element ui</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/gRPC/" style="font-size: 11.67px;">gRPC</a> <a href="/tags/gapis/" style="font-size: 10px;">gapis</a> <a href="/tags/gc/" style="font-size: 10px;">gc</a> <a href="/tags/gflags/" style="font-size: 10px;">gflags</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/hdfs/" style="font-size: 10px;">hdfs</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 18.33px;">java</a> <a href="/tags/jetbrains/" style="font-size: 10px;">jetbrains</a> <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/kaggle/" style="font-size: 10px;">kaggle</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/log4j-spring-boot/" style="font-size: 10px;">log4j - spring boot</a> <a href="/tags/mac/" style="font-size: 10px;">mac</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/netty/" style="font-size: 10px;">netty</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/os-x/" style="font-size: 11.67px;">os x</a> <a href="/tags/panda/" style="font-size: 10px;">panda</a> <a href="/tags/plantuml/" style="font-size: 11.67px;">plantuml</a> <a href="/tags/prometheus/" style="font-size: 10px;">prometheus</a> <a href="/tags/protobuf/" style="font-size: 10px;">protobuf</a> <a href="/tags/python/" style="font-size: 11.67px;">python</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sed/" style="font-size: 10px;">sed</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/spring-boot/" style="font-size: 13.33px;">spring boot</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/todo/" style="font-size: 11.67px;">todo</a> <a href="/tags/unriad/" style="font-size: 11.67px;">unriad</a> <a href="/tags/usage/" style="font-size: 11.67px;">usage</a> <a href="/tags/vim/" style="font-size: 13.33px;">vim</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftpd/" style="font-size: 10px;">vsftpd</a> <a href="/tags/vue/" style="font-size: 11.67px;">vue</a> <a href="/tags/xargs/" style="font-size: 10px;">xargs</a> <a href="/tags/yEd/" style="font-size: 10px;">yEd</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/" style="font-size: 10px;">云原生</a> <a href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" style="font-size: 10px;">传输文件</a> <a href="/tags/%E5%85%B3%E4%BA%8E/" style="font-size: 11.67px;">关于</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" style="font-size: 10px;">分布式锁</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 11.67px;">前端</a> <a href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">召回服务</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%AD%98%E5%82%A8/" style="font-size: 15px;">存储</a> <a href="/tags/%E5%AE%89%E5%8D%93/" style="font-size: 10px;">安卓</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 11.67px;">工具</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">推荐系统</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" style="font-size: 10px;">数据平台</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%AF%E8%AF%AD/" style="font-size: 10px;">术语</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">机器学习</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" style="font-size: 10px;">机器学习平台</a> <a href="/tags/%E6%9D%82%E9%A1%B9/" style="font-size: 10px;">杂项</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 15px;">架构</a> <a href="/tags/%E6%A0%91/" style="font-size: 10px;">树</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 16.67px;">树莓派</a> <a href="/tags/%E6%B3%A8%E8%A7%A3/" style="font-size: 10px;">注解</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">深度学习</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">算法</a> <a href="/tags/%E7%B1%BB%E5%9B%BE/" style="font-size: 10px;">类图</a> <a href="/tags/%E8%82%A1%E7%A5%A8/" style="font-size: 10px;">股票</a> <a href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" style="font-size: 10px;">自驾游</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13.33px;">设计模式</a> <a href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" style="font-size: 10px;">语法解析</a> <a href="/tags/%E9%94%81/" style="font-size: 10px;">锁</a>
+      <a href="/tags/Docker%E5%BA%94%E7%94%A8/" style="font-size: 10px;">Docker应用</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Jupyter/" style="font-size: 10px;">Jupyter</a> <a href="/tags/Linux/" style="font-size: 14.29px;">Linux</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Thrift/" style="font-size: 10px;">Thrift</a> <a href="/tags/bazel/" style="font-size: 11.43px;">bazel</a> <a href="/tags/brpc/" style="font-size: 11.43px;">brpc</a> <a href="/tags/c/" style="font-size: 17.14px;">c++</a> <a href="/tags/cmake/" style="font-size: 14.29px;">cmake</a> <a href="/tags/coding/" style="font-size: 10px;">coding</a> <a href="/tags/consul/" style="font-size: 11.43px;">consul</a> <a href="/tags/curator-x-discovery/" style="font-size: 10px;">curator x discovery</a> <a href="/tags/django/" style="font-size: 11.43px;">django</a> <a href="/tags/django-rest-framework/" style="font-size: 10px;">django rest framework</a> <a href="/tags/docker/" style="font-size: 12.86px;">docker</a> <a href="/tags/dubbo/" style="font-size: 10px;">dubbo</a> <a href="/tags/element-ui/" style="font-size: 10px;">element ui</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/gRPC/" style="font-size: 12.86px;">gRPC</a> <a href="/tags/gapis/" style="font-size: 10px;">gapis</a> <a href="/tags/gc/" style="font-size: 10px;">gc</a> <a href="/tags/gflags/" style="font-size: 10px;">gflags</a> <a href="/tags/git/" style="font-size: 11.43px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/hdfs/" style="font-size: 10px;">hdfs</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 18.57px;">java</a> <a href="/tags/jetbrains/" style="font-size: 10px;">jetbrains</a> <a href="/tags/jmeter/" style="font-size: 10px;">jmeter</a> <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/kaggle/" style="font-size: 10px;">kaggle</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/linux/" style="font-size: 15.71px;">linux</a> <a href="/tags/log4j-spring-boot/" style="font-size: 10px;">log4j - spring boot</a> <a href="/tags/mac/" style="font-size: 10px;">mac</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/netty/" style="font-size: 10px;">netty</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/os-x/" style="font-size: 11.43px;">os x</a> <a href="/tags/panda/" style="font-size: 10px;">panda</a> <a href="/tags/plantuml/" style="font-size: 11.43px;">plantuml</a> <a href="/tags/prometheus/" style="font-size: 10px;">prometheus</a> <a href="/tags/protobuf/" style="font-size: 10px;">protobuf</a> <a href="/tags/python/" style="font-size: 11.43px;">python</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sed/" style="font-size: 10px;">sed</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/spring-boot/" style="font-size: 12.86px;">spring boot</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/todo/" style="font-size: 11.43px;">todo</a> <a href="/tags/unriad/" style="font-size: 11.43px;">unriad</a> <a href="/tags/usage/" style="font-size: 11.43px;">usage</a> <a href="/tags/vim/" style="font-size: 12.86px;">vim</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftpd/" style="font-size: 10px;">vsftpd</a> <a href="/tags/vue/" style="font-size: 11.43px;">vue</a> <a href="/tags/xargs/" style="font-size: 10px;">xargs</a> <a href="/tags/yEd/" style="font-size: 10px;">yEd</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/" style="font-size: 10px;">云原生</a> <a href="/tags/%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" style="font-size: 10px;">传输文件</a> <a href="/tags/%E5%85%B3%E4%BA%8E/" style="font-size: 11.43px;">关于</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" style="font-size: 10px;">分布式锁</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 11.43px;">前端</a> <a href="/tags/%E5%8F%AC%E5%9B%9E%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">召回服务</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%AD%98%E5%82%A8/" style="font-size: 14.29px;">存储</a> <a href="/tags/%E5%AE%89%E5%8D%93/" style="font-size: 10px;">安卓</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 11.43px;">工具</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">推荐系统</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/" style="font-size: 10px;">数据平台</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%AF%E8%AF%AD/" style="font-size: 10px;">术语</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 14.29px;">机器学习</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" style="font-size: 10px;">机器学习平台</a> <a href="/tags/%E6%9D%82%E9%A1%B9/" style="font-size: 11.43px;">杂项</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14.29px;">架构</a> <a href="/tags/%E6%A0%91/" style="font-size: 10px;">树</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 15.71px;">树莓派</a> <a href="/tags/%E6%B3%A8%E8%A7%A3/" style="font-size: 10px;">注解</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">深度学习</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 12.86px;">算法</a> <a href="/tags/%E7%B1%BB%E5%9B%BE/" style="font-size: 10px;">类图</a> <a href="/tags/%E8%82%A1%E7%A5%A8/" style="font-size: 10px;">股票</a> <a href="/tags/%E8%87%AA%E9%A9%BE%E6%B8%B8/" style="font-size: 10px;">自驾游</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.86px;">设计模式</a> <a href="/tags/%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90/" style="font-size: 10px;">语法解析</a> <a href="/tags/%E9%94%81/" style="font-size: 10px;">锁</a>
     </div>
   </div>
 
@@ -965,23 +1017,23 @@
       <ul>
         
           <li>
-            <a href="/2021/06/03/architecture/framework/curator-x-discovery/curator-x-discovery/">curator x discovery</a>
+            <a href="/2021/06/28/misc/how-to-get-start/">如何快速融入团队 &amp; 上手新项目</a>
           </li>
         
           <li>
-            <a href="/2021/06/02/tools/yed/yed/">yEd</a>
+            <a href="/2021/06/28/linux/program/misc/">linux commands misc</a>
           </li>
         
           <li>
-            <a href="/2021/06/01/tools/rsync/rsync/">rsync</a>
+            <a href="/2021/06/16/coding/java/notes/cmd/">java function</a>
           </li>
         
           <li>
-            <a href="/2021/05/27/architecture/rpc/dubbo/dubbo/">dubbo</a>
+            <a href="/2021/06/07/architecture/benchmark/jmeter/jmeter/">jmeter</a>
           </li>
         
           <li>
-            <a href="/2021/05/24/tools/bazel/usage/">bazel - usage</a>
+            <a href="/2021/06/05/coding/python/notes/coroutines/">python - coroutines</a>
           </li>
         
       </ul>
